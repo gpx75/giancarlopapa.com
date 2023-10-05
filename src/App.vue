@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <HelloWorld msg="qui giancarlopapa.com" />
+    <HelloWorld msg="giancarlopapa.com" />
   </div>
 </template>
 
