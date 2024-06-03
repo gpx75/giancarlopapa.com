@@ -12,7 +12,7 @@ WORKDIR /src
 FROM base as build
 
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --verbose
 
 COPY . .
 
@@ -27,4 +27,4 @@ EXPOSE $PORT
 
 COPY --from=build /src/.output /src/.output
 
-CMD ["node", ".output/server/index.mjs" ]
+CMD ["node", ".output/server/index.mjs"]
