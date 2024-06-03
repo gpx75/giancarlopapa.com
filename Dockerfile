@@ -1,32 +1,30 @@
 ARG NODE_VERSION=lts-bookworm
 
-FROM node:${NODE_VERSION}-slim as base
+FROM node:${NODE_VERSION}-slim
 
 ARG PORT=8080
 
 ENV NODE_ENV=production
+ENV PORT=$PORT
 
 WORKDIR /src
 
-# Build
-FROM base as build
-
+# Copy package files and install dependencies
 COPY package.json package-lock.json ./
-RUN npm install
+RUN npm install --verbose
 
+# Copy all project files
 COPY . .
 
+# Ensure nuxt commands are available
+RUN npx nuxt --version
+
+# Prepare and build the project
+RUN npx nuxt prepare
 RUN npm run build
-RUN ls -al /src/.output  # Check the contents of the build directory
 
-# Production
-FROM base as prd
-
-ENV PORT=$PORT
-
+# Expose the application port
 EXPOSE $PORT
 
-COPY --from=build /src/.output /src/.output
-RUN ls -al /src/.output  # Check the contents of the output directory in production
-
+# Start the application
 CMD [ "node", ".output/server/index.mjs" ]
