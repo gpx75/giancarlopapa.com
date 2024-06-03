@@ -16,11 +16,6 @@ RUN npm install --verbose
 # Copy all project files
 COPY . .
 
-# Ensure nuxt commands are available
-RUN npx nuxt --version
-
-# Prepare and build the project
-RUN npx nuxt prepare
 RUN npm run build
 
 # Expose the application port
