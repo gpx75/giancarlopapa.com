@@ -27,4 +27,4 @@ EXPOSE $PORT
 
 COPY --from=build /src/.output /src/.output
 
-CMD [ "PORT=${PORT}", "node", ".output/server/index.mjs" ]
+CMD ["node", ".output/server/index.mjs" ]
