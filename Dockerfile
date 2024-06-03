@@ -17,6 +17,7 @@ RUN npm install
 COPY . .
 
 RUN npm run build
+RUN ls -al /src/.output  # Check the contents of the build directory
 
 # Production
 FROM base as prd
@@ -26,5 +27,6 @@ ENV PORT=$PORT
 EXPOSE $PORT
 
 COPY --from=build /src/.output /src/.output
+RUN ls -al /src/.output  # Check the contents of the output directory in production
 
 CMD [ "node", ".output/server/index.mjs" ]
