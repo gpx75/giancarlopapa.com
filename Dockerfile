@@ -11,7 +11,7 @@ WORKDIR /src
 
 # Copy package files and install dependencies
 COPY package.json package-lock.json ./
-RUN npm install --verbose
+RUN npm install
 
 # Copy all project files
 COPY . .
