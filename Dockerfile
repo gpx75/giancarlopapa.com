@@ -12,6 +12,7 @@ WORKDIR /src
 FROM base as build
 
 COPY package.json package-lock.json ./
+RUN node --version && npm --version
 RUN npm install --verbose
 
 COPY . .
