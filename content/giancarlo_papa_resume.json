@@ -1,0 +1,214 @@
+{
+  "basics": {
+    "name": "Giancarlo Papa",
+    "label": "Full-Stack Web Developer (PHP, Laravel, Vue.js, Python)",
+    "image": "",
+    "email": "giancarlo.papa@gmail.com",
+    "phone": "+41 76 337 1375",
+    "url": "https://giancarlopapa.com",
+    "summary": "Full-stack web developer with 15+ years of experience building and maintaining enterprise-grade applications and scalable web solutions. Strong expertise in PHP, Laravel, Vue.js, Docker, and cloud-native environments (GCP). Experienced in leading migration projects, optimizing performance, and integrating AI-driven solutions.",
+    "location": {
+      "address": "Im Halbiacker 1a",
+      "postalCode": "8352",
+      "city": "Elsau",
+      "countryCode": "CH",
+      "region": "Zurich"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "gc-papa",
+        "url": "https://github.com/gc-papa"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "giancarlopapa",
+        "url": "https://linkedin.com/in/giancarlopapa"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Sunrise Communications AG",
+      "location": "Zurich, Switzerland",
+      "position": "Technical Lead & Full-Stack PHP Developer",
+      "url": "https://www.sunrise.ch",
+      "startDate": "2012-03",
+      "endDate": "Present",
+      "summary": "Leading full-stack development of internal enterprise applications. Driving modernization of legacy platforms and cloud migration to GCP.",
+      "highlights": [
+        "Developed and maintained mission-critical intranet applications used across the company.",
+        "Modernized legacy PHP/JS applications to Laravel 12, Vue 3, and Nuxt 3.",
+        "Led migration from RHEL 6/7 to RHEL 9, Docker adoption, and CI/CD pipelines (GitLab, Jenkins, Bitbucket).",
+        "Integrated Oracle and MySQL backends with LDAP/AD authentication.",
+        "Introduced AI/LLM integrations for customer service efficiency (Vertex AI, Gemini)."
+      ]
+    },
+    {
+      "name": "Sicilia On Line S.r.l.",
+      "location": "Palermo, Italy",
+      "position": "Webmaster & Full-Stack PHP Developer",
+      "url": "http://www.siciliaonline.it",
+      "startDate": "2006-05",
+      "endDate": "2011-12",
+      "summary": "Managed and developed a leading regional news portal with responsibility for full-stack development, system administration, and creative campaigns.",
+      "highlights": [
+        "Redesigned and rebuilt the entire siciliaonline.it portal (2011).",
+        "Implemented CMS-based websites (Joomla, WordPress, Typo3, Drupal).",
+        "Developed e-commerce solutions and payment gateways.",
+        "Configured LAMP servers and optimized high-availability infrastructure.",
+        "Implemented SEO, analytics, and social media integrations (Open Graph, FB plugins)."
+      ]
+    },
+    {
+      "name": "Freelancer",
+      "location": "Palermo, Italy",
+      "position": "System Engineer & Web Designer",
+      "startDate": "2003-04",
+      "endDate": "2006-05",
+      "summary": "Provided freelance IT consulting and web design for SMEs.",
+      "highlights": [
+        "Configured Linux and Windows servers, Samba, Postfix, Bind, and Hylafax.",
+        "Deployed LAMP servers and developed websites for local businesses.",
+        "Implemented automated Windows deployments."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Business & IT Studies",
+      "location": "Italy",
+      "studyType": "Diploma",
+      "startDate": "1991",
+      "endDate": "1997"
+    },
+    {
+      "institution": "German Primary & Italian Secondary School",
+      "studyType": "General Education",
+      "startDate": "1981",
+      "endDate": "1991"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming",
+      "keywords": [
+        "PHP",
+        "Laravel",
+        "JavaScript",
+        "Vue.js",
+        "Nuxt.js",
+        "Python",
+        "Perl",
+        "Java",
+        "C/C++"
+      ]
+    },
+    {
+      "name": "Databases",
+      "keywords": [
+        "MySQL",
+        "Oracle",
+        "PostgreSQL",
+        "SQL Server",
+        "Access"
+      ]
+    },
+    {
+      "name": "DevOps & Infrastructure",
+      "keywords": [
+        "Docker",
+        "Vagrant",
+        "VMware",
+        "VirtualBox",
+        "Linux (Debian, Fedora, RHEL, Ubuntu)",
+        "FreeBSD",
+        "Windows Server",
+        "CI/CD",
+        "Cloud Run (GCP)"
+      ]
+    },
+    {
+      "name": "Web & CMS",
+      "keywords": [
+        "WordPress",
+        "Joomla",
+        "Drupal",
+        "Typo3",
+        "Bootstrap",
+        "jQuery",
+        "SEO",
+        "Analytics"
+      ]
+    },
+    {
+      "name": "Networking & Protocols",
+      "keywords": [
+        "TCP/IP",
+        "DNS",
+        "HTTP",
+        "SMTP",
+        "IMAP",
+        "POP3",
+        "SSL",
+        "SSH",
+        "VPN"
+      ]
+    },
+    {
+      "name": "Creative & Tools",
+      "keywords": [
+        "Photoshop",
+        "Illustrator",
+        "InDesign",
+        "Figma",
+        "Gimp"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Italian",
+      "fluency": "Native"
+    },
+    {
+      "language": "German",
+      "fluency": "Professional working proficiency"
+    },
+    {
+      "language": "English",
+      "fluency": "Professional working proficiency"
+    },
+    {
+      "language": "French",
+      "fluency": "Basic knowledge"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Sports",
+      "keywords": [
+        "Mountain biking",
+        "Running",
+        "Swimming"
+      ]
+    },
+    {
+      "name": "Lifestyle",
+      "keywords": [
+        "Cooking",
+        "Gardening",
+        "DIY",
+        "Woodworking"
+      ]
+    },
+    {
+      "name": "Creativity",
+      "keywords": [
+        "Digital Design",
+        "Furniture Restoration",
+        "Modding"
+      ]
+    }
+  ]
+}

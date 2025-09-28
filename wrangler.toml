@@ -1,0 +1,8 @@
+name = "giancarlopapa-com"
+compatibility_date = "2025-01-15"
+compatibility_flags = ["nodejs_compat"]
+
+[[d1_databases]]
+binding = "NUXT_HUB_DB"
+database_name = "giancarlopapa-db"
+database_id = "bed88087-0cbe-455e-98ae-e431e826b7ca"
