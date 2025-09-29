@@ -1,11 +1,11 @@
 import type { Storage } from 'unstorage'
-import { hubDatabase } from '#imports'
 import { defaultProfile, type CvProfile } from '~/data/profile'
 
 type ProfileSource = 'hub-database' | 'hub-kv' | 'static'
 
 type HubStorage = Storage | null
-type HubDatabase = ReturnType<typeof hubDatabase>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type HubDatabase = any
 
 let hasEnsuredProfilesTable = false
 

@@ -10,7 +10,7 @@ interface ProfilePayload {
 
 export function useProfileData() {
   const fetchState = useFetch<ProfilePayload>('/api/profile', {
-    default: () => ({ profile: defaultProfile, source: 'static' })
+    default: (): ProfilePayload => ({ profile: defaultProfile, source: 'static' as ProfileSource })
   })
 
   const profile = computed(() => fetchState.data.value?.profile ?? defaultProfile)

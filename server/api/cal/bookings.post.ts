@@ -1,7 +1,7 @@
 import { createCalBooking } from '../../utils/cal'
-import type { CalBookingPayload } from '~/types/cal'
+import type { CalBookingPayload, CalBookingResponse } from '~/types/cal'
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<{ booking: CalBookingResponse }> => {
   const body = await readBody<CalBookingPayload>(event)
 
   if (!body?.eventTypeId || !body.start || !body.attendee?.name || !body.attendee?.email) {
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   }
 
   try {
-    const booking = await createCalBooking(body)
+    const booking: CalBookingResponse = await createCalBooking(body)
     return { booking }
   } catch (error) {
     console.error('[api/cal/bookings] Failed to create booking', error)

@@ -94,7 +94,7 @@ function profileIcon(network?: string) {
       variant="soft"
       :title="error?.message || `We couldn't load the resume`"
       description="Please try again."
-      :actions="[{ label: 'Retry', color: 'error', onSelect: refresh }]"
+      :actions="[{ label: 'Retry', color: 'error', onClick: () => refresh() }]"
       icon="i-lucide-alert-triangle"
     />
 

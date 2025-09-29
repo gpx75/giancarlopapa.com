@@ -1,10 +1,11 @@
 import { computed } from 'vue'
-import { useAsyncData } from '#app'
+import { useAsyncData } from '#imports'
 import type { ResumeDocument } from '~/types/resume'
 
 export function useResumeContent() {
   const fetchResume = async () => {
     try {
+      // @ts-expect-error - queryContent is auto-imported by @nuxt/content
       const document = await queryContent<ResumeDocument>('/giancarlo_papa_resume').findOne()
       if (document) {
         const parsed = (document.body ?? document) as ResumeDocument

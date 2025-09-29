@@ -54,7 +54,7 @@ function useCalConfig() {
   }
 }
 
-async function calRequest<T>({ path, method = 'GET', query, body, headers }: CalRequestOptions) {
+async function calRequest<T>({ path, method = 'GET', query, body, headers }: CalRequestOptions): Promise<T> {
   const { apiKey, baseUrl } = useCalConfig()
 
   try {
@@ -68,8 +68,8 @@ async function calRequest<T>({ path, method = 'GET', query, body, headers }: Cal
         ...headers
       },
       query,
-      body
-    })
+      body: body as Record<string, unknown> | null
+    }) as T
   } catch (error: unknown) {
     const err = error as {
       response?: { status?: number, _data?: Record<string, unknown> }
@@ -162,8 +162,8 @@ export async function fetchCalSlots({ userId, start, end, durationMinutes, timez
   return slots
 }
 
-export async function createCalBooking(payload: CalBookingPayload) {
-  const response = await calRequest<BookingResponse>({
+export async function createCalBooking(payload: CalBookingPayload): Promise<CalBookingResponse> {
+  const response: BookingResponse = await calRequest<BookingResponse>({
     path: '/v2/bookings',
     method: 'POST',
     headers: {

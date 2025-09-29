@@ -11,7 +11,7 @@ const { profile, source, pending, error, refresh } = useProfileData()
       title="We could not load the latest data"
       description="Serving the built-in profile instead. Refresh once your NuxtHub database is reachable."
       icon="i-lucide-alert-triangle"
-      :actions="[{ label: 'Retry', color: 'error', onSelect: refresh }]"
+      :actions="[{ label: 'Retry', color: 'error', onClick: () => refresh() }]"
     />
 
     <UAlert

@@ -1,4 +1,12 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+const {
+  CAL_API_KEY = '',
+  CAL_USERNAME = '',
+  CAL_BASE_URL = 'https://api.cal.com',
+  SITE_URL = 'https://giancarlopapa.com',
+  CONTACT_EMAIL = 'hello@giancarlopapa.com'
+} = process.env;
+
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
@@ -17,13 +25,13 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     cal: {
-      apiKey: process.env.CAL_API_KEY || '',
-      username: process.env.CAL_USERNAME || '',
-      baseUrl: process.env.CAL_BASE_URL || 'https://api.cal.com'
+      apiKey: CAL_API_KEY,
+      username: CAL_USERNAME,
+      baseUrl: CAL_BASE_URL
     },
     public: {
-      siteUrl: process.env.SITE_URL || 'https://giancarlopapa.com',
-      contactEmail: process.env.CONTACT_EMAIL || 'hello@giancarlopapa.com'
+      siteUrl: SITE_URL,
+      contactEmail: CONTACT_EMAIL
     }
   },
 
@@ -36,7 +44,7 @@ export default defineNuxtConfig({
 
   hub: {
     kv: true,
-    storage: true,
+    cache: true,
     database: true
   },
 
@@ -48,4 +56,4 @@ export default defineNuxtConfig({
       }
     }
   }
-})
+});

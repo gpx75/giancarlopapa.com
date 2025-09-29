@@ -31,7 +31,7 @@ export function useCalBooking() {
       const data = await $fetch<{ eventTypes: CalEventType[] }>('/api/cal/event-types')
       eventTypes.value = data.eventTypes ?? []
       if (eventTypes.value.length && !selectedEventType.value) {
-        selectedEventType.value = eventTypes.value[0]
+        selectedEventType.value = eventTypes.value[0] ?? null
       }
     } catch (err) {
       console.error('[useCalBooking] Failed to load event types', err)
