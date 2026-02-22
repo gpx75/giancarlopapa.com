@@ -152,8 +152,8 @@ watch(() => booking.selectedEventType.value?.slug, async (slug) => {
   <UContainer class="space-y-12 py-16">
     <!-- Header -->
     <div class="space-y-3">
-      <UBadge variant="soft" color="neutral" class="uppercase tracking-wider text-xs">
-        <span class="mr-1 text-terminal-400 opacity-70">></span>Book a Session
+      <UBadge variant="soft" color="neutral" class="tracking-wider text-xs">
+        <span class="text-terminal-400/60 mr-0.5">~/</span>book
       </UBadge>
       <h1>Schedule time with Giancarlo</h1>
       <p class="max-w-2xl text-lg text-muted/80">

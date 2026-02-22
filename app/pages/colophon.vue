@@ -65,8 +65,8 @@ const stack = [
 <template>
   <UContainer class="space-y-12 py-16">
     <div class="space-y-4">
-      <UBadge color="neutral" variant="soft" class="uppercase tracking-wider text-xs">
-        <span class="mr-1 text-terminal-400 opacity-70">></span>Colophon
+      <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
+        <span class="text-terminal-400/60 mr-0.5">~/</span>colophon
       </UBadge>
       <h1>Colophon</h1>
       <p class="text-muted/80 max-w-2xl">

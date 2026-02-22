@@ -49,9 +49,9 @@ async function handleSubmit() {
       <UBadge
         color="neutral"
         variant="soft"
-        class="uppercase tracking-wider text-xs"
+        class="tracking-wider text-xs"
       >
-        Contact
+        <span class="text-terminal-400/60 mr-0.5">~/</span>contact
       </UBadge>
       <h2>
         {{ props.headline }}

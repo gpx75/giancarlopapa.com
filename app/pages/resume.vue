@@ -77,8 +77,8 @@ function profileIcon(network?: string) {
   <UContainer class="space-y-12 py-16 lg:space-y-16 lg:py-16">
     <div class="flex items-center justify-between">
       <div>
-        <UBadge color="neutral" variant="soft" class="uppercase tracking-wider text-xs">
-          <span class="mr-1 text-terminal-400 opacity-70">></span>Resume
+        <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
+          <span class="text-terminal-400/60 mr-0.5">~/</span>resume
         </UBadge>
         <h1>
           {{ basics?.name || 'Resume' }}
