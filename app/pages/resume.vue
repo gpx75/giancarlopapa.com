@@ -78,7 +78,7 @@ function profileIcon(network?: string) {
     <div class="flex items-center justify-between">
       <div>
         <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-          <span class="text-terminal-400/60">~/</span>resume
+          <span><span class="text-terminal-400/60">~/</span>resume</span>
         </UBadge>
         <h1>
           {{ basics?.name || 'Resume' }}

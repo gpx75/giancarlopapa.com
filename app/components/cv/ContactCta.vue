@@ -51,7 +51,7 @@ async function handleSubmit() {
         variant="soft"
         class="tracking-wider text-xs"
       >
-        <span class="text-terminal-400/60">~/</span>contact
+        <span><span class="text-terminal-400/60">~/</span>contact</span>
       </UBadge>
       <h2>
         {{ props.headline }}

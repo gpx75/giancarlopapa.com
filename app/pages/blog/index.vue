@@ -21,7 +21,7 @@ function formatDate(dateStr: string) {
   <UContainer class="space-y-12 py-16">
     <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span class="text-terminal-400/60">~/</span>blog
+        <span><span class="text-terminal-400/60">~/</span>blog</span>
       </UBadge>
       <h1>Writing</h1>
       <p class="text-muted/80 max-w-2xl">
