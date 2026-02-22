@@ -3,7 +3,7 @@ const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
 const contactEmail = runtimeConfig.public.contactEmail;
 
-const { user, loggedIn, logout } = useAuth();
+const { user, loggedIn, login, logout } = useAuth();
 
 const title = 'Giancarlo Papa — Senior Full Stack Engineer';
 const description =
@@ -16,6 +16,7 @@ const navigation = [
 ];
 
 const isMenuOpen = ref(false);
+const isLoginModalOpen = ref(false);
 
 const mailtoLink = computed(() => `mailto:${contactEmail}`);
 
@@ -61,6 +62,7 @@ useSeoMeta({
       </template>
 
       <template #right>
+        <!-- Desktop nav -->
         <nav class="mr-2 hidden items-center gap-1 md:flex">
           <NuxtLink
             v-for="item in navigation"
@@ -73,6 +75,34 @@ useSeoMeta({
           </NuxtLink>
         </nav>
 
+        <!-- Auth (desktop) -->
+        <div class="hidden md:flex items-center gap-1 mr-2">
+          <template v-if="loggedIn">
+            <UAvatar
+              :src="user?.avatar"
+              :alt="user?.name"
+              size="sm"
+            />
+            <UButton
+              icon="i-lucide-log-out"
+              aria-label="Sign out"
+              variant="ghost"
+              color="neutral"
+              size="sm"
+              @click="() => { logout() }"
+            />
+          </template>
+          <UButton
+            v-else
+            label="Sign in"
+            icon="i-lucide-log-in"
+            size="sm"
+            variant="ghost"
+            color="neutral"
+            @click="isLoginModalOpen = true"
+          />
+        </div>
+
         <UButton
           to="/book"
           label="Book a call"
@@ -81,22 +111,6 @@ useSeoMeta({
           icon="i-lucide-calendar"
           class="hidden md:inline-flex"
         />
-
-        <div v-if="loggedIn" class="hidden md:flex items-center gap-1">
-          <UAvatar
-            :src="user?.avatar"
-            :alt="user?.name"
-            size="sm"
-          />
-          <UButton
-            icon="i-lucide-log-out"
-            aria-label="Sign out"
-            variant="ghost"
-            color="neutral"
-            size="sm"
-            @click="() => { logout() }"
-          />
-        </div>
 
         <UButton
           icon="i-lucide-menu"
@@ -167,6 +181,7 @@ useSeoMeta({
       </template>
     </UFooter>
 
+    <!-- Mobile slideover -->
     <USlideover v-model="isMenuOpen" side="right" class="md:hidden">
       <div class="flex h-full flex-col">
         <div
@@ -202,7 +217,70 @@ useSeoMeta({
             ~/email
           </a>
         </nav>
+
+        <!-- Auth footer in mobile menu -->
+        <div class="border-t border-muted/30 px-4 py-4">
+          <template v-if="loggedIn">
+            <div class="flex items-center gap-3">
+              <UAvatar :src="user?.avatar" :alt="user?.name" size="sm" />
+              <span class="text-sm font-medium flex-1 truncate">{{ user?.name }}</span>
+              <UButton
+                label="Sign out"
+                icon="i-lucide-log-out"
+                size="xs"
+                variant="ghost"
+                color="neutral"
+                @click="() => { logout(); isMenuOpen = false }"
+              />
+            </div>
+          </template>
+          <UButton
+            v-else
+            label="Sign in"
+            icon="i-lucide-log-in"
+            size="sm"
+            variant="outline"
+            color="neutral"
+            class="w-full justify-start"
+            @click="isLoginModalOpen = true; isMenuOpen = false"
+          />
+        </div>
       </div>
     </USlideover>
+
+    <!-- Login modal -->
+    <UModal v-model:open="isLoginModalOpen" title="Sign in to continue" description="Use your existing account — no new password needed.">
+      <template #body>
+        <div class="flex flex-col gap-3 px-1 pb-2">
+          <UButton
+            label="Continue with GitHub"
+            icon="i-simple-icons-github"
+            size="lg"
+            color="neutral"
+            variant="outline"
+            class="justify-start"
+            @click="() => { login('github') }"
+          />
+          <UButton
+            label="Continue with Google"
+            icon="i-simple-icons-google"
+            size="lg"
+            color="neutral"
+            variant="outline"
+            class="justify-start"
+            @click="() => { login('google') }"
+          />
+          <UButton
+            label="Continue with LinkedIn"
+            icon="i-simple-icons-linkedin"
+            size="lg"
+            color="neutral"
+            variant="outline"
+            class="justify-start"
+            @click="() => { login('linkedin') }"
+          />
+        </div>
+      </template>
+    </UModal>
   </UApp>
 </template>
