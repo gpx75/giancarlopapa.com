@@ -168,7 +168,37 @@ useSeoMeta({
 
         <UCard>
           <h3>Intellectual property</h3>
-          <p>All original content on this website — including text, design, and source code — is © {{ new Date().getFullYear() }} Giancarlo Papa. All rights reserved unless otherwise stated. You may not reproduce, distribute, or create derivative works without prior written permission.</p>
+          <p>All original content on this website — including text, writing, and visual design — is © {{ new Date().getFullYear() }} Giancarlo Papa. All rights reserved. You may not reproduce, distribute, or create derivative works from the content without prior written permission.</p>
+        </UCard>
+
+        <UCard>
+          <h3>Open source — MIT licence</h3>
+          <p>The <strong>source code</strong> of this website is released as open source under the MIT licence.</p>
+          <pre class="text-xs leading-relaxed bg-muted/10 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap">MIT License
+
+Copyright (c) {{ new Date().getFullYear() }} Giancarlo Papa
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.</pre>
+          <p class="text-sm text-muted/70 mt-3">
+            Source code is available on <a href="https://github.com/gpx75/giancarlopapa.com" target="_blank" rel="noopener">GitHub</a>.
+            The MIT licence applies to code only — content, writing, and design remain under the copyright notice above.
+          </p>
         </UCard>
 
         <UCard>
