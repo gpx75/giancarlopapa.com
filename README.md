@@ -1,89 +1,114 @@
-# Giancarlo Papa · Nuxt 4 CV
+# giancarlopapa.com
 
-A personal CV site built with Nuxt 4 and Nuxt UI, designed to deploy on Cloudflare via NuxtHub. Profile data lives in the NuxtHub (Cloudflare D1) database, with NuxtHub KV providing a fast cache and static fallback data bundled at build time.
+Personal portfolio site for Giancarlo Papa — Senior Full Stack Engineer.
 
-## Highlights
+**Stack:** Nuxt 4 · Nuxt UI v4 · Nuxt Content v3 · Cal.com · Resend · Vercel
 
-- ⚡️ Nuxt 4 + Nuxt UI for a fast, accessible CV experience
-- ☁️ NuxtHub preset for Cloudflare Workers (module preset) deployment
-- 🗃️ NuxtHub database (D1) with KV caching and local fallback data
-- 🧱 Component-driven layout with reusable CV sections (experience, projects, writing, contact)
+## Pages
 
-## Getting Started
+| Route | Description |
+|-------|-------------|
+| `/` | Homepage — hero, about, services |
+| `/resume` | Full CV rendered from JSON Resume |
+| `/blog` | Blog listing (Markdown via @nuxt/content) |
+| `/blog/[slug]` | Individual post with prose styling |
+| `/book` | Cal.com booking flow |
+| `/contact` | Contact form (Resend) |
+| `/skillmatrix` | Tech skills with proficiency levels |
+| `/colophon` | About this site |
+
+## Development
 
 ```bash
 npm install
 npm run dev
 ```
 
-Visit `http://localhost:3000` to view the site.
+## Environment variables
 
-## Environment
+Create a `.env` file in the project root:
 
-Create an `.env` file (or configure environment variables in your hosting provider):
+```env
+# Cal.com booking integration
+CAL_API_KEY=cal_live_...
+CAL_USERNAME=your-cal-username
+CAL_BASE_URL=https://api.cal.com
 
-```bash
+# Site
 SITE_URL=https://giancarlopapa.com
 CONTACT_EMAIL=hello@giancarlopapa.com
-CAL_API_KEY=your_cal_com_api_key
-CAL_USERNAME=gpx-dev
-# Optional: override for self-hosted Cal instance
-# CAL_BASE_URL=https://api.cal.com
+
+# Contact form (resend.com)
+RESEND_API_KEY=re_...
+RESEND_TO_EMAIL=giancarlo.papa@gmail.com
 ```
 
-`SITE_URL` and `CONTACT_EMAIL` drive canonical URLs and the default contact link.
-`CAL_API_KEY` and `CAL_USERNAME` enable the custom booking flow at `/book`.
-
-## Data storage
-
-NuxtHub keeps the canonical profile JSON in a `profiles` table. The endpoint caches the latest version in NuxtHub KV (and falls back to `app/data/profile.ts` while bootstrapping).
-
-Example setup:
+## Commands
 
 ```bash
-npx nuxthub database query "CREATE TABLE IF NOT EXISTS profiles (slug TEXT PRIMARY KEY, payload TEXT NOT NULL);"
-npx nuxthub database query "INSERT OR REPLACE INTO profiles (slug, payload) VALUES ('giancarlo-papa', json(?));" '<your JSON payload here>'
+npm run dev        # Start dev server
+npm run build      # Production build
+npm run preview    # Preview production build locally
+npm run typecheck  # TypeScript check
+npm run lint       # ESLint
+npm run deploy     # Deploy to Vercel (prod)
 ```
 
-Replace the placeholder JSON with your own data that matches the `CvProfile` shape from `app/data/profile.ts`.
+## Content
 
-## Deploying on Cloudflare with NuxtHub
+Blog posts live in `content/blog/*.md` with this frontmatter:
 
-1. Install the [NuxtHub CLI](https://hub.nuxt.com) and link your project.
-2. Provision the resources you need (KV and Database):
-   ```bash
-   npx nuxthub init
-   npx nuxthub storage create kv
-   npx nuxthub database apply
-   ```
-3. Push your environment variables to NuxtHub / Cloudflare.
-4. Deploy with:
-   ```bash
-   npx nuxthub deploy
-   ```
+```yaml
+---
+title: "Post title"
+description: "Short description"
+date: "2026-02-22"
+tags: ["tag1", "tag2"]
+draft: false
+---
+```
 
-NuxtHub automatically configures the correct Cloudflare Workers module preset defined in `nuxt.config.ts`.
+The resume is `content/giancarlo_papa_resume.json` (JSON Resume format).
 
-## Project Structure
+## Contact form
+
+Sends email via [Resend](https://resend.com) — `server/api/contact.post.ts`.
+
+The `from` address is `noreply@giancarlopapa.com`. Verify the domain at resend.com/domains before going to production. For local testing use `onboarding@resend.dev`.
+
+## Booking
+
+Cal.com integration in `server/utils/cal.ts` and `server/api/cal/`:
+
+- Event types: `GET /v1/event-types`
+- Available slots: `GET /v2/slots` (cal-api-version: 2024-09-04)
+- Create booking: `POST /v2/bookings` (cal-api-version: 2024-08-13)
+
+## Deployment
+
+Hosted on [Vercel](https://vercel.com). Nitro preset: `vercel`.
+
+```bash
+npm run deploy   # builds and deploys to production
+```
+
+Set all env vars above in **Vercel → Settings → Environment Variables** before deploying.
+
+## Project structure
 
 ```
 app/
-  components/cv/   # Reusable CV presentation components
-  composables/     # Data fetching and state logic
-  data/            # Default profile content (fallback)
-  pages/           # Nuxt pages (single-page CV)
-server/api/        # NuxtHub database + KV backed API endpoint
+  pages/           # index.vue, resume.vue, book.vue, contact.vue, blog/, ...
+  components/cv/   # CV section components
+  composables/     # useCalBooking.ts, useProfileData.ts, useResumeContent.ts
+  data/            # Static profile data
+  types/           # TypeScript types (cal.ts, resume.ts)
+  assets/css/      # Tailwind theme, Snazzy colours, typography
+server/
+  api/             # contact.post.ts, profile.get.ts, cal/
+  utils/cal.ts     # Cal.com API client
+content/
+  blog/            # Markdown blog posts
+  giancarlo_papa_resume.json
+content.config.ts  # @nuxt/content collection schema
 ```
-
-## Useful Scripts
-
-```bash
-npm run dev      # Start local development
-npm run build    # Production build
-npm run preview  # Preview the production build locally
-npm run lint     # ESLint checks
-``` 
-
----
-
-Questions or improvements? Open an issue or reach out at `hello@giancarlopapa.com`.

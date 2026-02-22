@@ -4,17 +4,17 @@ const {
   CAL_USERNAME = '',
   CAL_BASE_URL = 'https://api.cal.com',
   SITE_URL = 'https://giancarlopapa.com',
-  CONTACT_EMAIL = 'hello@giancarlopapa.com'
+  CONTACT_EMAIL = 'hello@giancarlopapa.com',
+  RESEND_API_KEY = '',
+  RESEND_TO_EMAIL = 'giancarlo.papa@gmail.com'
 } = process.env;
 
 export default defineNuxtConfig({
   modules: [
     '@nuxt/eslint',
-    '@nuxthub/core',
     '@nuxt/ui',
     '@nuxt/content',
-    '@nuxt/image',
-    '@nuxt/test-utils'
+    '@nuxt/image'
   ],
 
   devtools: {
@@ -29,23 +29,20 @@ export default defineNuxtConfig({
       username: CAL_USERNAME,
       baseUrl: CAL_BASE_URL
     },
+    resend: {
+      apiKey: RESEND_API_KEY,
+      toEmail: RESEND_TO_EMAIL
+    },
     public: {
       siteUrl: SITE_URL,
       contactEmail: CONTACT_EMAIL
     }
   },
 
-  routeRules: {},
   compatibilityDate: '2025-01-15',
 
   nitro: {
-    preset: 'cloudflare_module'
-  },
-
-  hub: {
-    kv: true,
-    cache: true,
-    database: true
+    preset: 'vercel'
   },
 
   eslint: {

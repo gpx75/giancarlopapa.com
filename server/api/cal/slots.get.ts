@@ -3,14 +3,14 @@ import { fetchCalSlots } from '../../utils/cal'
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event)
-  const userId = query.userId ? Number.parseInt(String(query.userId), 10) : NaN
+  const eventTypeId = query.eventTypeId ? Number.parseInt(String(query.eventTypeId), 10) : NaN
   const start = typeof query.start === 'string' ? query.start : null
   const end = typeof query.end === 'string' ? query.end : null
   const duration = query.duration ? Number.parseInt(String(query.duration), 10) : NaN
   const timezone = typeof query.timezone === 'string' ? query.timezone : undefined
 
-  if (Number.isNaN(userId)) {
-    throw createError({ statusCode: 400, statusMessage: 'Missing user identifier.' })
+  if (Number.isNaN(eventTypeId)) {
+    throw createError({ statusCode: 400, statusMessage: 'Missing event type identifier.' })
   }
 
   if (!start || !end) {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const slots = await fetchCalSlots({
-      userId,
+      eventTypeId,
       start,
       end,
       durationMinutes: duration,

@@ -1,24 +1,16 @@
-import { computed } from 'vue'
-import { defaultProfile, type CvProfile } from '~/data/profile'
-
-type ProfileSource = 'hub-database' | 'hub-kv' | 'static'
-
-interface ProfilePayload {
-  profile: CvProfile
-  source: ProfileSource
-}
+import { defaultProfile, type CvProfile } from '~/data/profile';
 
 export function useProfileData() {
-  const fetchState = useFetch<ProfilePayload>('/api/profile', {
-    default: (): ProfilePayload => ({ profile: defaultProfile, source: 'static' as ProfileSource })
-  })
+  const fetchState = useFetch<{ profile: CvProfile }>('/api/profile', {
+    default: () => ({ profile: defaultProfile })
+  });
 
-  const profile = computed(() => fetchState.data.value?.profile ?? defaultProfile)
-  const source = computed<ProfileSource>(() => fetchState.data.value?.source ?? 'static')
+  const profile = computed(
+    () => fetchState.data.value?.profile ?? defaultProfile
+  );
 
   return {
     ...fetchState,
-    profile,
-    source
-  }
+    profile
+  };
 }

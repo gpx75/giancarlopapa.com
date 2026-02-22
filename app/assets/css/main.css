@@ -1,18 +1,112 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@plugin "@tailwindcss/typography";
 
 @theme static {
-  --font-sans: 'Public Sans', sans-serif;
+  --font-sans: 'JetBrains Mono', monospace;
+  --font-display: 'Space Grotesk', sans-serif;
 
-  --color-green-50: #EFFDF5;
-  --color-green-100: #D9FBE8;
-  --color-green-200: #B3F5D1;
-  --color-green-300: #75EDAE;
-  --color-green-400: #00DC82;
-  --color-green-500: #00C16A;
-  --color-green-600: #00A155;
-  --color-green-700: #007F45;
-  --color-green-800: #016538;
-  --color-green-900: #0A5331;
-  --color-green-950: #052E16;
+  /* Snazzy magenta — centered on #ff6ac1 */
+  --color-magenta-50:  #fff0f8;
+  --color-magenta-100: #ffe4f4;
+  --color-magenta-200: #ffbde8;
+  --color-magenta-300: #ff8fd5;
+  --color-magenta-400: #ff6ac1;
+  --color-magenta-500: #ff3aac;
+  --color-magenta-600: #e80090;
+  --color-magenta-700: #c10078;
+  --color-magenta-800: #9e0062;
+  --color-magenta-900: #830053;
+  --color-magenta-950: #4d0030;
+
+  /* Snazzy yellow */
+  --color-snazzy-yellow: #f3f99d;
+
+  /* Snazzy terminal green — centered on #5af78e */
+  --color-terminal-50:  #f0fff6;
+  --color-terminal-100: #d8ffeb;
+  --color-terminal-200: #a9ffd0;
+  --color-terminal-300: #72f8a9;
+  --color-terminal-400: #5af78e;
+  --color-terminal-500: #20e86a;
+  --color-terminal-600: #0ec455;
+  --color-terminal-700: #0b9a43;
+  --color-terminal-800: #0d7535;
+  --color-terminal-900: #0d5e2c;
+  --color-terminal-950: #063318;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+
+h1 { font-size: var(--text-5xl); line-height: var(--leading-tight); }
+h2 { font-size: var(--text-4xl); line-height: var(--leading-tight); }
+h3 { font-size: var(--text-2xl); line-height: var(--leading-snug); }
+
+/* Terminal blinking cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor::after {
+  content: '▌';
+  color: var(--color-terminal-400);
+  animation: blink 1.2s step-end infinite;
+  margin-left: 0.1em;
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+/* Blog prose — Snazzy-themed light/dark overrides */
+.prose {
+  --tw-prose-body: #3f3f46;
+  --tw-prose-headings: #18181b;
+  --tw-prose-links: var(--color-magenta-500);
+  --tw-prose-bold: #18181b;
+  --tw-prose-counters: #71717a;
+  --tw-prose-bullets: #71717a;
+  --tw-prose-hr: #e4e4e7;
+  --tw-prose-quotes: #3f3f46;
+  --tw-prose-quote-borders: var(--color-magenta-300);
+  --tw-prose-captions: #71717a;
+  --tw-prose-code: var(--color-terminal-700);
+  --tw-prose-pre-code: var(--color-terminal-300);
+  --tw-prose-pre-bg: #18181b;
+  --tw-prose-th-borders: #d4d4d8;
+  --tw-prose-td-borders: #e4e4e7;
+
+  --tw-prose-invert-body: #d4d4d8;
+  --tw-prose-invert-headings: #fafafa;
+  --tw-prose-invert-links: var(--color-magenta-400);
+  --tw-prose-invert-bold: #fafafa;
+  --tw-prose-invert-counters: #a1a1aa;
+  --tw-prose-invert-bullets: #52525b;
+  --tw-prose-invert-hr: #3f3f46;
+  --tw-prose-invert-quotes: #d4d4d8;
+  --tw-prose-invert-quote-borders: var(--color-magenta-500);
+  --tw-prose-invert-captions: #a1a1aa;
+  --tw-prose-invert-code: var(--color-terminal-400);
+  --tw-prose-invert-pre-code: var(--color-terminal-300);
+  --tw-prose-invert-pre-bg: #09090b;
+  --tw-prose-invert-th-borders: #3f3f46;
+  --tw-prose-invert-td-borders: #27272a;
+}
+
+.prose :where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-display);
+}
+
+.prose :where(code):not(:where(pre *)) {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  background: color-mix(in srgb, var(--color-terminal-400) 12%, transparent);
+  padding: 0.15em 0.4em;
+  border-radius: 0.3em;
+}
+
+.prose :where(pre) {
+  font-family: var(--font-sans);
 }

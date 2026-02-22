@@ -78,191 +78,108 @@ export interface CvProfile {
 
 export const defaultProfile: CvProfile = {
   hero: {
-    name: "Giancarlo Papa",
-    role: "Full-stack Web Developer",
-    location: "Zürich, Switzerland",
-    availability: "Open to remote-first roles and high-impact engagements",
+    name: 'Giancarlo Papa',
+    role: 'Senior Full Stack Engineer – Cloud Platform & AI Engineering',
+    location: 'Elsau ZH, Switzerland',
+    availability: 'Open to roles · Zürich & remote',
     summary:
-      "I craft resilient web platforms that blend crafted UX with measurable business outcomes. From prototypes to hyperscale traffic, I help teams deliver thoughtfully shipped product increments.",
+      '13+ years owning and evolving internal platforms at Sunrise — cloud infrastructure on GCP, full stack web (Laravel, Vue, Nuxt), enterprise systems, and applied AI with Vertex AI and Gemini. Linux-first engineer with a long-term, production-ownership mindset.',
     actions: [
-      { label: "View resume", to: "/resume", icon: "i-lucide-file-text" },
+      { label: 'View resume', to: '/resume', icon: 'i-lucide-file-text' },
+      { label: 'Contact', to: '/contact', icon: 'i-lucide-mail', external: true },
       {
-        label: "Book a call",
-        to: "/book",
-        icon: "i-lucide-calendar",
-        external: true,
-      },
+        label: 'Book a call',
+        to: '/book',
+        icon: 'i-lucide-calendar'
+      }
     ],
     contactLinks: [
       {
-        label: "Email",
-        to: "mailto:hello@giancarlopapa.com",
-        icon: "i-lucide-mail",
+        label: 'Email',
+        to: 'mailto:giancarlo.papa@gmail.com',
+        icon: 'i-lucide-mail'
       },
       {
-        label: "GitHub",
-        to: "https://github.com/giancarlopapa",
-        icon: "i-simple-icons-github",
+        label: 'GitHub',
+        to: 'https://github.com/gpx75',
+        icon: 'i-simple-icons-github'
       },
       {
-        label: "LinkedIn",
-        to: "https://www.linkedin.com/in/giancarlopapa",
-        icon: "i-simple-icons-linkedin",
-      },
-    ],
+        label: 'LinkedIn',
+        to: 'https://www.linkedin.com/in/gpapa',
+        icon: 'i-simple-icons-linkedin'
+      }
+    ]
   },
   about: [
-    "I am a product-minded engineer blending design sensibilities with platform architecture expertise. I partner with founders and product teams to launch resilient experiences that evolve quickly without sacrificing reliability.",
-    "In the last five years I have focused on Nuxt, Cloudflare Workers, and the modern edge. I founded internal design systems, shaped DX tooling, and direct cross-functional initiatives from discovery to delivery.",
+    'Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerized systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.',
+    'Career progression from advanced technical support into application engineering, cloud development, big data, Salesforce development, and AI engineering. Originally from Italy, raised between Germany and Sicily, now based in eastern Canton Zurich, Switzerland. Proud father of a wonderful daughter.'
   ],
   stats: [
-    { label: "Years shipping products", value: "10+" },
-    { label: "Startups supported", value: "25" },
-    { label: "Ship cadence", value: "Every 2 weeks" },
+    { label: 'Years at Sunrise', value: '13+' },
+    { label: 'Years of experience', value: '19+' },
+    { label: 'Domains', value: 'Full-Stack · Cloud · AI' }
   ],
   experience: [
     {
-      company: "Compass Labs",
-      role: "Principal Frontend Engineer",
-      period: "2022 — Present",
-      location: "Remote",
+      company: 'Sunrise Communications AG',
+      role: 'Senior Full Stack Engineer – Cloud Platform & AI',
+      period: '2012 — Present',
+      location: 'Zurich, Switzerland',
       summary:
-        "Own the end-to-end experience layer for a developer analytics platform connecting Nuxt 4, NuxtHub, and Supabase services across the edge.",
+        'Long-term ownership of internal platforms and progressive responsibility spanning advanced technical support, application engineering, cloud platforms, data, Salesforce, and AI engineering in a leading Swiss telecommunications environment.',
       achievements: [
-        "Led migration to NuxtHub on Cloudflare Pages, lowering cold start latency by 42% and unlocking data residency compliance.",
-        "Bootstrapped a component system with Nuxt UI Pro, equipping designers with a live playground and Storybook parity.",
-        "Designed a Supabase powered activity pipeline that streams 500k+ events per day with real-time moderation controls.",
+        'Designed, built, and operated business-critical internal platforms used across multiple departments at scale.',
+        'Led platform modernization from legacy PHP/JS to Laravel 12, Vue 3, and Nuxt 3; migrated infrastructure from RHEL 6/7 to RHEL 9 with Docker adoption and CI/CD pipelines (GitLab, Jenkins).',
+        'Architected cloud-native services on Google Cloud Platform (GCP) covering compute, networking, IAM, and Cloud Run.',
+        'Delivered applied AI solutions including LLM integrations with Google Vertex AI and Gemini for enterprise automation and customer service efficiency.',
+        'Integrated Oracle and MySQL backends with LDAP/AD authentication across enterprise systems.'
       ],
-      stack: [
-        "Nuxt 4",
-        "NuxtHub",
-        "Supabase",
-        "Cloudflare Workers",
-        "Typescript",
-        "TailwindCSS",
-      ],
+      stack: ['PHP / Laravel', 'Vue.js / Nuxt', 'GCP', 'Docker', 'Linux', 'MySQL', 'Oracle', 'Salesforce', 'Vertex AI']
     },
     {
-      company: "Northbridge Studio",
-      role: "Lead Product Engineer",
-      period: "2019 — 2022",
-      location: "Hybrid · Zürich",
+      company: 'Sicilia On Line Srl',
+      role: 'Full Stack Web Developer / System Engineer',
+      period: '2005 — 2011',
+      location: 'Palermo, Italy',
       summary:
-        "Partnered with clients to design, ship, and scale revenue-critical web products with tight iteration loops.",
+        'Lead Full Stack Web Developer for a high-traffic regional newspaper platform, with end-to-end responsibility for application development, platform architecture, and Linux-based operations.',
       achievements: [
-        "Delivered a fintech onboarding platform handling 60k sign-ups per month with automated compliance workflows.",
-        "Introduced performance budgets and observability guardrails, reducing Largest Contentful Paint to under 1.4s.",
-        "Mentored a multidisciplinary team of 6 engineers and designers, raising deployment cadence from monthly to weekly.",
+        'Led backend and frontend development ensuring reliability and performance under continuous editorial load.',
+        'Drove platform evolution through major redesigns, optimizations, and third-party integrations.',
+        'Managed LAMP server configuration, high-availability infrastructure, SEO, and analytics.'
       ],
-      stack: ["Nuxt 3", "Vercel", "PostgreSQL", "Prisma", "Figma"],
-    },
-    {
-      company: "Freelance",
-      role: "Product Designer & Engineer",
-      period: "2015 — 2019",
-      location: "Remote",
-      summary:
-        "Consulted with founders to turn research into working products with maintainable foundations.",
-      achievements: [
-        "Shipped MVPs for eight venture-backed startups with an average hand-off time of 6 weeks.",
-        "Established reusable interface kits that reduced engineering handover defects by 35%.",
-        "Facilitated discovery workshops and usability testing across North America and Europe.",
-      ],
-      stack: ["Vue", "Laravel", "AWS", "Storybook"],
-    },
+      stack: ['PHP', 'JavaScript', 'MySQL', 'Linux', 'Apache', 'CMS']
+    }
   ],
-  projects: [
-    {
-      name: "EdgeForms",
-      summary:
-        "A NuxtHub-powered form automation toolkit deploying instantly to Cloudflare Workers with Supabase persistence.",
-      links: [
-        {
-          label: "Visit project",
-          to: "https://edgeforms.dev",
-          icon: "i-lucide-external-link",
-        },
-        {
-          label: "Case study",
-          to: "https://giancarlopapa.com/writing/edgeforms-case-study",
-        },
-      ],
-      stack: ["Nuxt 4", "NuxtHub", "Supabase", "Cloudflare D1"],
-    },
-    {
-      name: "Pulse Atlas",
-      summary:
-        "Operational analytics dashboards shipped for health tech teams with role-based access and HIPAA controls.",
-      links: [
-        {
-          label: "Prototype",
-          to: "https://pulse-atlas.app",
-          icon: "i-lucide-beaker",
-        },
-      ],
-      stack: ["Nuxt UI", "tRPC", "PostgreSQL", "TailwindCSS"],
-    },
-    {
-      name: "Studio Kit",
-      summary:
-        "A design-to-code bridge that syncs Figma tokens to Nuxt UI themes with live preview environments.",
-      links: [
-        {
-          label: "Docs",
-          to: "https://studiokit.dev/docs",
-          icon: "i-lucide-book-open",
-        },
-      ],
-      stack: ["Nuxt", "Figma Tokens", "Cloudflare Pages"],
-    },
-  ],
+  projects: [],
   skills: [
     {
-      label: "Frontend",
-      items: ["Nuxt 4", "Vue 3", "TypeScript", "Nuxt UI", "TailwindCSS"],
+      label: 'Core Engineering',
+      items: ['PHP 7/8', 'Laravel', 'JavaScript', 'Vue.js', 'HTML5 / CSS', 'RESTful APIs', 'Service-oriented design']
     },
     {
-      label: "Platform",
-      items: [
-        "Cloudflare Workers",
-        "NuxtHub",
-        "Supabase",
-        "Vercel",
-        "Edge compute",
-      ],
+      label: 'Cloud & Platform',
+      items: ['Google Cloud Platform (GCP)', 'Docker', 'Linux (Debian / Ubuntu / RHEL)', 'CI/CD pipelines', 'Cloud Run', 'Application deployment & automation']
     },
     {
-      label: "Practices",
-      items: [
-        "Design systems",
-        "DX tooling",
-        "A/B experimentation",
-        "Accessibility-first",
-      ],
+      label: 'AI & Data',
+      items: ['Applied AI / LLM integration', 'Vertex AI', 'Gemini', 'AI-assisted tooling', 'Big data platforms', 'Analytics-oriented development']
     },
+    {
+      label: 'Enterprise & Databases',
+      items: ['Salesforce', 'MySQL', 'Oracle', 'PostgreSQL', 'LDAP / AD', 'Enterprise data integration']
+    },
+    {
+      label: 'DevOps & Networking',
+      items: ['TCP/IP', 'DNS', 'HTTP/S', 'SSL / SSH', 'System hardening', 'Infrastructure-aware development', 'Performance optimization']
+    }
   ],
-  writing: [
-    {
-      title: "Architecting resilient NuxtHub applications on Cloudflare",
-      description:
-        "An opinionated approach to structuring NuxtHub projects for globally distributed teams.",
-      platform: "NuxtHub Blog",
-      to: "https://giancarlopapa.com/writing/nuxt-hub-architecture",
-      publishedAt: "Oct 2024",
-    },
-    {
-      title: "Supabase as the heartbeat for event-driven Nuxt apps",
-      description:
-        "Patterns for streaming analytics pipelines without blocking the UX layer.",
-      platform: "Dev.to",
-      to: "https://dev.to/giancarlopapa/supabase-event-driven-nuxt",
-      publishedAt: "Jun 2024",
-    },
-  ],
+  writing: [],
   contact: {
-    headline: "Let's shape your next release",
+    headline: 'Let\'s work together',
     subline:
-      "Available for fractional leadership engagements, audits, and hands-on product engineering.",
-    cta: { label: "Schedule time", to: "https://cal.com/giancarlopapa/intro" },
-  },
+      'Open to senior engineering roles, cloud platform projects, and applied AI engagements.',
+    cta: { label: 'Book a call', to: '/book' }
+  }
 };

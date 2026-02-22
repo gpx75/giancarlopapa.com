@@ -1,25 +1,29 @@
-<script setup>
-import { computed, ref } from 'vue';
-
+<script setup lang="ts">
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
 const contactEmail = runtimeConfig.public.contactEmail;
 
-const title = 'Giancarlo Papa — Full-stack Web Developer';
+const title = 'Giancarlo Papa — Senior Full Stack Engineer';
 const description =
-  'Product-focused developer crafting delightful web experiences across the stack.';
+  'Senior Full Stack Engineer specialising in cloud platform engineering, full stack development, and applied AI.';
 
 const navigation = [
-  { label: 'About', to: '#about' },
-  { label: 'Experience', to: '#experience' },
-  { label: 'Projects', to: '#projects' },
-  { label: 'Writing', to: '#writing' },
-  { label: 'Contact', to: '#contact' }
+  { label: '~/', to: '/' },
+  { label: '~/blog', to: '/blog' },
+  { label: '~/resume', to: '/resume' },
+  { label: '~/contact', to: '/contact' }
 ];
 
 const isMenuOpen = ref(false);
 
 const mailtoLink = computed(() => `mailto:${contactEmail}`);
+
+const route = useRoute();
+
+function isActive(to: string) {
+  if (to === '/') return route.path === '/';
+  return route.path.startsWith(to);
+}
 
 useHead({
   meta: [{ name: 'viewport', content: 'width=device-width, initial-scale=1' }],
@@ -56,20 +60,24 @@ useSeoMeta({
       </template>
 
       <template #right>
-        <div class="mr-2 hidden items-center gap-2 md:flex">
-          <UHorizontalNavigation
-            :links="navigation"
-            :ui="{
-              link: 'px-3 py-2 text-sm rounded-full hover:bg-muted/60 transition'
-            }"
-          />
-        </div>
+        <nav class="mr-2 hidden items-center gap-1 md:flex">
+          <NuxtLink
+            v-for="item in navigation"
+            :key="item.to"
+            :to="item.to"
+            class="px-3 py-2 text-sm rounded-full transition"
+            :class="isActive(item.to) ? 'text-primary bg-primary/10 font-medium' : 'hover:bg-muted/60'"
+          >
+            {{ item.label }}
+          </NuxtLink>
+        </nav>
 
         <UButton
-          :to="mailtoLink"
-          label="Get in touch"
+          to="/book"
+          label="Book a call"
           size="sm"
           color="primary"
+          icon="i-lucide-calendar"
           class="hidden md:inline-flex"
         />
 
@@ -89,18 +97,34 @@ useSeoMeta({
       <NuxtPage />
     </UMain>
 
-    <UFooter>
+    <UFooter class="sticky bottom-0 z-10 backdrop-blur">
       <template #left>
         <div class="flex flex-col gap-1 text-sm text-muted">
           <span>© {{ new Date().getFullYear() }} Giancarlo Papa</span>
-          <span>Based in Zürich · Working globally</span>
+          <span class="text-xs text-muted/60">Based in Zürich · Working globally</span>
+          <div class="flex gap-3">
+            <NuxtLink
+              to="/skillmatrix"
+              class="text-xs transition"
+              :class="isActive('/skillmatrix') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+            >
+              ~/skillmatrix
+            </NuxtLink>
+            <NuxtLink
+              to="/colophon"
+              class="text-xs transition"
+              :class="isActive('/colophon') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+            >
+              ~/colophon
+            </NuxtLink>
+          </div>
         </div>
       </template>
 
       <template #right>
         <div class="flex items-center gap-1">
           <UButton
-            to="https://github.com/giancarlopapa"
+            to="https://github.com/gpx75"
             target="_blank"
             icon="i-simple-icons-github"
             aria-label="GitHub"
@@ -108,7 +132,7 @@ useSeoMeta({
             variant="ghost"
           />
           <UButton
-            to="https://www.linkedin.com/in/giancarlopapa"
+            to="https://www.linkedin.com/in/gpapa"
             target="_blank"
             icon="i-simple-icons-linkedin"
             aria-label="LinkedIn"
@@ -142,18 +166,25 @@ useSeoMeta({
             @click="isMenuOpen = false"
           />
         </div>
-        <UVerticalNavigation
-          :links="[
-            ...navigation,
-            { label: 'Email me', to: mailtoLink, icon: 'i-lucide-mail' }
-          ]"
-          class="flex-1 px-4 py-6"
-          :ui="{
-            link: 'px-4 py-3 rounded-xl text-base font-medium hover:bg-muted/80 transition',
-            icon: 'text-muted'
-          }"
-          @select="isMenuOpen = false"
-        />
+        <nav class="flex-1 flex flex-col gap-1 px-4 py-6">
+          <NuxtLink
+            v-for="item in navigation"
+            :key="item.to"
+            :to="item.to"
+            class="px-4 py-3 rounded-xl text-base font-medium transition"
+            :class="isActive(item.to) ? 'text-primary bg-primary/10' : 'hover:bg-muted/80'"
+            @click="isMenuOpen = false"
+          >
+            {{ item.label }}
+          </NuxtLink>
+          <a
+            :href="mailtoLink"
+            class="px-4 py-3 rounded-xl text-base font-medium transition hover:bg-muted/80"
+            @click="isMenuOpen = false"
+          >
+            ~/email
+          </a>
+        </nav>
       </div>
     </USlideover>
   </UApp>

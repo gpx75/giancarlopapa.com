@@ -20,10 +20,10 @@ const props = defineProps<CvSectionHeadingProps>()
       variant="soft"
       class="uppercase tracking-wider text-xs"
     >
-      {{ props.kicker }}
+      <span class="mr-1 text-terminal-400 opacity-70">></span>{{ props.kicker }}
     </UBadge>
     <div class="space-y-2">
-      <h2 class="text-3xl font-semibold">
+      <h2>
         {{ props.title }}
       </h2>
       <p

@@ -1,12 +1,12 @@
 {
   "basics": {
     "name": "Giancarlo Papa",
-    "label": "Full-Stack Web Developer (PHP, Laravel, Vue.js, Python)",
+    "label": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
     "image": "",
     "email": "giancarlo.papa@gmail.com",
-    "phone": "+41 76 337 1375",
+    "phone": "+41 76 337 13 75",
     "url": "https://giancarlopapa.com",
-    "summary": "Full-stack web developer with 15+ years of experience building and maintaining enterprise-grade applications and scalable web solutions. Strong expertise in PHP, Laravel, Vue.js, Docker, and cloud-native environments (GCP). Experienced in leading migration projects, optimizing performance, and integrating AI-driven solutions.",
+    "summary": "Senior Full Stack Engineer with over 13 years at Sunrise Communications AG, working across cloud platform engineering, full stack development, enterprise systems, data platforms, Salesforce, and applied AI. Strong Linux and open-source background, with long-term ownership of internal, business-critical platforms used at scale. Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerized systems, and applied AI.",
     "location": {
       "address": "Im Halbiacker 1a",
       "postalCode": "8352",
@@ -17,13 +17,13 @@
     "profiles": [
       {
         "network": "GitHub",
-        "username": "gc-papa",
-        "url": "https://github.com/gc-papa"
+        "username": "gpx75",
+        "url": "https://github.com/gpx75"
       },
       {
         "network": "LinkedIn",
-        "username": "giancarlopapa",
-        "url": "https://linkedin.com/in/giancarlopapa"
+        "username": "gpapa",
+        "url": "https://linkedin.com/in/gpapa"
       }
     ]
   },
@@ -31,138 +31,112 @@
     {
       "name": "Sunrise Communications AG",
       "location": "Zurich, Switzerland",
-      "position": "Technical Lead & Full-Stack PHP Developer",
+      "position": "Senior Full Stack Engineer – Cloud Platform & AI",
       "url": "https://www.sunrise.ch",
-      "startDate": "2012-03",
+      "startDate": "2012-01",
       "endDate": "Present",
-      "summary": "Leading full-stack development of internal enterprise applications. Driving modernization of legacy platforms and cloud migration to GCP.",
+      "summary": "Long-term ownership of internal platforms and progressive responsibility spanning advanced technical support, application engineering, cloud platforms, data, Salesforce, and AI engineering in a leading Swiss telecommunications environment.",
       "highlights": [
-        "Developed and maintained mission-critical intranet applications used across the company.",
-        "Modernized legacy PHP/JS applications to Laravel 12, Vue 3, and Nuxt 3.",
-        "Led migration from RHEL 6/7 to RHEL 9, Docker adoption, and CI/CD pipelines (GitLab, Jenkins, Bitbucket).",
-        "Integrated Oracle and MySQL backends with LDAP/AD authentication.",
-        "Introduced AI/LLM integrations for customer service efficiency (Vertex AI, Gemini)."
+        "Designed, built, and operated business-critical internal platforms used across multiple departments at scale.",
+        "Led platform modernization from legacy PHP/JS to Laravel 12, Vue 3, and Nuxt 3; migrated infrastructure from RHEL 6/7 to RHEL 9 with Docker adoption and CI/CD pipelines (GitLab, Jenkins).",
+        "Architected cloud-native services on Google Cloud Platform (GCP) covering compute, networking, IAM, and Cloud Run.",
+        "Delivered applied AI solutions including LLM integrations with Google Vertex AI and Gemini for enterprise automation and customer service efficiency.",
+        "Integrated Oracle and MySQL backends with LDAP/AD authentication across enterprise systems.",
+        "Salesforce development and system integrations with enterprise interoperability."
       ]
     },
     {
-      "name": "Sicilia On Line S.r.l.",
+      "name": "Sicilia On Line Srl",
       "location": "Palermo, Italy",
-      "position": "Webmaster & Full-Stack PHP Developer",
+      "position": "Full Stack Web Developer / System Engineer",
       "url": "http://www.siciliaonline.it",
-      "startDate": "2006-05",
+      "startDate": "2005-01",
       "endDate": "2011-12",
-      "summary": "Managed and developed a leading regional news portal with responsibility for full-stack development, system administration, and creative campaigns.",
+      "summary": "Lead Full Stack Web Developer for a high-traffic regional newspaper platform, with end-to-end responsibility for application development, platform architecture, and Linux-based operations.",
       "highlights": [
-        "Redesigned and rebuilt the entire siciliaonline.it portal (2011).",
-        "Implemented CMS-based websites (Joomla, WordPress, Typo3, Drupal).",
-        "Developed e-commerce solutions and payment gateways.",
-        "Configured LAMP servers and optimized high-availability infrastructure.",
-        "Implemented SEO, analytics, and social media integrations (Open Graph, FB plugins)."
-      ]
-    },
-    {
-      "name": "Freelancer",
-      "location": "Palermo, Italy",
-      "position": "System Engineer & Web Designer",
-      "startDate": "2003-04",
-      "endDate": "2006-05",
-      "summary": "Provided freelance IT consulting and web design for SMEs.",
-      "highlights": [
-        "Configured Linux and Windows servers, Samba, Postfix, Bind, and Hylafax.",
-        "Deployed LAMP servers and developed websites for local businesses.",
-        "Implemented automated Windows deployments."
+        "Led backend and frontend development ensuring reliability and performance under continuous editorial load.",
+        "Drove platform evolution through major redesigns, optimizations, and third-party integrations.",
+        "Managed LAMP server configuration, high-availability infrastructure, SEO, and analytics integrations."
       ]
     }
   ],
   "education": [
     {
-      "institution": "Business & IT Studies",
+      "institution": "Accounting & Computer Science studies",
       "location": "Italy",
       "studyType": "Diploma",
+      "area": "Accounting & Computer Science",
       "startDate": "1991",
       "endDate": "1997"
-    },
-    {
-      "institution": "German Primary & Italian Secondary School",
-      "studyType": "General Education",
-      "startDate": "1981",
-      "endDate": "1991"
     }
   ],
   "skills": [
     {
-      "name": "Programming",
+      "name": "Core Engineering",
       "keywords": [
-        "PHP",
+        "PHP 7/8",
         "Laravel",
         "JavaScript",
         "Vue.js",
-        "Nuxt.js",
-        "Python",
-        "Perl",
-        "Java",
-        "C/C++"
+        "HTML5",
+        "CSS",
+        "RESTful APIs",
+        "Service-oriented design"
       ]
     },
     {
-      "name": "Databases",
+      "name": "Cloud & Platform",
+      "keywords": [
+        "Google Cloud Platform (GCP)",
+        "Docker",
+        "Linux (Debian / Ubuntu / RHEL)",
+        "CI/CD pipelines",
+        "Cloud Run",
+        "Application deployment & automation"
+      ]
+    },
+    {
+      "name": "AI & Data Engineering",
+      "keywords": [
+        "Applied AI / LLM integration",
+        "Vertex AI",
+        "Gemini",
+        "AI-assisted tooling",
+        "Big data platforms",
+        "Analytics-oriented development"
+      ]
+    },
+    {
+      "name": "Salesforce & Enterprise",
+      "keywords": [
+        "Salesforce development",
+        "Platform customization",
+        "Enterprise interoperability",
+        "LDAP / AD",
+        "Enterprise data integration"
+      ]
+    },
+    {
+      "name": "Databases & Storage",
       "keywords": [
         "MySQL",
         "Oracle",
         "PostgreSQL",
-        "SQL Server",
-        "Access"
+        "SQL design & optimization",
+        "Data modeling"
       ]
     },
     {
-      "name": "DevOps & Infrastructure",
-      "keywords": [
-        "Docker",
-        "Vagrant",
-        "VMware",
-        "VirtualBox",
-        "Linux (Debian, Fedora, RHEL, Ubuntu)",
-        "FreeBSD",
-        "Windows Server",
-        "CI/CD",
-        "Cloud Run (GCP)"
-      ]
-    },
-    {
-      "name": "Web & CMS",
-      "keywords": [
-        "WordPress",
-        "Joomla",
-        "Drupal",
-        "Typo3",
-        "Bootstrap",
-        "jQuery",
-        "SEO",
-        "Analytics"
-      ]
-    },
-    {
-      "name": "Networking & Protocols",
+      "name": "DevOps & Networking",
       "keywords": [
         "TCP/IP",
         "DNS",
-        "HTTP",
-        "SMTP",
-        "IMAP",
-        "POP3",
-        "SSL",
-        "SSH",
-        "VPN"
-      ]
-    },
-    {
-      "name": "Creative & Tools",
-      "keywords": [
-        "Photoshop",
-        "Illustrator",
-        "InDesign",
-        "Figma",
-        "Gimp"
+        "HTTP/S",
+        "SSL / SSH",
+        "System hardening",
+        "Performance optimization",
+        "Git",
+        "Shell scripting"
       ]
     }
   ],
@@ -173,11 +147,11 @@
     },
     {
       "language": "German",
-      "fluency": "Professional working proficiency"
+      "fluency": "Fluent (business level)"
     },
     {
       "language": "English",
-      "fluency": "Professional working proficiency"
+      "fluency": "Fluent (business level)"
     },
     {
       "language": "French",

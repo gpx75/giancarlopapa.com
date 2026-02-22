@@ -19,7 +19,7 @@ const props = defineProps<CvExperienceTimelineProps>()
         <p class="text-sm uppercase tracking-wider text-muted/80">
           {{ item.period }}
         </p>
-        <h3 class="text-xl font-semibold">
+        <h3>
           {{ item.role }} · {{ item.company }}
         </h3>
         <p class="text-sm text-muted/70">

@@ -1,43 +1,51 @@
-import { computed } from 'vue'
-import { useAsyncData } from '#imports'
-import type { ResumeDocument } from '~/types/resume'
+import type { ResumeDocument } from '~/types/resume';
 
 export function useResumeContent() {
   const fetchResume = async () => {
     try {
       // @ts-expect-error - queryContent is auto-imported by @nuxt/content
-      const document = await queryContent<ResumeDocument>('/giancarlo_papa_resume').findOne()
+      const document = await queryContent<ResumeDocument>(
+        '/giancarlo_papa_resume'
+      ).findOne();
       if (document) {
-        const parsed = (document.body ?? document) as ResumeDocument
+        const parsed = (document.body ?? document) as ResumeDocument;
         if (parsed.basics) {
-          return parsed
+          return parsed;
         }
-        console.warn('[useResumeContent] Resume document missing basics after content query.')
+        console.warn(
+          '[useResumeContent] Resume document missing basics after content query.'
+        );
       } else {
-        console.warn('[useResumeContent] Resume content query returned null.')
+        console.warn('[useResumeContent] Resume content query returned null.');
       }
     } catch (error) {
-      console.error('[useResumeContent] Failed to query Nuxt Content', error)
+      console.error('[useResumeContent] Failed to query Nuxt Content', error);
     }
 
-    const fallbackModule = await import('../../content/giancarlo_papa_resume.json')
-    const fallback = (fallbackModule.default || fallbackModule) as ResumeDocument
+    const fallbackModule = await import(
+      '../../content/giancarlo_papa_resume.json'
+    );
+    const fallback = (fallbackModule.default ||
+      fallbackModule) as ResumeDocument;
 
     if (!fallback?.basics) {
-      throw new Error('Resume document missing basics section.')
+      throw new Error('Resume document missing basics section.');
     }
 
-    return fallback
-  }
+    return fallback;
+  };
 
-  const { data, pending, error, refresh } = useAsyncData('resume-content', fetchResume)
+  const { data, pending, error, refresh } = useAsyncData(
+    'resume-content',
+    fetchResume
+  );
 
-  const resume = computed(() => data.value ?? null)
+  const resume = computed(() => data.value ?? null);
 
   return {
     resume,
     pending,
     error,
     refresh
-  }
+  };
 }

@@ -16,7 +16,7 @@ const props = defineProps<CvProjectsGridProps>()
       class="flex flex-col justify-between"
     >
       <div class="space-y-3">
-        <h3 class="text-lg font-semibold">
+        <h3>
           {{ project.name }}
         </h3>
         <p class="text-sm text-muted/80">

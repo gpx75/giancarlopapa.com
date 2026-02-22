@@ -19,7 +19,7 @@ const props = defineProps<CvWritingListProps>()
         <p class="text-xs uppercase tracking-wide text-muted">
           {{ entry.platform }} · {{ entry.publishedAt }}
         </p>
-        <h3 class="text-lg font-semibold">
+        <h3>
           {{ entry.title }}
         </h3>
         <p class="text-sm text-muted/80">
