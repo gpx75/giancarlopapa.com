@@ -39,6 +39,13 @@ export default defineNuxtConfig({
     }
   },
 
+  image: {
+    screens: {
+      avatar: 256,
+      avatar2x: 320
+    }
+  },
+
   compatibilityDate: '2025-01-15',
 
   nitro: {
