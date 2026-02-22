@@ -105,7 +105,7 @@ function profileIcon(network?: string) {
         </div>
         <div v-if="loggedIn" class="shrink-0">
           <UButton
-            to="/giancarlo_papa_vitae.pdf"
+            to="/api/resume/pdf"
             target="_blank"
             label="Download CV"
             icon="i-lucide-download"
