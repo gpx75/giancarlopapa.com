@@ -153,7 +153,7 @@ watch(() => booking.selectedEventType.value?.slug, async (slug) => {
     <!-- Header -->
     <div class="space-y-3">
       <UBadge variant="soft" color="neutral" class="tracking-wider text-xs">
-        <span class="text-terminal-400/60 mr-0.5">~/</span>book
+        <span class="text-terminal-400/60">~/</span>book
       </UBadge>
       <h1>Schedule time with Giancarlo</h1>
       <p class="max-w-2xl text-lg text-muted/80">
