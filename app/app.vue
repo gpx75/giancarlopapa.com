@@ -10,7 +10,6 @@ const description =
   'Senior Full Stack Engineer specialising in cloud platform engineering, full stack development, and applied AI.';
 
 const navigation = [
-  { label: '~/', to: '/' },
   { label: '~/blog', to: '/blog' },
   { label: '~/resume', to: '/resume' },
   { label: '~/contact', to: '/contact' }
