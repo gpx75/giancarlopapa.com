@@ -148,6 +148,13 @@ useSeoMeta({
             >
               ~/colophon
             </NuxtLink>
+            <NuxtLink
+              to="/legal"
+              class="text-xs transition"
+              :class="isActive('/legal') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+            >
+              ~/legal
+            </NuxtLink>
           </div>
         </div>
       </template>
