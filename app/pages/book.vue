@@ -6,6 +6,7 @@ useSeoMeta({
   description: 'Schedule a session with Giancarlo Papa — architecture reviews, cloud platform deep dives, or AI engineering consultations.'
 })
 
+const { user, loggedIn } = useAuth()
 const booking = useCalBooking()
 
 const form = reactive({
@@ -13,6 +14,13 @@ const form = reactive({
   email: '',
   notes: ''
 })
+
+watch(loggedIn, (isLoggedIn) => {
+  if (isLoggedIn && user.value) {
+    form.name = form.name || user.value.name || ''
+    form.email = form.email || user.value.email || ''
+  }
+}, { immediate: true })
 
 const timeframe = computed(() => {
   const start = new Date()
@@ -110,11 +118,21 @@ async function handleSubmit() {
   if (booking.success.value) resetForm()
 }
 
-onMounted(async () => {
+async function loadBookingData() {
+  if (booking.hasEventTypes.value || booking.loadingEventTypes.value) return
   await booking.loadEventTypes()
   if (booking.selectedEventType.value) {
     await booking.loadSlots(timeframe.value.start, timeframe.value.end)
   }
+}
+
+// Session hydrates async after mount — watch for it becoming true
+watch(loggedIn, (isLoggedIn) => {
+  if (isLoggedIn) loadBookingData()
+}, { immediate: true })
+
+onMounted(() => {
+  if (loggedIn.value) loadBookingData()
 })
 
 watch(() => booking.selectedEventType.value?.slug, async (slug) => {
@@ -143,7 +161,14 @@ watch(() => booking.selectedEventType.value?.slug, async (slug) => {
       </p>
     </div>
 
-    <div class="grid gap-8 lg:grid-cols-[1.2fr,1fr]">
+    <AuthWall
+      v-if="!loggedIn"
+      title="Sign in to book a session"
+      description="Use your existing account to confirm your identity before booking."
+      class="max-w-md"
+    />
+
+    <div v-else class="grid gap-8 lg:grid-cols-[1.2fr,1fr]">
       <!-- Left: offering + slots -->
       <div class="space-y-6">
 
