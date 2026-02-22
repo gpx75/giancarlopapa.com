@@ -9,7 +9,9 @@
     "preview": "nuxt preview",
     "deploy": "vercel deploy --prod",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "generate-pdf": "node --env-file=.env scripts/generate-pdf.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@iconify-json/lucide": "^1.2.93",
@@ -30,6 +32,7 @@
     "better-sqlite3": "^12.6.2",
     "eslint": "^10.0.1",
     "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
     "typescript": "^5.9.3",
     "vue-tsc": "^3.2.5"
   },

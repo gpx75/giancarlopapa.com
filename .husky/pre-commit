@@ -1,0 +1,23 @@
+#!/bin/sh
+# Regenerate the static PDF resume whenever the JSON resume is staged.
+
+if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json'; then
+  echo "→ Resume JSON changed — regenerating PDF…"
+
+  # Load .env if present (Node 20+ --env-file flag)
+  if [ -f .env ]; then
+    node --env-file=.env scripts/generate-pdf.mjs
+  else
+    node scripts/generate-pdf.mjs
+  fi
+
+  EXIT=$?
+  if [ $EXIT -ne 0 ]; then
+    echo "⚠ PDF generation failed — committing without updated PDF."
+    echo "  Check CHROMIUM_EXECUTABLE_PATH in .env."
+    exit 0  # Don't block the commit
+  fi
+
+  git add public/giancarlo_papa_resume.pdf
+  echo "✓ Updated PDF staged."
+fi
