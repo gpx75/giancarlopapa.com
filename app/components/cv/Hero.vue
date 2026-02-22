@@ -52,12 +52,11 @@ const props = defineProps<CvHeroSectionProps>()
     </div>
 
     <div class="flex justify-center lg:justify-end">
-      <NuxtImg
+      <img
         src="/giancarlopapa_avatar.jpeg"
         alt="Giancarlo Papa"
         width="320"
         height="320"
-        sizes="256px lg:320px"
         class="size-64 rounded-full ring-4 ring-primary/50 ring-offset-4 ring-offset-background lg:size-80"
       />
     </div>
