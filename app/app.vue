@@ -3,6 +3,8 @@ const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
 const contactEmail = runtimeConfig.public.contactEmail;
 
+const { user, loggedIn, logout } = useAuth();
+
 const title = 'Giancarlo Papa — Senior Full Stack Engineer';
 const description =
   'Senior Full Stack Engineer specialising in cloud platform engineering, full stack development, and applied AI.';
@@ -80,6 +82,22 @@ useSeoMeta({
           icon="i-lucide-calendar"
           class="hidden md:inline-flex"
         />
+
+        <div v-if="loggedIn" class="hidden md:flex items-center gap-1">
+          <UAvatar
+            :src="user?.avatar"
+            :alt="user?.name"
+            size="sm"
+          />
+          <UButton
+            icon="i-lucide-log-out"
+            aria-label="Sign out"
+            variant="ghost"
+            color="neutral"
+            size="sm"
+            @click="() => { logout() }"
+          />
+        </div>
 
         <UButton
           icon="i-lucide-menu"

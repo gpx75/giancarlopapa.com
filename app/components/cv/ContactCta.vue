@@ -6,7 +6,21 @@ interface CvContactCtaProps {
 
 const props = defineProps<CvContactCtaProps>()
 
-const form = reactive({ name: '', email: '', message: '' })
+const { user, loggedIn } = useAuth()
+
+const form = reactive({
+  name: '',
+  email: '',
+  message: ''
+})
+
+watch(loggedIn, (isLoggedIn) => {
+  if (isLoggedIn && user.value) {
+    form.name = form.name || user.value.name || ''
+    form.email = form.email || user.value.email || ''
+  }
+}, { immediate: true })
+
 const loading = ref(false)
 const status = ref<'idle' | 'success' | 'error'>('idle')
 const errorMessage = ref('')
@@ -68,6 +82,12 @@ async function handleSubmit() {
             </p>
           </div>
         </div>
+
+        <AuthWall
+          v-else-if="!loggedIn"
+          title="Sign in to send a message"
+          description="One click with your existing account — no new password needed."
+        />
 
         <form
           v-else

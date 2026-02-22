@@ -54,7 +54,7 @@ function parseFrontmatter(content) {
     const raw = line.slice(colonIdx + 1).trim()
     if (!key || !raw) continue
     if (raw.startsWith('[')) {
-      try { fm[key] = JSON.parse(raw); continue } catch {}
+      try { fm[key] = JSON.parse(raw); continue } catch { /* ignore parse errors */ }
     }
     fm[key] = raw.replace(/^["']|["']$/g, '')
   }

@@ -11,6 +11,7 @@ const {
 
 export default defineNuxtConfig({
   modules: [
+    'nuxt-auth-utils',
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/content',
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
   ],
 
   devtools: {
-    enabled: true
+    enabled: process.env.NODE_ENV !== 'production'
   },
 
   css: ['~/assets/css/main.css'],
@@ -39,10 +40,14 @@ export default defineNuxtConfig({
     }
   },
 
-  image: {
-    screens: {
-      avatar: 256,
-      avatar2x: 320
+  routeRules: {
+    '/**': {
+      headers: {
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+      }
     }
   },
 
@@ -59,5 +64,12 @@ export default defineNuxtConfig({
         braceStyle: '1tbs'
       }
     }
-  }
+  },
+
+  image: {
+    screens: {
+      avatar: 256,
+      avatar2x: 320
+    }
+  },
 });

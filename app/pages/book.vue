@@ -78,7 +78,7 @@ const selectedDayGroup = computed(() =>
 
 watch(dayGroups, (groups) => {
   if (groups.length && !selectedDayKey.value) {
-    selectedDayKey.value = groups[0].key
+    selectedDayKey.value = groups[0]?.key ?? null
   }
 }, { immediate: true })
 

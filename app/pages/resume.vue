@@ -8,6 +8,7 @@ import type {
 } from '~/types/resume';
 
 const { resume, pending, error, refresh } = useResumeContent();
+const { loggedIn } = useAuth();
 
 const basics = computed(() => resume.value?.basics);
 const work = computed<ResumeWork[]>(() => resume.value?.work ?? []);
@@ -90,6 +91,36 @@ function profileIcon(network?: string) {
         variant="ghost"
         color="neutral"
       />
+    </div>
+
+    <div class="rounded-2xl border border-muted/20 bg-muted/5 p-6">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div class="space-y-1">
+          <p class="font-semibold">
+            Download CV
+          </p>
+          <p class="text-sm text-muted/80">
+            Sign in to download the PDF version of my resume.
+          </p>
+        </div>
+        <div v-if="loggedIn" class="shrink-0">
+          <UButton
+            to="/giancarlo_papa_vitae.pdf"
+            target="_blank"
+            label="Download CV"
+            icon="i-lucide-download"
+            color="primary"
+            variant="solid"
+            external
+          />
+        </div>
+        <div v-else class="shrink-0">
+          <AuthWall
+            title="Sign in to download"
+            description="One click — no new password needed."
+          />
+        </div>
+      </div>
     </div>
 
     <UAlert
