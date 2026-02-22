@@ -75,8 +75,27 @@ useSeoMeta({
           </NuxtLink>
         </nav>
 
+        <UButton
+          to="/book"
+          label="Book a call"
+          size="sm"
+          color="primary"
+          icon="i-lucide-calendar"
+          class="hidden md:inline-flex"
+        />
+
+        <UButton
+          icon="i-lucide-menu"
+          aria-label="Toggle navigation"
+          variant="ghost"
+          class="md:hidden"
+          @click="isMenuOpen = true"
+        />
+
+        <UColorModeButton />
+
         <!-- Auth (desktop) -->
-        <div class="hidden md:flex items-center gap-1 mr-2">
+        <div class="hidden md:flex items-center gap-1">
           <template v-if="loggedIn">
             <UAvatar
               :src="user?.avatar"
@@ -102,25 +121,6 @@ useSeoMeta({
             @click="isLoginModalOpen = true"
           />
         </div>
-
-        <UButton
-          to="/book"
-          label="Book a call"
-          size="sm"
-          color="primary"
-          icon="i-lucide-calendar"
-          class="hidden md:inline-flex"
-        />
-
-        <UButton
-          icon="i-lucide-menu"
-          aria-label="Toggle navigation"
-          variant="ghost"
-          class="md:hidden"
-          @click="isMenuOpen = true"
-        />
-
-        <UColorModeButton />
       </template>
     </UHeader>
 
