@@ -105,13 +105,8 @@ async function calRequest<T>({
 }
 
 export async function fetchCalEventTypes() {
-  const { apiKey, baseUrl } = useCalConfig();
-  return $fetch<EventTypesV1Response>('/v1/event-types', {
-    baseURL: baseUrl,
-    method: 'GET',
-    query: {
-      apiKey
-    }
+  return calRequest<EventTypesV1Response>({
+    path: '/v1/event-types'
   });
 }
 
