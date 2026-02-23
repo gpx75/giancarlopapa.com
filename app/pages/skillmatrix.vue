@@ -6,84 +6,10 @@ useSeoMeta({
 
 type Level = 'expert' | 'advanced' | 'proficient' | 'familiar'
 
-interface Skill {
-  name: string
-  level: Level
-  years?: number
-  icon: string
-}
-
-interface Category {
-  label: string
-  icon: string
-  skills: Skill[]
-}
-
-const categories: Category[] = [
-  {
-    label: 'Core Engineering',
-    icon: 'i-lucide-code-2',
-    skills: [
-      { name: 'PHP 8', level: 'expert', years: 19, icon: 'i-simple-icons-php' },
-      { name: 'Laravel', level: 'expert', years: 12, icon: 'i-simple-icons-laravel' },
-      { name: 'JavaScript / ES2022+', level: 'expert', years: 19, icon: 'i-simple-icons-javascript' },
-      { name: 'Vue.js', level: 'expert', years: 8, icon: 'i-simple-icons-vuedotjs' },
-      { name: 'Nuxt', level: 'expert', years: 5, icon: 'i-simple-icons-nuxtdotjs' },
-      { name: 'TypeScript', level: 'advanced', years: 4, icon: 'i-simple-icons-typescript' },
-      { name: 'HTML5 / CSS', level: 'expert', years: 19, icon: 'i-simple-icons-html5' },
-      { name: 'RESTful APIs', level: 'expert', years: 15, icon: 'i-lucide-plug-2' },
-      { name: 'Python', level: 'proficient', years: 3, icon: 'i-simple-icons-python' }
-    ]
-  },
-  {
-    label: 'Cloud & Platform',
-    icon: 'i-lucide-cloud',
-    skills: [
-      { name: 'Linux (RHEL / Debian / Ubuntu)', level: 'expert', years: 19, icon: 'i-simple-icons-linux' },
-      { name: 'Docker', level: 'advanced', years: 6, icon: 'i-simple-icons-docker' },
-      { name: 'Google Cloud Platform', level: 'advanced', years: 5, icon: 'i-simple-icons-googlecloud' },
-      { name: 'Cloud Run', level: 'advanced', years: 4, icon: 'i-simple-icons-googlecloud' },
-      { name: 'GitLab CI / Jenkins', level: 'advanced', years: 6, icon: 'i-simple-icons-gitlab' },
-      { name: 'Kubernetes', level: 'proficient', years: 2, icon: 'i-simple-icons-kubernetes' },
-      { name: 'Terraform', level: 'familiar', years: 1, icon: 'i-simple-icons-terraform' }
-    ]
-  },
-  {
-    label: 'AI & Data',
-    icon: 'i-lucide-brain',
-    skills: [
-      { name: 'LLM Integration', level: 'advanced', years: 3, icon: 'i-lucide-bot' },
-      { name: 'Vertex AI', level: 'advanced', years: 2, icon: 'i-simple-icons-googlecloud' },
-      { name: 'Gemini API', level: 'advanced', years: 2, icon: 'i-simple-icons-googlegemini' },
-      { name: 'Prompt Engineering', level: 'advanced', years: 3, icon: 'i-lucide-terminal' },
-      { name: 'Big Data Platforms', level: 'proficient', years: 4, icon: 'i-lucide-layers' },
-      { name: 'Analytics Engineering', level: 'proficient', years: 5, icon: 'i-lucide-chart-bar' }
-    ]
-  },
-  {
-    label: 'Databases & Enterprise',
-    icon: 'i-lucide-database',
-    skills: [
-      { name: 'MySQL', level: 'expert', years: 19, icon: 'i-simple-icons-mysql' },
-      { name: 'Oracle DB', level: 'advanced', years: 10, icon: 'i-simple-icons-oracle' },
-      { name: 'PostgreSQL', level: 'proficient', years: 4, icon: 'i-simple-icons-postgresql' },
-      { name: 'Salesforce / Apex', level: 'advanced', years: 6, icon: 'i-simple-icons-salesforce' },
-      { name: 'LDAP / Active Directory', level: 'advanced', years: 8, icon: 'i-lucide-users' }
-    ]
-  },
-  {
-    label: 'DevOps & Networking',
-    icon: 'i-lucide-network',
-    skills: [
-      { name: 'Git', level: 'expert', years: 13, icon: 'i-simple-icons-git' },
-      { name: 'Bash / Shell scripting', level: 'advanced', years: 15, icon: 'i-simple-icons-gnubash' },
-      { name: 'Nginx / Apache', level: 'advanced', years: 15, icon: 'i-simple-icons-nginx' },
-      { name: 'TCP/IP / DNS', level: 'advanced', years: 19, icon: 'i-lucide-network' },
-      { name: 'SSL / TLS', level: 'advanced', years: 15, icon: 'i-lucide-lock' },
-      { name: 'System hardening', level: 'advanced', years: 10, icon: 'i-lucide-shield' }
-    ]
-  }
-]
+const { data: categories } = await useAsyncData(
+  'skills',
+  () => queryCollection('skills').all()
+)
 
 const levels: { key: Level, label: string, dots: number }[] = [
   { key: 'expert', label: 'Expert', dots: 4 },
@@ -95,8 +21,8 @@ const levels: { key: Level, label: string, dots: number }[] = [
 const levelDotClass: Record<Level, string> = {
   expert: 'bg-terminal-400',
   advanced: 'bg-primary',
-  proficient: 'bg-zinc-400 dark:bg-zinc-500',
-  familiar: 'bg-zinc-300 dark:bg-zinc-600'
+  proficient: 'bg-snazzy-dark-400 dark:bg-snazzy-dark-500',
+  familiar: 'bg-snazzy-dark-300 dark:bg-snazzy-dark-600'
 }
 
 const levelTextClass: Record<Level, string> = {
@@ -154,13 +80,13 @@ function dots(level: Level) {
     <!-- Categories -->
     <div class="space-y-10">
       <div
-        v-for="category in categories"
+        v-for="category in (categories ?? [])"
         :key="category.label"
         class="space-y-4"
       >
         <div class="flex items-center gap-2 border-b border-muted/20 pb-3">
           <UIcon :name="category.icon" class="size-4 text-muted/50" />
-          <h2 class="text-sm font-semibold uppercase tracking-widest text-muted/60">
+          <h2 class="text-sm font-semibold uppercase tracking-widest opacity-70">
             {{ category.label }}
           </h2>
         </div>

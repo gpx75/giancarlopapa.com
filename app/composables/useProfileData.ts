@@ -1,16 +1,17 @@
-import { defaultProfile, type CvProfile } from '~/data/profile';
+import type { CvProfile } from '~/types/profile'
 
 export function useProfileData() {
-  const fetchState = useFetch<{ profile: CvProfile }>('/api/profile', {
-    default: () => ({ profile: defaultProfile })
-  });
+  const { data, pending, error, refresh } = useAsyncData(
+    'profile',
+    () => queryCollection('profile').first()
+  )
 
-  const profile = computed(
-    () => fetchState.data.value?.profile ?? defaultProfile
-  );
+  const profile = computed(() => data.value as CvProfile | null)
 
   return {
-    ...fetchState,
-    profile
-  };
+    profile,
+    pending,
+    error,
+    refresh
+  }
 }

@@ -1,0 +1,56 @@
+[
+  {
+    "label": "Framework",
+    "name": "Nuxt 4",
+    "description": "Vue-based full-stack framework with file-based routing and server API routes.",
+    "url": "https://nuxt.com"
+  },
+  {
+    "label": "UI",
+    "name": "Nuxt UI v4",
+    "description": "Component library built on top of Tailwind CSS v4 and Radix Vue.",
+    "url": "https://ui.nuxt.com"
+  },
+  {
+    "label": "Styling",
+    "name": "Tailwind CSS v4",
+    "description": "Utility-first CSS framework.",
+    "url": "https://tailwindcss.com"
+  },
+  {
+    "label": "Type — headings",
+    "name": "Space Grotesk",
+    "description": "Geometric sans-serif by Florian Karsten. Via Google Fonts.",
+    "url": "https://fonts.google.com/specimen/Space+Grotesk"
+  },
+  {
+    "label": "Type — body",
+    "name": "JetBrains Mono",
+    "description": "Monospace font by JetBrains. Via Google Fonts.",
+    "url": "https://fonts.google.com/specimen/JetBrains+Mono"
+  },
+  {
+    "label": "Colour palette",
+    "name": "Snazzy",
+    "description": "Terminal colour scheme by Sindre Sorhus. Magenta #ff6ac1 as primary, green #5af78e as accent.",
+    "url": "https://github.com/sindresorhus/hyper-snazzy"
+  },
+  {
+    "label": "Email",
+    "name": "Resend",
+    "description": "Email API for the contact form.",
+    "url": "https://resend.com"
+  },
+  {
+    "label": "Deployment",
+    "name": "Vercel",
+    "description": "Serverless deployment platform.",
+    "url": "https://vercel.com"
+  },
+  {
+    "label": "Icons",
+    "name": "Lucide + Simple Icons",
+    "description": "Via Iconify and @nuxt/icon.",
+    "url": "https://lucide.dev"
+  }
+]

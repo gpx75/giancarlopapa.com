@@ -132,53 +132,39 @@ useSeoMeta({
       <NuxtPage />
     </UMain>
 
-    <UFooter class="sticky bottom-0 z-10 backdrop-blur">
+    <UFooter class="sticky bottom-0 z-10 backdrop-blur border-t border-snazzy-dark-200/40 dark:border-snazzy-dark-800/40">
       <template #left>
-        <div class="flex flex-col gap-1 text-sm text-muted">
-          <span>© {{ new Date().getFullYear() }} Giancarlo Papa</span>
-          <span class="text-xs text-muted/60"
-            >Based in Zürich · Working globally</span
-          >
-          <div class="flex gap-3">
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-medium text-snazzy-dark-800 dark:text-snazzy-dark-200">
+            © {{ new Date().getFullYear() }} Giancarlo Papa
+          </span>
+          <span class="text-xs text-snazzy-dark-500 dark:text-snazzy-dark-500">
+            Based in Zürich · Working globally
+          </span>
+          <div class="flex gap-3 mt-0.5">
             <NuxtLink
-              to="/skillmatrix"
-              class="text-xs transition"
+              v-for="link in [
+                { to: '/skillmatrix', label: '~/skillmatrix' },
+                { to: '/colophon',    label: '~/colophon'    },
+                { to: '/legal',       label: '~/legal'       },
+              ]"
+              :key="link.to"
+              :to="link.to"
+              class="text-xs font-mono transition-colors"
               :class="
-                isActive('/skillmatrix')
-                  ? 'text-snazzy-yellow'
-                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
+                isActive(link.to)
+                  ? 'text-magenta-500 dark:text-magenta-400'
+                  : 'text-snazzy-dark-500 dark:text-snazzy-dark-400 hover:text-magenta-500 dark:hover:text-magenta-400'
               "
             >
-              ~/skillmatrix
-            </NuxtLink>
-            <NuxtLink
-              to="/colophon"
-              class="text-xs transition"
-              :class="
-                isActive('/colophon')
-                  ? 'text-snazzy-yellow'
-                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
-              "
-            >
-              ~/colophon
-            </NuxtLink>
-            <NuxtLink
-              to="/legal"
-              class="text-xs transition"
-              :class="
-                isActive('/legal')
-                  ? 'text-snazzy-yellow'
-                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
-              "
-            >
-              ~/legal
+              {{ link.label }}
             </NuxtLink>
           </div>
         </div>
       </template>
 
       <template #right>
-        <div class="flex items-center gap-1">
+        <div class="flex items-center gap-0.5">
           <UButton
             to="https://github.com/gpx75"
             target="_blank"
@@ -186,6 +172,7 @@ useSeoMeta({
             aria-label="GitHub"
             color="neutral"
             variant="ghost"
+            size="sm"
           />
           <UButton
             to="https://www.linkedin.com/in/gpapa"
@@ -194,6 +181,7 @@ useSeoMeta({
             aria-label="LinkedIn"
             color="neutral"
             variant="ghost"
+            size="sm"
           />
           <UButton
             :to="mailtoLink"
@@ -201,6 +189,7 @@ useSeoMeta({
             aria-label="Email"
             color="neutral"
             variant="ghost"
+            size="sm"
           />
         </div>
       </template>

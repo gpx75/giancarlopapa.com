@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { computed, useAttrs } from 'vue'
-import type { PropType } from 'vue'
-
 const SOFT_CLASS_MAP: Record<string, string> = {
   primary: 'border-primary/20 bg-primary/10 text-primary',
   info: 'border-info/20 bg-info/10 text-info',
@@ -64,7 +61,7 @@ const variantClass = computed(() => computeVariantClass(props.color))
     <div class="flex flex-col gap-4">
       <div
         v-if="props.icon"
-        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/70 text-2xl shadow-sm"
+        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-snazzy-dark-100/80 dark:bg-snazzy-dark-800/60 text-2xl shadow-sm"
       >
         <UIcon
           :name="props.icon"

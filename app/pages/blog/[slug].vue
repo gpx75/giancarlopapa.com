@@ -15,9 +15,7 @@ useSeoMeta({
   description: post.value.description
 })
 
-function formatDate(dateStr: string) {
-  return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(dateStr))
-}
+const { formatDate } = useDateFormatting()
 </script>
 
 <template>

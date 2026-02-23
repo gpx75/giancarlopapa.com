@@ -12,9 +12,7 @@ const { data: allPosts } = await useAsyncData('blog-posts', () =>
 
 const posts = computed(() => allPosts.value?.filter(p => !p.draft) ?? [])
 
-function formatDate(dateStr: string) {
-  return new Intl.DateTimeFormat('en', { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(dateStr))
-}
+const { formatDate } = useDateFormatting()
 </script>
 
 <template>
@@ -42,7 +40,7 @@ function formatDate(dateStr: string) {
               <p class="text-xs uppercase tracking-widest text-muted/50">
                 {{ formatDate(post.date) }}
               </p>
-              <h2 class="text-xl leading-snug group-hover:text-primary transition">
+              <h2 class="text-xl leading-snug transition">
                 {{ post.title }}
               </h2>
               <p class="text-sm text-muted/70 leading-relaxed">

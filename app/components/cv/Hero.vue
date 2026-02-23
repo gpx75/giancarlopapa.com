@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { CvHero, CvStat } from '~/data/profile'
+import type { CvHero, CvStat } from '~/types/profile'
 
 interface CvHeroSectionProps {
   hero: CvHero
