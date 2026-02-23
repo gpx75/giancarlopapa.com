@@ -15,6 +15,7 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { PDFDocument, rgb } from 'pdf-lib'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const root = resolve(__dirname, '..')
@@ -54,7 +55,7 @@ function esc(s) {
 }
 
 function buildResumeHtml(avatar) {
-  const { basics, work, skills, languages, education } = resume
+  const { basics, work, skills, languages, education, interests } = resume
 
   const recentWork = work.filter(
     j => j.endDate === 'Present' || Number(j.startDate.split('-')[0]) >= 2012
@@ -73,20 +74,35 @@ function buildResumeHtml(avatar) {
     briefcase: `<svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
     star: `<svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
     wrench: `<svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-    grad: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`
+    grad: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+    hobby: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>`,
+    code: `<svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
+    cloud: `<svg viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
+    cpu: `<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M20 15h2M9 2v2M9 20v2M2 9h2M20 9h2"/></svg>`,
+    building: `<svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>`,
+    database: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
+    server: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`
   }
 
-  const ibadge = (svg, teal = false) => {
-    const col = teal ? '#3a9eae' : '#94a3b8'
-    return `<span class="ibadge" style="border-color:${col};"><span class="isvg" style="color:${col};">${svg}</span></span>`
+  const skillIcons = {
+    'Core Engineering': icons.code,
+    'Cloud & Platform': icons.cloud,
+    'AI & Data Engineering': icons.cpu,
+    'Salesforce & Enterprise': icons.building,
+    'Databases & Storage': icons.database,
+    'DevOps & Networking': icons.server
+  }
+
+  const ibadge = (svg) => {
+    return `<span class="ibadge"><span class="isvg">${svg}</span></span>`
   }
 
   const contactRow = (svg, text) =>
     `<div class="contact-row">${ibadge(svg)}<span>${esc(text)}</span></div>`
 
-  const sectionHeader = (title, svg) => `
-    <div class="section-hdr">
-      <div class="section-title">${ibadge(svg, true)} ${esc(title)}</div>
+  const sectionHeader = (title, svg, newPage = false) => `
+    <div class="section-hdr${newPage ? ' section-page-break' : ''}">
+      <div class="section-title">${ibadge(svg)} ${esc(title)}</div>
       <div class="section-rule"></div>
     </div>`
 
@@ -117,6 +133,7 @@ function buildResumeHtml(avatar) {
 <meta charset="UTF-8">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+  @page { size: A4; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'JetBrains Mono','Courier New',Courier,monospace; font-size: 9pt; color: #1a1a2e; line-height: 1.4; background: white; }
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
@@ -124,15 +141,16 @@ function buildResumeHtml(avatar) {
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 24pt; font-weight: 700; color: #0f172a; line-height: 1.05; letter-spacing: -0.3px; margin-bottom: 5px; }
   .subtitle { font-size: 11pt; font-style: italic; color: #64748b; margin-bottom: 10px; line-height: 1.25; }
   .contact-row { display: flex; align-items: center; gap: 6px; font-size: 8pt; color: #64748b; margin-bottom: 3px; }
-  .ibadge { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; min-width: 17px; border-radius: 50%; border: 1px solid; }
-  .isvg { display: flex; align-items: center; justify-content: center; width: 9px; height: 9px; }
-  .isvg svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .avatar { width: 78px; height: 78px; min-width: 78px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
+  .ibadge { display: inline-flex; align-items: center; justify-content: center; width: 21px; height: 21px; min-width: 21px; border-radius: 50%; border: 1px solid #3a9eae; color: #3a9eae; }
+  .isvg { display: flex; align-items: center; justify-content: center; width: 11px; height: 11px; }
+  .isvg svg { width: 11px; height: 11px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .avatar { width: 100px; height: 100px; min-width: 100px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
   .summary { font-size: 8.5pt; color: #334155; line-height: 1.5; margin-bottom: 4px; }
-  .section-hdr { margin-top: 14px; margin-bottom: 7px; }
-  .section-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 6px; font-size: 8.5pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
-  .section-rule { border-top: 1.5px solid #5af78e; }
+  .section-hdr { margin-top: 22px; margin-bottom: 7px; break-after: avoid; page-break-after: avoid; }
+  .section-page-break { break-before: page; page-break-before: always; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 6px; font-size: 12pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
+  .section-rule { width: 40px; height: 3px; background: #3a9eae; border-radius: 1px; margin-top: 4px; }
   .work-row { display: flex; gap: 12px; margin-bottom: 11px; page-break-inside: avoid; }
   .wdate { width: 92px; min-width: 92px; font-size: 8pt; color: #1a1a2e; line-height: 1.5; }
   .wloc { font-size: 7.5pt; color: #64748b; margin-top: 2px; }
@@ -145,13 +163,19 @@ function buildResumeHtml(avatar) {
   .highlights li::before { content: '–'; position: absolute; left: 0; }
   .skills-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; }
   .skill-group { margin-bottom: 8px; page-break-inside: avoid; }
-  .skill-title { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+  .skill-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 5px; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
   .skill-kw { list-style: none; }
   .skill-kw li { font-size: 8.5pt; color: #334155; padding-left: 13px; position: relative; margin-bottom: 1px; line-height: 1.4; }
-  .skill-kw li::before { content: '•'; position: absolute; left: 0; color: #5af78e; }
+  .skill-kw li::before { content: '–'; position: absolute; left: 0; color: #3a9eae; }
+  .interests-grid { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+  .interest-group { flex: 1; min-width: 120px; margin-bottom: 6px; page-break-inside: avoid; }
+  .interest-title { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+  .interest-kw { list-style: none; }
+  .interest-kw li { font-size: 8.5pt; color: #334155; padding-left: 13px; position: relative; margin-bottom: 1px; line-height: 1.4; }
+  .interest-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
   .lang-line { font-size: 8.5pt; color: #334155; line-height: 1.5; }
   .edu-entry { margin-bottom: 8px; page-break-inside: avoid; }
-  .accent-bar { height: 3px; background: linear-gradient(90deg, #5af78e 0%, #3a9eae 100%); margin-bottom: 20px; border-radius: 1px; }
+  .accent-bar { height: 3px; background: linear-gradient(90deg, #2a7a8a 0%, #3a9eae 100%); margin-bottom: 20px; border-radius: 1px; }
 </style>
 </head>
 <body>
@@ -180,7 +204,7 @@ function buildResumeHtml(avatar) {
     ${earlyWork.map(workEntry).join('')}
   ` : ''}
 
-  ${sectionHeader('TECHNICAL SKILLS', icons.wrench)}
+  ${sectionHeader('TECHNICAL SKILLS', icons.wrench, true)}
   <div class="skills-grid">
     ${skills.map(g => `
       <div class="skill-group">
@@ -203,6 +227,17 @@ function buildResumeHtml(avatar) {
       <div class="company">${esc([edu.studyType, edu.area].filter(Boolean).join(' · '))}</div>
       <div class="wloc">${esc([edu.startDate, edu.endDate].filter(Boolean).join(' – '))}</div>
     </div>`).join('')}
+
+  ${interests && interests.length ? `
+    ${sectionHeader('INTERESTS & HOBBIES', icons.hobby)}
+    <div class="interests-grid">
+      ${interests.map(g => `
+        <div class="interest-group">
+          <div class="interest-title">${esc(g.name)}</div>
+          <ul class="interest-kw">${g.keywords.map(k => `<li>${esc(k)}</li>`).join('')}</ul>
+        </div>`).join('')}
+    </div>
+  ` : ''}
 </body>
 </html>`
 }
@@ -236,23 +271,30 @@ try {
   await page.setContent(html, { waitUntil: 'networkidle0' })
   await page.evaluate(() => document.fonts.ready)
 
-  const { basics } = resume
-  const footerTemplate = `
-    <div style="font-family:'Courier New',monospace;font-size:7.5pt;color:#64748b;
-                width:100%;padding:0 50px;display:flex;justify-content:space-between;align-items:center;">
-      <span>${esc(basics.name.toUpperCase())}</span>
-      <span>${esc(basics.email)}</span>
-      <span><span class="pageNumber"></span> / <span class="totalPages"></span></span>
-    </div>`
-
-  const pdf = await page.pdf({
+  const rawPdf = await page.pdf({
     format: 'A4',
     printBackground: true,
-    displayHeaderFooter: true,
-    headerTemplate: '<div></div>',
-    footerTemplate,
-    margin: { top: '50px', right: '50px', bottom: '55px', left: '50px' }
+    margin: { top: '18mm', right: '18mm', bottom: '18mm', left: '18mm' }
   })
+
+  // ── Draw passepartout border on every page via pdf-lib ─────────────────────
+  const pdfDoc = await PDFDocument.load(rawPdf)
+  const borderWidth = 4 * 72 / 25.4  // 4mm in pt ≈ 11.34pt
+  const borderInset = borderWidth / 2  // center stroke on page edge → outer edge flush with page
+  const borderColor = rgb(58 / 255, 158 / 255, 174 / 255)  // #3a9eae
+  for (const page of pdfDoc.getPages()) {
+    const { width, height } = page.getSize()
+    page.drawRectangle({
+      x: borderInset,
+      y: borderInset,
+      width: width - borderInset * 2,
+      height: height - borderInset * 2,
+      borderColor,
+      borderWidth,
+      color: undefined
+    })
+  }
+  const pdf = await pdfDoc.save()
 
   const outPath = resolve(root, 'public/giancarlo_papa_resume.pdf')
   writeFileSync(outPath, Buffer.from(pdf))

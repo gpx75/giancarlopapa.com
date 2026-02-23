@@ -23,6 +23,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "nuxt": "^4.3.1",
     "nuxt-auth-utils": "^0.5.29",
+    "pdf-lib": "^1.17.1",
     "puppeteer-core": "^24.37.5",
     "resend": "^6.9.2"
   },

@@ -78,7 +78,7 @@ export interface CvProfile {
 
 export const defaultProfile: CvProfile = {
   hero: {
-    name: 'Giancarlo Papa',
+    name: 'GIANCARLOPAPA',
     role: 'Senior Full Stack Engineer – Cloud Platform & AI Engineering',
     location: 'Elsau ZH, Switzerland',
     availability: 'Open to roles · Zürich & remote',
@@ -86,7 +86,12 @@ export const defaultProfile: CvProfile = {
       '13+ years owning and evolving internal platforms at Sunrise — cloud infrastructure on GCP, full stack web (Laravel, Vue, Nuxt), enterprise systems, and applied AI with Vertex AI and Gemini. Linux-first engineer with a long-term, production-ownership mindset.',
     actions: [
       { label: 'View resume', to: '/resume', icon: 'i-lucide-file-text' },
-      { label: 'Contact', to: '/contact', icon: 'i-lucide-mail', external: true },
+      {
+        label: 'Contact',
+        to: '/contact',
+        icon: 'i-lucide-mail',
+        external: true
+      },
       {
         label: 'Book a call',
         to: '/book',
@@ -135,7 +140,17 @@ export const defaultProfile: CvProfile = {
         'Delivered applied AI solutions including LLM integrations with Google Vertex AI and Gemini for enterprise automation and customer service efficiency.',
         'Integrated Oracle and MySQL backends with LDAP/AD authentication across enterprise systems.'
       ],
-      stack: ['PHP / Laravel', 'Vue.js / Nuxt', 'GCP', 'Docker', 'Linux', 'MySQL', 'Oracle', 'Salesforce', 'Vertex AI']
+      stack: [
+        'PHP / Laravel',
+        'Vue.js / Nuxt',
+        'GCP',
+        'Docker',
+        'Linux',
+        'MySQL',
+        'Oracle',
+        'Salesforce',
+        'Vertex AI'
+      ]
     },
     {
       company: 'Sicilia On Line Srl',
@@ -156,28 +171,65 @@ export const defaultProfile: CvProfile = {
   skills: [
     {
       label: 'Core Engineering',
-      items: ['PHP 7/8', 'Laravel', 'JavaScript', 'Vue.js', 'HTML5 / CSS', 'RESTful APIs', 'Service-oriented design']
+      items: [
+        'PHP 7/8',
+        'Laravel',
+        'JavaScript',
+        'Vue.js',
+        'HTML5 / CSS',
+        'RESTful APIs',
+        'Service-oriented design'
+      ]
     },
     {
       label: 'Cloud & Platform',
-      items: ['Google Cloud Platform (GCP)', 'Docker', 'Linux (Debian / Ubuntu / RHEL)', 'CI/CD pipelines', 'Cloud Run', 'Application deployment & automation']
+      items: [
+        'Google Cloud Platform (GCP)',
+        'Docker',
+        'Linux (Debian / Ubuntu / RHEL)',
+        'CI/CD pipelines',
+        'Cloud Run',
+        'Application deployment & automation'
+      ]
     },
     {
       label: 'AI & Data',
-      items: ['Applied AI / LLM integration', 'Vertex AI', 'Gemini', 'AI-assisted tooling', 'Big data platforms', 'Analytics-oriented development']
+      items: [
+        'Applied AI / LLM integration',
+        'Vertex AI',
+        'Gemini',
+        'AI-assisted tooling',
+        'Big data platforms',
+        'Analytics-oriented development'
+      ]
     },
     {
       label: 'Enterprise & Databases',
-      items: ['Salesforce', 'MySQL', 'Oracle', 'PostgreSQL', 'LDAP / AD', 'Enterprise data integration']
+      items: [
+        'Salesforce',
+        'MySQL',
+        'Oracle',
+        'PostgreSQL',
+        'LDAP / AD',
+        'Enterprise data integration'
+      ]
     },
     {
       label: 'DevOps & Networking',
-      items: ['TCP/IP', 'DNS', 'HTTP/S', 'SSL / SSH', 'System hardening', 'Infrastructure-aware development', 'Performance optimization']
+      items: [
+        'TCP/IP',
+        'DNS',
+        'HTTP/S',
+        'SSL / SSH',
+        'System hardening',
+        'Infrastructure-aware development',
+        'Performance optimization'
+      ]
     }
   ],
   writing: [],
   contact: {
-    headline: 'Let\'s work together',
+    headline: "Let's work together",
     subline:
       'Open to senior engineering roles, cloud platform projects, and applied AI engagements.',
     cta: { label: 'Book a call', to: '/book' }

@@ -5,7 +5,7 @@ const contactEmail = runtimeConfig.public.contactEmail;
 
 const { user, loggedIn, login, logout } = useAuth();
 
-const title = 'Giancarlo Papa — Senior Full Stack Engineer';
+const title = 'GIANCARLO<bold>PAPA</bold> — Senior Full Stack Engineer';
 const description =
   'Senior Full Stack Engineer specialising in cloud platform engineering, full stack development, and applied AI.';
 
@@ -69,7 +69,11 @@ useSeoMeta({
             :key="item.to"
             :to="item.to"
             class="px-3 py-2 text-sm rounded-full transition"
-            :class="isActive(item.to) ? 'text-primary bg-primary/10 font-medium' : 'hover:bg-muted/60'"
+            :class="
+              isActive(item.to)
+                ? 'text-primary bg-primary/10 font-medium'
+                : 'hover:bg-muted/60'
+            "
           >
             {{ item.label }}
           </NuxtLink>
@@ -97,18 +101,18 @@ useSeoMeta({
         <!-- Auth (desktop) -->
         <div class="hidden md:flex items-center gap-1">
           <template v-if="loggedIn">
-            <UAvatar
-              :src="user?.avatar"
-              :alt="user?.name"
-              size="sm"
-            />
+            <UAvatar :src="user?.avatar" :alt="user?.name" size="sm" />
             <UButton
               icon="i-lucide-log-out"
               aria-label="Sign out"
               variant="ghost"
               color="neutral"
               size="sm"
-              @click="() => { logout() }"
+              @click="
+                () => {
+                  logout();
+                }
+              "
             />
           </template>
           <UButton
@@ -132,26 +136,40 @@ useSeoMeta({
       <template #left>
         <div class="flex flex-col gap-1 text-sm text-muted">
           <span>© {{ new Date().getFullYear() }} Giancarlo Papa</span>
-          <span class="text-xs text-muted/60">Based in Zürich · Working globally</span>
+          <span class="text-xs text-muted/60"
+            >Based in Zürich · Working globally</span
+          >
           <div class="flex gap-3">
             <NuxtLink
               to="/skillmatrix"
               class="text-xs transition"
-              :class="isActive('/skillmatrix') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+              :class="
+                isActive('/skillmatrix')
+                  ? 'text-snazzy-yellow'
+                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
+              "
             >
               ~/skillmatrix
             </NuxtLink>
             <NuxtLink
               to="/colophon"
               class="text-xs transition"
-              :class="isActive('/colophon') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+              :class="
+                isActive('/colophon')
+                  ? 'text-snazzy-yellow'
+                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
+              "
             >
               ~/colophon
             </NuxtLink>
             <NuxtLink
               to="/legal"
               class="text-xs transition"
-              :class="isActive('/legal') ? 'text-snazzy-yellow' : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'"
+              :class="
+                isActive('/legal')
+                  ? 'text-snazzy-yellow'
+                  : 'text-snazzy-yellow/50 hover:text-snazzy-yellow'
+              "
             >
               ~/legal
             </NuxtLink>
@@ -211,7 +229,11 @@ useSeoMeta({
             :key="item.to"
             :to="item.to"
             class="px-4 py-3 rounded-xl text-base font-medium transition"
-            :class="isActive(item.to) ? 'text-primary bg-primary/10' : 'hover:bg-muted/80'"
+            :class="
+              isActive(item.to)
+                ? 'text-primary bg-primary/10'
+                : 'hover:bg-muted/80'
+            "
             @click="isMenuOpen = false"
           >
             {{ item.label }}
@@ -230,14 +252,21 @@ useSeoMeta({
           <template v-if="loggedIn">
             <div class="flex items-center gap-3">
               <UAvatar :src="user?.avatar" :alt="user?.name" size="sm" />
-              <span class="text-sm font-medium flex-1 truncate">{{ user?.name }}</span>
+              <span class="text-sm font-medium flex-1 truncate">{{
+                user?.name
+              }}</span>
               <UButton
                 label="Sign out"
                 icon="i-lucide-log-out"
                 size="xs"
                 variant="ghost"
                 color="neutral"
-                @click="() => { logout(); isMenuOpen = false }"
+                @click="
+                  () => {
+                    logout();
+                    isMenuOpen = false;
+                  }
+                "
               />
             </div>
           </template>
@@ -249,14 +278,21 @@ useSeoMeta({
             variant="outline"
             color="neutral"
             class="w-full justify-start"
-            @click="isLoginModalOpen = true; isMenuOpen = false"
+            @click="
+              isLoginModalOpen = true;
+              isMenuOpen = false;
+            "
           />
         </div>
       </div>
     </USlideover>
 
     <!-- Login modal -->
-    <UModal v-model:open="isLoginModalOpen" title="Sign in to continue" description="Use your existing account — no new password needed.">
+    <UModal
+      v-model:open="isLoginModalOpen"
+      title="Sign in to continue"
+      description="Use your existing account — no new password needed."
+    >
       <template #body>
         <div class="flex flex-col gap-3 px-1 pb-2">
           <UButton
@@ -266,7 +302,11 @@ useSeoMeta({
             color="neutral"
             variant="outline"
             class="justify-start"
-            @click="() => { login('github') }"
+            @click="
+              () => {
+                login('github');
+              }
+            "
           />
           <UButton
             label="Continue with Google"
@@ -275,7 +315,11 @@ useSeoMeta({
             color="neutral"
             variant="outline"
             class="justify-start"
-            @click="() => { login('google') }"
+            @click="
+              () => {
+                login('google');
+              }
+            "
           />
           <UButton
             label="Continue with LinkedIn"
@@ -284,7 +328,11 @@ useSeoMeta({
             color="neutral"
             variant="outline"
             class="justify-start"
-            @click="() => { login('linkedin') }"
+            @click="
+              () => {
+                login('linkedin');
+              }
+            "
           />
         </div>
       </template>
