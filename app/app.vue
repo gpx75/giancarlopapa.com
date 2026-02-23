@@ -2,6 +2,12 @@
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
 const contactEmail = runtimeConfig.public.contactEmail;
+const commitSha = runtimeConfig.public.commitSha as string;
+const commitDate = runtimeConfig.public.commitDate as string;
+
+const commitUrl = computed(() =>
+  commitSha ? `https://github.com/gpx75/giancarlopapa.com/commit/${commitSha}` : null
+);
 
 const { user, loggedIn, login, logout } = useAuth();
 
@@ -132,22 +138,29 @@ useSeoMeta({
       <NuxtPage />
     </UMain>
 
-    <UFooter
-      class="sticky bottom-0 z-10 backdrop-blur border-t border-snazzy-dark-200/40 dark:border-snazzy-dark-800/40"
-    >
-      <template #left>
-        <div class="flex flex-col gap-1">
-          <span
-            class="text-sm font-medium text-snazzy-dark-800 dark:text-snazzy-dark-200"
-          >
-            © {{ new Date().getFullYear() }} Giancarlo Papa
-          </span>
-          <span class="text-xs text-snazzy-dark-500 dark:text-snazzy-dark-500">
-            Based in Zürich · Working globally
-          </span>
-          <div class="flex gap-3 mt-0.5">
+    <footer class="sticky bottom-0 z-10 backdrop-blur border-t border-snazzy-dark-200/40 dark:border-snazzy-dark-800/40">
+      <UContainer class="py-3 flex flex-col gap-1.5">
+        <!-- Row 1: 3 columns -->
+        <div class="grid grid-cols-3 items-center">
+          <!-- Left -->
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-semibold tracking-tight text-snazzy-dark-800 dark:text-snazzy-dark-100">
+              © {{ new Date().getFullYear() }} Giancarlo Papa
+            </span>
+            <a
+              v-if="commitDate && commitUrl"
+              :href="commitUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs font-mono text-snazzy-dark-400 dark:text-snazzy-dark-500 hover:text-magenta-500 dark:hover:text-magenta-400 transition-colors tabular-nums hidden sm:inline"
+            >// {{ commitDate }} · {{ commitSha.slice(0, 7) }}</a>
+          </div>
+
+          <!-- Center -->
+          <nav class="hidden md:flex items-center justify-center gap-4">
             <NuxtLink
               v-for="link in [
+                { to: '/runs', label: '~/runs' },
                 { to: '/skillmatrix', label: '~/skillmatrix' },
                 { to: '/colophon', label: '~/colophon' },
                 { to: '/legal', label: '~/legal' }
@@ -158,46 +171,50 @@ useSeoMeta({
               :class="
                 isActive(link.to)
                   ? 'text-magenta-500 dark:text-magenta-400'
-                  : 'text-snazzy-dark-500 dark:text-snazzy-dark-400 hover:text-magenta-500 dark:hover:text-magenta-400'
+                  : 'text-snazzy-dark-400 dark:text-snazzy-dark-500 hover:text-magenta-500 dark:hover:text-magenta-400'
               "
             >
               {{ link.label }}
             </NuxtLink>
+          </nav>
+
+          <!-- Right -->
+          <div class="flex items-center justify-end -mr-2">
+            <UButton
+              to="https://github.com/gpx75"
+              target="_blank"
+              icon="i-simple-icons-github"
+              aria-label="GitHub"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+            />
+            <UButton
+              to="https://www.linkedin.com/in/gpapa"
+              target="_blank"
+              icon="i-simple-icons-linkedin"
+              aria-label="LinkedIn"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+            />
+            <UButton
+              :to="mailtoLink"
+              icon="i-lucide-mail"
+              aria-label="Email"
+              color="neutral"
+              variant="ghost"
+              size="sm"
+            />
           </div>
         </div>
-      </template>
 
-      <template #right>
-        <div class="flex items-center gap-0.5">
-          <UButton
-            to="https://github.com/gpx75"
-            target="_blank"
-            icon="i-simple-icons-github"
-            aria-label="GitHub"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-          />
-          <UButton
-            to="https://www.linkedin.com/in/gpapa"
-            target="_blank"
-            icon="i-simple-icons-linkedin"
-            aria-label="LinkedIn"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-          />
-          <UButton
-            :to="mailtoLink"
-            icon="i-lucide-mail"
-            aria-label="Email"
-            color="neutral"
-            variant="ghost"
-            size="sm"
-          />
-        </div>
-      </template>
-    </UFooter>
+        <!-- Row 2: location -->
+        <p class="text-center text-xs text-snazzy-dark-400 dark:text-snazzy-dark-500">
+          Based in Zürich · Working globally
+        </p>
+      </UContainer>
+    </footer>
 
     <!-- Mobile slideover -->
     <USlideover v-model="isMenuOpen" side="right" class="md:hidden">

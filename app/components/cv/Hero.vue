@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import type { CvHero, CvStat } from '~/types/profile'
+import type { CvHero, CvStat } from '~/types/profile';
 
 interface CvHeroSectionProps {
-  hero: CvHero
-  stats: CvStat[]
+  hero: CvHero;
+  stats: CvStat[];
 }
 
-const props = defineProps<CvHeroSectionProps>()
+const props = defineProps<CvHeroSectionProps>();
 </script>
 
 <template>
-  <section
-    id="about"
-    class="grid items-center gap-10 lg:grid-cols-[2fr,1fr]"
-  >
+  <section id="about" class="grid items-center gap-10 lg:grid-cols-[2fr,1fr]">
     <div class="space-y-6">
       <UBadge
         color="neutral"
@@ -24,11 +21,12 @@ const props = defineProps<CvHeroSectionProps>()
       </UBadge>
 
       <div class="space-y-3">
-        <h1 class="cursor">
+        <h1>
           {{ props.hero.name }}
         </h1>
         <p class="text-xl text-muted">
-          <span class="text-terminal-400/60 mr-2 select-none">//</span>{{ props.hero.role }} · {{ props.hero.location }}
+          <span class="text-terminal-400/60 mr-2 select-none">//</span
+          >{{ props.hero.role }} · {{ props.hero.location }}
         </p>
         <p class="text-base text-muted/80 max-w-2xl">
           {{ props.hero.summary }}
@@ -48,6 +46,10 @@ const props = defineProps<CvHeroSectionProps>()
           :target="action.external ? '_blank' : undefined"
           :rel="action.external ? 'noopener' : undefined"
         />
+      </div>
+
+      <div class="cursor text-muted/40 text-md">
+        <span class="select-none text-magenta-400">~&gt;</span>
       </div>
     </div>
 

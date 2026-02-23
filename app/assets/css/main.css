@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
+@import "leaflet/dist/leaflet.css";
 @plugin "@tailwindcss/typography";
 
 @theme static {

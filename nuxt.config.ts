@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { execSync } from 'node:child_process';
+
 const {
   CAL_API_KEY = '',
   CAL_USERNAME = '',
@@ -6,8 +8,22 @@ const {
   SITE_URL = 'https://giancarlopapa.com',
   CONTACT_EMAIL = 'hello@giancarlopapa.com',
   RESEND_API_KEY = '',
-  RESEND_TO_EMAIL = 'giancarlo.papa@gmail.com'
+  RESEND_TO_EMAIL = 'giancarlo.papa@gmail.com',
+  NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
+  NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
+  NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
+  GITHUB_SHA = ''
 } = process.env;
+
+const commitSha = GITHUB_SHA || (() => {
+  try { return execSync('git rev-parse origin/main').toString().trim(); } catch { return ''; }
+})();
+
+const commitDate = commitSha
+  ? (() => {
+      try { return execSync(`git log -1 --format=%as ${commitSha}`).toString().trim(); } catch { return ''; }
+    })()
+  : '';
 
 export default defineNuxtConfig({
   modules: [
@@ -34,9 +50,16 @@ export default defineNuxtConfig({
       apiKey: RESEND_API_KEY,
       toEmail: RESEND_TO_EMAIL
     },
+    strava: {
+      clientId: STRAVA_CLIENT_ID,
+      clientSecret: STRAVA_CLIENT_SECRET,
+      refreshToken: STRAVA_REFRESH_TOKEN
+    },
     public: {
       siteUrl: SITE_URL,
-      contactEmail: CONTACT_EMAIL
+      contactEmail: CONTACT_EMAIL,
+      commitSha,
+      commitDate
     }
   },
 

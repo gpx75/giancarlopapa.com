@@ -21,6 +21,7 @@
     "@nuxt/ui": "^4.4.0",
     "@sparticuz/chromium-min": "^143.0.4",
     "@tailwindcss/typography": "^0.5.19",
+    "leaflet": "^1.9.4",
     "nuxt": "^4.3.1",
     "nuxt-auth-utils": "^0.5.29",
     "pdf-lib": "^1.17.1",
@@ -29,6 +30,7 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.1",
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^25.3.0",
     "better-sqlite3": "^12.6.2",
     "eslint": "^10.0.1",
