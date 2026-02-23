@@ -3,13 +3,13 @@
     "label": "Core Engineering",
     "icon": "i-lucide-code-2",
     "skills": [
-      { "name": "PHP 8", "level": "expert", "years": 19, "icon": "i-simple-icons-php" },
+      { "name": "PHP", "level": "expert", "years": 26, "icon": "i-simple-icons-php" },
       { "name": "Laravel", "level": "expert", "years": 12, "icon": "i-simple-icons-laravel" },
-      { "name": "JavaScript / ES2022+", "level": "expert", "years": 19, "icon": "i-simple-icons-javascript" },
+      { "name": "JavaScript / ES2022+", "level": "expert", "years": 26, "icon": "i-simple-icons-javascript" },
       { "name": "Vue.js", "level": "expert", "years": 8, "icon": "i-simple-icons-vuedotjs" },
       { "name": "Nuxt", "level": "expert", "years": 5, "icon": "i-simple-icons-nuxtdotjs" },
       { "name": "TypeScript", "level": "advanced", "years": 4, "icon": "i-simple-icons-typescript" },
-      { "name": "HTML5 / CSS", "level": "expert", "years": 19, "icon": "i-simple-icons-html5" },
+      { "name": "HTML5 / CSS", "level": "expert", "years": 26, "icon": "i-simple-icons-html5" },
       { "name": "RESTful APIs", "level": "expert", "years": 15, "icon": "i-lucide-plug-2" },
       { "name": "Python", "level": "proficient", "years": 3, "icon": "i-simple-icons-python" }
     ]
@@ -19,7 +19,7 @@
     "icon": "i-lucide-cloud",
     "skills": [
       { "name": "Linux (RHEL / Debian / Ubuntu)", "level": "expert", "years": 19, "icon": "i-simple-icons-linux" },
-      { "name": "Docker", "level": "advanced", "years": 6, "icon": "i-simple-icons-docker" },
+      { "name": "Docker", "level": "advanced", "years": 10, "icon": "i-simple-icons-docker" },
       { "name": "Google Cloud Platform", "level": "advanced", "years": 5, "icon": "i-simple-icons-googlecloud" },
       { "name": "Cloud Run", "level": "advanced", "years": 4, "icon": "i-simple-icons-googlecloud" },
       { "name": "GitLab CI / Jenkins", "level": "advanced", "years": 6, "icon": "i-simple-icons-gitlab" },
