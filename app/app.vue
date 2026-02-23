@@ -5,7 +5,7 @@ const contactEmail = runtimeConfig.public.contactEmail;
 
 const { user, loggedIn, login, logout } = useAuth();
 
-const title = 'GIANCARLO<bold>PAPA</bold> — Senior Full Stack Engineer';
+const title = 'GIANCARLOPAPA — Senior Full Stack Engineer';
 const description =
   'Senior Full Stack Engineer specialising in cloud platform engineering, full stack development, and applied AI.';
 
@@ -132,10 +132,14 @@ useSeoMeta({
       <NuxtPage />
     </UMain>
 
-    <UFooter class="sticky bottom-0 z-10 backdrop-blur border-t border-snazzy-dark-200/40 dark:border-snazzy-dark-800/40">
+    <UFooter
+      class="sticky bottom-0 z-10 backdrop-blur border-t border-snazzy-dark-200/40 dark:border-snazzy-dark-800/40"
+    >
       <template #left>
         <div class="flex flex-col gap-1">
-          <span class="text-sm font-medium text-snazzy-dark-800 dark:text-snazzy-dark-200">
+          <span
+            class="text-sm font-medium text-snazzy-dark-800 dark:text-snazzy-dark-200"
+          >
             © {{ new Date().getFullYear() }} Giancarlo Papa
           </span>
           <span class="text-xs text-snazzy-dark-500 dark:text-snazzy-dark-500">
@@ -145,8 +149,8 @@ useSeoMeta({
             <NuxtLink
               v-for="link in [
                 { to: '/skillmatrix', label: '~/skillmatrix' },
-                { to: '/colophon',    label: '~/colophon'    },
-                { to: '/legal',       label: '~/legal'       },
+                { to: '/colophon', label: '~/colophon' },
+                { to: '/legal', label: '~/legal' }
               ]"
               :key="link.to"
               :to="link.to"
