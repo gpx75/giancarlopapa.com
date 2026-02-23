@@ -1,11 +1,20 @@
 ---
-title: "The Perfect Terminal: Fish, Starship & Snazzy on macOS, Linux, and Windows"
-description: "How I set up Fish shell, Starship prompt, and the Snazzy colour scheme in Ghostty on macOS, GNOME Terminal on Fedora, and Windows Terminal — so every machine feels like home."
-date: "2026-02-22"
-tags: ["terminal", "fish", "starship", "snazzy", "ghostty", "windows-terminal", "fedora"]
+title: 'The Perfect Terminal: Fish, Starship & Snazzy on macOS, Linux, and Windows'
+description: 'How I set up Fish shell, Starship prompt, and the Snazzy colour scheme in Ghostty on macOS, GNOME Terminal on Fedora, and Windows Terminal — so every machine feels like home.'
+date: '2026-02-22'
+tags:
+  [
+    'terminal',
+    'fish',
+    'starship',
+    'snazzy',
+    'ghostty',
+    'windows-terminal',
+    'fedora'
+  ]
 ---
 
-I spend most of my day in a terminal. Across three operating systems — macOS, Fedora Linux, and Windows — I've settled on a setup that looks identical everywhere: **Fish shell**, **Starship prompt**, and the **Snazzy** colour scheme. This post walks through how to get there on each platform.
+I spend most of my day in a terminal. Across three operating systems — macOS, Fedora Linux, and Windows WSL Debian — I've settled on a setup that looks identical everywhere: **Fish shell**, **Starship prompt**, and the **Snazzy** colour scheme. This post walks through how to get there on each platform.
 
 ---
 
@@ -19,7 +28,7 @@ It's been my daily driver for years, and it's the palette this very site is buil
 
 ## macOS — Ghostty + Fish + Starship
 
-[Ghostty](https://ghostty.org) is the terminal emulator I use on macOS. It's fast, native, and supports themes out of the box.
+[Ghostty](https://ghostty.org) is the terminal emulator I use on macOS and Linux. It's fast, native, and supports themes out of the box.
 
 ### Install Ghostty
 
@@ -78,18 +87,18 @@ bash -c "$(wget -qO- https://git.io/vQgMr)"
 
 Search for **Snazzy** in the list and select it. Alternatively, set the colours manually via **Preferences → Profile → Colours**:
 
-| Role | Hex |
-|------|-----|
+| Role       | Hex       |
+| ---------- | --------- |
 | Background | `#282a36` |
 | Foreground | `#eff0eb` |
-| Black | `#282a36` |
-| Red | `#ff5c57` |
-| Green | `#5af78e` |
-| Yellow | `#f3f99d` |
-| Blue | `#57c7ff` |
-| Magenta | `#ff6ac1` |
-| Cyan | `#9aedfe` |
-| White | `#f1f1f0` |
+| Black      | `#282a36` |
+| Red        | `#ff5c57` |
+| Green      | `#5af78e` |
+| Yellow     | `#f3f99d` |
+| Blue       | `#57c7ff` |
+| Magenta    | `#ff6ac1` |
+| Cyan       | `#9aedfe` |
+| White      | `#f1f1f0` |
 
 ### Install Fish on Fedora
 
@@ -114,7 +123,7 @@ starship init fish | source
 
 ## Windows — Windows Terminal + Fish (WSL2) + Starship
 
-On Windows I run Fish inside WSL2 (Ubuntu or Fedora Remix). Windows Terminal handles the colours.
+On Windows I run Fish inside WSL2 (Ubuntu or Fedora). Windows Terminal handles the colours.
 
 ### Apply Snazzy to Windows Terminal
 

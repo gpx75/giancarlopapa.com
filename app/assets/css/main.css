@@ -19,8 +19,71 @@
   --color-magenta-900: #830053;
   --color-magenta-950: #4d0030;
 
-  /* Snazzy yellow */
-  --color-snazzy-yellow: #f3f99d;
+  /* Snazzy red — centered on #ff5c57 */
+  --color-snazzy-red-50:  #fff1f0;
+  --color-snazzy-red-100: #ffe3e2;
+  --color-snazzy-red-200: #ffbdbb;
+  --color-snazzy-red-300: #ff8d8a;
+  --color-snazzy-red-400: #ff5c57;
+  --color-snazzy-red-500: #ff2520;
+  --color-snazzy-red-600: #e80000;
+  --color-snazzy-red-700: #bf0000;
+  --color-snazzy-red-800: #9b0000;
+  --color-snazzy-red-900: #7f0000;
+  --color-snazzy-red-950: #4a0000;
+
+  /* Snazzy blue — centered on #57c7ff */
+  --color-snazzy-blue-50:  #f0f9ff;
+  --color-snazzy-blue-100: #e0f4ff;
+  --color-snazzy-blue-200: #bae8ff;
+  --color-snazzy-blue-300: #88d6ff;
+  --color-snazzy-blue-400: #57c7ff;
+  --color-snazzy-blue-500: #1dafff;
+  --color-snazzy-blue-600: #0092f5;
+  --color-snazzy-blue-700: #0074cc;
+  --color-snazzy-blue-800: #005ea6;
+  --color-snazzy-blue-900: #004d88;
+  --color-snazzy-blue-950: #002f58;
+
+  /* Snazzy cyan — centered on #9aedfe */
+  --color-snazzy-cyan-50:  #f0feff;
+  --color-snazzy-cyan-100: #e0fcff;
+  --color-snazzy-cyan-200: #c7f9fe;
+  --color-snazzy-cyan-300: #aef2fe;
+  --color-snazzy-cyan-400: #9aedfe;
+  --color-snazzy-cyan-500: #62defa;
+  --color-snazzy-cyan-600: #22c9f4;
+  --color-snazzy-cyan-700: #06aed9;
+  --color-snazzy-cyan-800: #0888ad;
+  --color-snazzy-cyan-900: #0a6e8d;
+  --color-snazzy-cyan-950: #063d52;
+
+  /* Snazzy yellow — centered on #f3f99d */
+  --color-snazzy-yellow:     #f3f99d; /* bare alias for existing usages */
+  --color-snazzy-yellow-50:  #feffef;
+  --color-snazzy-yellow-100: #fdfee0;
+  --color-snazzy-yellow-200: #faffc0;
+  --color-snazzy-yellow-300: #f8fdb0;
+  --color-snazzy-yellow-400: #f3f99d;
+  --color-snazzy-yellow-500: #e8f260;
+  --color-snazzy-yellow-600: #ccd42a;
+  --color-snazzy-yellow-700: #a5aa15;
+  --color-snazzy-yellow-800: #7d8010;
+  --color-snazzy-yellow-900: #64670e;
+  --color-snazzy-yellow-950: #363805;
+
+  /* Snazzy dark — neutral scale anchored on bg #282a36 → grey #686868 → fg #eff0eb */
+  --color-snazzy-dark-50:  #f4f4f2;  /* near-white fg */
+  --color-snazzy-dark-100: #eff0eb;  /* foreground / bright-white */
+  --color-snazzy-dark-200: #f1f1f0;  /* ANSI white */
+  --color-snazzy-dark-300: #c8c8ca;
+  --color-snazzy-dark-400: #97979b;  /* cursor */
+  --color-snazzy-dark-500: #78787e;
+  --color-snazzy-dark-600: #686868;  /* ANSI bright-black */
+  --color-snazzy-dark-700: #4a4a55;
+  --color-snazzy-dark-800: #3a3c4a;
+  --color-snazzy-dark-900: #2d2f3d;
+  --color-snazzy-dark-950: #282a36;  /* background / ANSI black */
 
   /* Snazzy terminal green — centered on #5af78e */
   --color-terminal-50:  #f0fff6;
