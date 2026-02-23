@@ -83,7 +83,7 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
 <head>
 <meta charset="UTF-8">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -105,18 +105,20 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
   .hdr-left { flex: 1; min-width: 0; }
 
   .name {
-    font-size: 22pt;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 24pt;
     font-weight: 700;
     color: #0f172a;
-    line-height: 1.1;
+    line-height: 1.05;
+    letter-spacing: -0.3px;
     margin-bottom: 5px;
   }
   .subtitle {
-    font-size: 12.5pt;
+    font-size: 11pt;
     font-style: italic;
     color: #64748b;
     margin-bottom: 10px;
-    line-height: 1.2;
+    line-height: 1.25;
   }
 
   /* Contact */
@@ -132,9 +134,9 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 16px;
-    height: 16px;
-    min-width: 16px;
+    width: 17px;
+    height: 17px;
+    min-width: 17px;
     border-radius: 50%;
     border: 1px solid #94a3b8;
   }
@@ -164,6 +166,7 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     overflow: hidden;
     margin-left: 14px;
     flex-shrink: 0;
+    border: 2px solid #e2e8f0;
   }
   .avatar img {
     width: 100%;
@@ -182,17 +185,18 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
   /* ── Section headers ─────────────────────────────────── */
   .section-hdr { margin-top: 14px; margin-bottom: 7px; }
   .section-title {
+    font-family: 'Space Grotesk', sans-serif;
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 9pt;
+    font-size: 8.5pt;
     font-weight: 700;
     color: #3a9eae;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     margin-bottom: 3px;
   }
-  .section-rule { border-top: 1.5px solid #3a9eae; }
+  .section-rule { border-top: 1.5px solid #5af78e; }
 
   /* ── Work entries ────────────────────────────────────── */
   .work-row {
@@ -214,7 +218,7 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     margin-top: 2px;
   }
   .wcontent { flex: 1; min-width: 0; }
-  .jobtitle { font-size: 9pt; font-weight: 700; color: #0f172a; }
+  .jobtitle { font-family: 'Space Grotesk', sans-serif; font-size: 9.5pt; font-weight: 700; color: #0f172a; }
   .company  { font-size: 8pt; color: #64748b; margin-bottom: 2px; }
   .jsummary {
     font-size: 8.5pt;
@@ -241,7 +245,7 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     column-gap: 14px;
   }
   .skill-group { margin-bottom: 8px; page-break-inside: avoid; }
-  .skill-title { font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+  .skill-title { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
   .skill-kw { list-style: none; }
   .skill-kw li {
     font-size: 8.5pt;
@@ -251,16 +255,20 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     margin-bottom: 1px;
     line-height: 1.4;
   }
-  .skill-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
+  .skill-kw li::before { content: '•'; position: absolute; left: 0; color: #5af78e; }
 
   /* ── Languages ───────────────────────────────────────── */
   .lang-line { font-size: 8.5pt; color: #334155; line-height: 1.5; }
 
   /* ── Education ───────────────────────────────────────── */
   .edu-entry { margin-bottom: 8px; page-break-inside: avoid; }
+
+  /* ── Accent bar ──────────────────────────────────────── */
+  .accent-bar { height: 3px; background: linear-gradient(90deg, #5af78e 0%, #3a9eae 100%); margin-bottom: 20px; border-radius: 1px; }
 </style>
 </head>
 <body>
+  <div class="accent-bar"></div>
   <div class="header">
     <div class="hdr-left">
       <div class="name">${escHtml(basics.name.toUpperCase())}</div>
@@ -362,7 +370,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const page = await browser.newPage()
+    await page.emulateMediaType('print')
     await page.setContent(html, { waitUntil: 'networkidle0' })
+    await page.evaluate("document.fonts.ready")
 
     const footerTemplate = `
       <div style="font-family:'Courier New',monospace;font-size:7.5pt;color:#64748b;

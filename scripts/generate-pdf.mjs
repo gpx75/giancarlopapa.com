@@ -116,28 +116,28 @@ function buildResumeHtml(avatar) {
 <head>
 <meta charset="UTF-8">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'JetBrains Mono','Courier New',Courier,monospace; font-size: 9pt; color: #1a1a2e; line-height: 1.4; background: white; }
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
   .hdr-left { flex: 1; min-width: 0; }
-  .name { font-size: 22pt; font-weight: 700; color: #0f172a; line-height: 1.1; margin-bottom: 5px; }
-  .subtitle { font-size: 12.5pt; font-style: italic; color: #64748b; margin-bottom: 10px; line-height: 1.2; }
+  .name { font-family: 'Space Grotesk', sans-serif; font-size: 24pt; font-weight: 700; color: #0f172a; line-height: 1.05; letter-spacing: -0.3px; margin-bottom: 5px; }
+  .subtitle { font-size: 11pt; font-style: italic; color: #64748b; margin-bottom: 10px; line-height: 1.25; }
   .contact-row { display: flex; align-items: center; gap: 6px; font-size: 8pt; color: #64748b; margin-bottom: 3px; }
-  .ibadge { display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; min-width: 16px; border-radius: 50%; border: 1px solid; }
+  .ibadge { display: inline-flex; align-items: center; justify-content: center; width: 17px; height: 17px; min-width: 17px; border-radius: 50%; border: 1px solid; }
   .isvg { display: flex; align-items: center; justify-content: center; width: 9px; height: 9px; }
   .isvg svg { width: 9px; height: 9px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .avatar { width: 78px; height: 78px; min-width: 78px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; }
+  .avatar { width: 78px; height: 78px; min-width: 78px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
   .summary { font-size: 8.5pt; color: #334155; line-height: 1.5; margin-bottom: 4px; }
   .section-hdr { margin-top: 14px; margin-bottom: 7px; }
-  .section-title { display: flex; align-items: center; gap: 6px; font-size: 9pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
-  .section-rule { border-top: 1.5px solid #3a9eae; }
+  .section-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 6px; font-size: 8.5pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 3px; }
+  .section-rule { border-top: 1.5px solid #5af78e; }
   .work-row { display: flex; gap: 12px; margin-bottom: 11px; page-break-inside: avoid; }
   .wdate { width: 92px; min-width: 92px; font-size: 8pt; color: #1a1a2e; line-height: 1.5; }
   .wloc { font-size: 7.5pt; color: #64748b; margin-top: 2px; }
   .wcontent { flex: 1; min-width: 0; }
-  .jobtitle { font-size: 9pt; font-weight: 700; color: #0f172a; }
+  .jobtitle { font-family: 'Space Grotesk', sans-serif; font-size: 9.5pt; font-weight: 700; color: #0f172a; }
   .company { font-size: 8pt; color: #64748b; margin-bottom: 2px; }
   .jsummary { font-size: 8.5pt; color: #334155; line-height: 1.45; margin-top: 4px; margin-bottom: 2px; }
   .highlights { list-style: none; margin-top: 2px; }
@@ -145,15 +145,17 @@ function buildResumeHtml(avatar) {
   .highlights li::before { content: '–'; position: absolute; left: 0; }
   .skills-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; }
   .skill-group { margin-bottom: 8px; page-break-inside: avoid; }
-  .skill-title { font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
+  .skill-title { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
   .skill-kw { list-style: none; }
   .skill-kw li { font-size: 8.5pt; color: #334155; padding-left: 13px; position: relative; margin-bottom: 1px; line-height: 1.4; }
-  .skill-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
+  .skill-kw li::before { content: '•'; position: absolute; left: 0; color: #5af78e; }
   .lang-line { font-size: 8.5pt; color: #334155; line-height: 1.5; }
   .edu-entry { margin-bottom: 8px; page-break-inside: avoid; }
+  .accent-bar { height: 3px; background: linear-gradient(90deg, #5af78e 0%, #3a9eae 100%); margin-bottom: 20px; border-radius: 1px; }
 </style>
 </head>
 <body>
+  <div class="accent-bar"></div>
   <div class="header">
     <div class="hdr-left">
       <div class="name">${esc(basics.name.toUpperCase())}</div>
@@ -227,10 +229,12 @@ const browser = await puppeteer.launch({
 
 try {
   const page = await browser.newPage()
+  await page.emulateMediaType('print')
   const html = buildResumeHtml(avatarBase64)
 
   console.log('→ Rendering resume HTML…')
   await page.setContent(html, { waitUntil: 'networkidle0' })
+  await page.evaluate(() => document.fonts.ready)
 
   const { basics } = resume
   const footerTemplate = `
