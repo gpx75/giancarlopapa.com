@@ -98,11 +98,13 @@ Cal.com integration in `server/utils/cal.ts` and `server/api/cal/`:
 
 Hosted on [Vercel](https://vercel.com). Nitro preset: `vercel`.
 
-```bash
-npm run deploy   # builds and deploys to production
+Deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`):
+
+```
+git push origin main  →  GitHub Actions builds + deploys to Vercel
 ```
 
-Set all env vars above in **Vercel → Settings → Environment Variables** before deploying.
+Set all env vars in **GitHub → Settings → Secrets** (for CI build) **and** in **Vercel → Settings → Environment Variables** (for runtime).
 
 ## Project structure
 
