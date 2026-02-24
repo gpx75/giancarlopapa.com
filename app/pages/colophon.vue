@@ -26,7 +26,7 @@ const { data: stack } = await useAsyncData(
       <UCard
         v-for="item in stack"
         :key="item.label"
-        class="grid grid-cols-[160px,1fr] items-start gap-6"
+        class="grid gap-4 sm:grid-cols-[160px,1fr] sm:items-start sm:gap-6"
       >
         <p class="text-xs uppercase tracking-widest text-muted/50 pt-1">
           {{ item.label }}
