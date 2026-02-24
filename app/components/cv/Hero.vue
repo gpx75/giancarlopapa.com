@@ -24,7 +24,7 @@ const props = defineProps<CvHeroSectionProps>();
         <h1>
           {{ props.hero.name }}
         </h1>
-        <p class="text-xl text-muted">
+        <p class="text-base sm:text-xl text-muted">
           <span class="text-terminal-400/60 mr-2 select-none">//</span
           >{{ props.hero.role }} · {{ props.hero.location }}
         </p>
