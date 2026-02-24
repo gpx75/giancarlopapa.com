@@ -21,15 +21,20 @@ const props = defineProps<CvHeroSectionProps>();
       </UBadge>
 
       <div class="space-y-3">
+        <!-- <h1>{{ props.hero.name }}</h1> -->
         <h1>
-          {{ props.hero.name }}
+          {{ props.hero.role }}
         </h1>
         <p class="text-base sm:text-xl text-muted">
           <span class="text-terminal-400/60 mr-2 select-none">//</span
-          >{{ props.hero.role }} · {{ props.hero.location }}
+          >{{ props.hero.summary[0] }}
         </p>
-        <p class="text-base text-muted/80 max-w-2xl">
-          {{ props.hero.summary }}
+        <p
+          v-for="(paragraph, i) in props.hero.summary.slice(1)"
+          :key="i"
+          class="text-base text-muted/80 max-w-2xl"
+        >
+          {{ paragraph }}
         </p>
       </div>
 

@@ -26,7 +26,7 @@ export interface CvHero {
   role: string
   location: string
   availability: string
-  summary: string
+  summary: string[]
   actions: CvActionLink[]
   contactLinks: CvContactLink[]
 }

@@ -4,10 +4,12 @@ useSeoMeta({
   description: 'How this site is built.'
 })
 
-const { data: stack } = await useAsyncData(
+const { data: colophonData } = await useAsyncData(
   'colophon',
-  () => queryCollection('colophon').all()
+  () => queryCollection('colophon').first()
 )
+
+const stack = computed(() => colophonData.value?.items ?? [])
 </script>
 
 <template>

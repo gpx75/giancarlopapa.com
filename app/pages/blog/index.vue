@@ -1,7 +1,19 @@
 <script setup lang="ts">
+const { public: { siteUrl } } = useRuntimeConfig()
+
 useSeoMeta({
   title: 'Blog — Giancarlo Papa',
-  description: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.'
+  description: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
+  ogTitle: 'Blog — Giancarlo Papa',
+  ogDescription: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
+  ogUrl: `${siteUrl}/blog`,
+  twitterCard: 'summary',
+  twitterTitle: 'Blog — Giancarlo Papa',
+  twitterDescription: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.'
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: `${siteUrl}/blog` }]
 })
 
 const { data: allPosts } = await useAsyncData('blog-posts', () =>

@@ -35,7 +35,7 @@ export default defineContentConfig({
           role: z.string(),
           location: z.string(),
           availability: z.string(),
-          summary: z.string(),
+          summary: z.array(z.string()),
           actions: z.array(actionLinkSchema),
           contactLinks: z.array(z.object({
             label: z.string(),
@@ -149,13 +149,15 @@ export default defineContentConfig({
       type: 'data',
       source: 'skills.json',
       schema: z.object({
-        label: z.string(),
-        icon: z.string(),
-        skills: z.array(z.object({
-          name: z.string(),
-          level: z.enum(['expert', 'advanced', 'proficient', 'familiar']),
-          years: z.number().optional(),
-          icon: z.string()
+        categories: z.array(z.object({
+          label: z.string(),
+          icon: z.string(),
+          skills: z.array(z.object({
+            name: z.string(),
+            level: z.enum(['expert', 'advanced', 'proficient', 'familiar']),
+            years: z.number().optional(),
+            icon: z.string()
+          }))
         }))
       })
     }),
@@ -164,10 +166,12 @@ export default defineContentConfig({
       type: 'data',
       source: 'colophon.json',
       schema: z.object({
-        label: z.string(),
-        name: z.string(),
-        description: z.string(),
-        url: z.string()
+        items: z.array(z.object({
+          label: z.string(),
+          name: z.string(),
+          description: z.string(),
+          url: z.string()
+        }))
       })
     })
   }

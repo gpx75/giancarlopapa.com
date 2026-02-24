@@ -10,9 +10,23 @@ if (!post.value) {
   throw createError({ statusCode: 404, statusMessage: 'Post not found' })
 }
 
+const { public: { siteUrl } } = useRuntimeConfig()
+const canonicalUrl = `${siteUrl}/blog/${slug}`
+
 useSeoMeta({
   title: `${post.value.title} — Giancarlo Papa`,
-  description: post.value.description
+  description: post.value.description,
+  ogTitle: `${post.value.title} — Giancarlo Papa`,
+  ogDescription: post.value.description,
+  ogUrl: canonicalUrl,
+  ogType: 'article',
+  twitterCard: 'summary_large_image',
+  twitterTitle: `${post.value.title} — Giancarlo Papa`,
+  twitterDescription: post.value.description
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }]
 })
 
 const { formatDate } = useDateFormatting()
@@ -55,7 +69,7 @@ const { formatDate } = useDateFormatting()
         <UDivider />
       </div>
 
-      <div class="prose dark:prose-invert max-w-none">
+      <div class="prose max-w-prose">
         <ContentRenderer :value="post!" />
       </div>
 

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useAttrs } from 'vue'
-
 const props = defineProps({
   label: {
     type: String,

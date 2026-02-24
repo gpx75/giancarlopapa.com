@@ -202,13 +202,13 @@ function profileIcon(network?: string) {
           </div>
         </div>
 
-        <UCard v-if="basics?.profiles?.length" class="space-y-4">
+        <UCard class="space-y-4">
           <template #header>
             <h3>Profiles</h3>
           </template>
           <div class="flex flex-col gap-2">
             <UButton
-              v-for="profileLink in basics.profiles"
+              v-for="profileLink in basics?.profiles"
               :key="profileLink.network"
               :label="profileLink.network"
               :to="profileLink.url"
@@ -217,6 +217,15 @@ function profileIcon(network?: string) {
               color="neutral"
               class="justify-start"
               target="_blank"
+            />
+            <UDivider />
+            <UButton
+              to="/skillmatrix"
+              label="Skill Matrix"
+              icon="i-lucide-bar-chart-2"
+              variant="ghost"
+              color="neutral"
+              class="justify-start"
             />
           </div>
         </UCard>

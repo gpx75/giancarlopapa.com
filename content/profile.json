@@ -4,7 +4,12 @@
     "role": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
     "location": "Elsau ZH, Switzerland",
     "availability": "Open to roles · Zürich & remote",
-    "summary": "13+ years owning and evolving internal platforms at Sunrise — cloud infrastructure on GCP, full stack web (Laravel, Vue, Nuxt), enterprise systems, and applied AI with Vertex AI and Gemini. Linux-first engineer with a long-term, production-ownership mindset.",
+    "summary": [
+      "I design and build business-critical enterprise platforms that power real-world operations.",
+      "Senior Full-Stack Engineer across PHP, Python, and JavaScript — shipping scalable, secure applications with Laravel, Vue.js, and React on cloud-native, containerised infrastructure.",
+      "I architect enterprise APIs, identity systems, and data platforms: LDAP, Salesforce, CRM integrations, CI/CD pipelines, and Docker-based delivery workflows — built for control and long-term maintainability.",
+      "From AI-powered interfaces to call center platforms and structured data pipelines, I engineer systems that organisations depend on — reliable, performant, and built to last."
+    ],
     "actions": [
       { "label": "View resume", "to": "/resume", "icon": "i-lucide-file-text" },
       { "label": "Contact", "to": "/contact", "icon": "i-lucide-mail", "external": true },

@@ -6,10 +6,12 @@ useSeoMeta({
 
 type Level = 'expert' | 'advanced' | 'proficient' | 'familiar'
 
-const { data: categories } = await useAsyncData(
+const { data: skillsData } = await useAsyncData(
   'skills',
-  () => queryCollection('skills').all()
+  () => queryCollection('skills').first()
 )
+
+const categories = computed(() => skillsData.value?.categories ?? [])
 
 const levels: { key: Level, label: string, dots: number }[] = [
   { key: 'expert', label: 'Expert', dots: 4 },
