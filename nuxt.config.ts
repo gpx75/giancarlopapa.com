@@ -15,13 +15,25 @@ const {
   GITHUB_SHA = ''
 } = process.env;
 
-const commitSha = GITHUB_SHA || (() => {
-  try { return execSync('git rev-parse origin/main').toString().trim(); } catch { return ''; }
-})();
+const commitSha =
+  GITHUB_SHA ||
+  (() => {
+    try {
+      return execSync('git rev-parse origin/main').toString().trim();
+    } catch {
+      return '';
+    }
+  })();
 
 const commitDate = commitSha
   ? (() => {
-      try { return execSync(`git log -1 --format=%as ${commitSha}`).toString().trim(); } catch { return ''; }
+      try {
+        return execSync(`git log -1 --format=%as ${commitSha}`)
+          .toString()
+          .trim();
+      } catch {
+        return '';
+      }
     })()
   : '';
 
@@ -31,8 +43,14 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@nuxt/content',
-    '@nuxt/image'
+    '@nuxt/image',
+    'nuxt-gtag'
   ],
+
+  gtag: {
+    initMode: 'manual',
+    id: process.env.NUXT_PUBLIC_GTAG_ID || ''
+  },
 
   devtools: {
     enabled: process.env.NODE_ENV !== 'production'
@@ -94,5 +112,5 @@ export default defineNuxtConfig({
       avatar: 256,
       avatar2x: 320
     }
-  },
+  }
 });

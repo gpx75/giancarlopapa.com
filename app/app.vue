@@ -102,5 +102,6 @@ useSeoMeta({
     />
 
     <AppLoginModal v-model="isLoginModalOpen" />
+    <CookieConsent />
   </UApp>
 </template>

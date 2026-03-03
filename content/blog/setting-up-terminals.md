@@ -1,6 +1,6 @@
 ---
-title: 'The Perfect Terminal: Fish, Starship & Snazzy on macOS, Linux, and Windows'
-description: 'How I set up Fish shell, Starship prompt, and the Snazzy colour scheme in Ghostty on macOS, GNOME Terminal on Fedora, and Windows Terminal — so every machine feels like home.'
+title: 'The Perfect Terminal: Fish, Starship & Snazzy on macOS, Linux, and WSL'
+description: 'How I set up Fish shell, Starship prompt, and the Snazzy colour scheme in Ghostty on macOS and Linux, Windows Terminal on WSL, so every machine feels like home.'
 date: '2026-02-22'
 tags:
   [
@@ -14,7 +14,7 @@ tags:
   ]
 ---
 
-I spend most of my day in a terminal. Across three operating systems — macOS, Fedora Linux, and Windows WSL Debian — I've settled on a setup that looks identical everywhere: **Fish shell**, **Starship prompt**, and the **Snazzy** colour scheme. This post walks through how to get there on each platform.
+I spend most of my day in a terminal. Across three operating systems — macOS, Fedora Linux, and Windows WSL Debian — I've settled on a setup that looks identical everywhere: **Fish shell**, **Starship prompt**, and the **Snazzy** colour scheme. This post walks through how to get there on each platform with help of chezmoi.
 
 ---
 
@@ -32,7 +32,7 @@ It's been my daily driver for years, and it's the palette this very site is buil
 
 ### Install Ghostty
 
-Download the latest release from [ghostty.org](https://ghostty.org) and move it to `/Applications`. Then open it once to allow macOS to trust the binary.
+Download the latest release from [ghostty.org](https://ghostty.org) and move it to `/Applications`. Then open it once to allow macOS to trust the binary can be installed via brew.
 
 ### Apply Snazzy theme
 
@@ -40,7 +40,7 @@ Ghostty ships Snazzy as a built-in theme. Add this to `~/.config/ghostty/config`
 
 ```
 theme = Snazzy
-font-family = JetBrains Mono
+font-family = FiraCode Nerd Font
 font-size = 13
 ```
 
@@ -75,7 +75,7 @@ Restart Ghostty. You'll have a clean, instant prompt that adapts to every projec
 
 ## Linux (Fedora) — GNOME Terminal + Fish + Starship
 
-On Fedora, I use GNOME Terminal with a manually applied Snazzy palette.
+On Windows, I use the Windows Terminal with a manually applied Snazzy palette.
 
 ### Apply Snazzy to GNOME Terminal
 
