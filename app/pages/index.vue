@@ -3,9 +3,7 @@ const { profile } = useProfileData()
 </script>
 
 <template>
-  <div class="flex items-center">
-    <UContainer class="w-full py-16">
-      <CvHero v-if="profile" :hero="profile.hero" :stats="profile.stats" />
-    </UContainer>
-  </div>
+  <UContainer class="py-16">
+    <CvHero v-if="profile" :hero="profile.hero" :stats="profile.stats" />
+  </UContainer>
 </template>

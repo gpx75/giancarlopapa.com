@@ -10,8 +10,8 @@ const props = defineProps<CvHeroSectionProps>();
 </script>
 
 <template>
-  <section id="about" class="grid items-center gap-10 lg:grid-cols-[2fr,1fr]">
-    <div class="space-y-6">
+  <section id="about" class="flex flex-col-reverse lg:flex-row gap-10 lg:items-start">
+    <div class="flex-1 min-w-0 space-y-6">
       <UBadge
         color="neutral"
         variant="outline"
@@ -58,7 +58,7 @@ const props = defineProps<CvHeroSectionProps>();
       </div>
     </div>
 
-    <div class="flex justify-center lg:justify-end">
+    <div class="flex justify-center lg:justify-end self-start lg:pt-72">
       <img
         src="/giancarlopapa_avatar.jpeg"
         alt="Giancarlo Papa"

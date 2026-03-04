@@ -1,18 +1,35 @@
 {
   "categories": [
     {
-      "label": "Core Engineering",
+      "label": "PHP & Web",
       "icon": "i-lucide-code-2",
       "skills": [
-        { "name": "PHP", "level": "expert", "years": 26, "icon": "i-simple-icons-php" },
+        { "name": "PHP", "level": "expert", "years": 25, "icon": "i-simple-icons-php" },
         { "name": "Laravel", "level": "expert", "years": 12, "icon": "i-simple-icons-laravel" },
-        { "name": "JavaScript / ES2022+", "level": "expert", "years": 26, "icon": "i-simple-icons-javascript" },
+        { "name": "Symfony", "level": "advanced", "years": 8, "icon": "i-simple-icons-symfony" },
         { "name": "Vue.js", "level": "expert", "years": 8, "icon": "i-simple-icons-vuedotjs" },
         { "name": "Nuxt", "level": "expert", "years": 5, "icon": "i-simple-icons-nuxtdotjs" },
+        { "name": "JavaScript / ES2022+", "level": "expert", "years": 26, "icon": "i-simple-icons-javascript" },
         { "name": "TypeScript", "level": "advanced", "years": 4, "icon": "i-simple-icons-typescript" },
         { "name": "HTML5 / CSS", "level": "expert", "years": 26, "icon": "i-simple-icons-html5" },
+        { "name": "Twig", "level": "advanced", "years": 8, "icon": "i-simple-icons-symfony" },
+        { "name": "Composer", "level": "expert", "years": 12, "icon": "i-lucide-package" },
+        { "name": "Python", "level": "advanced", "years": 25, "icon": "i-simple-icons-python" },
+        { "name": "FastAPI", "level": "proficient", "years": 5, "icon": "i-simple-icons-fastapi" },
         { "name": "RESTful APIs", "level": "expert", "years": 15, "icon": "i-lucide-plug-2" },
-        { "name": "Python", "level": "proficient", "years": 3, "icon": "i-simple-icons-python" }
+        { "name": "GraphQL", "level": "proficient", "years": 3, "icon": "i-simple-icons-graphql" }
+      ]
+    },
+    {
+      "label": "E-Commerce & CMS",
+      "icon": "i-lucide-shopping-bag",
+      "skills": [
+        { "name": "Craft CMS", "level": "advanced", "years": 5, "icon": "i-simple-icons-craftcms" },
+        { "name": "Shopware 5 & 6", "level": "proficient", "years": 3, "icon": "i-simple-icons-shopware" },
+        { "name": "Statamic", "level": "proficient", "years": 2, "icon": "i-lucide-layers" },
+        { "name": "WordPress", "level": "expert", "years": 15, "icon": "i-simple-icons-wordpress" },
+        { "name": "Joomla / Mambo", "level": "advanced", "years": 21, "icon": "i-simple-icons-joomla" },
+        { "name": "Headless CMS", "level": "advanced", "years": 5, "icon": "i-lucide-layout-template" }
       ]
     },
     {
@@ -33,6 +50,7 @@
       "icon": "i-lucide-brain",
       "skills": [
         { "name": "LLM Integration", "level": "advanced", "years": 3, "icon": "i-lucide-bot" },
+        { "name": "Azure OpenAI / GPT", "level": "proficient", "years": 2, "icon": "i-simple-icons-microsoftazure" },
         { "name": "Vertex AI", "level": "advanced", "years": 2, "icon": "i-simple-icons-googlecloud" },
         { "name": "Gemini API", "level": "advanced", "years": 2, "icon": "i-simple-icons-googlegemini" },
         { "name": "Prompt Engineering", "level": "advanced", "years": 3, "icon": "i-lucide-terminal" },
@@ -47,8 +65,24 @@
         { "name": "MySQL", "level": "expert", "years": 19, "icon": "i-simple-icons-mysql" },
         { "name": "Oracle DB", "level": "advanced", "years": 10, "icon": "i-simple-icons-oracle" },
         { "name": "PostgreSQL", "level": "proficient", "years": 4, "icon": "i-simple-icons-postgresql" },
-        { "name": "Salesforce / Apex", "level": "advanced", "years": 6, "icon": "i-simple-icons-salesforce" },
+        { "name": "Redis", "level": "proficient", "years": 5, "icon": "i-simple-icons-redis" },
+        { "name": "Elasticsearch", "level": "proficient", "years": 4, "icon": "i-simple-icons-elasticsearch" },
+        { "name": "MongoDB", "level": "familiar", "years": 2, "icon": "i-simple-icons-mongodb" },
+        { "name": "Salesforce / Apex / LWC", "level": "advanced", "years": 6, "icon": "i-simple-icons-salesforce" },
         { "name": "LDAP / Active Directory", "level": "advanced", "years": 8, "icon": "i-lucide-users" }
+      ]
+    },
+    {
+      "label": "Methodology",
+      "icon": "i-lucide-workflow",
+      "skills": [
+        { "name": "Agile / Scrum", "level": "advanced", "years": 10, "icon": "i-lucide-iterations" },
+        { "name": "Code Reviews", "level": "expert", "years": 12, "icon": "i-lucide-git-pull-request" },
+        { "name": "CI / CD", "level": "advanced", "years": 8, "icon": "i-lucide-rocket" },
+        { "name": "Unit & Integration Testing", "level": "advanced", "years": 10, "icon": "i-lucide-flask-conical" },
+        { "name": "Pair Programming", "level": "advanced", "years": 8, "icon": "i-lucide-users" },
+        { "name": "Static Code Analysis", "level": "advanced", "years": 6, "icon": "i-lucide-scan-search" },
+        { "name": "Version Control (Git)", "level": "expert", "years": 13, "icon": "i-simple-icons-git" }
       ]
     },
     {

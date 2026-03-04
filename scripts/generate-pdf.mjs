@@ -55,14 +55,8 @@ function esc(s) {
 }
 
 function buildResumeHtml(avatar) {
-  const { basics, work, skills, languages, education, interests } = resume
+  const { basics, work, skills, languages, education, interests, projects } = resume
 
-  const recentWork = work.filter(
-    j => j.endDate === 'Present' || Number(j.startDate.split('-')[0]) >= 2012
-  )
-  const earlyWork = work.filter(
-    j => j.endDate !== 'Present' && Number(j.startDate.split('-')[0]) < 2012
-  )
 
   const icons = {
     mail: `<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
@@ -82,15 +76,6 @@ function buildResumeHtml(avatar) {
     building: `<svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>`,
     database: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
     server: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`
-  }
-
-  const skillIcons = {
-    'Core Engineering': icons.code,
-    'Cloud & Platform': icons.cloud,
-    'AI & Data Engineering': icons.cpu,
-    'Salesforce & Enterprise': icons.building,
-    'Databases & Storage': icons.database,
-    'DevOps & Networking': icons.server
   }
 
   const ibadge = (svg) => {
@@ -118,7 +103,7 @@ function buildResumeHtml(avatar) {
         <div class="wcontent">
           <div class="jobtitle">${esc(job.position)}</div>
           <div class="company">${esc(job.name)}</div>
-          ${job.summary ? `<p class="jsummary">${esc(job.summary)}</p>` : ''}
+          ${job.summary ? `<div class="jsummary">${esc(job.summary)}</div>` : ''}
           ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
         </div>
       </div>`
@@ -135,11 +120,13 @@ function buildResumeHtml(avatar) {
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
   @page { size: A4; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { height: auto; }
   body { font-family: 'JetBrains Mono','Courier New',Courier,monospace; font-size: 9pt; color: #1a1a2e; line-height: 1.4; background: white; }
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
   .hdr-left { flex: 1; min-width: 0; }
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 24pt; font-weight: 700; color: #0f172a; line-height: 1.05; letter-spacing: -0.3px; margin-bottom: 5px; }
   .subtitle { font-size: 11pt; font-style: italic; color: #64748b; margin-bottom: 10px; line-height: 1.25; }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; margin-bottom: 2px; }
   .contact-row { display: flex; align-items: center; gap: 6px; font-size: 8pt; color: #64748b; margin-bottom: 3px; }
   .ibadge { display: inline-flex; align-items: center; justify-content: center; width: 21px; height: 21px; min-width: 21px; border-radius: 50%; border: 1px solid #3a9eae; color: #3a9eae; }
   .isvg { display: flex; align-items: center; justify-content: center; width: 11px; height: 11px; }
@@ -147,11 +134,11 @@ function buildResumeHtml(avatar) {
   .avatar { width: 100px; height: 100px; min-width: 100px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
   .avatar img { width: 100%; height: 100%; object-fit: cover; }
   .summary { font-size: 8.5pt; color: #334155; line-height: 1.5; margin-bottom: 4px; }
-  .section-hdr { margin-top: 22px; margin-bottom: 7px; break-after: avoid; page-break-after: avoid; }
+  .section-hdr { margin-top: 16px; margin-bottom: 6px; break-after: avoid; page-break-after: avoid; }
   .section-page-break { break-before: page; page-break-before: always; }
   .section-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 6px; font-size: 12pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 3px; }
   .section-rule { width: 40px; height: 3px; background: #3a9eae; border-radius: 1px; margin-top: 4px; }
-  .work-row { display: flex; gap: 12px; margin-bottom: 11px; page-break-inside: avoid; }
+  .work-row { display: flex; gap: 12px; margin-bottom: 8px; page-break-inside: avoid; }
   .wdate { width: 92px; min-width: 92px; font-size: 8pt; color: #1a1a2e; line-height: 1.5; }
   .wloc { font-size: 7.5pt; color: #64748b; margin-top: 2px; }
   .wcontent { flex: 1; min-width: 0; }
@@ -161,18 +148,19 @@ function buildResumeHtml(avatar) {
   .highlights { list-style: none; margin-top: 2px; }
   .highlights li { font-size: 8.5pt; color: #334155; line-height: 1.45; padding-left: 13px; position: relative; margin-bottom: 1px; }
   .highlights li::before { content: '–'; position: absolute; left: 0; }
-  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; }
-  .skill-group { margin-bottom: 8px; page-break-inside: avoid; }
-  .skill-title { font-family: 'Space Grotesk', sans-serif; display: flex; align-items: center; gap: 5px; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
-  .skill-kw { list-style: none; }
-  .skill-kw li { font-size: 8.5pt; color: #334155; padding-left: 13px; position: relative; margin-bottom: 1px; line-height: 1.4; }
-  .skill-kw li::before { content: '–'; position: absolute; left: 0; color: #3a9eae; }
+  .skill-row { margin-bottom: 6px; break-inside: avoid; page-break-inside: avoid; }
+  .skill-label { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; display: block; margin-bottom: 1px; }
+  .skill-kw-inline { font-size: 8.5pt; color: #334155; line-height: 1.5; }
   .interests-grid { display: flex; flex-wrap: wrap; gap: 8px 16px; }
   .interest-group { flex: 1; min-width: 120px; margin-bottom: 6px; page-break-inside: avoid; }
   .interest-title { font-family: 'Space Grotesk', sans-serif; font-size: 9pt; font-weight: 700; color: #0f172a; margin-bottom: 3px; }
   .interest-kw { list-style: none; }
   .interest-kw li { font-size: 8.5pt; color: #334155; padding-left: 13px; position: relative; margin-bottom: 1px; line-height: 1.4; }
   .interest-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
+  .project-row { margin-bottom: 8px; page-break-inside: avoid; }
+  .project-name { font-family: 'Space Grotesk', sans-serif; font-size: 9.5pt; font-weight: 700; color: #0f172a; }
+  .project-desc { font-size: 8.5pt; color: #334155; line-height: 1.45; margin-top: 2px; }
+  .project-stack { font-size: 8pt; color: #3a9eae; margin-top: 2px; }
   .lang-line { font-size: 8.5pt; color: #334155; line-height: 1.5; }
   .edu-entry { margin-bottom: 8px; page-break-inside: avoid; }
   .accent-bar { height: 3px; background: linear-gradient(90deg, #2a7a8a 0%, #3a9eae 100%); margin-bottom: 20px; border-radius: 1px; }
@@ -184,12 +172,14 @@ function buildResumeHtml(avatar) {
     <div class="hdr-left">
       <div class="name">${esc(basics.name.toUpperCase())}</div>
       <div class="subtitle">${esc(basics.label)}</div>
-      ${contactRow(icons.mail, basics.email)}
-      ${contactRow(icons.phone, basics.phone)}
-      ${contactRow(icons.pin, `${basics.location.city} ${basics.location.region}, ${basics.location.countryCode} · ${basics.location.address}, ${basics.location.postalCode} ${basics.location.city} ${basics.location.region}`)}
-      ${contactRow(icons.globe, basics.url.replace('https://', ''))}
-      ${githubProfile ? contactRow(icons.github, githubProfile.url.replace('https://', '')) : ''}
-      ${linkedinProfile ? contactRow(icons.linkedin, linkedinProfile.url.replace('https://', '')) : ''}
+      <div class="contact-grid">
+        ${contactRow(icons.mail, basics.email)}
+        ${contactRow(icons.phone, basics.phone)}
+        ${contactRow(icons.pin, `${basics.location.address}, ${basics.location.postalCode} ${basics.location.city} — ${basics.location.region}, ${basics.location.countryCode}`)}
+        ${contactRow(icons.globe, basics.url.replace('https://', ''))}
+        ${githubProfile ? contactRow(icons.github, githubProfile.url.replace('https://', '')) : ''}
+        ${linkedinProfile ? contactRow(icons.linkedin, linkedinProfile.url.replace('https://', '')) : ''}
+      </div>
     </div>
     ${avatar ? `<div class="avatar"><img src="${avatar}" alt=""></div>` : ''}
   </div>
@@ -197,21 +187,24 @@ function buildResumeHtml(avatar) {
   <p class="summary">${esc(basics.summary)}</p>
 
   ${sectionHeader('PROFESSIONAL EXPERIENCE', icons.briefcase)}
-  ${recentWork.map(workEntry).join('')}
-
-  ${earlyWork.length ? `
-    ${sectionHeader('EARLY CAREER & FOUNDATION (Pre-2012)', icons.star)}
-    ${earlyWork.map(workEntry).join('')}
-  ` : ''}
+  ${work.map(workEntry).join('')}
 
   ${sectionHeader('TECHNICAL SKILLS', icons.wrench, true)}
-  <div class="skills-grid">
-    ${skills.map(g => `
-      <div class="skill-group">
-        <div class="skill-title">${esc(g.name)}</div>
-        <ul class="skill-kw">${g.keywords.map(k => `<li>${esc(k)}</li>`).join('')}</ul>
+  ${skills.map(g => `
+    <div class="skill-row">
+      <span class="skill-label">${esc(g.name)}:</span>
+      <span class="skill-kw-inline">${g.keywords.map(k => esc(k)).join(', ')}</span>
+    </div>`).join('')}
+
+  ${projects && projects.length ? `
+    ${sectionHeader('KEY PROJECTS', icons.code)}
+    ${projects.map(p => `
+      <div class="project-row">
+        <div class="project-name">${esc(p.name)}</div>
+        <div class="project-desc">${esc(p.description)}</div>
+        <div class="project-stack">${esc(p.stack)}</div>
       </div>`).join('')}
-  </div>
+  ` : ''}
 
   ${sectionHeader('LANGUAGES', icons.globe)}
   <div class="lang-line">

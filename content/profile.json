@@ -3,15 +3,17 @@
     "name": "GIANCARLO",
     "role": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
     "location": "Elsau ZH, Switzerland",
-    "availability": "Open to roles · Zürich & remote",
+    "availability": "Available — Hire · Freelance · Partnership",
     "summary": [
-      "I design and build business-critical enterprise platforms that power real-world operations.",
-      "Senior Full-Stack Engineer across PHP, Python, and JavaScript — shipping scalable, secure applications with Laravel, Vue.js, and React on cloud-native, containerised infrastructure.",
-      "I architect enterprise APIs, identity systems, and data platforms: LDAP, Salesforce, CRM integrations, CI/CD pipelines, and Docker-based delivery workflows — built for control and long-term maintainability.",
-      "From AI-powered interfaces to call center platforms and structured data pipelines, I engineer systems that organisations depend on — reliable, performant, and built to last."
+      "I have been programming since the age of eleven. Software development is not just my profession — it is a lifelong discipline driven by curiosity, experimentation, and a deep passion for open source.",
+      "Senior Full-Stack Engineer with 25 years of expertise across PHP, Python, and JavaScript — building scalable, secure, and maintainable applications. A web artisan focused on clean architecture and long-term reliability, from high-traffic public platforms to enterprise internal systems supporting Customer Care and call centre operations.",
+      "Specialist in backend systems, scripting and automation, modern frontend interfaces, and enterprise APIs — with strong experience in Salesforce ecosystems (LWC, platform integrations, enterprise data workflows) and AI-powered agent interfaces that integrate intelligent workflows into enterprise environments.",
+      "Deeply passionate about Linux and open source. Strong hands-on experience with Docker containerisation, CI/CD pipelines, cloud-native deployment, and DevOps practices that ensure scalability, reliability, and operational excellence.",
+      "Driven by ownership, technical excellence, and the continuous pursuit of improvement. Open to senior engineering positions, freelance engagements, and technical partnerships — Zürich, remote, or wherever the problem is worth solving."
     ],
     "actions": [
       { "label": "View resume", "to": "/resume", "icon": "i-lucide-file-text" },
+      { "label": "Skill Matrix", "to": "/skillmatrix", "icon": "i-lucide-layout-grid" },
       { "label": "Contact", "to": "/contact", "icon": "i-lucide-mail", "external": true },
       { "label": "Book a call", "to": "/book", "icon": "i-lucide-calendar" }
     ],
@@ -22,65 +24,86 @@
     ]
   },
   "about": [
-    "Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerized systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.",
-    "Career progression from advanced technical support into application engineering, cloud development, big data, Salesforce development, and AI engineering. Originally from Italy, raised between Germany and Sicily, now based in eastern Canton Zurich, Switzerland. Proud father of a wonderful daughter."
+    "Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerised systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.",
+    "Career progression from advanced technical support into full-stack engineering, cloud infrastructure, data engineering, Salesforce DevOps, and AI systems. Originally from Italy, raised between Germany and Sicily, now based in eastern Canton Zurich, Switzerland. Proud father of a wonderful daughter."
   ],
   "stats": [
     { "label": "Years at Sunrise", "value": "13+" },
-    { "label": "Years of experience", "value": "19+" },
+    { "label": "Years of experience", "value": "25+" },
     { "label": "Domains", "value": "Full-Stack · Cloud · AI" }
   ],
   "experience": [
     {
       "company": "Sunrise Communications AG",
-      "role": "Senior Full Stack Engineer – Cloud Platform & AI",
+      "role": "Senior Full Stack Engineer – Cloud Platform, Salesforce DevOps & AI",
       "period": "2012 — Present",
       "location": "Zurich, Switzerland",
-      "summary": "Long-term ownership of internal platforms and progressive responsibility spanning advanced technical support, application engineering, cloud platforms, data, Salesforce, and AI engineering in a leading Swiss telecommunications environment.",
+      "summary": "13+ years of progressive ownership across full-stack development, Salesforce DevOps, cloud infrastructure, data engineering, and applied AI at one of Switzerland's leading telecommunications companies.",
       "achievements": [
-        "Designed, built, and operated business-critical internal platforms used across multiple departments at scale.",
-        "Led platform modernization from legacy PHP/JS to Laravel 12, Vue 3, and Nuxt 3; migrated infrastructure from RHEL 6/7 to RHEL 9 with Docker adoption and CI/CD pipelines (GitLab, Jenkins).",
-        "Architected cloud-native services on Google Cloud Platform (GCP) covering compute, networking, IAM, and Cloud Run.",
-        "Delivered applied AI solutions including LLM integrations with Google Vertex AI and Gemini for enterprise automation and customer service efficiency.",
-        "Integrated Oracle and MySQL backends with LDAP/AD authentication across enterprise systems."
+        "Salesforce DevOps Engineer: CI/CD pipelines, release management, custom Apex, LWC components, Flows, and API integrations.",
+        "Drove DevOps transformation: LAMP/LEMP to FrankenPHP on Docker/GCP/RHEL, GitLab CI/Jenkins pipelines, release automation.",
+        "Developed AMP — internal call centre portal (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) with multilingual ticket tools, distribution, and feedback systems.",
+        "Built Jordan AI (Liberty Global) — Python/FastAPI + Vue.js AI tool for real-time call analysis across Liberty Global subsidiaries.",
+        "Architected cloud-native services on GCP: compute, networking, IAM, Cloud Run.",
+        "Modernised legacy PHP applications to Laravel, Vue.js, and Nuxt — improving maintainability, testability, and delivery speed."
       ],
-      "stack": ["PHP / Laravel", "Vue.js / Nuxt", "GCP", "Docker", "Linux", "MySQL", "Oracle", "Salesforce", "Vertex AI"]
+      "stack": ["PHP / Laravel", "Vue.js / Nuxt", "Python / FastAPI", "GCP", "Docker", "MySQL", "Oracle", "Redis", "Elasticsearch", "Salesforce / LWC", "Vertex AI", "Azure OpenAI"]
     },
     {
       "company": "Sicilia On Line Srl",
       "role": "Full Stack Web Developer / System Engineer",
       "period": "2005 — 2011",
       "location": "Palermo, Italy",
-      "summary": "Lead Full Stack Web Developer for a high-traffic regional newspaper platform, with end-to-end responsibility for application development, platform architecture, and Linux-based operations.",
+      "summary": "Lead developer and system engineer for three regional properties — siciliaonline.it (touristic platform, 10,000+ daily visitors), gds.it, and blogsicilia — with full ownership of PHP application development, CMS architecture, and Linux server operations.",
       "achievements": [
-        "Led backend and frontend development ensuring reliability and performance under continuous editorial load.",
-        "Drove platform evolution through major redesigns, optimizations, and third-party integrations.",
-        "Managed LAMP server configuration, high-availability infrastructure, SEO, and analytics."
+        "Built and scaled PHP/MySQL platforms serving 10,000+ daily visitors across siciliaonline.it, gds.it, and blogsicilia.",
+        "Developed custom Joomla/Mambo components, plugins, and templates for newsroom and editorial workflows.",
+        "Led platform redesigns improving performance, SEO, and reader engagement.",
+        "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops."
       ],
-      "stack": ["PHP", "JavaScript", "MySQL", "Linux", "Apache", "CMS"]
+      "stack": ["PHP", "JavaScript", "MySQL", "Linux", "Apache", "Joomla", "Mambo", "CMS"]
     }
   ],
-  "projects": [],
+  "projects": [
+    {
+      "name": "AMP — Application Management Portal",
+      "description": "Full-stack call centre productivity suite built for Sunrise agents — a multilingual ticket template engine (4 languages), automated ticket distribution system, and agent-to-agent and company-wide feedback tools. Full ownership from architecture to production.",
+      "stack": ["Laravel", "Vue.js", "Oracle", "MySQL", "Redis", "Elasticsearch", "FrankenPHP", "Docker", "GCP"]
+    },
+    {
+      "name": "Jordan AI (Liberty Global)",
+      "description": "International AI-powered call assistant deployed across Liberty Global subsidiaries. Python/FastAPI backend and Vue.js frontend connecting to live call data to generate real-time conversation pre-summaries and automated diagnostics for call centre agents.",
+      "stack": ["Python", "FastAPI", "Vue.js", "Azure OpenAI", "LLM integration", "REST APIs"]
+    }
+  ],
   "skills": [
     {
-      "label": "Core Engineering",
-      "items": ["PHP 7/8", "Laravel", "JavaScript", "Vue.js", "HTML5 / CSS", "RESTful APIs", "Service-oriented design"]
+      "label": "PHP & Web",
+      "items": ["PHP (25 yrs)", "Python", "FastAPI", "Laravel", "Symfony", "Vue.js", "Nuxt", "JavaScript / TypeScript", "HTML5 / CSS", "Twig", "Composer", "RESTful APIs", "GraphQL"]
+    },
+    {
+      "label": "E-Commerce & CMS",
+      "items": ["WordPress", "Joomla / Mambo", "Craft CMS", "Shopware 5 & 6", "Statamic", "Headless CMS"]
     },
     {
       "label": "Cloud & Platform",
-      "items": ["Google Cloud Platform (GCP)", "Docker", "Linux (Debian / Ubuntu / RHEL)", "CI/CD pipelines", "Cloud Run", "Application deployment & automation"]
+      "items": ["Linux (RHEL / Debian / Ubuntu)", "Docker", "Google Cloud Platform", "Cloud Run", "GitLab CI / Jenkins", "Kubernetes", "Terraform"]
     },
     {
       "label": "AI & Data",
-      "items": ["Applied AI / LLM integration", "Vertex AI", "Gemini", "AI-assisted tooling", "Big data platforms", "Analytics-oriented development"]
+      "items": ["LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API", "Prompt Engineering", "Big Data Platforms", "Analytics Engineering"]
     },
     {
-      "label": "Enterprise & Databases",
-      "items": ["Salesforce", "MySQL", "Oracle", "PostgreSQL", "LDAP / AD", "Enterprise data integration"]
+      "label": "Databases & Enterprise",
+      "items": ["MySQL", "Oracle DB", "PostgreSQL", "Redis", "Elasticsearch", "MongoDB", "Salesforce / Apex / LWC", "LDAP / Active Directory"]
+    },
+    {
+      "label": "Methodology",
+      "items": ["Agile / Scrum", "Code Reviews", "CI / CD", "Unit & Integration Testing", "Static Code Analysis", "Pair Programming", "Version Control (Git)"]
     },
     {
       "label": "DevOps & Networking",
-      "items": ["TCP/IP", "DNS", "HTTP/S", "SSL / SSH", "System hardening", "Infrastructure-aware development", "Performance optimization"]
+      "items": ["Bash / Shell scripting", "Nginx / Apache", "TCP/IP / DNS", "SSL / TLS", "System hardening"]
     }
   ],
   "writing": [],
