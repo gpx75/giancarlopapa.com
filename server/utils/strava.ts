@@ -4,29 +4,33 @@ const STRAVA_API_BASE = 'https://www.strava.com/api/v3'
 // Module-level cache (lives for the duration of a serverless instance)
 let cachedToken: string | null = null
 let tokenExpiresAt = 0
+let cachedRefreshToken: string | null = null
 
 async function getStravaToken(): Promise<string> {
   if (cachedToken && Date.now() < tokenExpiresAt - 60_000) {
     return cachedToken
   }
 
-  const config = useRuntimeConfig()
-  const { clientId, clientSecret, refreshToken } = config.strava
+  const clientId = process.env.NUXT_STRAVA_CLIENT_ID || useRuntimeConfig().strava.clientId
+  const clientSecret = process.env.NUXT_STRAVA_CLIENT_SECRET || useRuntimeConfig().strava.clientSecret
+  const refreshToken = process.env.NUXT_STRAVA_REFRESH_TOKEN || useRuntimeConfig().strava.refreshToken
 
   const res = await $fetch<{
     access_token: string
+    refresh_token: string
     expires_at: number
   }>(STRAVA_TOKEN_URL, {
     method: 'POST',
     body: {
       client_id: clientId,
       client_secret: clientSecret,
-      refresh_token: refreshToken,
+      refresh_token: cachedRefreshToken ?? refreshToken,
       grant_type: 'refresh_token'
     }
   })
 
   cachedToken = res.access_token
+  cachedRefreshToken = res.refresh_token
   tokenExpiresAt = res.expires_at * 1000
   return cachedToken
 }

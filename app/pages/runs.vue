@@ -11,7 +11,7 @@ const allActivities = ref<RunActivity[]>([])
 const loadingMore = ref(false)
 const hasMore = ref(true)
 
-const { data: initialActivities, status } = await useFetch<RunActivity[]>('/api/strava/activities', {
+const { data: initialActivities, status, error, refresh } = await useFetch<RunActivity[]>('/api/strava/activities', {
   query: { page: 1 }
 })
 
@@ -24,12 +24,17 @@ async function loadMore() {
   if (loadingMore.value || !hasMore.value) return
   loadingMore.value = true
   page.value++
-  const data = await $fetch<RunActivity[]>('/api/strava/activities', {
-    query: { page: page.value }
-  })
-  allActivities.value = [...allActivities.value, ...data]
-  hasMore.value = data.length === 20
-  loadingMore.value = false
+  try {
+    const data = await $fetch<RunActivity[]>('/api/strava/activities', {
+      query: { page: page.value }
+    })
+    allActivities.value = [...allActivities.value, ...data]
+    hasMore.value = data.length === 20
+  } catch {
+    page.value--
+  } finally {
+    loadingMore.value = false
+  }
 }
 </script>
 
@@ -55,6 +60,15 @@ async function loadMore() {
     <!-- Activity feed -->
     <div v-if="status === 'pending'" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <div v-for="i in 6" :key="i" class="h-72 rounded-xl bg-muted/10 animate-pulse" />
+    </div>
+
+    <div v-else-if="error" class="text-center py-16 space-y-4">
+      <UIcon name="i-lucide-wifi-off" class="size-10 mx-auto text-muted/40" />
+      <p class="text-sm text-muted/60">Could not load activities.</p>
+      <p class="text-xs font-mono text-muted/40">{{ error.message }}</p>
+      <UButton size="sm" variant="soft" color="neutral" icon="i-lucide-refresh-cw" @click="refresh()">
+        Retry
+      </UButton>
     </div>
 
     <template v-else-if="allActivities.length">
