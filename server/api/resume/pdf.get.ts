@@ -57,15 +57,6 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     server: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`
   };
 
-  const skillIcons: Record<string, string> = {
-    'Core Engineering': icons.code,
-    'Cloud & Platform': icons.cloud,
-    'AI & Data Engineering': icons.cpu,
-    'Salesforce & Enterprise': icons.building,
-    'Databases & Storage': icons.database,
-    'DevOps & Networking': icons.server
-  };
-
   function iconBadge(svg: string) {
     return `<span class="ibadge"><span class="isvg">${svg}</span></span>`;
   }
@@ -245,12 +236,17 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
 </html>`;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const resumeWithInterests = resumeJson as typeof resumeJson & {
   interests?: Array<{ name: string; keywords: string[] }>;
 };
 
 export default defineEventHandler(async (event) => {
+  setResponseHeaders(event, {
+    'Cache-Control': 'no-store, max-age=0',
+    Pragma: 'no-cache',
+    'X-Robots-Tag': 'noindex, nofollow, noarchive'
+  });
+
   const session = await getUserSession(event);
   if (!session.user) {
     throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });

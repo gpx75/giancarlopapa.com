@@ -1,17 +1,19 @@
 <script setup lang="ts">
-const route = useRoute()
-const slug = route.params.slug as string
+const route = useRoute();
+const slug = route.params.slug as string;
 
 const { data: post } = await useAsyncData(`blog-${slug}`, () =>
   queryCollection('blog').path(`/blog/${slug}`).first()
-)
+);
 
 if (!post.value) {
-  throw createError({ statusCode: 404, statusMessage: 'Post not found' })
+  throw createError({ statusCode: 404, statusMessage: 'Post not found' });
 }
 
-const { public: { siteUrl } } = useRuntimeConfig()
-const canonicalUrl = `${siteUrl}/blog/${slug}`
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
+const canonicalUrl = `${siteUrl}/blog/${slug}`;
 
 useSeoMeta({
   title: `${post.value.title} — Giancarlo Papa`,
@@ -20,16 +22,19 @@ useSeoMeta({
   ogDescription: post.value.description,
   ogUrl: canonicalUrl,
   ogType: 'article',
+  ogImage: `${siteUrl}/giancarlopapa_avatar.jpeg`,
+  articlePublishedTime: post.value.date,
   twitterCard: 'summary_large_image',
   twitterTitle: `${post.value.title} — Giancarlo Papa`,
-  twitterDescription: post.value.description
-})
+  twitterDescription: post.value.description,
+  twitterImage: `${siteUrl}/giancarlopapa_avatar.jpeg`
+});
 
 useHead({
   link: [{ rel: 'canonical', href: canonicalUrl }]
-})
+});
 
-const { formatDate } = useDateFormatting()
+const { formatDate } = useDateFormatting();
 </script>
 
 <template>

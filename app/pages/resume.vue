@@ -7,6 +7,30 @@ import type {
   ResumeWork
 } from '~/types/resume';
 
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
+const canonicalUrl = `${siteUrl}/resume`;
+
+useSeoMeta({
+  title: 'Resume — Giancarlo Papa',
+  description:
+    'Professional resume and experience of Giancarlo Papa, Senior Full Stack Engineer.',
+  ogTitle: 'Resume — Giancarlo Papa',
+  ogDescription:
+    'Professional resume and experience of Giancarlo Papa, Senior Full Stack Engineer.',
+  ogUrl: canonicalUrl,
+  robots: 'noindex, follow',
+  twitterCard: 'summary',
+  twitterTitle: 'Resume — Giancarlo Papa',
+  twitterDescription:
+    'Professional resume and experience of Giancarlo Papa, Senior Full Stack Engineer.'
+});
+
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }]
+});
+
 const { resume, pending, error, refresh } = useResumeContent();
 const { loggedIn } = useAuth();
 

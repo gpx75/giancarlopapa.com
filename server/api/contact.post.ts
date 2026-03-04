@@ -34,6 +34,12 @@ function isLikelySpam(name: string, email: string, message: string): boolean {
 }
 
 export default defineEventHandler(async (event) => {
+  setResponseHeaders(event, {
+    'Cache-Control': 'no-store, max-age=0',
+    Pragma: 'no-cache',
+    'X-Robots-Tag': 'noindex, nofollow, noarchive'
+  });
+
   const ip = getRequestIP(event, { xForwardedFor: true }) ?? 'unknown';
 
   const body = await readBody(event);

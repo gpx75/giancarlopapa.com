@@ -1,39 +1,59 @@
 <script setup lang="ts">
-import type { RunActivity } from '~/components/runs/ActivityCard.vue'
+import type { RunActivity } from '~/components/runs/ActivityCard.vue';
+
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
+const canonicalUrl = `${siteUrl}/runs`;
 
 useSeoMeta({
   title: 'Running — Giancarlo Papa',
-  description: 'Recent activity feed, live from Strava.'
-})
+  description: 'Recent activity feed, live from Strava.',
+  ogTitle: 'Running — Giancarlo Papa',
+  ogDescription: 'Recent activity feed, live from Strava.',
+  ogUrl: canonicalUrl,
+  twitterCard: 'summary',
+  twitterTitle: 'Running — Giancarlo Papa',
+  twitterDescription: 'Recent activity feed, live from Strava.'
+});
 
-const page = ref(1)
-const allActivities = ref<RunActivity[]>([])
-const loadingMore = ref(false)
-const hasMore = ref(true)
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }]
+});
 
-const { data: initialActivities, status, error, refresh } = await useFetch<RunActivity[]>('/api/strava/activities', {
+const page = ref(1);
+const allActivities = ref<RunActivity[]>([]);
+const loadingMore = ref(false);
+const hasMore = ref(true);
+
+const {
+  data: initialActivities,
+  status,
+  error,
+  refresh
+} = await useFetch<RunActivity[]>('/api/strava/activities', {
   query: { page: 1 }
-})
+});
 
 if (initialActivities.value) {
-  allActivities.value = initialActivities.value
-  hasMore.value = initialActivities.value.length === 20
+  allActivities.value = initialActivities.value;
+  hasMore.value = initialActivities.value.length === 20;
 }
 
 async function loadMore() {
-  if (loadingMore.value || !hasMore.value) return
-  loadingMore.value = true
-  page.value++
+  if (loadingMore.value || !hasMore.value) return;
+  loadingMore.value = true;
+  page.value++;
   try {
     const data = await $fetch<RunActivity[]>('/api/strava/activities', {
       query: { page: page.value }
-    })
-    allActivities.value = [...allActivities.value, ...data]
-    hasMore.value = data.length === 20
+    });
+    allActivities.value = [...allActivities.value, ...data];
+    hasMore.value = data.length === 20;
   } catch {
-    page.value--
+    page.value--;
   } finally {
-    loadingMore.value = false
+    loadingMore.value = false;
   }
 }
 </script>
@@ -46,27 +66,40 @@ async function loadMore() {
         <span><span class="text-terminal-400/60">~/</span>runs</span>
       </UBadge>
       <h1>Running</h1>
-      <p class="text-muted/80 max-w-2xl">
-        Recent activity, live from Strava.
-      </p>
+      <p class="text-muted/80 max-w-2xl">Recent activity, live from Strava.</p>
     </div>
 
     <!-- Divider -->
     <div class="flex items-center gap-3">
-      <span class="text-xs uppercase tracking-widest text-muted/40">Recent Activities</span>
+      <span class="text-xs uppercase tracking-widest text-muted/40"
+        >Recent Activities</span
+      >
       <div class="flex-1 border-t border-muted/15" />
     </div>
 
     <!-- Activity feed -->
-    <div v-if="status === 'pending'" class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <div v-for="i in 6" :key="i" class="h-72 rounded-xl bg-muted/10 animate-pulse" />
+    <div
+      v-if="status === 'pending'"
+      class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+    >
+      <div
+        v-for="i in 6"
+        :key="i"
+        class="h-72 rounded-xl bg-muted/10 animate-pulse"
+      />
     </div>
 
     <div v-else-if="error" class="text-center py-16 space-y-4">
       <UIcon name="i-lucide-wifi-off" class="size-10 mx-auto text-muted/40" />
       <p class="text-sm text-muted/60">Could not load activities.</p>
       <p class="text-xs font-mono text-muted/40">{{ error.message }}</p>
-      <UButton size="sm" variant="soft" color="neutral" icon="i-lucide-refresh-cw" @click="refresh()">
+      <UButton
+        size="sm"
+        variant="soft"
+        color="neutral"
+        icon="i-lucide-refresh-cw"
+        @click="refresh()"
+      >
         Retry
       </UButton>
     </div>
@@ -90,7 +123,9 @@ async function loadMore() {
         >
           Load more
         </UButton>
-        <p v-else class="text-xs text-muted/40 font-mono">// all activities loaded</p>
+        <p v-else class="text-xs text-muted/40 font-mono">
+          // all activities loaded
+        </p>
       </div>
     </template>
 

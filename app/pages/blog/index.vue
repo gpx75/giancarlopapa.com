@@ -1,30 +1,35 @@
 <script setup lang="ts">
-const { public: { siteUrl } } = useRuntimeConfig()
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
 
 useSeoMeta({
   title: 'Blog — Giancarlo Papa',
-  description: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
+  description:
+    'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
   ogTitle: 'Blog — Giancarlo Papa',
-  ogDescription: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
+  ogDescription:
+    'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
   ogUrl: `${siteUrl}/blog`,
+  ogImage: `${siteUrl}/giancarlopapa_avatar.jpeg`,
   twitterCard: 'summary',
   twitterTitle: 'Blog — Giancarlo Papa',
-  twitterDescription: 'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.'
-})
+  twitterDescription:
+    'Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.',
+  twitterImage: `${siteUrl}/giancarlopapa_avatar.jpeg`
+});
 
 useHead({
   link: [{ rel: 'canonical', href: `${siteUrl}/blog` }]
-})
+});
 
 const { data: allPosts } = await useAsyncData('blog-posts', () =>
-  queryCollection('blog')
-    .order('date', 'DESC')
-    .all()
-)
+  queryCollection('blog').order('date', 'DESC').all()
+);
 
-const posts = computed(() => allPosts.value?.filter(p => !p.draft) ?? [])
+const posts = computed(() => allPosts.value?.filter((p) => !p.draft) ?? []);
 
-const { formatDate } = useDateFormatting()
+const { formatDate } = useDateFormatting();
 </script>
 
 <template>
@@ -35,7 +40,8 @@ const { formatDate } = useDateFormatting()
       </UBadge>
       <h1>Writing</h1>
       <p class="text-muted/80 max-w-2xl">
-        Engineering notes, terminal setups, and thoughts on cloud platforms, full stack development, and applied AI.
+        Engineering notes, terminal setups, and thoughts on cloud platforms,
+        full stack development, and applied AI.
       </p>
     </div>
 
@@ -47,7 +53,9 @@ const { formatDate } = useDateFormatting()
         class="block group"
       >
         <UCard class="space-y-3 transition group-hover:border-primary/40">
-          <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div
+            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+          >
             <div class="space-y-2">
               <p class="text-xs uppercase tracking-widest text-muted/50">
                 {{ formatDate(post.date) }}

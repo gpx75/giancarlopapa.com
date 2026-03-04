@@ -18,6 +18,9 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Runtime config public guard
+        run: npm run check:runtime-public
+
       - name: Build
         run: npm run build
         env:

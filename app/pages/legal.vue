@@ -1,8 +1,26 @@
 <script setup lang="ts">
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
+const canonicalUrl = `${siteUrl}/legal`;
+
 useSeoMeta({
   title: 'Legal — Giancarlo Papa',
   description:
+    'Privacy policy, legal notice, and disclaimer for giancarlopapa.com.',
+  ogTitle: 'Legal — Giancarlo Papa',
+  ogDescription:
+    'Privacy policy, legal notice, and disclaimer for giancarlopapa.com.',
+  ogUrl: canonicalUrl,
+  robots: 'noindex, follow',
+  twitterCard: 'summary',
+  twitterTitle: 'Legal — Giancarlo Papa',
+  twitterDescription:
     'Privacy policy, legal notice, and disclaimer for giancarlopapa.com.'
+});
+
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }]
 });
 </script>
 

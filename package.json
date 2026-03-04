@@ -8,7 +8,8 @@
     "postinstall": "nuxt prepare",
     "preview": "nuxt preview",
     "deploy": "vercel deploy --prod",
-    "lint": "eslint .",
+    "check:runtime-public": "node scripts/validate-public-runtime-config.mjs",
+    "lint": "npm run check:runtime-public && eslint .",
     "typecheck": "nuxt typecheck",
     "generate-pdf": "node --env-file=.env scripts/generate-pdf.mjs",
     "prepare": "husky"

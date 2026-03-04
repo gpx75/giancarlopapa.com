@@ -47,11 +47,6 @@ export default defineNuxtConfig({
     'nuxt-gtag'
   ],
 
-  gtag: {
-    initMode: 'manual',
-    id: process.env.NUXT_PUBLIC_GTAG_ID || ''
-  },
-
   devtools: {
     enabled: process.env.NODE_ENV !== 'production'
   },
@@ -59,6 +54,7 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
 
   runtimeConfig: {
+    contactEmail: CONTACT_EMAIL,
     cal: {
       apiKey: CAL_API_KEY,
       username: CAL_USERNAME,
@@ -75,7 +71,6 @@ export default defineNuxtConfig({
     },
     public: {
       siteUrl: SITE_URL,
-      contactEmail: CONTACT_EMAIL,
       commitSha,
       commitDate
     }
@@ -86,8 +81,45 @@ export default defineNuxtConfig({
       headers: {
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
+        'X-DNS-Prefetch-Control': 'off',
+        'X-Permitted-Cross-Domain-Policies': 'none',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Resource-Policy': 'same-origin',
+        'Strict-Transport-Security':
+          'max-age=31536000; includeSubDomains; preload',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
-        'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
+        'Permissions-Policy':
+          'camera=(), microphone=(), geolocation=(), browsing-topics=()',
+        'Content-Security-Policy':
+          "base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; upgrade-insecure-requests"
+      }
+    },
+    '/api/**': {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        Pragma: 'no-cache',
+        'X-Robots-Tag': 'noindex, nofollow, noarchive'
+      }
+    },
+    '/contact': {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        Pragma: 'no-cache',
+        'X-Robots-Tag': 'noindex, nofollow, noarchive'
+      }
+    },
+    '/book': {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        Pragma: 'no-cache',
+        'X-Robots-Tag': 'noindex, nofollow, noarchive'
+      }
+    },
+    '/resume': {
+      headers: {
+        'Cache-Control': 'no-store, max-age=0',
+        Pragma: 'no-cache',
+        'X-Robots-Tag': 'noindex, nofollow, noarchive'
       }
     }
   },
@@ -107,10 +139,15 @@ export default defineNuxtConfig({
     }
   },
 
+  gtag: {
+    initMode: 'manual',
+    id: process.env.NUXT_PUBLIC_GTAG_ID || ''
+  },
+
   image: {
     screens: {
       avatar: 256,
       avatar2x: 320
     }
-  }
+  },
 });

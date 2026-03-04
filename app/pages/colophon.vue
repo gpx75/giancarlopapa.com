@@ -1,15 +1,29 @@
 <script setup lang="ts">
+const {
+  public: { siteUrl }
+} = useRuntimeConfig();
+const canonicalUrl = `${siteUrl}/colophon`;
+
 useSeoMeta({
   title: 'Colophon — Giancarlo Papa',
-  description: 'How this site is built.'
-})
+  description: 'How this site is built.',
+  ogTitle: 'Colophon — Giancarlo Papa',
+  ogDescription: 'How this site is built.',
+  ogUrl: canonicalUrl,
+  twitterCard: 'summary',
+  twitterTitle: 'Colophon — Giancarlo Papa',
+  twitterDescription: 'How this site is built.'
+});
 
-const { data: colophonData } = await useAsyncData(
-  'colophon',
-  () => queryCollection('colophon').first()
-)
+useHead({
+  link: [{ rel: 'canonical', href: canonicalUrl }]
+});
 
-const stack = computed(() => colophonData.value?.items ?? [])
+const { data: colophonData } = await useAsyncData('colophon', () =>
+  queryCollection('colophon').first()
+);
+
+const stack = computed(() => colophonData.value?.items ?? []);
 </script>
 
 <template>
@@ -20,7 +34,8 @@ const stack = computed(() => colophonData.value?.items ?? [])
       </UBadge>
       <h1>Colophon</h1>
       <p class="text-muted/80 max-w-2xl">
-        This site is a personal portfolio built in the open. Here's what it's made of.
+        This site is a personal portfolio built in the open. Here's what it's
+        made of.
       </p>
     </div>
 
@@ -40,7 +55,11 @@ const stack = computed(() => colophonData.value?.items ?? [])
             rel="noopener"
             class="text-sm font-semibold hover:text-primary transition"
           >
-            {{ item.name }} <UIcon name="i-lucide-arrow-up-right" class="size-3 inline opacity-50" />
+            {{ item.name }}
+            <UIcon
+              name="i-lucide-arrow-up-right"
+              class="size-3 inline opacity-50"
+            />
           </a>
           <p class="text-sm text-muted/60">{{ item.description }}</p>
         </div>
