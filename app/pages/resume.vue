@@ -71,11 +71,71 @@ function profileIcon(network?: string) {
 
   return 'i-lucide-globe';
 }
+
+function maskEmail(email?: string | null) {
+  if (!email || !email.includes('@')) {
+    return '';
+  }
+
+  const [localRaw = '', domainRaw = ''] = email.split('@');
+  const [domainNameRaw = '', ...domainSuffixParts] = domainRaw.split('.');
+
+  const localPart = localRaw.trim();
+  const domainName = domainNameRaw.trim();
+
+  if (!localPart || !domainName) {
+    return '';
+  }
+
+  const maskedLocal =
+    localPart.length <= 2
+      ? `${localPart[0] ?? ''}*`
+      : `${localPart.slice(0, 2)}${'*'.repeat(Math.max(localPart.length - 2, 3))}`;
+
+  const maskedDomain =
+    domainName.length <= 1
+      ? '*'
+      : `${domainName[0]}${'*'.repeat(Math.max(domainName.length - 1, 2))}`;
+
+  const suffix = domainSuffixParts.length
+    ? `.${domainSuffixParts.join('.')}`
+    : '';
+
+  return `${maskedLocal}@${maskedDomain}${suffix}`;
+}
+
+function maskPhone(phone?: string | null) {
+  if (!phone) {
+    return '';
+  }
+
+  return phone.replace(/\d(?=\D*\d{2}$)/g, '•');
+}
+
+const publicEmail = computed(() => {
+  const value = basics.value?.email;
+  if (!value) {
+    return '';
+  }
+
+  return loggedIn.value ? value : maskEmail(value);
+});
+
+const publicPhone = computed(() => {
+  const value = basics.value?.phone;
+  if (!value) {
+    return '';
+  }
+
+  return loggedIn.value ? value : maskPhone(value);
+});
 </script>
 
 <template>
   <UContainer class="space-y-12 py-16 lg:space-y-16 lg:py-16">
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div
+      class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+    >
       <div>
         <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
           <span><span class="text-terminal-400/60">~/</span>resume</span>
@@ -94,18 +154,18 @@ function profileIcon(network?: string) {
     </div>
 
     <div class="rounded-2xl border border-muted/20 bg-muted/5 p-6">
-      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div class="space-y-1">
-          <p class="font-semibold">
-            Download CV
-          </p>
+          <p class="font-semibold">Download CV</p>
           <p class="text-sm text-muted/80">
             Sign in to download the PDF version of my resume.
           </p>
         </div>
         <div v-if="loggedIn" class="shrink-0">
           <UButton
-            to="/giancarlo_papa_resume.pdf"
+            to="/api/resume/pdf"
             target="_blank"
             label="Download CV"
             icon="i-lucide-download"
@@ -157,20 +217,24 @@ function profileIcon(network?: string) {
             <div v-if="basics?.email" class="flex items-center gap-3">
               <UIcon name="i-lucide-mail" class="text-base" />
               <a
+                v-if="loggedIn"
                 :href="`mailto:${basics.email}`"
                 class="transition hover:text-foreground"
               >
-                {{ basics.email }}
+                {{ publicEmail }}
               </a>
+              <span v-else>{{ publicEmail }}</span>
             </div>
             <div v-if="basics?.phone" class="flex items-center gap-3">
               <UIcon name="i-lucide-phone" class="text-base" />
               <a
+                v-if="loggedIn"
                 :href="`tel:${basics.phone}`"
                 class="transition hover:text-foreground"
               >
-                {{ basics.phone }}
+                {{ publicPhone }}
               </a>
+              <span v-else>{{ publicPhone }}</span>
             </div>
             <div v-if="basics?.location" class="flex items-start gap-3">
               <UIcon name="i-lucide-map-pin" class="mt-0.5 text-base" />
@@ -199,6 +263,9 @@ function profileIcon(network?: string) {
                 {{ basics.url }}
               </a>
             </div>
+            <p v-if="!loggedIn" class="text-xs text-muted/70">
+              Sign in to reveal direct email and phone links.
+            </p>
           </div>
         </div>
 

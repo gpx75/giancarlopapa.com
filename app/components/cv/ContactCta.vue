@@ -1,44 +1,62 @@
 <script setup lang="ts">
 interface CvContactCtaProps {
-  headline: string
-  subline: string
+  headline: string;
+  subline: string;
 }
 
-const props = defineProps<CvContactCtaProps>()
+const props = defineProps<CvContactCtaProps>();
 
-const { user, loggedIn } = useAuth()
+const { user, loggedIn } = useAuth();
 
 const form = reactive({
   name: '',
   email: '',
-  message: ''
-})
+  message: '',
+  website: ''
+});
 
-watch(loggedIn, (isLoggedIn) => {
-  if (isLoggedIn && user.value) {
-    form.name = form.name || user.value.name || ''
-    form.email = form.email || user.value.email || ''
-  }
-}, { immediate: true })
+const formStartedAt = ref(Date.now());
 
-const loading = ref(false)
-const status = ref<'idle' | 'success' | 'error'>('idle')
-const errorMessage = ref('')
+watch(
+  loggedIn,
+  (isLoggedIn) => {
+    if (isLoggedIn && user.value) {
+      form.name = form.name || user.value.name || '';
+      form.email = form.email || user.value.email || '';
+    }
+  },
+  { immediate: true }
+);
+
+const loading = ref(false);
+const status = ref<'idle' | 'success' | 'error'>('idle');
+const errorMessage = ref('');
 
 async function handleSubmit() {
-  loading.value = true
-  status.value = 'idle'
+  loading.value = true;
+  status.value = 'idle';
   try {
     await $fetch('/api/contact', {
       method: 'POST',
-      body: { name: form.name, email: form.email, message: form.message }
-    })
-    status.value = 'success'
+      body: {
+        name: form.name,
+        email: form.email,
+        message: form.message,
+        website: form.website,
+        submittedAt: formStartedAt.value
+      }
+    });
+    status.value = 'success';
+    form.message = '';
+    form.website = '';
+    formStartedAt.value = Date.now();
   } catch (err: unknown) {
-    status.value = 'error'
-    errorMessage.value = (err as { data?: { message?: string } })?.data?.message ?? 'Something went wrong. Please try again.'
+    status.value = 'error';
+    errorMessage.value =
+      (err as { data?: { message?: string } })?.data?.message ??
+      'Something went wrong. Please try again.';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 }
 </script>
@@ -46,11 +64,7 @@ async function handleSubmit() {
 <template>
   <section id="contact" class="grid gap-10 lg:grid-cols-2 lg:gap-16">
     <div class="space-y-4">
-      <UBadge
-        color="neutral"
-        variant="soft"
-        class="tracking-wider text-xs"
-      >
+      <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
         <span><span class="text-terminal-400/60">~/</span>contact</span>
       </UBadge>
       <h2>
@@ -74,9 +88,7 @@ async function handleSubmit() {
         >
           <UIcon name="i-lucide-circle-check" class="size-8 text-primary" />
           <div class="space-y-1">
-            <p class="text-lg font-semibold">
-              Message sent!
-            </p>
+            <p class="text-lg font-semibold">Message sent!</p>
             <p class="text-muted/80">
               Thanks for reaching out — I'll get back to you soon.
             </p>
@@ -89,11 +101,7 @@ async function handleSubmit() {
           description="One click with your existing account — no new password needed."
         />
 
-        <form
-          v-else
-          class="space-y-5"
-          @submit.prevent="handleSubmit"
-        >
+        <form v-else class="space-y-5" @submit.prevent="handleSubmit">
           <div class="grid gap-4 sm:grid-cols-2">
             <UFormField label="Name">
               <UInput
@@ -129,6 +137,12 @@ async function handleSubmit() {
               class="w-full"
             />
           </UFormField>
+
+          <div class="sr-only" aria-hidden="true">
+            <UFormField label="Company">
+              <UInput v-model="form.website" autocomplete="off" tabindex="-1" />
+            </UFormField>
+          </div>
 
           <div class="flex flex-col gap-3">
             <UButton

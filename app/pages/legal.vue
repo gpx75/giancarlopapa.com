@@ -1,8 +1,9 @@
 <script setup lang="ts">
 useSeoMeta({
   title: 'Legal — Giancarlo Papa',
-  description: 'Privacy policy, legal notice, and disclaimer for giancarlopapa.com.'
-})
+  description:
+    'Privacy policy, legal notice, and disclaimer for giancarlopapa.com.'
+});
 </script>
 
 <template>
@@ -13,8 +14,10 @@ useSeoMeta({
       </UBadge>
       <h1>Legal</h1>
       <p class="text-muted/80">
-        Privacy policy, legal notice, and disclaimer for giancarlopapa.com.<br>
-        <span class="text-xs text-muted/50">Last updated: 22 February 2026 · Governed by Swiss law</span>
+        Privacy policy, legal notice, and disclaimer for giancarlopapa.com.<br />
+        <span class="text-xs text-muted/50"
+          >Last updated: 22 February 2026 · Governed by Swiss law</span
+        >
       </p>
     </div>
 
@@ -22,7 +25,9 @@ useSeoMeta({
     <section id="legal-notice" class="space-y-6">
       <div class="space-y-1">
         <h2>Legal Notice</h2>
-        <p class="text-sm text-muted/60">Impressum — required under Swiss and EU law</p>
+        <p class="text-sm text-muted/60">
+          Impressum — required under Swiss and EU law
+        </p>
       </div>
       <UCard class="prose dark:prose-invert max-w-none">
         <p>This website is operated by a private individual:</p>
@@ -38,7 +43,13 @@ useSeoMeta({
             </tr>
             <tr>
               <td class="font-medium">Email</td>
-              <td><a href="mailto:hello@giancarlopapa.com">hello@giancarlopapa.com</a></td>
+              <td>
+                <NuxtLink
+                  to="/contact"
+                  class="underline hover:text-foreground transition"
+                  >Use contact form</NuxtLink
+                >
+              </td>
             </tr>
             <tr>
               <td class="font-medium">Website</td>
@@ -47,7 +58,8 @@ useSeoMeta({
           </tbody>
         </table>
         <p class="text-sm text-muted/70">
-          This is a personal portfolio website. No VAT number or commercial registration applies.
+          This is a personal portfolio website. No VAT number or commercial
+          registration applies.
         </p>
       </UCard>
     </section>
@@ -56,27 +68,53 @@ useSeoMeta({
     <section id="privacy" class="space-y-6">
       <div class="space-y-1">
         <h2>Privacy Policy</h2>
-        <p class="text-sm text-muted/60">Compliant with Swiss nDSG and EU GDPR</p>
+        <p class="text-sm text-muted/60">
+          Compliant with Swiss nDSG and EU GDPR
+        </p>
       </div>
       <div class="prose dark:prose-invert max-w-none space-y-6">
         <UCard>
           <h3>1. Controller</h3>
           <p>
-            Giancarlo Papa, Elsau ZH, Switzerland (<em>«I»</em>, <em>«me»</em>) is the data controller for all personal data processed through this website.
+            Giancarlo Papa, Elsau ZH, Switzerland (<em>«I»</em>, <em>«me»</em>)
+            is the data controller for all personal data processed through this
+            website.
           </p>
         </UCard>
 
         <UCard>
           <h3>2. Data I collect and why</h3>
-          <p><strong>Contact form</strong> — name, email address, and message. Used solely to respond to your inquiry. Legal basis: Art. 6(1)(b) GDPR / nDSG legitimate interest.</p>
-          <p><strong>Booking</strong> — name, email address, timezone, and optional session notes. Passed to Cal.com to create a calendar appointment. Legal basis: Art. 6(1)(b) GDPR — pre-contractual steps.</p>
-          <p><strong>Authentication</strong> — when you sign in via GitHub, Google, or LinkedIn, I receive your name, email address, and profile picture from that provider. This is stored in a secure, HTTP-only session cookie for the duration of your visit only. It is not persisted in any database.</p>
-          <p><strong>Server logs</strong> — Vercel may log IP addresses and request metadata for security and performance purposes. I do not access or process these logs for marketing purposes.</p>
+          <p>
+            <strong>Contact form</strong> — name, email address, and message.
+            Used solely to respond to your inquiry. Legal basis: Art. 6(1)(b)
+            GDPR / nDSG legitimate interest.
+          </p>
+          <p>
+            <strong>Booking</strong> — name, email address, timezone, and
+            optional session notes. Passed to Cal.com to create a calendar
+            appointment. Legal basis: Art. 6(1)(b) GDPR — pre-contractual steps.
+          </p>
+          <p>
+            <strong>Authentication</strong> — when you sign in via GitHub,
+            Google, or LinkedIn, I receive your name, email address, and profile
+            picture from that provider. This is stored in a secure, HTTP-only
+            session cookie for the duration of your visit only. It is not
+            persisted in any database.
+          </p>
+          <p>
+            <strong>Server logs</strong> — Vercel may log IP addresses and
+            request metadata for security and performance purposes. I do not
+            access or process these logs for marketing purposes.
+          </p>
         </UCard>
 
         <UCard>
           <h3>3. Cookies</h3>
-          <p>This site uses <strong>one HTTP-only session cookie</strong> for authentication state. No analytics, advertising, or tracking cookies are set. No cookie banner is necessary.</p>
+          <p>
+            This site uses <strong>one HTTP-only session cookie</strong> for
+            authentication state. No analytics, advertising, or tracking cookies
+            are set. No cookie banner is necessary.
+          </p>
         </UCard>
 
         <UCard>
@@ -125,13 +163,20 @@ useSeoMeta({
             </table>
           </div>
           <p class="text-sm text-muted/70">
-            US-based processors operate under Standard Contractual Clauses (SCCs) or equivalent transfer mechanisms recognised under Swiss and EU law.
+            US-based processors operate under Standard Contractual Clauses
+            (SCCs) or equivalent transfer mechanisms recognised under Swiss and
+            EU law.
           </p>
         </UCard>
 
         <UCard>
           <h3>5. Retention</h3>
-          <p>Contact and booking messages are retained only as long as necessary to handle your inquiry. Session data is deleted when you sign out or the session expires. No personal data is stored in a persistent database by this site.</p>
+          <p>
+            Contact and booking messages are retained only as long as necessary
+            to handle your inquiry. Session data is deleted when you sign out or
+            the session expires. No personal data is stored in a persistent
+            database by this site.
+          </p>
         </UCard>
 
         <UCard>
@@ -142,9 +187,19 @@ useSeoMeta({
             <li>Request correction or deletion of your data</li>
             <li>Restrict or object to processing</li>
             <li>Request data portability</li>
-            <li>Lodge a complaint with the Swiss Federal Data Protection Commissioner (FDPIC) or your local supervisory authority</li>
+            <li>
+              Lodge a complaint with the Swiss Federal Data Protection
+              Commissioner (FDPIC) or your local supervisory authority
+            </li>
           </ul>
-          <p>To exercise any of these rights, email <a href="mailto:hello@giancarlopapa.com">hello@giancarlopapa.com</a>.</p>
+          <p>
+            To exercise any of these rights, please use the
+            <NuxtLink
+              to="/contact"
+              class="underline hover:text-foreground transition"
+              >contact form</NuxtLink
+            >.
+          </p>
         </UCard>
       </div>
     </section>
@@ -153,28 +208,52 @@ useSeoMeta({
     <section id="disclaimer" class="space-y-6">
       <div class="space-y-1">
         <h2>Disclaimer</h2>
-        <p class="text-sm text-muted/60">Liability limitations and intellectual property</p>
+        <p class="text-sm text-muted/60">
+          Liability limitations and intellectual property
+        </p>
       </div>
       <div class="prose dark:prose-invert max-w-none space-y-6">
         <UCard>
           <h3>Accuracy of content</h3>
-          <p>The content of this website is provided for general information and personal portfolio purposes only. While I strive for accuracy, I make no warranties — express or implied — about completeness, reliability, or fitness for a particular purpose. Information may become outdated without notice.</p>
+          <p>
+            The content of this website is provided for general information and
+            personal portfolio purposes only. While I strive for accuracy, I
+            make no warranties — express or implied — about completeness,
+            reliability, or fitness for a particular purpose. Information may
+            become outdated without notice.
+          </p>
         </UCard>
 
         <UCard>
           <h3>External links</h3>
-          <p>This site may contain links to third-party websites. These links are provided for convenience only. I have no control over the content of linked sites and accept no responsibility for them or for any loss or damage that may arise from your use of them.</p>
+          <p>
+            This site may contain links to third-party websites. These links are
+            provided for convenience only. I have no control over the content of
+            linked sites and accept no responsibility for them or for any loss
+            or damage that may arise from your use of them.
+          </p>
         </UCard>
 
         <UCard>
           <h3>Intellectual property</h3>
-          <p>All original content on this website — including text, writing, and visual design — is © {{ new Date().getFullYear() }} Giancarlo Papa. All rights reserved. You may not reproduce, distribute, or create derivative works from the content without prior written permission.</p>
+          <p>
+            All original content on this website — including text, writing, and
+            visual design — is © {{ new Date().getFullYear() }} Giancarlo Papa.
+            All rights reserved. You may not reproduce, distribute, or create
+            derivative works from the content without prior written permission.
+          </p>
         </UCard>
 
         <UCard>
           <h3>Open source — MIT licence</h3>
-          <p>The <strong>source code</strong> of this website is released as open source under the MIT licence.</p>
-          <pre class="text-xs leading-relaxed bg-muted/10 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap">MIT License
+          <p>
+            The <strong>source code</strong> of this website is released as open
+            source under the MIT licence.
+          </p>
+          <pre
+            class="text-xs leading-relaxed bg-muted/10 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap"
+          >
+MIT License
 
 Copyright (c) {{ new Date().getFullYear() }} Giancarlo Papa
 
@@ -194,27 +273,48 @@ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
 AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</pre>
+SOFTWARE.</pre
+          >
           <p class="text-sm text-muted/70 mt-3">
-            Source code is available on <a href="https://github.com/gpx75/giancarlopapa.com" target="_blank" rel="noopener">GitHub</a>.
-            The MIT licence applies to code only — content, writing, and design remain under the copyright notice above.
+            Source code is available on
+            <a
+              href="https://github.com/gpx75/giancarlopapa.com"
+              target="_blank"
+              rel="noopener"
+              >GitHub</a
+            >. The MIT licence applies to code only — content, writing, and
+            design remain under the copyright notice above.
           </p>
         </UCard>
 
         <UCard>
           <h3>Limitation of liability</h3>
-          <p>To the maximum extent permitted by applicable law, I accept no liability for any direct, indirect, incidental, or consequential damages arising from your use of this website or reliance on its content.</p>
+          <p>
+            To the maximum extent permitted by applicable law, I accept no
+            liability for any direct, indirect, incidental, or consequential
+            damages arising from your use of this website or reliance on its
+            content.
+          </p>
         </UCard>
 
         <UCard>
           <h3>Governing law &amp; jurisdiction</h3>
-          <p>This website is operated from Switzerland. Any disputes relating to this website or its content shall be governed exclusively by Swiss law. The courts of the Canton of Zürich shall have exclusive jurisdiction, subject to mandatory provisions of applicable consumer protection law.</p>
+          <p>
+            This website is operated from Switzerland. Any disputes relating to
+            this website or its content shall be governed exclusively by Swiss
+            law. The courts of the Canton of Zürich shall have exclusive
+            jurisdiction, subject to mandatory provisions of applicable consumer
+            protection law.
+          </p>
         </UCard>
       </div>
     </section>
 
     <p class="text-xs text-muted/40 border-t border-muted/10 pt-8">
-      Questions about this page? Email <a href="mailto:hello@giancarlopapa.com" class="underline hover:text-foreground transition">hello@giancarlopapa.com</a>.
+      Questions about this page? Use the
+      <NuxtLink to="/contact" class="underline hover:text-foreground transition"
+        >contact form</NuxtLink
+      >.
     </p>
   </UContainer>
 </template>

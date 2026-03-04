@@ -1,30 +1,32 @@
 <script setup lang="ts">
-const open = defineModel<boolean>({ default: false })
+const open = defineModel<boolean>({ default: false });
 
 defineProps<{
-  navigation: Array<{ label: string; to: string }>
-  secondaryNavigation: Array<{ label: string; to: string }>
-}>()
+  navigation: Array<{ label: string; to: string }>;
+  secondaryNavigation: Array<{ label: string; to: string }>;
+}>();
 
 const emit = defineEmits<{
-  'sign-in': []
-}>()
-
-const runtimeConfig = useRuntimeConfig()
-const mailtoLink = `mailto:${runtimeConfig.public.contactEmail}`
+  'sign-in': [];
+}>();
 
 function close() {
-  open.value = false
+  open.value = false;
 }
 
 function handleSignIn() {
-  emit('sign-in')
-  close()
+  emit('sign-in');
+  close();
 }
 </script>
 
 <template>
-  <USlideover v-model:open="open" side="right" title="Navigate" class="md:hidden">
+  <USlideover
+    v-model:open="open"
+    side="right"
+    title="Navigate"
+    class="md:hidden"
+  >
     <template #body>
       <div class="flex flex-col gap-1">
         <NavLinks
@@ -43,13 +45,15 @@ function handleSignIn() {
           @click="close"
         />
 
-        <a
-          :href="mailtoLink"
-          class="px-4 py-3 rounded-xl text-base font-medium transition hover:bg-muted/80"
+        <UButton
+          to="/contact"
+          label="~/contact"
+          icon="i-lucide-mail"
+          size="lg"
+          variant="ghost"
+          class="justify-start px-4 py-3 text-base font-medium"
           @click="close"
-        >
-          ~/email
-        </a>
+        />
 
         <USeparator class="my-3" />
 

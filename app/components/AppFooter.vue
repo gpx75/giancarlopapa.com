@@ -1,26 +1,26 @@
 <script setup lang="ts">
 const props = defineProps<{
-  secondaryNavigation: Array<{ label: string; to: string }>
-}>()
+  secondaryNavigation: Array<{ label: string; to: string }>;
+}>();
 
-const runtimeConfig = useRuntimeConfig()
-const contactEmail = runtimeConfig.public.contactEmail
-const commitSha = runtimeConfig.public.commitSha as string
-const commitDate = runtimeConfig.public.commitDate as string
+const runtimeConfig = useRuntimeConfig();
+const commitSha = runtimeConfig.public.commitSha as string;
+const commitDate = runtimeConfig.public.commitDate as string;
 
 const commitUrl = computed(() =>
-  commitSha ? `https://github.com/gpx75/giancarlopapa.com/commit/${commitSha}` : null
-)
-const mailtoLink = computed(() => `mailto:${contactEmail}`)
+  commitSha
+    ? `https://github.com/gpx75/giancarlopapa.com/commit/${commitSha}`
+    : null
+);
 
-const route = useRoute()
+const route = useRoute();
 
 const navItems = computed(() =>
-  props.secondaryNavigation.map(item => ({
+  props.secondaryNavigation.map((item) => ({
     ...item,
     active: route.path.startsWith(item.to)
   }))
-)
+);
 </script>
 
 <template>
@@ -86,9 +86,9 @@ const navItems = computed(() =>
           size="sm"
         />
         <UButton
-          :to="mailtoLink"
+          to="/contact"
           icon="i-lucide-mail"
-          aria-label="Email"
+          aria-label="Contact"
           color="neutral"
           variant="ghost"
           size="sm"
@@ -97,7 +97,7 @@ const navItems = computed(() =>
     </template>
 
     <template #bottom>
-      <p class="text-center text-xs text-(--ui-text-muted)">
+      <p class="text-center text-xs text-muted">
         Based in Zürich · Working globally
       </p>
     </template>

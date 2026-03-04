@@ -1,29 +1,41 @@
-import resumeJson from '../../../content/giancarlo_papa_resume.json'
+import resumeJson from '../../../content/giancarlo_papa_resume.json';
 
 // The chromium binary is downloaded at runtime from GitHub releases.
 // On Vercel this happens once per Lambda container and is cached in /tmp.
 // For local dev, set CHROMIUM_EXECUTABLE_PATH to your local Chrome binary.
-const CHROMIUM_RELEASE = 'https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar'
+const CHROMIUM_RELEASE =
+  'https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar';
 
 function fmtDate(d: string): string {
-  if (!d || d.toLowerCase() === 'present') return 'Present'
-  const parts = d.split('-')
-  const y = parts[0] ?? d
-  const m = parts[1]
-  if (!m) return y
-  return new Date(Number(y), Number(m) - 1).toLocaleDateString('en', { month: 'short', year: 'numeric' })
+  if (!d || d.toLowerCase() === 'present') return 'Present';
+  const parts = d.split('-');
+  const y = parts[0] ?? d;
+  const m = parts[1];
+  if (!m) return y;
+  return new Date(Number(y), Number(m) - 1).toLocaleDateString('en', {
+    month: 'short',
+    year: 'numeric'
+  });
 }
 
 function escHtml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 }
 
 function buildResumeHtml(avatarBase64: string | undefined): string {
-  const { basics, work, skills, languages, education } = resumeJson
-  const interests = resumeWithInterests.interests
+  const { basics, work, skills, languages, education } = resumeJson;
+  const interests = resumeWithInterests.interests;
 
-  const recentWork = work.filter(j => j.endDate === 'Present' || Number(j.startDate.split('-')[0]) >= 2012)
-  const earlyWork = work.filter(j => j.endDate !== 'Present' && Number(j.startDate.split('-')[0]) < 2012)
+  const recentWork = work.filter(
+    (j) => j.endDate === 'Present' || Number(j.startDate.split('-')[0]) >= 2012
+  );
+  const earlyWork = work.filter(
+    (j) => j.endDate !== 'Present' && Number(j.startDate.split('-')[0]) < 2012
+  );
 
   const icons = {
     mail: `<svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
@@ -43,7 +55,7 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     building: `<svg viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></svg>`,
     database: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>`,
     server: `<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>`
-  }
+  };
 
   const skillIcons: Record<string, string> = {
     'Core Engineering': icons.code,
@@ -52,14 +64,14 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
     'Salesforce & Enterprise': icons.building,
     'Databases & Storage': icons.database,
     'DevOps & Networking': icons.server
-  }
+  };
 
   function iconBadge(svg: string) {
-    return `<span class="ibadge"><span class="isvg">${svg}</span></span>`
+    return `<span class="ibadge"><span class="isvg">${svg}</span></span>`;
   }
 
   function contactRow(svg: string, text: string) {
-    return `<div class="contact-row">${iconBadge(svg)}<span>${escHtml(text)}</span></div>`
+    return `<div class="contact-row">${iconBadge(svg)}<span>${escHtml(text)}</span></div>`;
   }
 
   function sectionHeader(title: string, svg: string, newPage = false) {
@@ -67,11 +79,13 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
       <div class="section-hdr${newPage ? ' section-page-break' : ''}">
         <div class="section-title">${iconBadge(svg)} ${escHtml(title)}</div>
         <div class="section-rule"></div>
-      </div>`
+      </div>`;
   }
 
-  function workEntry(job: typeof work[0]) {
-    const highlights = (job.highlights ?? []).map(h => `<li>${escHtml(h)}</li>`).join('')
+  function workEntry(job: (typeof work)[0]) {
+    const highlights = (job.highlights ?? [])
+      .map((h) => `<li>${escHtml(h)}</li>`)
+      .join('');
     return `
       <div class="work-row">
         <div class="wdate">
@@ -85,11 +99,11 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
           ${job.summary ? `<p class="jsummary">${escHtml(job.summary)}</p>` : ''}
           ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
         </div>
-      </div>`
+      </div>`;
   }
 
-  const githubProfile = basics.profiles.find(p => p.network === 'GitHub')
-  const linkedinProfile = basics.profiles.find(p => p.network === 'LinkedIn')
+  const githubProfile = basics.profiles.find((p) => p.network === 'GitHub');
+  const linkedinProfile = basics.profiles.find((p) => p.network === 'LinkedIn');
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -163,88 +177,121 @@ function buildResumeHtml(avatarBase64: string | undefined): string {
   ${sectionHeader('PROFESSIONAL EXPERIENCE', icons.briefcase)}
   ${recentWork.map(workEntry).join('')}
 
-  ${earlyWork.length ? `
+  ${
+    earlyWork.length
+      ? `
     ${sectionHeader('EARLY CAREER & FOUNDATION (Pre-2012)', icons.star)}
     ${earlyWork.map(workEntry).join('')}
-  ` : ''}
+  `
+      : ''
+  }
 
   ${sectionHeader('TECHNICAL SKILLS', icons.wrench, true)}
   <div class="skills-grid">
-    ${skills.map(g => `
+    ${skills
+      .map(
+        (g) => `
       <div class="skill-group">
         <div class="skill-title">${escHtml(g.name)}</div>
         <ul class="skill-kw">
-          ${g.keywords.map(k => `<li>${escHtml(k)}</li>`).join('')}
+          ${g.keywords.map((k) => `<li>${escHtml(k)}</li>`).join('')}
         </ul>
-      </div>`).join('')}
+      </div>`
+      )
+      .join('')}
   </div>
 
   ${sectionHeader('LANGUAGES', icons.globe)}
   <div class="lang-line">
-    ${languages.map((l, i) =>
-      `<strong>${escHtml(l.language)}</strong> (— ${escHtml(l.fluency)})${i < languages.length - 1 ? ' &nbsp;|&nbsp; ' : ''}`
-    ).join('')}
+    ${languages
+      .map(
+        (l, i) =>
+          `<strong>${escHtml(l.language)}</strong> (— ${escHtml(l.fluency)})${i < languages.length - 1 ? ' &nbsp;|&nbsp; ' : ''}`
+      )
+      .join('')}
   </div>
 
   ${sectionHeader('EDUCATION', icons.grad)}
-  ${education.map(edu => `
+  ${education
+    .map(
+      (edu) => `
     <div class="edu-entry">
       <div class="jobtitle">${escHtml(edu.institution)}</div>
       <div class="company">${escHtml([edu.studyType, edu.area].filter(Boolean).join(' · '))}</div>
       <div class="wloc">${escHtml([edu.startDate, edu.endDate].filter(Boolean).join(' – '))}</div>
-    </div>`).join('')}
+    </div>`
+    )
+    .join('')}
 
-  ${interests && interests.length ? `
+  ${
+    interests && interests.length
+      ? `
     ${sectionHeader('INTERESTS & HOBBIES', icons.hobby)}
     <div class="interests-grid">
-      ${interests.map(g => `
+      ${interests
+        .map(
+          (g) => `
         <div class="interest-group">
           <div class="interest-title">${escHtml(g.name)}</div>
-          <ul class="interest-kw">${g.keywords.map(k => `<li>${escHtml(k)}</li>`).join('')}</ul>
-        </div>`).join('')}
+          <ul class="interest-kw">${g.keywords.map((k) => `<li>${escHtml(k)}</li>`).join('')}</ul>
+        </div>`
+        )
+        .join('')}
     </div>
-  ` : ''}
+  `
+      : ''
+  }
 </body>
-</html>`
+</html>`;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const resumeWithInterests = resumeJson as typeof resumeJson & { interests?: Array<{ name: string; keywords: string[] }> }
+const resumeWithInterests = resumeJson as typeof resumeJson & {
+  interests?: Array<{ name: string; keywords: string[] }>;
+};
 
 export default defineEventHandler(async (event) => {
-  // Load avatar from bundled server asset
-  let avatarBase64: string | undefined
-  try {
-    const buf = await useStorage('assets/server').getItemRaw('images/avatar.jpeg')
-    if (buf) {
-      avatarBase64 = `data:image/jpeg;base64,${Buffer.from(buf as ArrayBuffer).toString('base64')}`
-    }
+  const session = await getUserSession(event);
+  if (!session.user) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' });
   }
-  catch { /* avatar is optional */ }
 
-  const html = buildResumeHtml(avatarBase64)
+  // Load avatar from bundled server asset
+  let avatarBase64: string | undefined;
+  try {
+    const buf =
+      await useStorage('assets/server').getItemRaw('images/avatar.jpeg');
+    if (buf) {
+      avatarBase64 = `data:image/jpeg;base64,${Buffer.from(buf as ArrayBuffer).toString('base64')}`;
+    }
+  } catch {
+    /* avatar is optional */
+  }
+
+  const html = buildResumeHtml(avatarBase64);
 
   // Resolve Chromium executable
-  const { createRequire } = await import('node:module')
-  const _require = createRequire(import.meta.url)
+  const { createRequire } = await import('node:module');
+  const _require = createRequire(import.meta.url);
 
-  let executablePath: string
+  let executablePath: string;
   if (process.env.CHROMIUM_EXECUTABLE_PATH) {
-    executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
-  }
-  else {
+    executablePath = process.env.CHROMIUM_EXECUTABLE_PATH;
+  } else {
     // Runtime download of Chromium binary (cached in /tmp between Lambda invocations)
     const chromium = _require('@sparticuz/chromium-min') as {
-      args: string[]
-      executablePath(url?: string): Promise<string>
-    }
-    executablePath = await chromium.executablePath(CHROMIUM_RELEASE)
+      args: string[];
+      executablePath(url?: string): Promise<string>;
+    };
+    executablePath = await chromium.executablePath(CHROMIUM_RELEASE);
   }
 
-  const puppeteer = _require('puppeteer-core') as typeof import('puppeteer-core')
+  const puppeteer = _require(
+    'puppeteer-core'
+  ) as typeof import('puppeteer-core');
   const chromiumArgs = process.env.CHROMIUM_EXECUTABLE_PATH
     ? []
-    : (_require('@sparticuz/chromium-min') as { args: string[] }).args
+    : (_require('@sparticuz/chromium-min') as { args: string[] }).args;
 
   const browser = await puppeteer.launch({
     args: [
@@ -255,28 +302,28 @@ export default defineEventHandler(async (event) => {
     ],
     executablePath,
     headless: true
-  })
+  });
 
   try {
-    const page = await browser.newPage()
-    await page.emulateMediaType('print')
-    await page.setContent(html, { waitUntil: 'networkidle0' })
-    await page.evaluate("document.fonts.ready")
+    const page = await browser.newPage();
+    await page.emulateMediaType('print');
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.evaluate('document.fonts.ready');
 
     const rawPdf = await page.pdf({
       format: 'A4',
       printBackground: true,
       margin: { top: '18mm', right: '18mm', bottom: '18mm', left: '18mm' }
-    })
+    });
 
     // ── Draw passepartout border on every page via pdf-lib ───────────────────
-    const { PDFDocument, rgb } = await import('pdf-lib')
-    const pdfDoc = await PDFDocument.load(rawPdf)
-    const borderWidth = 4 * 72 / 25.4  // 4mm in pt ≈ 11.34pt
-    const borderInset = borderWidth / 2  // center stroke on page edge → outer edge flush with page
-    const borderColor = rgb(58 / 255, 158 / 255, 174 / 255) // #3a9eae
+    const { PDFDocument, rgb } = await import('pdf-lib');
+    const pdfDoc = await PDFDocument.load(rawPdf);
+    const borderWidth = (4 * 72) / 25.4; // 4mm in pt ≈ 11.34pt
+    const borderInset = borderWidth / 2; // center stroke on page edge → outer edge flush with page
+    const borderColor = rgb(58 / 255, 158 / 255, 174 / 255); // #3a9eae
     for (const page of pdfDoc.getPages()) {
-      const { width, height } = page.getSize()
+      const { width, height } = page.getSize();
       page.drawRectangle({
         x: borderInset,
         y: borderInset,
@@ -285,19 +332,18 @@ export default defineEventHandler(async (event) => {
         borderColor,
         borderWidth,
         color: undefined
-      })
+      });
     }
-    const pdf = await pdfDoc.save()
+    const pdf = await pdfDoc.save();
 
     setResponseHeaders(event, {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment; filename="giancarlo_papa_resume.pdf"',
       'Content-Length': String(pdf.length)
-    })
+    });
 
-    return Buffer.from(pdf)
+    return Buffer.from(pdf);
+  } finally {
+    await browser.close();
   }
-  finally {
-    await browser.close()
-  }
-})
+});

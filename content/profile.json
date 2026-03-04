@@ -18,7 +18,7 @@
       { "label": "Book a call", "to": "/book", "icon": "i-lucide-calendar" }
     ],
     "contactLinks": [
-      { "label": "Email", "to": "mailto:giancarlo.papa@gmail.com", "icon": "i-lucide-mail" },
+      { "label": "Contact", "to": "/contact", "icon": "i-lucide-mail" },
       { "label": "GitHub", "to": "https://github.com/gpx75", "icon": "i-simple-icons-github" },
       { "label": "LinkedIn", "to": "https://www.linkedin.com/in/gpapa", "icon": "i-simple-icons-linkedin" }
     ]
