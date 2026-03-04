@@ -5,14 +5,14 @@ export default defineEventHandler(async (event) => {
   const isLoggedIn = Boolean(session.user);
 
   if (isLoggedIn) {
-    return structuredClone(resumeJson)
+    return structuredClone(resumeJson);
   }
 
-  const resume = structuredClone(resumeJson)
-  const { email: _email, phone: _phone, ...publicBasics } = resume.basics
+  const resume = structuredClone(resumeJson);
+  const { email: _email, phone: _phone, ...publicBasics } = resume.basics;
 
   return {
     ...resume,
     basics: publicBasics
-  }
+  };
 });
