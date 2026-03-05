@@ -1,0 +1,96 @@
+{
+  "meta": {
+    "lastUpdated": "5 March 2026",
+    "governed": "Swiss law"
+  },
+  "legalNotice": {
+    "name": "Giancarlo Papa",
+    "location": "Elsau, Canton Zürich, Switzerland",
+    "websiteUrl": "https://giancarlopapa.com",
+    "note": "This is a personal portfolio website. No VAT number or commercial registration applies."
+  },
+  "privacy": {
+    "controller": "Giancarlo Papa, Elsau ZH, Switzerland",
+    "dataCollection": [
+      {
+        "label": "Contact form",
+        "description": "name, email address, and message. Used solely to respond to your inquiry. Legal basis: Art. 6(1)(b) GDPR / nDSG legitimate interest."
+      },
+      {
+        "label": "Booking",
+        "description": "name, email address, timezone, and optional session notes. Passed to Cal.com to create a calendar appointment. Legal basis: Art. 6(1)(b) GDPR — pre-contractual steps."
+      },
+      {
+        "label": "Authentication",
+        "description": "when you sign in via GitHub, Google, or LinkedIn, I receive your name, email address, and profile picture from that provider. This is stored in a secure, HTTP-only session cookie for the duration of your visit only. It is not persisted in any database."
+      },
+      {
+        "label": "Server logs",
+        "description": "Vercel may log IP addresses and request metadata for security and performance purposes. I do not access or process these logs for marketing purposes."
+      }
+    ],
+    "cookies": [
+      {
+        "name": "Session cookie",
+        "description": "an HTTP-only cookie used to maintain your authenticated session. It is set only when you sign in and is deleted when you sign out or the session expires."
+      },
+      {
+        "name": "Google Analytics cookies",
+        "description": "this site uses Google Analytics 4 to understand visitor engagement (pages visited, referral sources, approximate location). These cookies are set automatically on every visit. No personally identifiable information is collected. Data is retained for 26 months by Google.",
+        "optOut": {
+          "url": "https://tools.google.com/dlpage/gaoptout",
+          "label": "Google Analytics opt-out browser add-on"
+        }
+      }
+    ],
+    "processors": [
+      { "service": "Vercel Inc.", "purpose": "Hosting & CDN", "country": "USA" },
+      { "service": "Resend Inc.", "purpose": "Transactional email", "country": "USA" },
+      { "service": "Cal.com Inc.", "purpose": "Appointment scheduling", "country": "USA" },
+      { "service": "GitHub (Microsoft)", "purpose": "OAuth sign-in", "country": "USA" },
+      { "service": "Google LLC", "purpose": "OAuth sign-in", "country": "USA" },
+      { "service": "Google LLC (Analytics)", "purpose": "Visitor analytics (GA4)", "country": "USA" },
+      { "service": "LinkedIn (Microsoft)", "purpose": "OAuth sign-in", "country": "USA" }
+    ],
+    "processorNote": "US-based processors operate under Standard Contractual Clauses (SCCs) or equivalent transfer mechanisms recognised under Swiss and EU law.",
+    "retention": "Contact and booking messages are retained only as long as necessary to handle your inquiry. Session data is deleted when you sign out or the session expires. No personal data is stored in a persistent database by this site.",
+    "rights": [
+      "Access the personal data I hold about you",
+      "Request correction or deletion of your data",
+      "Restrict or object to processing",
+      "Request data portability",
+      "Lodge a complaint with the Swiss Federal Data Protection Commissioner (FDPIC) or your local supervisory authority"
+    ]
+  },
+  "disclaimer": {
+    "sections": [
+      {
+        "title": "Accuracy of content",
+        "content": "The content of this website is provided for general information and personal portfolio purposes only. While I strive for accuracy, I make no warranties — express or implied — about completeness, reliability, or fitness for a particular purpose. Information may become outdated without notice."
+      },
+      {
+        "title": "External links",
+        "content": "This site may contain links to third-party websites. These links are provided for convenience only. I have no control over the content of linked sites and accept no responsibility for them or for any loss or damage that may arise from your use of them."
+      },
+      {
+        "title": "Intellectual property",
+        "content": "All original content on this website — including text, writing, and visual design — is © {year} Giancarlo Papa. All rights reserved. You may not reproduce, distribute, or create derivative works from the content without prior written permission."
+      },
+      {
+        "title": "Limitation of liability",
+        "content": "To the maximum extent permitted by applicable law, I accept no liability for any direct, indirect, incidental, or consequential damages arising from your use of this website or reliance on its content."
+      },
+      {
+        "title": "Governing law & jurisdiction",
+        "content": "This website is operated from Switzerland. Any disputes relating to this website or its content shall be governed exclusively by Swiss law. The courts of the Canton of Zürich shall have exclusive jurisdiction, subject to mandatory provisions of applicable consumer protection law."
+      }
+    ],
+    "openSource": {
+      "title": "Open source — MIT licence",
+      "intro": "The source code of this website is released as open source under the MIT licence.",
+      "licenseText": "MIT License\n\nCopyright (c) {year} Giancarlo Papa\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+      "githubUrl": "https://github.com/gpx75/giancarlopapa.com",
+      "note": "The MIT licence applies to code only — content, writing, and design remain under the copyright notice above."
+    }
+  }
+}

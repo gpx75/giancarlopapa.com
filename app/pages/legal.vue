@@ -22,10 +22,20 @@ useSeoMeta({
 useHead({
   link: [{ rel: 'canonical', href: canonicalUrl }]
 });
+
+const { data: legal } = await useAsyncData('legal', () =>
+  queryCollection('legal').first()
+);
+
+const currentYear = new Date().getFullYear();
+
+function withYear(text: string) {
+  return text.replace('{year}', String(currentYear));
+}
 </script>
 
 <template>
-  <UContainer class="max-w-3xl space-y-16 py-16">
+  <UContainer v-if="legal" class="max-w-3xl space-y-16 py-16">
     <div class="space-y-3">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
         <span class="text-terminal-400/60">~/</span>legal
@@ -34,7 +44,7 @@ useHead({
       <p class="text-muted/80">
         Privacy policy, legal notice, and disclaimer for giancarlopapa.com.<br />
         <span class="text-xs text-muted/50"
-          >Last updated: 22 February 2026 · Governed by Swiss law</span
+          >Last updated: {{ legal.meta.lastUpdated }} · Governed by {{ legal.meta.governed }}</span
         >
       </p>
     </div>
@@ -53,11 +63,11 @@ useHead({
           <tbody>
             <tr>
               <td class="font-medium">Name</td>
-              <td>Giancarlo Papa</td>
+              <td>{{ legal.legalNotice.name }}</td>
             </tr>
             <tr>
               <td class="font-medium">Location</td>
-              <td>Elsau, Canton Zürich, Switzerland</td>
+              <td>{{ legal.legalNotice.location }}</td>
             </tr>
             <tr>
               <td class="font-medium">Email</td>
@@ -71,14 +81,15 @@ useHead({
             </tr>
             <tr>
               <td class="font-medium">Website</td>
-              <td><a href="https://giancarlopapa.com">giancarlopapa.com</a></td>
+              <td>
+                <a :href="legal.legalNotice.websiteUrl">{{
+                  legal.legalNotice.websiteUrl.replace('https://', '')
+                }}</a>
+              </td>
             </tr>
           </tbody>
         </table>
-        <p class="text-sm text-muted/70">
-          This is a personal portfolio website. No VAT number or commercial
-          registration applies.
-        </p>
+        <p class="text-sm text-muted/70">{{ legal.legalNotice.note }}</p>
       </UCard>
     </section>
 
@@ -94,45 +105,35 @@ useHead({
         <UCard>
           <h3>1. Controller</h3>
           <p>
-            Giancarlo Papa, Elsau ZH, Switzerland (<em>«I»</em>, <em>«me»</em>)
-            is the data controller for all personal data processed through this
-            website.
+            {{ legal.privacy.controller }} (<em>«I»</em>, <em>«me»</em>) is the
+            data controller for all personal data processed through this website.
           </p>
         </UCard>
 
         <UCard>
           <h3>2. Data I collect and why</h3>
-          <p>
-            <strong>Contact form</strong> — name, email address, and message.
-            Used solely to respond to your inquiry. Legal basis: Art. 6(1)(b)
-            GDPR / nDSG legitimate interest.
-          </p>
-          <p>
-            <strong>Booking</strong> — name, email address, timezone, and
-            optional session notes. Passed to Cal.com to create a calendar
-            appointment. Legal basis: Art. 6(1)(b) GDPR — pre-contractual steps.
-          </p>
-          <p>
-            <strong>Authentication</strong> — when you sign in via GitHub,
-            Google, or LinkedIn, I receive your name, email address, and profile
-            picture from that provider. This is stored in a secure, HTTP-only
-            session cookie for the duration of your visit only. It is not
-            persisted in any database.
-          </p>
-          <p>
-            <strong>Server logs</strong> — Vercel may log IP addresses and
-            request metadata for security and performance purposes. I do not
-            access or process these logs for marketing purposes.
+          <p v-for="item in legal.privacy.dataCollection" :key="item.label">
+            <strong>{{ item.label }}</strong> — {{ item.description }}
           </p>
         </UCard>
 
         <UCard>
           <h3>3. Cookies</h3>
-          <p>
-            This site uses <strong>one HTTP-only session cookie</strong> for
-            authentication state. No analytics, advertising, or tracking cookies
-            are set. No cookie banner is necessary.
-          </p>
+          <p>This site uses the following cookies:</p>
+          <ul>
+            <li v-for="cookie in legal.privacy.cookies" :key="cookie.name">
+              <strong>{{ cookie.name }}</strong> — {{ cookie.description }}
+              <template v-if="cookie.optOut">
+                You can opt out at any time via the
+                <a
+                  :href="cookie.optOut.url"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >{{ cookie.optOut.label }}</a
+                >.
+              </template>
+            </li>
+          </ul>
         </UCard>
 
         <UCard>
@@ -147,67 +148,31 @@ useHead({
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Vercel Inc.</td>
-                  <td>Hosting &amp; CDN</td>
-                  <td>USA</td>
-                </tr>
-                <tr>
-                  <td>Resend Inc.</td>
-                  <td>Transactional email</td>
-                  <td>USA</td>
-                </tr>
-                <tr>
-                  <td>Cal.com Inc.</td>
-                  <td>Appointment scheduling</td>
-                  <td>USA</td>
-                </tr>
-                <tr>
-                  <td>GitHub (Microsoft)</td>
-                  <td>OAuth sign-in</td>
-                  <td>USA</td>
-                </tr>
-                <tr>
-                  <td>Google LLC</td>
-                  <td>OAuth sign-in</td>
-                  <td>USA</td>
-                </tr>
-                <tr>
-                  <td>LinkedIn (Microsoft)</td>
-                  <td>OAuth sign-in</td>
-                  <td>USA</td>
+                <tr
+                  v-for="processor in legal.privacy.processors"
+                  :key="processor.service"
+                >
+                  <td>{{ processor.service }}</td>
+                  <td>{{ processor.purpose }}</td>
+                  <td>{{ processor.country }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p class="text-sm text-muted/70">
-            US-based processors operate under Standard Contractual Clauses
-            (SCCs) or equivalent transfer mechanisms recognised under Swiss and
-            EU law.
-          </p>
+          <p class="text-sm text-muted/70">{{ legal.privacy.processorNote }}</p>
         </UCard>
 
         <UCard>
           <h3>5. Retention</h3>
-          <p>
-            Contact and booking messages are retained only as long as necessary
-            to handle your inquiry. Session data is deleted when you sign out or
-            the session expires. No personal data is stored in a persistent
-            database by this site.
-          </p>
+          <p>{{ legal.privacy.retention }}</p>
         </UCard>
 
         <UCard>
           <h3>6. Your rights</h3>
           <p>Under the Swiss nDSG and EU GDPR you have the right to:</p>
           <ul>
-            <li>Access the personal data I hold about you</li>
-            <li>Request correction or deletion of your data</li>
-            <li>Restrict or object to processing</li>
-            <li>Request data portability</li>
-            <li>
-              Lodge a complaint with the Swiss Federal Data Protection
-              Commissioner (FDPIC) or your local supervisory authority
+            <li v-for="right in legal.privacy.rights" :key="right">
+              {{ right }}
             </li>
           </ul>
           <p>
@@ -231,98 +196,32 @@ useHead({
         </p>
       </div>
       <div class="prose dark:prose-invert max-w-none space-y-6">
-        <UCard>
-          <h3>Accuracy of content</h3>
-          <p>
-            The content of this website is provided for general information and
-            personal portfolio purposes only. While I strive for accuracy, I
-            make no warranties — express or implied — about completeness,
-            reliability, or fitness for a particular purpose. Information may
-            become outdated without notice.
-          </p>
+        <UCard
+          v-for="section in legal.disclaimer.sections"
+          :key="section.title"
+        >
+          <h3>{{ section.title }}</h3>
+          <p>{{ withYear(section.content) }}</p>
         </UCard>
 
         <UCard>
-          <h3>External links</h3>
-          <p>
-            This site may contain links to third-party websites. These links are
-            provided for convenience only. I have no control over the content of
-            linked sites and accept no responsibility for them or for any loss
-            or damage that may arise from your use of them.
-          </p>
-        </UCard>
-
-        <UCard>
-          <h3>Intellectual property</h3>
-          <p>
-            All original content on this website — including text, writing, and
-            visual design — is © {{ new Date().getFullYear() }} Giancarlo Papa.
-            All rights reserved. You may not reproduce, distribute, or create
-            derivative works from the content without prior written permission.
-          </p>
-        </UCard>
-
-        <UCard>
-          <h3>Open source — MIT licence</h3>
+          <h3>{{ legal.disclaimer.openSource.title }}</h3>
           <p>
             The <strong>source code</strong> of this website is released as open
             source under the MIT licence.
           </p>
           <pre
             class="text-xs leading-relaxed bg-muted/10 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap"
-          >
-MIT License
-
-Copyright (c) {{ new Date().getFullYear() }} Giancarlo Papa
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.</pre
+            >{{ withYear(legal.disclaimer.openSource.licenseText) }}</pre
           >
           <p class="text-sm text-muted/70 mt-3">
             Source code is available on
             <a
-              href="https://github.com/gpx75/giancarlopapa.com"
+              :href="legal.disclaimer.openSource.githubUrl"
               target="_blank"
               rel="noopener"
               >GitHub</a
-            >. The MIT licence applies to code only — content, writing, and
-            design remain under the copyright notice above.
-          </p>
-        </UCard>
-
-        <UCard>
-          <h3>Limitation of liability</h3>
-          <p>
-            To the maximum extent permitted by applicable law, I accept no
-            liability for any direct, indirect, incidental, or consequential
-            damages arising from your use of this website or reliance on its
-            content.
-          </p>
-        </UCard>
-
-        <UCard>
-          <h3>Governing law &amp; jurisdiction</h3>
-          <p>
-            This website is operated from Switzerland. Any disputes relating to
-            this website or its content shall be governed exclusively by Swiss
-            law. The courts of the Canton of Zürich shall have exclusive
-            jurisdiction, subject to mandatory provisions of applicable consumer
-            protection law.
+            >. {{ legal.disclaimer.openSource.note }}
           </p>
         </UCard>
       </div>

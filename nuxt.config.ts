@@ -140,7 +140,7 @@ export default defineNuxtConfig({
   },
 
   gtag: {
-    initMode: 'manual',
+    initMode: 'auto',
     id: process.env.NUXT_PUBLIC_GTAG_ID || ''
   },
 

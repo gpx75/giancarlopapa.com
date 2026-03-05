@@ -173,6 +173,59 @@ export default defineContentConfig({
           url: z.string()
         }))
       })
+    }),
+
+    legal: defineCollection({
+      type: 'data',
+      source: 'legal.json',
+      schema: z.object({
+        meta: z.object({
+          lastUpdated: z.string(),
+          governed: z.string()
+        }),
+        legalNotice: z.object({
+          name: z.string(),
+          location: z.string(),
+          websiteUrl: z.string(),
+          note: z.string()
+        }),
+        privacy: z.object({
+          controller: z.string(),
+          dataCollection: z.array(z.object({
+            label: z.string(),
+            description: z.string()
+          })),
+          cookies: z.array(z.object({
+            name: z.string(),
+            description: z.string(),
+            optOut: z.object({
+              url: z.string(),
+              label: z.string()
+            }).optional()
+          })),
+          processors: z.array(z.object({
+            service: z.string(),
+            purpose: z.string(),
+            country: z.string()
+          })),
+          processorNote: z.string(),
+          retention: z.string(),
+          rights: z.array(z.string())
+        }),
+        disclaimer: z.object({
+          sections: z.array(z.object({
+            title: z.string(),
+            content: z.string()
+          })),
+          openSource: z.object({
+            title: z.string(),
+            intro: z.string(),
+            licenseText: z.string(),
+            githubUrl: z.string(),
+            note: z.string()
+          })
+        })
+      })
     })
   }
 })
