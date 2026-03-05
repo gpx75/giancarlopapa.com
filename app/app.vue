@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Analytics } from '@vercel/analytics/vue';
 const runtimeConfig = useRuntimeConfig();
 const siteUrl = runtimeConfig.public.siteUrl;
 const route = useRoute();
@@ -116,5 +117,6 @@ useSeoMeta({
     />
 
     <AppLoginModal v-model="isLoginModalOpen" />
+    <Analytics />
   </UApp>
 </template>
