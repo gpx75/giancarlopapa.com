@@ -2,28 +2,19 @@
 title: 'Developer Behind a Corporate Proxy: A Survival Guide'
 description: 'NTLM authentication, certificate inspection, DNS switching, and a Fish shell function that keeps every tool — npm, git, gcloud, Python — working inside and outside the corporate network.'
 date: '2026-03-04'
-tags:
-  [
-    'proxy',
-    'devex',
-    'cntlm',
-    'fish',
-    'security',
-    'linux',
-    'networking'
-  ]
+tags: ['proxy', 'devex', 'cntlm', 'fish', 'security', 'linux', 'networking']
 draft: false
 ---
 
 Every developer who has ever worked inside a large enterprise knows the feeling: you clone a repo, run `npm install`, and stare at a cascade of `ECONNREFUSED` errors. Welcome to the corporate proxy.
 
-This post is not a rant. It is a breakdown of how I actually solved it — completely, across every tool I use — and packaged it into a single Fish shell function I can toggle on and off with `proxy on` and `proxy off`.
+This post is not a rant. It is a breakdown of how I actually solved it completely, across every tool I use and packaged it into a single Fish shell function I can toggle on and off with `proxy on` and `proxy off`.
 
 ---
 
 ## The Problem
 
-Corporate networks commonly route all outbound traffic through a **forward proxy** that requires NTLM authentication — the Windows-native challenge-response authentication protocol. Most developer tooling (npm, git, curl, pip, gcloud) supports HTTP proxies natively, but almost none of them can negotiate NTLM on their own.
+Corporate networks commonly route all outbound traffic through a **forward proxy** that requires NTLM authentication the Windows-native challenge-response authentication protocol. Most developer tooling (npm, git, curl, pip, gcloud) supports HTTP proxies natively, but almost none of them can negotiate NTLM on their own.
 
 On top of that, the proxy performs **TLS inspection**: it terminates your HTTPS connections, inspects the traffic, then re-encrypts with the corporate root CA certificate. Tools that ship with their own bundled CA stores (Node.js, Python's `requests`, Go's `net/http`) reject these re-signed certificates and throw `CERTIFICATE_VERIFY_FAILED` or `unable to get local issuer certificate`.
 
@@ -37,6 +28,7 @@ your tool → CNTLM (localhost:3128) → corporate proxy (NTLM auth) → interne
 ```
 
 You have two distinct problems to solve:
+
 1. **Authentication**: speak NTLM on behalf of every tool
 2. **Certificate trust**: make every tool accept the corporate CA chain
 
@@ -94,7 +86,7 @@ proxy status         # diagnostic overview
 proxy trust <file>   # install a corporate CA cert
 ```
 
-### `proxy on` — what it does
+### `proxy on` what it does
 
 **1. VPN detection**
 
@@ -114,7 +106,7 @@ On VPN, internal hostnames need to resolve via the corporate DNS. I back up `/et
 
 **4. Build the certificate bundle**
 
-As described above — base CA store + corporate root + live-extracted intermediates.
+As described above base CA store + corporate root + live-extracted intermediates.
 
 **5. Export environment variables**
 
@@ -186,7 +178,7 @@ The `NODE_OPTIONS` variable is special — it may have been set before `proxy on
 
 ## The Node.js Problem
 
-Node.js has a frustrating trust model. Unlike Go or Python, it does not use the system CA store by default — it ships its own compiled-in bundle. `NODE_EXTRA_CA_CERTS` adds CAs on top of the built-in ones, which works for most cases.
+Node.js has a frustrating trust model. Unlike Go or Python, it does not use the system CA store by default it ships its own compiled-in bundle. `NODE_EXTRA_CA_CERTS` adds CAs on top of the built-in ones, which works for most cases.
 
 But there is a wrinkle: **undici**, Node's built-in HTTP client (used by `fetch()` since Node 18), does not respect `http_proxy` env vars. It requires explicit proxy configuration in code or at the process level.
 
@@ -246,4 +238,4 @@ If you work in a corporate environment and spend more than ten minutes a day fig
 
 ---
 
-*Have a better approach to the undici proxy problem, or a tool I'm missing? I'd love to hear about it — reach me via the [contact form](/contact).*
+_Have a better approach to the undici proxy problem, or a tool I'm missing? I'd love to hear about it reach me via the [contact form](/contact)._
