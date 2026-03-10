@@ -127,7 +127,14 @@ export default defineNuxtConfig({
   compatibilityDate: '2025-01-15',
 
   nitro: {
-    preset: 'vercel'
+    preset: 'vercel',
+    vercel: {
+      functions: {
+        '/api/resume/pdf': {
+          maxDuration: 60
+        }
+      }
+    }
   },
 
   eslint: {

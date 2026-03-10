@@ -4,7 +4,7 @@ import resumeJson from '../../../content/giancarlo_papa_resume.json';
 // On Vercel this happens once per Lambda container and is cached in /tmp.
 // For local dev, set CHROMIUM_EXECUTABLE_PATH to your local Chrome binary.
 const CHROMIUM_RELEASE =
-  'https://github.com/Sparticuz/chromium/releases/download/v131.0.1/chromium-v131.0.1-pack.tar';
+  'https://github.com/Sparticuz/chromium/releases/download/v143.0.0/chromium-v143.0.0-pack.tar';
 
 function fmtDate(d: string): string {
   if (!d || d.toLowerCase() === 'present') return 'Present';
