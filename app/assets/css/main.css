@@ -115,6 +115,15 @@ body {
   color: var(--color-snazzy-dark-100); /* #eff0eb — Snazzy foreground on dark bg */
 }
 
+/* Override Nuxt UI text-dimmed to be visibly more subdued for the Snazzy palette.
+   Default neutral-400/500 is too close to text-muted — use half-opacity for clear hierarchy. */
+:root, .light {
+  --ui-text-dimmed: color-mix(in oklab, var(--ui-color-neutral-500) 50%, transparent);
+}
+.dark {
+  --ui-text-dimmed: color-mix(in oklab, var(--ui-color-neutral-400) 55%, transparent);
+}
+
 /* Page-level headings — applies outside .prose only */
 h1:not(.prose *), h2:not(.prose *), h3:not(.prose *),
 h4:not(.prose *), h5:not(.prose *), h6:not(.prose *) {

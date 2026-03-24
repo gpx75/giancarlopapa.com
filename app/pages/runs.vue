@@ -66,43 +66,36 @@ async function loadMore() {
         <span><span class="text-terminal-400/60">~/</span>runs</span>
       </UBadge>
       <h1>Running</h1>
-      <p class="text-muted/80 max-w-2xl">Recent activity, live from Strava.</p>
+      <p class="text-muted max-w-2xl">Recent activity, live from Strava.</p>
     </div>
 
-    <!-- Divider -->
-    <div class="flex items-center gap-3">
-      <span class="text-xs uppercase tracking-widest text-muted/40"
-        >Recent Activities</span
-      >
-      <div class="flex-1 border-t border-muted/15" />
-    </div>
+    <USeparator label="Recent Activities" />
 
     <!-- Activity feed -->
     <div
       v-if="status === 'pending'"
       class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
     >
-      <div
-        v-for="i in 6"
-        :key="i"
-        class="h-72 rounded-xl bg-muted/10 animate-pulse"
-      />
+      <USkeleton v-for="i in 6" :key="i" class="h-72 rounded-xl" />
     </div>
 
-    <div v-else-if="error" class="text-center py-16 space-y-4">
-      <UIcon name="i-lucide-wifi-off" class="size-10 mx-auto text-muted/40" />
-      <p class="text-sm text-muted/60">Could not load activities.</p>
-      <p class="text-xs font-mono text-muted/40">{{ error.message }}</p>
-      <UButton
-        size="sm"
-        variant="soft"
-        color="neutral"
-        icon="i-lucide-refresh-cw"
-        @click="refresh()"
-      >
-        Retry
-      </UButton>
-    </div>
+    <UAlert
+      v-else-if="error"
+      color="error"
+      variant="soft"
+      icon="i-lucide-wifi-off"
+      title="Could not load activities"
+      :description="error.message"
+      :actions="[
+        {
+          label: 'Retry',
+          color: 'neutral',
+          variant: 'soft',
+          icon: 'i-lucide-refresh-cw',
+          onClick: () => refresh()
+        }
+      ]"
+    />
 
     <template v-else-if="allActivities.length">
       <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -123,15 +116,18 @@ async function loadMore() {
         >
           Load more
         </UButton>
-        <p v-else class="text-xs text-muted/40 font-mono">
+        <p v-else class="text-xs text-dimmed font-mono">
           // all activities loaded
         </p>
       </div>
     </template>
 
-    <div v-else class="text-center py-16 text-muted/40">
-      <UIcon name="i-lucide-activity" class="size-10 mx-auto mb-3" />
-      <p class="text-sm">No activities found.</p>
-    </div>
+    <UAlert
+      v-else
+      color="neutral"
+      variant="soft"
+      icon="i-lucide-activity"
+      title="No activities found"
+    />
   </UContainer>
 </template>

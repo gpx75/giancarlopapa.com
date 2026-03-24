@@ -7,6 +7,8 @@ const runtimeConfig = useRuntimeConfig();
 const commitSha = runtimeConfig.public.commitSha as string;
 const commitDate = runtimeConfig.public.commitDate as string;
 
+const { data: ui } = await useUiContent();
+
 const commitUrl = computed(() =>
   commitSha
     ? `https://github.com/gpx75/giancarlopapa.com/commit/${commitSha}`
@@ -34,7 +36,7 @@ const navItems = computed(() =>
     <template #left>
       <div class="flex items-center gap-2">
         <span class="text-sm font-semibold tracking-tight">
-          © {{ new Date().getFullYear() }} Giancarlo Papa
+          © {{ new Date().getFullYear() }} {{ ui?.footer.copyright ?? 'Giancarlo Papa' }}
         </span>
         <UButton
           v-if="commitDate && commitUrl"
@@ -98,7 +100,7 @@ const navItems = computed(() =>
 
     <template #bottom>
       <p class="text-center text-xs text-muted">
-        Based in Zürich · Working globally
+        {{ ui?.footer.tagline ?? 'Based in Zürich · Working globally' }}
       </p>
     </template>
   </UFooter>

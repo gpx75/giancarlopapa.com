@@ -41,10 +41,11 @@ function withYear(text: string) {
         <span class="text-terminal-400/60">~/</span>legal
       </UBadge>
       <h1>Legal</h1>
-      <p class="text-muted/80">
+      <p class="text-muted">
         Privacy policy, legal notice, and disclaimer for giancarlopapa.com.<br />
-        <span class="text-xs text-muted/50"
-          >Last updated: {{ legal.meta.lastUpdated }} · Governed by {{ legal.meta.governed }}</span
+        <span class="text-xs text-dimmed"
+          >Last updated: {{ legal.meta.lastUpdated }} · Governed by
+          {{ legal.meta.governed }}</span
         >
       </p>
     </div>
@@ -53,7 +54,7 @@ function withYear(text: string) {
     <section id="legal-notice" class="space-y-6">
       <div class="space-y-1">
         <h2>Legal Notice</h2>
-        <p class="text-sm text-muted/60">
+        <p class="text-sm text-dimmed">
           Impressum — required under Swiss and EU law
         </p>
       </div>
@@ -89,7 +90,7 @@ function withYear(text: string) {
             </tr>
           </tbody>
         </table>
-        <p class="text-sm text-muted/70">{{ legal.legalNotice.note }}</p>
+        <p class="text-sm text-muted">{{ legal.legalNotice.note }}</p>
       </UCard>
     </section>
 
@@ -97,16 +98,15 @@ function withYear(text: string) {
     <section id="privacy" class="space-y-6">
       <div class="space-y-1">
         <h2>Privacy Policy</h2>
-        <p class="text-sm text-muted/60">
-          Compliant with Swiss nDSG and EU GDPR
-        </p>
+        <p class="text-sm text-dimmed">Compliant with Swiss nDSG and EU GDPR</p>
       </div>
       <div class="prose dark:prose-invert max-w-none space-y-6">
         <UCard>
           <h3>1. Controller</h3>
           <p>
             {{ legal.privacy.controller }} (<em>«I»</em>, <em>«me»</em>) is the
-            data controller for all personal data processed through this website.
+            data controller for all personal data processed through this
+            website.
           </p>
         </UCard>
 
@@ -159,7 +159,7 @@ function withYear(text: string) {
               </tbody>
             </table>
           </div>
-          <p class="text-sm text-muted/70">{{ legal.privacy.processorNote }}</p>
+          <p class="text-sm text-muted">{{ legal.privacy.processorNote }}</p>
         </UCard>
 
         <UCard>
@@ -191,7 +191,7 @@ function withYear(text: string) {
     <section id="disclaimer" class="space-y-6">
       <div class="space-y-1">
         <h2>Disclaimer</h2>
-        <p class="text-sm text-muted/60">
+        <p class="text-sm text-dimmed">
           Liability limitations and intellectual property
         </p>
       </div>
@@ -211,10 +211,10 @@ function withYear(text: string) {
             source under the MIT licence.
           </p>
           <pre
-            class="text-xs leading-relaxed bg-muted/10 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap"
+            class="text-xs leading-relaxed bg-elevated/50 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap"
             >{{ withYear(legal.disclaimer.openSource.licenseText) }}</pre
           >
-          <p class="text-sm text-muted/70 mt-3">
+          <p class="text-sm text-muted mt-3">
             Source code is available on
             <a
               :href="legal.disclaimer.openSource.githubUrl"
@@ -227,7 +227,7 @@ function withYear(text: string) {
       </div>
     </section>
 
-    <p class="text-xs text-muted/40 border-t border-muted/10 pt-8">
+    <p class="text-xs text-dimmed border-t border-default pt-8">
       Questions about this page? Use the
       <NuxtLink to="/contact" class="underline hover:text-foreground transition"
         >contact form</NuxtLink

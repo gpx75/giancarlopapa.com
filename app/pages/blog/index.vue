@@ -39,7 +39,7 @@ const { formatDate } = useDateFormatting();
         <span><span class="text-terminal-400/60">~/</span>blog</span>
       </UBadge>
       <h1>Writing</h1>
-      <p class="text-muted/80 max-w-2xl">
+      <p class="text-muted max-w-2xl">
         Engineering notes, terminal setups, and thoughts on cloud platforms,
         full stack development, and applied AI.
       </p>
@@ -57,19 +57,19 @@ const { formatDate } = useDateFormatting();
             class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
           >
             <div class="space-y-2">
-              <p class="text-xs uppercase tracking-widest text-muted/50">
+              <p class="text-xs uppercase tracking-widest text-dimmed">
                 {{ formatDate(post.date) }}
               </p>
               <h2 class="text-xl leading-snug transition">
                 {{ post.title }}
               </h2>
-              <p class="text-sm text-muted/70 leading-relaxed">
+              <p class="text-sm text-muted leading-relaxed">
                 {{ post.description }}
               </p>
             </div>
             <UIcon
               name="i-lucide-arrow-right"
-              class="hidden sm:block shrink-0 mt-1 size-4 text-muted/30 group-hover:text-primary group-hover:translate-x-1 transition"
+              class="hidden sm:block shrink-0 mt-1 size-4 text-dimmed group-hover:text-primary group-hover:translate-x-1 transition"
             />
           </div>
           <div v-if="post.tags?.length" class="flex flex-wrap gap-2">

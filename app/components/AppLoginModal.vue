@@ -2,18 +2,19 @@
 const open = defineModel<boolean>({ default: false })
 
 const { login } = useAuth()
+const { data: ui } = await useUiContent()
 </script>
 
 <template>
   <UModal
     v-model:open="open"
-    title="Sign in to continue"
-    description="Use your existing account — no new password needed."
+    :title="ui?.auth.signInTitle ?? 'Sign in to continue'"
+    :description="ui?.auth.signInDescription ?? ''"
   >
     <template #body>
       <div class="flex flex-col gap-3 px-1 pb-2">
         <UButton
-          label="Continue with GitHub"
+          :label="ui?.auth.providers.github ?? 'Continue with GitHub'"
           icon="i-simple-icons-github"
           size="lg"
           color="neutral"
@@ -22,7 +23,7 @@ const { login } = useAuth()
           @click="login('github')"
         />
         <UButton
-          label="Continue with Google"
+          :label="ui?.auth.providers.google ?? 'Continue with Google'"
           icon="i-simple-icons-google"
           size="lg"
           color="neutral"
@@ -31,7 +32,7 @@ const { login } = useAuth()
           @click="login('google')"
         />
         <UButton
-          label="Continue with LinkedIn"
+          :label="ui?.auth.providers.linkedin ?? 'Continue with LinkedIn'"
           icon="i-simple-icons-linkedin"
           size="lg"
           color="neutral"

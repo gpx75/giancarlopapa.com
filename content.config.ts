@@ -226,6 +226,61 @@ export default defineContentConfig({
           })
         })
       })
+    }),
+
+    ui: defineCollection({
+      type: 'data',
+      source: 'ui.json',
+      schema: z.object({
+        auth: z.object({
+          signInTitle: z.string(),
+          signInDescription: z.string(),
+          providers: z.object({
+            github: z.string(),
+            google: z.string(),
+            linkedin: z.string()
+          }),
+          signIn: z.string(),
+          signOut: z.string()
+        }),
+        footer: z.object({
+          copyright: z.string(),
+          tagline: z.string()
+        }),
+        contact: z.object({
+          successTitle: z.string(),
+          successDescription: z.string(),
+          authTitle: z.string(),
+          authDescription: z.string(),
+          form: z.object({
+            nameLabel: z.string(),
+            namePlaceholder: z.string(),
+            emailLabel: z.string(),
+            emailPlaceholder: z.string(),
+            messageLabel: z.string(),
+            messagePlaceholder: z.string(),
+            honeypotLabel: z.string(),
+            submit: z.string()
+          }),
+          errorTitle: z.string()
+        }),
+        mobileMenu: z.object({
+          title: z.string(),
+          bookLabel: z.string(),
+          contactLabel: z.string()
+        }),
+        runs: z.object({
+          sportLabels: z.record(z.string(), z.string()),
+          statLabels: z.object({
+            distance: z.string(),
+            pace: z.string(),
+            speed: z.string(),
+            time: z.string(),
+            elevation: z.string(),
+            avgHr: z.string()
+          })
+        })
+      })
     })
   }
 })

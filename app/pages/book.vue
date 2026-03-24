@@ -214,7 +214,7 @@ watch(
         <span><span class="text-terminal-400/60">~/</span>book</span>
       </UBadge>
       <h1>Schedule time with Giancarlo</h1>
-      <p class="max-w-2xl text-lg text-muted/80">
+      <p class="max-w-2xl text-lg text-muted">
         Select a session type and a time that works for you — I'll send a
         calendar invite with all the details.
       </p>
@@ -234,7 +234,7 @@ watch(
         <UCard class="space-y-4">
           <div class="space-y-1">
             <p class="font-semibold text-base">Select an offering</p>
-            <p class="text-sm text-muted/60">
+            <p class="text-sm text-dimmed">
               Architecture reviews, cloud platform deep dives, AI engineering,
               or general technical consultation.
             </p>
@@ -246,19 +246,24 @@ watch(
           </div>
 
           <div v-else-if="booking.hasEventTypes.value" class="space-y-2">
-            <button
+            <UButton
               v-for="eventType in booking.eventTypes.value"
               :key="eventType.id"
-              type="button"
-              class="w-full rounded-xl border px-4 py-3 text-left transition"
-              :class="
+              :variant="
                 booking.selectedEventType.value?.id === eventType.id
-                  ? 'border-primary bg-primary/10'
-                  : 'border-muted/20 hover:border-muted/40 bg-muted/5 hover:bg-muted/10'
+                  ? 'soft'
+                  : 'outline'
               "
+              :color="
+                booking.selectedEventType.value?.id === eventType.id
+                  ? 'primary'
+                  : 'neutral'
+              "
+              class="w-full justify-start text-left"
+              size="lg"
               @click="booking.selectedEventType.value = eventType"
             >
-              <div class="flex items-center justify-between gap-4">
+              <div class="flex w-full items-center justify-between gap-4">
                 <span class="text-sm font-semibold">{{ eventType.title }}</span>
                 <UBadge
                   color="neutral"
@@ -268,13 +273,10 @@ watch(
                   {{ eventType.length }} min
                 </UBadge>
               </div>
-              <p
-                v-if="eventType.description"
-                class="mt-1 text-xs text-muted/60"
-              >
+              <p v-if="eventType.description" class="mt-1 text-xs text-muted">
                 {{ eventType.description }}
               </p>
-            </button>
+            </UButton>
           </div>
 
           <UAlert
@@ -291,7 +293,7 @@ watch(
         <UCard class="space-y-4">
           <div class="flex items-center justify-between">
             <p class="font-semibold text-base">Pick a time</p>
-            <span class="text-xs text-muted/40">{{ userTimezone }}</span>
+            <span class="text-xs text-dimmed">{{ userTimezone }}</span>
           </div>
 
           <!-- Loading -->
@@ -311,16 +313,12 @@ watch(
           <div v-else-if="booking.hasSlots.value" class="space-y-5">
             <!-- Day strip -->
             <div class="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
-              <button
+              <UButton
                 v-for="day in dayGroups"
                 :key="day.key"
-                type="button"
-                class="flex min-w-[3.25rem] shrink-0 flex-col items-center rounded-xl border px-2 py-2.5 transition"
-                :class="
-                  selectedDayKey === day.key
-                    ? 'border-primary bg-primary/10'
-                    : 'border-muted/20 bg-muted/5 hover:border-muted/40 hover:bg-muted/10'
-                "
+                :variant="selectedDayKey === day.key ? 'soft' : 'outline'"
+                :color="selectedDayKey === day.key ? 'primary' : 'neutral'"
+                class="flex min-w-13 shrink-0 flex-col items-center px-2 py-2.5"
                 @click="
                   selectedDayKey = day.key;
                   booking.selectedSlot.value = null;
@@ -329,9 +327,7 @@ watch(
                 <span
                   class="text-[10px] font-semibold uppercase tracking-wider"
                   :class="
-                    selectedDayKey === day.key
-                      ? 'text-primary'
-                      : 'text-muted/50'
+                    selectedDayKey === day.key ? 'text-primary' : 'text-muted'
                   "
                 >
                   {{ day.weekday }}
@@ -347,36 +343,40 @@ watch(
                   :class="
                     selectedDayKey === day.key
                       ? 'text-primary/70'
-                      : 'text-muted/30'
+                      : 'text-muted'
                   "
                 >
                   {{ day.slots.length }} open
                 </span>
-              </button>
+              </UButton>
             </div>
 
             <!-- Slots for selected day -->
             <div v-if="selectedDayGroup" class="space-y-2">
               <p
-                class="text-xs font-semibold uppercase tracking-widest text-muted/50"
+                class="text-xs font-semibold uppercase tracking-widest text-muted"
               >
                 {{ selectedDayGroup.label }}
               </p>
               <div class="flex flex-wrap gap-2">
-                <button
+                <UButton
                   v-for="slot in selectedDayGroup.slots"
                   :key="`${slot.start}-${slot.end}`"
-                  type="button"
-                  class="rounded-lg border px-3 py-1.5 text-xs font-medium tabular-nums transition"
-                  :class="
+                  :variant="
                     booking.selectedSlot.value?.start === slot.start
-                      ? 'border-primary bg-primary/10 text-primary'
-                      : 'border-muted/20 bg-muted/5 hover:border-primary/40 hover:bg-primary/5'
+                      ? 'soft'
+                      : 'outline'
                   "
+                  :color="
+                    booking.selectedSlot.value?.start === slot.start
+                      ? 'primary'
+                      : 'neutral'
+                  "
+                  size="sm"
+                  class="tabular-nums"
+                  :label="formatTime(slot.start)"
                   @click="booking.selectedSlot.value = slot"
-                >
-                  {{ formatTime(slot.start) }}
-                </button>
+                />
               </div>
             </div>
           </div>
@@ -406,13 +406,13 @@ watch(
           <UCard v-if="selectedSlotSummary" class="space-y-3">
             <div class="flex items-start justify-between gap-4">
               <div class="space-y-1">
-                <p class="text-xs uppercase tracking-widest text-muted/40">
+                <p class="text-xs uppercase tracking-widest text-dimmed">
                   Selected
                 </p>
                 <p class="font-semibold text-sm">{{ selectedSlotSummary }}</p>
                 <p
                   v-if="booking.selectedEventType.value"
-                  class="text-xs text-muted/60"
+                  class="text-xs text-dimmed"
                 >
                   {{ booking.selectedEventType.value.title }} ·
                   {{ booking.selectedEventType.value.length }} min
@@ -434,7 +434,7 @@ watch(
         <UCard class="space-y-5">
           <div class="space-y-1">
             <p class="font-semibold text-base">Your details</p>
-            <p class="text-sm text-muted/60">
+            <p class="text-sm text-dimmed">
               I'll use these to confirm the booking and send meeting details.
             </p>
           </div>
@@ -503,7 +503,7 @@ watch(
 
             <p
               v-if="!booking.selectedSlot.value"
-              class="text-center text-xs text-muted/40"
+              class="text-center text-xs text-dimmed"
             >
               Select a time slot to continue
             </p>

@@ -1,30 +1,35 @@
 <script setup lang="ts">
 interface Props {
-  title?: string
-  description?: string
+  title?: string;
+  description?: string;
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  title: 'Sign in to continue',
-  description: 'Use your existing account — no new password needed.'
-})
+const { data: ui } = await useUiContent();
 
-const { login } = useAuth()
+const props = withDefaults(defineProps<Props>(), {
+  title: undefined,
+  description: undefined
+});
+
+const resolvedTitle = computed(() => props.title ?? ui.value?.auth.signInTitle ?? 'Sign in to continue');
+const resolvedDescription = computed(() => props.description ?? ui.value?.auth.signInDescription ?? '');
+
+const { login } = useAuth();
 </script>
 
 <template>
-  <div class="space-y-6 rounded-2xl border border-muted/20 bg-muted/5 px-8 py-10">
+  <UCard variant="subtle" class="space-y-6">
     <div class="space-y-1">
       <p class="text-lg font-semibold">
-        {{ props.title }}
+        {{ resolvedTitle }}
       </p>
-      <p class="text-sm text-muted/80">
-        {{ props.description }}
+      <p class="text-sm text-muted">
+        {{ resolvedDescription }}
       </p>
     </div>
     <div class="flex flex-col gap-3">
       <UButton
-        label="Continue with GitHub"
+        :label="ui?.auth.providers.github ?? 'Continue with GitHub'"
         icon="i-simple-icons-github"
         size="lg"
         color="neutral"
@@ -33,7 +38,7 @@ const { login } = useAuth()
         @click="login('github')"
       />
       <UButton
-        label="Continue with Google"
+        :label="ui?.auth.providers.google ?? 'Continue with Google'"
         icon="i-simple-icons-google"
         size="lg"
         color="neutral"
@@ -42,7 +47,7 @@ const { login } = useAuth()
         @click="login('google')"
       />
       <UButton
-        label="Continue with LinkedIn"
+        :label="ui?.auth.providers.linkedin ?? 'Continue with LinkedIn'"
         icon="i-simple-icons-linkedin"
         size="lg"
         color="neutral"
@@ -51,5 +56,5 @@ const { login } = useAuth()
         @click="login('linkedin')"
       />
     </div>
-  </div>
+  </UCard>
 </template>

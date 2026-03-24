@@ -177,13 +177,13 @@ const publicPhone = computed(() => {
       />
     </div>
 
-    <div class="rounded-2xl border border-muted/20 bg-muted/5 p-6">
+    <UCard variant="subtle">
       <div
         class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
         <div class="space-y-1">
           <p class="font-semibold">Download CV</p>
-          <p class="text-sm text-muted/80">
+          <p class="text-sm text-muted">
             Sign in to download the PDF version of my resume.
           </p>
         </div>
@@ -205,7 +205,7 @@ const publicPhone = computed(() => {
           />
         </div>
       </div>
-    </div>
+    </UCard>
 
     <UAlert
       v-if="error"
@@ -232,7 +232,7 @@ const publicPhone = computed(() => {
             </h2>
             <p
               v-if="basics?.summary"
-              class="text-lg leading-relaxed text-muted/80"
+              class="text-lg leading-relaxed text-muted"
             >
               {{ basics.summary }}
             </p>
@@ -287,7 +287,7 @@ const publicPhone = computed(() => {
                 {{ basics.url }}
               </a>
             </div>
-            <p v-if="!loggedIn" class="text-xs text-muted/70">
+            <p v-if="!loggedIn" class="text-xs text-dimmed">
               Sign in to reveal direct email and phone links.
             </p>
           </div>
@@ -309,7 +309,7 @@ const publicPhone = computed(() => {
               class="justify-start"
               target="_blank"
             />
-            <UDivider />
+            <USeparator />
             <UButton
               to="/skillmatrix"
               label="Skill Matrix"
@@ -346,11 +346,11 @@ const publicPhone = computed(() => {
                     {{ item.name }}
                   </UBadge>
                 </div>
-                <p v-if="item.location" class="text-sm text-muted/80">
+                <p v-if="item.location" class="text-sm text-muted">
                   {{ item.location }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted/80">
+              <p class="text-sm font-medium text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -359,14 +359,14 @@ const publicPhone = computed(() => {
             </p>
             <ul
               v-if="item.highlights?.length"
-              class="list-disc space-y-2 pl-5 text-muted/90"
+              class="list-disc space-y-2 pl-5 text-muted"
             >
               <li v-for="highlight in item.highlights" :key="highlight">
                 {{ highlight }}
               </li>
             </ul>
             <template v-if="item.url">
-              <UDivider />
+              <USeparator />
               <UButton
                 :to="item.url"
                 target="_blank"
@@ -403,15 +403,15 @@ const publicPhone = computed(() => {
                 </h3>
                 <p
                   v-if="item.studyType || item.area"
-                  class="text-sm text-muted/80"
+                  class="text-sm text-muted"
                 >
                   {{ [item.studyType, item.area].filter(Boolean).join(' · ') }}
                 </p>
-                <p v-if="item.location" class="text-sm text-muted/80">
+                <p v-if="item.location" class="text-sm text-muted">
                   {{ item.location }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted/80">
+              <p class="text-sm font-medium text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -435,17 +435,15 @@ const publicPhone = computed(() => {
                 {{ skill.level }}
               </UBadge>
             </div>
-            <div
-              v-if="skill.keywords?.length"
-              class="flex flex-wrap gap-2 text-sm text-muted/90"
-            >
-              <span
+            <div v-if="skill.keywords?.length" class="flex flex-wrap gap-2">
+              <UBadge
                 v-for="keyword in skill.keywords"
                 :key="keyword"
-                class="rounded-full bg-muted/20 px-3 py-1"
+                color="neutral"
+                variant="soft"
               >
                 {{ keyword }}
-              </span>
+              </UBadge>
             </div>
           </UCard>
         </div>
@@ -462,7 +460,7 @@ const publicPhone = computed(() => {
             <h3>
               {{ language.language }}
             </h3>
-            <p v-if="language.fluency" class="text-sm text-muted/80">
+            <p v-if="language.fluency" class="text-sm text-muted">
               {{ language.fluency }}
             </p>
           </UCard>
@@ -484,17 +482,15 @@ const publicPhone = computed(() => {
             <h3>
               {{ interest.name }}
             </h3>
-            <div
-              v-if="interest.keywords?.length"
-              class="flex flex-wrap gap-2 text-sm text-muted/90"
-            >
-              <span
+            <div v-if="interest.keywords?.length" class="flex flex-wrap gap-2">
+              <UBadge
                 v-for="keyword in interest.keywords"
                 :key="keyword"
-                class="rounded-full bg-muted/20 px-3 py-1"
+                color="neutral"
+                variant="soft"
               >
                 {{ keyword }}
-              </span>
+              </UBadge>
             </div>
           </UCard>
         </div>

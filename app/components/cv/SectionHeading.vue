@@ -1,19 +1,16 @@
 <script setup lang="ts">
 interface CvSectionHeadingProps {
-  title: string
-  description?: string
-  kicker?: string
-  id?: string
+  title: string;
+  description?: string;
+  kicker?: string;
+  id?: string;
 }
 
-const props = defineProps<CvSectionHeadingProps>()
+const props = defineProps<CvSectionHeadingProps>();
 </script>
 
 <template>
-  <header
-    :id="props.id"
-    class="space-y-3"
-  >
+  <header :id="props.id" class="space-y-3">
     <UBadge
       v-if="props.kicker"
       color="neutral"
@@ -26,10 +23,7 @@ const props = defineProps<CvSectionHeadingProps>()
       <h2>
         {{ props.title }}
       </h2>
-      <p
-        v-if="props.description"
-        class="max-w-3xl text-muted/80"
-      >
+      <p v-if="props.description" class="max-w-3xl text-muted">
         {{ props.description }}
       </p>
     </div>

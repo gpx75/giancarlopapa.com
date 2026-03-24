@@ -10,7 +10,10 @@ const props = defineProps<CvHeroSectionProps>();
 </script>
 
 <template>
-  <section id="about" class="flex flex-col-reverse lg:flex-row gap-10 lg:items-start">
+  <section
+    id="about"
+    class="flex flex-col-reverse lg:flex-row gap-10 lg:items-start"
+  >
     <div class="flex-1 min-w-0 space-y-6">
       <UBadge
         color="neutral"
@@ -32,7 +35,7 @@ const props = defineProps<CvHeroSectionProps>();
         <p
           v-for="(paragraph, i) in props.hero.summary.slice(1)"
           :key="i"
-          class="text-base text-muted/80 max-w-2xl"
+          class="text-base text-muted max-w-2xl"
         >
           {{ paragraph }}
         </p>
@@ -53,18 +56,18 @@ const props = defineProps<CvHeroSectionProps>();
         />
       </div>
 
-      <div class="cursor text-muted/40 text-md">
+      <div class="cursor text-dimmed text-md">
         <span class="select-none text-magenta-400">~&gt;</span>
       </div>
     </div>
 
     <div class="flex justify-center lg:justify-end self-start lg:pt-72">
-      <img
+      <NuxtImg
         src="/giancarlopapa_avatar.jpeg"
         alt="Giancarlo Papa"
         width="320"
         height="320"
-        class="size-64 rounded-full ring-4 ring-primary/50 ring-offset-4 ring-offset-background lg:size-80"
+        class="size-64 lg:size-80 rounded-full object-cover ring-4 ring-primary/50 ring-offset-4 ring-offset-background"
       />
     </div>
   </section>

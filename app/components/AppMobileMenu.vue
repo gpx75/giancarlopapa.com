@@ -10,6 +10,8 @@ const emit = defineEmits<{
   'sign-in': [];
 }>();
 
+const { data: ui } = await useUiContent();
+
 function close() {
   open.value = false;
 }
@@ -24,7 +26,7 @@ function handleSignIn() {
   <USlideover
     v-model:open="open"
     side="right"
-    title="Navigate"
+    :title="ui?.mobileMenu.title ?? 'Navigate'"
     class="md:hidden"
   >
     <template #body>
@@ -37,7 +39,7 @@ function handleSignIn() {
 
         <UButton
           to="/book"
-          label="~/book"
+          :label="ui?.mobileMenu.bookLabel ?? '~/book'"
           icon="i-lucide-calendar"
           size="lg"
           variant="ghost"
@@ -47,7 +49,7 @@ function handleSignIn() {
 
         <UButton
           to="/contact"
-          label="~/contact"
+          :label="ui?.mobileMenu.contactLabel ?? '~/contact'"
           icon="i-lucide-mail"
           size="lg"
           variant="ghost"

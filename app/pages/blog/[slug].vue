@@ -51,11 +51,11 @@ const { formatDate } = useDateFormatting();
         />
 
         <div class="space-y-4">
-          <p class="text-xs uppercase tracking-widest text-muted/50">
+          <p class="text-xs uppercase tracking-widest text-dimmed">
             {{ formatDate(post!.date) }}
           </p>
           <h1>{{ post!.title }}</h1>
-          <p class="text-lg text-muted/80 leading-relaxed">
+          <p class="text-lg text-muted leading-relaxed">
             {{ post!.description }}
           </p>
           <div v-if="post!.tags?.length" class="flex flex-wrap gap-2">
@@ -71,14 +71,14 @@ const { formatDate } = useDateFormatting();
           </div>
         </div>
 
-        <UDivider />
+        <USeparator />
       </div>
 
       <div class="prose max-w-prose">
         <ContentRenderer :value="post!" />
       </div>
 
-      <UDivider />
+      <USeparator />
 
       <div class="flex items-center justify-between">
         <UButton

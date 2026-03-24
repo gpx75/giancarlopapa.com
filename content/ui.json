@@ -1,0 +1,66 @@
+{
+  "auth": {
+    "signInTitle": "Sign in to continue",
+    "signInDescription": "Use your existing account — no new password needed.",
+    "providers": {
+      "github": "Continue with GitHub",
+      "google": "Continue with Google",
+      "linkedin": "Continue with LinkedIn"
+    },
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "footer": {
+    "copyright": "Giancarlo Papa",
+    "tagline": "Based in Zürich · Working globally"
+  },
+  "contact": {
+    "successTitle": "Message sent!",
+    "successDescription": "Thanks for reaching out — I'll get back to you soon.",
+    "authTitle": "Sign in to send a message",
+    "authDescription": "One click with your existing account — no new password needed.",
+    "form": {
+      "nameLabel": "Name",
+      "namePlaceholder": "Your name",
+      "emailLabel": "Email",
+      "emailPlaceholder": "you@example.com",
+      "messageLabel": "Message",
+      "messagePlaceholder": "What's on your mind?",
+      "honeypotLabel": "Company",
+      "submit": "Send message"
+    },
+    "errorTitle": "Failed to send"
+  },
+  "mobileMenu": {
+    "title": "Navigate",
+    "bookLabel": "~/book",
+    "contactLabel": "~/contact"
+  },
+  "runs": {
+    "sportLabels": {
+      "Run": "Run",
+      "TrailRun": "Trail Run",
+      "VirtualRun": "Virtual Run",
+      "Treadmill": "Treadmill",
+      "Ride": "Ride",
+      "VirtualRide": "Virtual Ride",
+      "MountainBikeRide": "MTB",
+      "GravelRide": "Gravel",
+      "EBikeRide": "E-Bike",
+      "Walk": "Walk",
+      "Hike": "Hike",
+      "Swim": "Swim",
+      "WeightTraining": "Weights",
+      "Yoga": "Yoga",
+      "Workout": "Workout"
+    },
+    "statLabels": {
+      "distance": "Distance",
+      "pace": "Pace",
+      "speed": "Speed",
+      "time": "Time",
+      "elevation": "Elevation",
+      "avgHr": "Avg HR"
+    }
+  }
+}

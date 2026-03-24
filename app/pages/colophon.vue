@@ -33,7 +33,7 @@ const stack = computed(() => colophonData.value?.items ?? []);
         <span><span class="text-terminal-400/60">~/</span>colophon</span>
       </UBadge>
       <h1>Colophon</h1>
-      <p class="text-muted/80 max-w-2xl">
+      <p class="text-muted max-w-2xl">
         This site is a personal portfolio built in the open. Here's what it's
         made of.
       </p>
@@ -45,23 +45,20 @@ const stack = computed(() => colophonData.value?.items ?? []);
         :key="item.label"
         class="grid gap-4 sm:grid-cols-[160px,1fr] sm:items-start sm:gap-6"
       >
-        <p class="text-xs uppercase tracking-widest text-muted/50 pt-1">
+        <p class="text-xs uppercase tracking-widest text-dimmed pt-1">
           {{ item.label }}
         </p>
         <div class="space-y-1">
-          <a
-            :href="item.url"
+          <UButton
+            :to="item.url"
+            :label="item.name"
             target="_blank"
-            rel="noopener"
-            class="text-sm font-semibold hover:text-primary transition"
-          >
-            {{ item.name }}
-            <UIcon
-              name="i-lucide-arrow-up-right"
-              class="size-3 inline opacity-50"
-            />
-          </a>
-          <p class="text-sm text-muted/60">{{ item.description }}</p>
+            variant="link"
+            color="neutral"
+            trailing-icon="i-lucide-arrow-up-right"
+            class="font-semibold p-0"
+          />
+          <p class="text-sm text-muted">{{ item.description }}</p>
         </div>
       </UCard>
     </div>

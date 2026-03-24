@@ -47,15 +47,15 @@ const levelDotClass: Record<Level, string> = {
 const levelTextClass: Record<Level, string> = {
   expert: 'text-terminal-500 dark:text-terminal-400',
   advanced: 'text-primary',
-  proficient: 'text-muted/70',
-  familiar: 'text-muted/50'
+  proficient: 'text-muted',
+  familiar: 'text-dimmed'
 };
 
 const levelIconClass: Record<Level, string> = {
   expert: 'text-terminal-400',
   advanced: 'text-primary',
-  proficient: 'text-muted/50',
-  familiar: 'text-muted/30'
+  proficient: 'text-dimmed',
+  familiar: 'text-dimmed'
 };
 
 function dots(level: Level) {
@@ -71,7 +71,7 @@ function dots(level: Level) {
         <span><span class="text-terminal-400/60">~/</span>skillmatrix</span>
       </UBadge>
       <h1>Skill Matrix</h1>
-      <p class="text-muted/80 max-w-2xl">
+      <p class="text-muted max-w-2xl">
         A structured overview of technologies and proficiency levels built
         across 19+ years of engineering, from web to cloud to AI.
       </p>
@@ -79,7 +79,7 @@ function dots(level: Level) {
 
     <!-- Legend -->
     <div class="flex flex-wrap items-center gap-6">
-      <span class="text-xs uppercase tracking-widest text-muted/40"
+      <span class="text-xs uppercase tracking-widest text-dimmed"
         >Proficiency</span
       >
       <div
@@ -92,7 +92,7 @@ function dots(level: Level) {
             v-for="(filled, i) in dots(level.key)"
             :key="i"
             class="inline-block size-2 rounded-full"
-            :class="filled ? levelDotClass[level.key] : 'bg-muted/20'"
+            :class="filled ? levelDotClass[level.key] : 'bg-accented'"
           />
         </div>
         <span class="text-xs" :class="levelTextClass[level.key]">{{
@@ -108,8 +108,8 @@ function dots(level: Level) {
         :key="category.label"
         class="space-y-4"
       >
-        <div class="flex items-center gap-2 border-b border-muted/20 pb-3">
-          <UIcon :name="category.icon" class="size-4 text-muted/50" />
+        <div class="flex items-center gap-2 border-b border-default pb-3">
+          <UIcon :name="category.icon" class="size-4 text-dimmed" />
           <h2
             class="text-sm font-semibold uppercase tracking-widest opacity-70"
           >
@@ -118,10 +118,11 @@ function dots(level: Level) {
         </div>
 
         <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-          <div
+          <UCard
             v-for="skill in category.skills"
             :key="skill.name"
-            class="flex items-center justify-between gap-3 rounded-xl border border-muted/10 bg-muted/5 px-4 py-3"
+            variant="subtle"
+            :ui="{ body: 'py-3 px-4 sm:px-4 sm:py-3 flex items-center justify-between gap-3' }"
           >
             <div class="flex items-center gap-3 min-w-0">
               <UIcon
@@ -132,7 +133,7 @@ function dots(level: Level) {
               <span class="text-sm font-medium truncate">{{ skill.name }}</span>
             </div>
             <div class="flex shrink-0 items-center gap-2">
-              <span v-if="skill.years" class="text-xs text-muted/40"
+              <span v-if="skill.years" class="text-xs text-dimmed"
                 >{{ skill.years }}y</span
               >
               <div class="flex items-center gap-0.5">
@@ -140,11 +141,11 @@ function dots(level: Level) {
                   v-for="(filled, i) in dots(skill.level)"
                   :key="i"
                   class="inline-block size-2 rounded-full"
-                  :class="filled ? levelDotClass[skill.level] : 'bg-muted/15'"
+                  :class="filled ? levelDotClass[skill.level] : 'bg-accented'"
                 />
               </div>
             </div>
-          </div>
+          </UCard>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@ interface CvContactCtaProps {
 const props = defineProps<CvContactCtaProps>();
 
 const { user, loggedIn } = useAuth();
+const { data: ui } = await useUiContent();
 
 const form = reactive({
   name: '',
@@ -70,7 +71,7 @@ async function handleSubmit() {
       <h2>
         {{ props.headline }}
       </h2>
-      <p class="text-muted/80">
+      <p class="text-muted">
         {{ props.subline }}
       </p>
     </div>
@@ -84,40 +85,42 @@ async function handleSubmit() {
       >
         <div
           v-if="status === 'success'"
-          class="flex h-full flex-col items-start justify-center gap-3 rounded-2xl border border-muted/20 bg-muted/5 px-8 py-10"
+          class="flex h-full flex-col items-start justify-center gap-3"
         >
-          <UIcon name="i-lucide-circle-check" class="size-8 text-primary" />
-          <div class="space-y-1">
-            <p class="text-lg font-semibold">Message sent!</p>
-            <p class="text-muted/80">
-              Thanks for reaching out — I'll get back to you soon.
-            </p>
-          </div>
+          <UCard variant="subtle" class="w-full space-y-3">
+            <UIcon name="i-lucide-circle-check" class="size-8 text-primary" />
+            <div class="space-y-1">
+              <p class="text-lg font-semibold">{{ ui?.contact.successTitle ?? 'Message sent!' }}</p>
+              <p class="text-muted">
+                {{ ui?.contact.successDescription ?? 'Thanks for reaching out — I\'ll get back to you soon.' }}
+              </p>
+            </div>
+          </UCard>
         </div>
 
         <AuthWall
           v-else-if="!loggedIn"
-          title="Sign in to send a message"
-          description="One click with your existing account — no new password needed."
+          :title="ui?.contact.authTitle ?? 'Sign in to send a message'"
+          :description="ui?.contact.authDescription ?? ''"
         />
 
         <form v-else class="space-y-5" @submit.prevent="handleSubmit">
           <div class="grid gap-4 sm:grid-cols-2">
-            <UFormField label="Name">
+            <UFormField :label="ui?.contact.form.nameLabel ?? 'Name'">
               <UInput
                 v-model="form.name"
-                placeholder="Your name"
+                :placeholder="ui?.contact.form.namePlaceholder ?? 'Your name'"
                 size="lg"
                 required
                 :disabled="loading"
                 class="w-full"
               />
             </UFormField>
-            <UFormField label="Email">
+            <UFormField :label="ui?.contact.form.emailLabel ?? 'Email'">
               <UInput
                 v-model="form.email"
                 type="email"
-                placeholder="you@example.com"
+                :placeholder="ui?.contact.form.emailPlaceholder ?? 'you@example.com'"
                 size="lg"
                 required
                 :disabled="loading"
@@ -126,10 +129,10 @@ async function handleSubmit() {
             </UFormField>
           </div>
 
-          <UFormField label="Message">
+          <UFormField :label="ui?.contact.form.messageLabel ?? 'Message'">
             <UTextarea
               v-model="form.message"
-              placeholder="What's on your mind?"
+              :placeholder="ui?.contact.form.messagePlaceholder ?? 'What\'s on your mind?'"
               :rows="5"
               size="lg"
               required
@@ -139,7 +142,7 @@ async function handleSubmit() {
           </UFormField>
 
           <div class="sr-only" aria-hidden="true">
-            <UFormField label="Company">
+            <UFormField :label="ui?.contact.form.honeypotLabel ?? 'Company'">
               <UInput v-model="form.website" autocomplete="off" tabindex="-1" />
             </UFormField>
           </div>
@@ -147,7 +150,7 @@ async function handleSubmit() {
           <div class="flex flex-col gap-3">
             <UButton
               type="submit"
-              label="Send message"
+              :label="ui?.contact.form.submit ?? 'Send message'"
               size="lg"
               color="primary"
               icon="i-lucide-send"
@@ -158,7 +161,7 @@ async function handleSubmit() {
               color="error"
               variant="soft"
               icon="i-lucide-circle-x"
-              title="Failed to send"
+              :title="ui?.contact.errorTitle ?? 'Failed to send'"
               :description="errorMessage"
             />
           </div>
