@@ -44,8 +44,15 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxt/content',
     '@nuxt/image',
-    'nuxt-gtag'
+    'nuxt-gtag',
+    '@nuxtjs/mcp-toolkit'
   ],
+
+  mcp: {
+    name: 'giancarlopapa.com',
+    route: '/mcp',
+    dir: 'mcp'
+  },
 
   devtools: {
     enabled: process.env.NODE_ENV !== 'production'
@@ -149,5 +156,5 @@ export default defineNuxtConfig({
       avatar: 256,
       avatar2x: 320
     }
-  },
+  }
 });

@@ -1,12 +1,29 @@
 {
-  "servers": {
-    "nuxt": {
-      "type": "http",
-      "url": "https://nuxt.com/mcp"
-    },
-     "nuxt-ui": {
-      "type": "http",
-      "url": "https://ui.nuxt.com/mcp"
-    }
-  }
+	"servers": {
+		"nuxt": {
+			"type": "http",
+			"url": "https://nuxt.com/mcp"
+		},
+		"nuxt-ui": {
+			"type": "http",
+			"url": "https://ui.nuxt.com/mcp"
+		},
+		"giancarlopapa.com": {
+			"type": "http",
+			"url": "http://localhost:3000/mcp"
+		},
+		"tailwindcss-server": {
+			"command": "npx",
+			"args": [
+				"-y",
+				"tailwindcss-mcp-server"
+			],
+			"type": "stdio"
+		},
+		"Vercel": {
+			"url": "https://mcp.vercel.com",
+			"type": "http"
+		}
+	},
+	"inputs": []
 }
