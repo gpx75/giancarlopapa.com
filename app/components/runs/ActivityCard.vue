@@ -106,27 +106,39 @@ const sportColor = computed(() => {
 
       <div class="grid grid-cols-2 gap-x-4 gap-y-2">
         <div v-if="activity.distance > 0">
-          <p class="text-xs text-muted uppercase tracking-wider">{{ ui?.runs.statLabels.distance ?? 'Distance' }}</p>
+          <p class="text-xs text-muted uppercase tracking-wider">
+            {{ ui?.runs.statLabels.distance ?? 'Distance' }}
+          </p>
           <p class="text-sm font-mono font-medium text-terminal-400">
             {{ distanceKm }} km
           </p>
         </div>
         <div>
           <p class="text-xs text-muted uppercase tracking-wider">
-            {{ isRunType ? (ui?.runs.statLabels.pace ?? 'Pace') : (ui?.runs.statLabels.speed ?? 'Speed') }}
+            {{
+              isRunType
+                ? (ui?.runs.statLabels.pace ?? 'Pace')
+                : (ui?.runs.statLabels.speed ?? 'Speed')
+            }}
           </p>
           <p class="text-sm font-mono font-medium">{{ speedLabel }}</p>
         </div>
         <div>
-          <p class="text-xs text-muted uppercase tracking-wider">{{ ui?.runs.statLabels.time ?? 'Time' }}</p>
+          <p class="text-xs text-muted uppercase tracking-wider">
+            {{ ui?.runs.statLabels.time ?? 'Time' }}
+          </p>
           <p class="text-sm font-mono font-medium">{{ duration }}</p>
         </div>
         <div v-if="elevationM > 0">
-          <p class="text-xs text-muted uppercase tracking-wider">{{ ui?.runs.statLabels.elevation ?? 'Elevation' }}</p>
+          <p class="text-xs text-muted uppercase tracking-wider">
+            {{ ui?.runs.statLabels.elevation ?? 'Elevation' }}
+          </p>
           <p class="text-sm font-mono font-medium">{{ elevationM }} m</p>
         </div>
         <div v-if="activity.average_heartrate">
-          <p class="text-xs text-muted uppercase tracking-wider">{{ ui?.runs.statLabels.avgHr ?? 'Avg HR' }}</p>
+          <p class="text-xs text-muted uppercase tracking-wider">
+            {{ ui?.runs.statLabels.avgHr ?? 'Avg HR' }}
+          </p>
           <p class="text-sm font-mono font-medium text-magenta-400">
             {{ Math.round(activity.average_heartrate) }} bpm
           </p>

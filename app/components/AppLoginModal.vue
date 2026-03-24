@@ -1,8 +1,8 @@
 <script setup lang="ts">
-const open = defineModel<boolean>({ default: false })
+const open = defineModel<boolean>({ default: false });
 
-const { login } = useAuth()
-const { data: ui } = await useUiContent()
+const { login } = useAuth();
+const { data: ui } = await useUiContent();
 </script>
 
 <template>

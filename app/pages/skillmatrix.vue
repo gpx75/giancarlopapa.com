@@ -122,7 +122,9 @@ function dots(level: Level) {
             v-for="skill in category.skills"
             :key="skill.name"
             variant="subtle"
-            :ui="{ body: 'py-3 px-4 sm:px-4 sm:py-3 flex items-center justify-between gap-3' }"
+            :ui="{
+              body: 'py-3 px-4 sm:px-4 sm:py-3 flex items-center justify-between gap-3'
+            }"
           >
             <div class="flex items-center gap-3 min-w-0">
               <UIcon

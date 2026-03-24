@@ -11,8 +11,12 @@ const props = withDefaults(defineProps<Props>(), {
   description: undefined
 });
 
-const resolvedTitle = computed(() => props.title ?? ui.value?.auth.signInTitle ?? 'Sign in to continue');
-const resolvedDescription = computed(() => props.description ?? ui.value?.auth.signInDescription ?? '');
+const resolvedTitle = computed(
+  () => props.title ?? ui.value?.auth.signInTitle ?? 'Sign in to continue'
+);
+const resolvedDescription = computed(
+  () => props.description ?? ui.value?.auth.signInDescription ?? ''
+);
 
 const { login } = useAuth();
 </script>

@@ -36,7 +36,8 @@ const navItems = computed(() =>
     <template #left>
       <div class="flex items-center gap-2">
         <span class="text-sm font-semibold tracking-tight">
-          © {{ new Date().getFullYear() }} {{ ui?.footer.copyright ?? 'Giancarlo Papa' }}
+          © {{ new Date().getFullYear() }}
+          {{ ui?.footer.copyright ?? 'Giancarlo Papa' }}
         </span>
         <UButton
           v-if="commitDate && commitUrl"

@@ -1,11 +1,11 @@
-import { defineContentConfig, defineCollection, z } from '@nuxt/content'
+import { defineContentConfig, defineCollection, z } from '@nuxt/content';
 
 const actionLinkSchema = z.object({
   label: z.string(),
   to: z.string(),
   icon: z.string().optional(),
   external: z.boolean().optional()
-})
+});
 
 export default defineContentConfig({
   collections: {
@@ -37,43 +37,59 @@ export default defineContentConfig({
           availability: z.string(),
           summary: z.array(z.string()),
           actions: z.array(actionLinkSchema),
-          contactLinks: z.array(z.object({
-            label: z.string(),
-            to: z.string(),
-            icon: z.string()
-          }))
+          contactLinks: z.array(
+            z.object({
+              label: z.string(),
+              to: z.string(),
+              icon: z.string()
+            })
+          )
         }),
         about: z.array(z.string()),
-        stats: z.array(z.object({
-          label: z.string(),
-          value: z.string()
-        })),
-        experience: z.array(z.object({
-          company: z.string(),
-          role: z.string(),
-          period: z.string(),
-          location: z.string(),
-          summary: z.string(),
-          achievements: z.array(z.string()),
-          stack: z.array(z.string())
-        })),
-        projects: z.array(z.object({
-          name: z.string(),
-          summary: z.string(),
-          links: z.array(actionLinkSchema),
-          stack: z.array(z.string())
-        })).optional(),
-        skills: z.array(z.object({
-          label: z.string(),
-          items: z.array(z.string())
-        })),
-        writing: z.array(z.object({
-          title: z.string(),
-          description: z.string(),
-          platform: z.string(),
-          to: z.string(),
-          publishedAt: z.string()
-        })).optional(),
+        stats: z.array(
+          z.object({
+            label: z.string(),
+            value: z.string()
+          })
+        ),
+        experience: z.array(
+          z.object({
+            company: z.string(),
+            role: z.string(),
+            period: z.string(),
+            location: z.string(),
+            summary: z.string(),
+            achievements: z.array(z.string()),
+            stack: z.array(z.string())
+          })
+        ),
+        projects: z
+          .array(
+            z.object({
+              name: z.string(),
+              summary: z.string(),
+              links: z.array(actionLinkSchema),
+              stack: z.array(z.string())
+            })
+          )
+          .optional(),
+        skills: z.array(
+          z.object({
+            label: z.string(),
+            items: z.array(z.string())
+          })
+        ),
+        writing: z
+          .array(
+            z.object({
+              title: z.string(),
+              description: z.string(),
+              platform: z.string(),
+              to: z.string(),
+              publishedAt: z.string()
+            })
+          )
+          .optional(),
         contact: z.object({
           headline: z.string(),
           subline: z.string(),
@@ -97,51 +113,77 @@ export default defineContentConfig({
           phone: z.string().optional(),
           url: z.string().optional(),
           summary: z.string().optional(),
-          location: z.object({
-            address: z.string().optional(),
-            postalCode: z.string().optional(),
-            city: z.string().optional(),
-            countryCode: z.string().optional(),
-            region: z.string().optional()
-          }).optional(),
-          profiles: z.array(z.object({
-            network: z.string(),
-            username: z.string().optional(),
-            url: z.string().optional()
-          })).optional()
+          location: z
+            .object({
+              address: z.string().optional(),
+              postalCode: z.string().optional(),
+              city: z.string().optional(),
+              countryCode: z.string().optional(),
+              region: z.string().optional()
+            })
+            .optional(),
+          profiles: z
+            .array(
+              z.object({
+                network: z.string(),
+                username: z.string().optional(),
+                url: z.string().optional()
+              })
+            )
+            .optional()
         }),
-        work: z.array(z.object({
-          name: z.string(),
-          location: z.string().optional(),
-          position: z.string().optional(),
-          url: z.string().optional(),
-          startDate: z.string().optional(),
-          endDate: z.string().optional(),
-          summary: z.string().optional(),
-          highlights: z.array(z.string()).optional()
-        })).optional(),
-        education: z.array(z.object({
-          institution: z.string(),
-          location: z.string().optional(),
-          studyType: z.string().optional(),
-          area: z.string().optional(),
-          startDate: z.string().optional(),
-          endDate: z.string().optional(),
-          gpa: z.string().optional()
-        })).optional(),
-        skills: z.array(z.object({
-          name: z.string(),
-          level: z.string().optional(),
-          keywords: z.array(z.string()).optional()
-        })).optional(),
-        languages: z.array(z.object({
-          language: z.string(),
-          fluency: z.string().optional()
-        })).optional(),
-        interests: z.array(z.object({
-          name: z.string(),
-          keywords: z.array(z.string()).optional()
-        })).optional()
+        work: z
+          .array(
+            z.object({
+              name: z.string(),
+              location: z.string().optional(),
+              position: z.string().optional(),
+              url: z.string().optional(),
+              startDate: z.string().optional(),
+              endDate: z.string().optional(),
+              summary: z.string().optional(),
+              highlights: z.array(z.string()).optional()
+            })
+          )
+          .optional(),
+        education: z
+          .array(
+            z.object({
+              institution: z.string(),
+              location: z.string().optional(),
+              studyType: z.string().optional(),
+              area: z.string().optional(),
+              startDate: z.string().optional(),
+              endDate: z.string().optional(),
+              gpa: z.string().optional()
+            })
+          )
+          .optional(),
+        skills: z
+          .array(
+            z.object({
+              name: z.string(),
+              level: z.string().optional(),
+              keywords: z.array(z.string()).optional()
+            })
+          )
+          .optional(),
+        languages: z
+          .array(
+            z.object({
+              language: z.string(),
+              fluency: z.string().optional()
+            })
+          )
+          .optional(),
+        interests: z
+          .array(
+            z.object({
+              name: z.string(),
+              keywords: z.array(z.string()).optional()
+            })
+          )
+          .optional()
       })
     }),
 
@@ -149,16 +191,20 @@ export default defineContentConfig({
       type: 'data',
       source: 'skills.json',
       schema: z.object({
-        categories: z.array(z.object({
-          label: z.string(),
-          icon: z.string(),
-          skills: z.array(z.object({
-            name: z.string(),
-            level: z.enum(['expert', 'advanced', 'proficient', 'familiar']),
-            years: z.number().optional(),
-            icon: z.string()
-          }))
-        }))
+        categories: z.array(
+          z.object({
+            label: z.string(),
+            icon: z.string(),
+            skills: z.array(
+              z.object({
+                name: z.string(),
+                level: z.enum(['expert', 'advanced', 'proficient', 'familiar']),
+                years: z.number().optional(),
+                icon: z.string()
+              })
+            )
+          })
+        )
       })
     }),
 
@@ -166,12 +212,14 @@ export default defineContentConfig({
       type: 'data',
       source: 'colophon.json',
       schema: z.object({
-        items: z.array(z.object({
-          label: z.string(),
-          name: z.string(),
-          description: z.string(),
-          url: z.string()
-        }))
+        items: z.array(
+          z.object({
+            label: z.string(),
+            name: z.string(),
+            description: z.string(),
+            url: z.string()
+          })
+        )
       })
     }),
 
@@ -191,32 +239,42 @@ export default defineContentConfig({
         }),
         privacy: z.object({
           controller: z.string(),
-          dataCollection: z.array(z.object({
-            label: z.string(),
-            description: z.string()
-          })),
-          cookies: z.array(z.object({
-            name: z.string(),
-            description: z.string(),
-            optOut: z.object({
-              url: z.string(),
-              label: z.string()
-            }).optional()
-          })),
-          processors: z.array(z.object({
-            service: z.string(),
-            purpose: z.string(),
-            country: z.string()
-          })),
+          dataCollection: z.array(
+            z.object({
+              label: z.string(),
+              description: z.string()
+            })
+          ),
+          cookies: z.array(
+            z.object({
+              name: z.string(),
+              description: z.string(),
+              optOut: z
+                .object({
+                  url: z.string(),
+                  label: z.string()
+                })
+                .optional()
+            })
+          ),
+          processors: z.array(
+            z.object({
+              service: z.string(),
+              purpose: z.string(),
+              country: z.string()
+            })
+          ),
           processorNote: z.string(),
           retention: z.string(),
           rights: z.array(z.string())
         }),
         disclaimer: z.object({
-          sections: z.array(z.object({
-            title: z.string(),
-            content: z.string()
-          })),
+          sections: z.array(
+            z.object({
+              title: z.string(),
+              content: z.string()
+            })
+          ),
           openSource: z.object({
             title: z.string(),
             intro: z.string(),
@@ -283,4 +341,4 @@ export default defineContentConfig({
       })
     })
   }
-})
+});

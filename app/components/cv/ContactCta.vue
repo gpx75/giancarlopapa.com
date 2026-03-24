@@ -90,9 +90,14 @@ async function handleSubmit() {
           <UCard variant="subtle" class="w-full space-y-3">
             <UIcon name="i-lucide-circle-check" class="size-8 text-primary" />
             <div class="space-y-1">
-              <p class="text-lg font-semibold">{{ ui?.contact.successTitle ?? 'Message sent!' }}</p>
+              <p class="text-lg font-semibold">
+                {{ ui?.contact.successTitle ?? 'Message sent!' }}
+              </p>
               <p class="text-muted">
-                {{ ui?.contact.successDescription ?? 'Thanks for reaching out — I\'ll get back to you soon.' }}
+                {{
+                  ui?.contact.successDescription ??
+                  "Thanks for reaching out — I'll get back to you soon."
+                }}
               </p>
             </div>
           </UCard>
@@ -120,7 +125,9 @@ async function handleSubmit() {
               <UInput
                 v-model="form.email"
                 type="email"
-                :placeholder="ui?.contact.form.emailPlaceholder ?? 'you@example.com'"
+                :placeholder="
+                  ui?.contact.form.emailPlaceholder ?? 'you@example.com'
+                "
                 size="lg"
                 required
                 :disabled="loading"
@@ -132,7 +139,9 @@ async function handleSubmit() {
           <UFormField :label="ui?.contact.form.messageLabel ?? 'Message'">
             <UTextarea
               v-model="form.message"
-              :placeholder="ui?.contact.form.messagePlaceholder ?? 'What\'s on your mind?'"
+              :placeholder="
+                ui?.contact.form.messagePlaceholder ?? 'What\'s on your mind?'
+              "
               :rows="5"
               size="lg"
               required
