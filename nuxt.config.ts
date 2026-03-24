@@ -152,6 +152,7 @@ export default defineNuxtConfig({
   },
 
   image: {
+    provider: process.env.VERCEL ? 'vercel' : 'ipx',
     screens: {
       avatar: 256,
       avatar2x: 320

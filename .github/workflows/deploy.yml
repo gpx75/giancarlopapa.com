@@ -24,6 +24,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
+          VERCEL: '1'
           CAL_API_KEY: ${{ secrets.CAL_API_KEY }}
           CAL_USERNAME: ${{ secrets.CAL_USERNAME }}
           CAL_BASE_URL: ${{ secrets.CAL_BASE_URL }}
