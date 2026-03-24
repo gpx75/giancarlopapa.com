@@ -74,7 +74,7 @@ const { formatDate } = useDateFormatting();
         <USeparator />
       </div>
 
-      <div class="prose max-w-prose">
+      <div class="prose max-w-none">
         <ContentRenderer :value="post!" />
       </div>
 

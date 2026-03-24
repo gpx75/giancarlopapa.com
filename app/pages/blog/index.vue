@@ -60,7 +60,9 @@ const { formatDate } = useDateFormatting();
               <p class="text-xs uppercase tracking-widest text-dimmed">
                 {{ formatDate(post.date) }}
               </p>
-              <h2 class="text-xl leading-snug transition">
+              <h2
+                class="text-xl leading-snug transition group-hover:text-primary"
+              >
                 {{ post.title }}
               </h2>
               <p class="text-sm text-muted leading-relaxed">

@@ -2,8 +2,10 @@
 @import "@nuxt/ui";
 @import "leaflet/dist/leaflet.css";
 
+@source "../../../content/**/*";
+
 @theme static {
-  --font-sans:    'Space Grotesk', sans-serif;
+  --font-sans:    'JetBrains Mono', monospace;
   --font-mono:    'JetBrains Mono', monospace;
   --font-display: 'Space Grotesk', sans-serif;
 
@@ -105,39 +107,11 @@
   --color-terminal-950: #063318;
 }
 
-body {
-  font-family: var(--font-mono); /* JetBrains Mono — terminal body font */
-  color: var(--color-snazzy-dark-900); /* #2d2f3d — dark on light bg */
-}
-
-.dark body {
-  color: var(--color-snazzy-dark-100); /* #eff0eb — Snazzy foreground on dark bg */
-}
-
-/* Override Nuxt UI text-dimmed to be visibly more subdued for the Snazzy palette.
-   Default neutral-400/500 is too close to text-muted — use half-opacity for clear hierarchy. */
-:root, .light {
-  --ui-text-dimmed: color-mix(in oklab, var(--ui-color-neutral-500) 50%, transparent);
-}
-.dark {
-  --ui-text-dimmed: color-mix(in oklab, var(--ui-color-neutral-400) 55%, transparent);
-}
-
-/* Page-level headings — applies outside .prose only */
-h1:not(.prose *), h2:not(.prose *), h3:not(.prose *),
-h4:not(.prose *), h5:not(.prose *), h6:not(.prose *) {
+/* Page-level headings — Space Grotesk, custom type scale (outside .prose) */
+:is(h1, h2, h3, h4, h5, h6):not(.prose *) {
   font-family: var(--font-display);
   font-weight: 700;
-  color: var(--color-snazzy-dark-950);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  font-optical-sizing: auto;
-}
-
-.dark h1:not(.prose *), .dark h2:not(.prose *), .dark h3:not(.prose *),
-.dark h4:not(.prose *), .dark h5:not(.prose *), .dark h6:not(.prose *) {
-  color: var(--color-snazzy-dark-100);
+  color: var(--ui-text-highlighted);
 }
 
 h1:not(.prose *) { font-size: var(--text-6xl); line-height: 1;      letter-spacing: -0.03em; }
@@ -154,10 +128,6 @@ h6:not(.prose *)  { font-size: var(--text-lg);  line-height: 1.4; }
   h4:not(.prose *) { font-size: var(--text-xl); }
 }
 
-/* Blog card — heading shifts on card hover */
-.group:hover h2:not(.prose *) { color: var(--color-snazzy-dark-700); }
-.dark .group:hover h2:not(.prose *) { color: #ffffff; }
-
 /* Terminal blinking cursor */
 @keyframes blink {
   0%, 100% { opacity: 1; }
@@ -169,67 +139,6 @@ h6:not(.prose *)  { font-size: var(--text-lg);  line-height: 1.4; }
   color: var(--color-terminal-400);
   animation: blink 1.2s step-end infinite;
   margin-left: 0.1em;
-  font-family: var(--font-mono);
-  font-weight: 400;
 }
 
-/* Blog prose — light mode */
-.prose {
-  --tw-prose-body: #131314;
-  --tw-prose-headings: #18181b;
-  --tw-prose-links: var(--color-magenta-500);
-  --tw-prose-bold: #18181b;
-  --tw-prose-counters: #71717a;
-  --tw-prose-bullets: #71717a;
-  --tw-prose-hr: #e4e4e7;
-  --tw-prose-quotes: #3f3f46;
-  --tw-prose-quote-borders: var(--color-magenta-300);
-  --tw-prose-captions: #71717a;
-  --tw-prose-code: var(--color-terminal-700);
-  --tw-prose-pre-code: var(--color-terminal-300);
-  --tw-prose-pre-bg: #18181b;
-  --tw-prose-th-borders: #d4d4d8;
-  --tw-prose-td-borders: #e4e4e7;
-}
 
-/* Blog prose — dark mode (unlayered, overrides layered prose-invert) */
-.dark .prose {
-  --tw-prose-body: #d4d4d8;
-  --tw-prose-headings: #fafafa;
-  --tw-prose-links: var(--color-magenta-400);
-  --tw-prose-bold: #fafafa;
-  --tw-prose-counters: #a1a1aa;
-  --tw-prose-bullets: #52525b;
-  --tw-prose-hr: #3f3f46;
-  --tw-prose-quotes: #d4d4d8;
-  --tw-prose-quote-borders: var(--color-magenta-500);
-  --tw-prose-captions: #a1a1aa;
-  --tw-prose-code: var(--color-terminal-400);
-  --tw-prose-pre-code: var(--color-terminal-300);
-  --tw-prose-pre-bg: #09090b;
-  --tw-prose-th-borders: #3f3f46;
-  --tw-prose-td-borders: #27272a;
-}
-
-.prose :where(h1, h2, h3, h4, h5, h6) {
-  font-family: var(--font-display);
-}
-
-/* Nuxt Content MDC wraps headings in anchor tags for deep-linking — strip link styling */
-.prose :where(h1, h2, h3, h4, h5, h6) > a {
-  color: inherit;
-  text-decoration: none;
-  font-weight: inherit;
-}
-
-.prose :where(code):not(:where(pre *)) {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  background: color-mix(in srgb, var(--color-terminal-400) 12%, transparent);
-  padding: 0.15em 0.4em;
-  border-radius: 0.3em;
-}
-
-.prose :where(pre) {
-  font-family: var(--font-mono);
-}
