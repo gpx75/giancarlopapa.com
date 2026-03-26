@@ -24,12 +24,10 @@ useHead({
 </script>
 
 <template>
-  <div class="flex min-h-screen items-center">
-    <UContainer class="w-full py-16">
-      <CvContactCta
-        headline="Let's work together"
-        subline="Whether you're hiring, building something interesting, or want to explore a collaboration — drop me a line and I'll get back to you."
-      />
-    </UContainer>
-  </div>
+  <UContainer class="space-y-12 py-16">
+    <CvContactCta
+      headline="Let's work together"
+      subline="Whether you're hiring, building something interesting, or want to explore a collaboration — drop me a line and I'll get back to you."
+    />
+  </UContainer>
 </template>

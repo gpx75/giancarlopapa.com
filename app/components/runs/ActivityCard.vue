@@ -72,7 +72,7 @@ const sportLabel = computed(() => {
 });
 
 const sportColor = computed(() => {
-  if (isRunType.value) return 'text-terminal-400';
+  if (isRunType.value) return 'text-success-700 dark:text-success-400';
   if (isCycleType.value) return 'text-primary';
   return 'text-dimmed';
 });
@@ -109,7 +109,9 @@ const sportColor = computed(() => {
           <p class="text-xs text-muted uppercase tracking-wider">
             {{ ui?.runs.statLabels.distance ?? 'Distance' }}
           </p>
-          <p class="text-sm font-mono font-medium text-terminal-400">
+          <p
+            class="text-sm font-mono font-medium text-success-700 dark:text-success-400"
+          >
             {{ distanceKm }} km
           </p>
         </div>
@@ -139,7 +141,9 @@ const sportColor = computed(() => {
           <p class="text-xs text-muted uppercase tracking-wider">
             {{ ui?.runs.statLabels.avgHr ?? 'Avg HR' }}
           </p>
-          <p class="text-sm font-mono font-medium text-magenta-400">
+          <p
+            class="text-sm font-mono font-medium text-tertiary-700 dark:text-tertiary-400"
+          >
             {{ Math.round(activity.average_heartrate) }} bpm
           </p>
         </div>

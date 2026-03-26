@@ -63,7 +63,7 @@ async function loadMore() {
     <!-- Header -->
     <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span><span class="text-terminal-400/60">~/</span>runs</span>
+        <span><span class="text-success-400/60">~/</span>runs</span>
       </UBadge>
       <h1>Running</h1>
       <p class="text-muted max-w-2xl">Recent activity, live from Strava.</p>

@@ -36,9 +36,9 @@ function withYear(text: string) {
 
 <template>
   <UContainer v-if="legal" class="max-w-3xl space-y-16 py-16">
-    <div class="space-y-3">
+    <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span class="text-terminal-400/60">~/</span>legal
+        <span><span class="text-success-400/60">~/</span>legal</span>
       </UBadge>
       <h1>Legal</h1>
       <p class="text-muted">

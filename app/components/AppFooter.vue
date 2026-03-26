@@ -62,7 +62,7 @@ const navItems = computed(() =>
           variant="link"
           color="neutral"
           size="xs"
-          :class="item.active ? 'text-magenta-500 dark:text-magenta-400' : ''"
+          :class="item.active ? 'text-primary' : ''"
           class="font-mono"
         />
       </nav>

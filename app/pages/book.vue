@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useCalBooking } from '~/composables/useCalBooking';
-
 const {
   public: { siteUrl }
 } = useRuntimeConfig();
@@ -209,12 +207,12 @@ watch(
 <template>
   <UContainer class="space-y-12 py-16">
     <!-- Header -->
-    <div class="space-y-3">
-      <UBadge variant="soft" color="neutral" class="tracking-wider text-xs">
-        <span><span class="text-terminal-400/60">~/</span>book</span>
+    <div class="space-y-4">
+      <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
+        <span><span class="text-success-400/60">~/</span>book</span>
       </UBadge>
       <h1>Schedule time with Giancarlo</h1>
-      <p class="max-w-2xl text-lg text-muted">
+      <p class="text-muted max-w-2xl">
         Select a session type and a time that works for you — I'll send a
         calendar invite with all the details.
       </p>
@@ -325,7 +323,7 @@ watch(
                 "
               >
                 <span
-                  class="text-[10px] font-semibold uppercase tracking-wider"
+                  class="text-xs font-semibold uppercase tracking-wider"
                   :class="
                     selectedDayKey === day.key ? 'text-primary' : 'text-muted'
                   "
@@ -339,7 +337,7 @@ watch(
                   {{ day.date }}
                 </span>
                 <span
-                  class="mt-0.5 text-[10px] tabular-nums"
+                  class="mt-0.5 text-xs tabular-nums"
                   :class="
                     selectedDayKey === day.key
                       ? 'text-primary/70'

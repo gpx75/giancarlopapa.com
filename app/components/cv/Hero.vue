@@ -18,18 +18,17 @@ const props = defineProps<CvHeroSectionProps>();
       <UBadge
         color="neutral"
         variant="outline"
-        class="border-terminal-400/40 bg-terminal-400/10 text-terminal-400 uppercase tracking-wide"
+        class="border-success-400/40 bg-success-400/10 text-success-700 dark:text-success-400 uppercase tracking-wider"
       >
         <span class="mr-1 opacity-50">$</span>{{ props.hero.availability }}
       </UBadge>
 
       <div class="space-y-3">
-        <!-- <h1>{{ props.hero.name }}</h1> -->
         <h1>
           {{ props.hero.role }}
         </h1>
         <p class="text-base sm:text-xl text-muted">
-          <span class="text-terminal-400/60 mr-2 select-none">//</span
+          <span class="text-success-400/60 mr-2 select-none">//</span
           >{{ props.hero.summary[0] }}
         </p>
         <p
@@ -56,8 +55,10 @@ const props = defineProps<CvHeroSectionProps>();
         />
       </div>
 
-      <div class="cursor text-dimmed text-md">
-        <span class="select-none text-magenta-400">~&gt;</span>
+      <div class="cursor text-dimmed text-base">
+        <span class="select-none text-tertiary-700 dark:text-tertiary-400"
+          >~&gt;</span
+        >
       </div>
     </div>
 
@@ -67,7 +68,7 @@ const props = defineProps<CvHeroSectionProps>();
         alt="Giancarlo Papa"
         width="320"
         height="320"
-        class="size-64 lg:size-80 rounded-full object-cover ring-4 ring-primary/50 ring-offset-4 ring-offset-background"
+        class="size-64 lg:size-80 rounded-full object-cover ring-4 ring-primary/50 ring-offset-4 ring-offset-bg"
       />
     </div>
   </section>

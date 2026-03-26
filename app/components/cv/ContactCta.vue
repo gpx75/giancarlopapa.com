@@ -66,7 +66,7 @@ async function handleSubmit() {
   <section id="contact" class="grid gap-10 lg:grid-cols-2 lg:gap-16">
     <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span><span class="text-terminal-400/60">~/</span>contact</span>
+        <span><span class="text-success-400/60">~/</span>contact</span>
       </UBadge>
       <h2>
         {{ props.headline }}

@@ -30,7 +30,7 @@ const stack = computed(() => colophonData.value?.items ?? []);
   <UContainer class="space-y-12 py-16">
     <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span><span class="text-terminal-400/60">~/</span>colophon</span>
+        <span><span class="text-success-400/60">~/</span>colophon</span>
       </UBadge>
       <h1>Colophon</h1>
       <p class="text-muted max-w-2xl">

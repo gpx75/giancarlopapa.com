@@ -38,21 +38,21 @@ const levels: { key: Level; label: string; dots: number }[] = [
 ];
 
 const levelDotClass: Record<Level, string> = {
-  expert: 'bg-terminal-400',
+  expert: 'bg-success-400',
   advanced: 'bg-primary',
-  proficient: 'bg-snazzy-dark-400 dark:bg-snazzy-dark-500',
-  familiar: 'bg-snazzy-dark-300 dark:bg-snazzy-dark-600'
+  proficient: 'bg-neutral-400 dark:bg-neutral-500',
+  familiar: 'bg-neutral-300 dark:bg-neutral-600'
 };
 
 const levelTextClass: Record<Level, string> = {
-  expert: 'text-terminal-500 dark:text-terminal-400',
+  expert: 'text-success-700 dark:text-success-400',
   advanced: 'text-primary',
   proficient: 'text-muted',
   familiar: 'text-dimmed'
 };
 
 const levelIconClass: Record<Level, string> = {
-  expert: 'text-terminal-400',
+  expert: 'text-success-700 dark:text-success-400',
   advanced: 'text-primary',
   proficient: 'text-dimmed',
   familiar: 'text-dimmed'
@@ -68,7 +68,7 @@ function dots(level: Level) {
   <UContainer class="space-y-12 py-16">
     <div class="space-y-4">
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-        <span><span class="text-terminal-400/60">~/</span>skillmatrix</span>
+        <span><span class="text-success-400/60">~/</span>skillmatrix</span>
       </UBadge>
       <h1>Skill Matrix</h1>
       <p class="text-muted max-w-2xl">
@@ -123,7 +123,7 @@ function dots(level: Level) {
             :key="skill.name"
             variant="subtle"
             :ui="{
-              body: 'py-3 px-4 sm:px-4 sm:py-3 flex items-center justify-between gap-3'
+              body: 'py-3 px-4 flex items-center justify-between gap-3'
             }"
           >
             <div class="flex items-center gap-3 min-w-0">

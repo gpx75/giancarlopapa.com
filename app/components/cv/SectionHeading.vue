@@ -17,7 +17,7 @@ const props = defineProps<CvSectionHeadingProps>();
       variant="soft"
       class="uppercase tracking-wider text-xs"
     >
-      <span class="mr-1 text-terminal-400 opacity-70">></span>{{ props.kicker }}
+      <span class="mr-1 text-success-400/70">></span>{{ props.kicker }}
     </UBadge>
     <div class="space-y-2">
       <h2>

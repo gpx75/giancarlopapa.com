@@ -156,13 +156,13 @@ const publicPhone = computed(() => {
 </script>
 
 <template>
-  <UContainer class="space-y-12 py-16 lg:space-y-16 lg:py-16">
+  <UContainer class="space-y-12 py-16">
     <div
       class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
     >
-      <div>
+      <div class="space-y-4">
         <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-          <span><span class="text-terminal-400/60">~/</span>resume</span>
+          <span><span class="text-success-400/60">~/</span>resume</span>
         </UBadge>
         <h1>
           {{ basics?.name || 'Resume' }}
@@ -218,9 +218,9 @@ const publicPhone = computed(() => {
     />
 
     <div v-else-if="pending" class="space-y-8">
-      <USkeleton class="h-32 rounded-3xl" />
-      <USkeleton class="h-24 rounded-3xl" />
-      <USkeleton class="h-24 rounded-3xl" />
+      <USkeleton class="h-32 rounded-xl" />
+      <USkeleton class="h-24 rounded-xl" />
+      <USkeleton class="h-24 rounded-xl" />
     </div>
 
     <div v-else-if="hasAnyContent" class="space-y-12">

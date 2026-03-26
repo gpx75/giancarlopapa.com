@@ -38,64 +38,62 @@ const { formatDate } = useDateFormatting();
 </script>
 
 <template>
-  <UContainer class="py-16">
-    <div class="mx-auto max-w-3xl space-y-10">
-      <div class="space-y-6">
-        <UButton
-          to="/blog"
-          icon="i-lucide-arrow-left"
-          label="Back to blog"
-          variant="ghost"
-          color="neutral"
-          class="-ml-3"
-        />
+  <UContainer class="space-y-12 py-16">
+    <div class="space-y-6">
+      <UButton
+        to="/blog"
+        icon="i-lucide-arrow-left"
+        label="Back to blog"
+        variant="ghost"
+        color="neutral"
+        class="-ml-3"
+      />
 
-        <div class="space-y-4">
-          <p class="text-xs uppercase tracking-widest text-dimmed">
-            {{ formatDate(post!.date) }}
-          </p>
-          <h1>{{ post!.title }}</h1>
-          <p class="text-lg text-muted leading-relaxed">
-            {{ post!.description }}
-          </p>
-          <div v-if="post!.tags?.length" class="flex flex-wrap gap-2">
-            <UBadge
-              v-for="tag in post!.tags"
-              :key="tag"
-              color="neutral"
-              variant="soft"
-              class="text-xs"
-            >
-              {{ tag }}
-            </UBadge>
-          </div>
+      <div class="space-y-4">
+        <p class="text-xs uppercase tracking-widest text-dimmed">
+          {{ formatDate(post!.date) }}
+        </p>
+        <h1>{{ post!.title }}</h1>
+        <p class="text-lg text-muted leading-relaxed">
+          {{ post!.description }}
+        </p>
+        <div v-if="post!.tags?.length" class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="tag in post!.tags"
+            :key="tag"
+            color="neutral"
+            variant="soft"
+            class="text-xs"
+          >
+            {{ tag }}
+          </UBadge>
         </div>
-
-        <USeparator />
-      </div>
-
-      <div class="prose max-w-none">
-        <ContentRenderer :value="post!" />
       </div>
 
       <USeparator />
+    </div>
 
-      <div class="flex items-center justify-between">
-        <UButton
-          to="/blog"
-          icon="i-lucide-arrow-left"
-          label="Back to blog"
-          variant="ghost"
-          color="neutral"
-        />
-        <UButton
-          to="/contact"
-          icon="i-lucide-mail"
-          label="Get in touch"
-          variant="ghost"
-          color="primary"
-        />
-      </div>
+    <div class="prose max-w-none">
+      <ContentRenderer :value="post!" />
+    </div>
+
+    <USeparator />
+
+    <div class="flex items-center justify-between">
+      <UButton
+        to="/blog"
+        icon="i-lucide-arrow-left"
+        label="Back to blog"
+        variant="ghost"
+        color="neutral"
+      />
+      <UButton
+        to="/contact"
+        icon="i-lucide-mail"
+        label="Get in touch"
+        variant="ghost"
+        color="primary"
+      />
     </div>
   </UContainer>
 </template>
