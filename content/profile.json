@@ -1,12 +1,12 @@
 {
   "hero": {
     "name": "GIANCARLO",
-    "role": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
+    "role": "Tech Lead & Senior Full Stack Engineer – PHP · Laravel · Symfony · Vue.js · TypeScript · GCP",
     "location": "Elsau ZH, Switzerland",
     "availability": "Available — Hire · Freelance · Partnership",
     "summary": [
       "I have been programming since the age of eleven. Software development is not just my profession — it is a lifelong discipline driven by curiosity, experimentation, and a deep passion for open source.",
-      "Senior Full-Stack Engineer with 25 years of expertise across PHP, Python, and JavaScript — building scalable, secure, and maintainable applications. A web artisan focused on clean architecture and long-term reliability, from high-traffic public platforms to enterprise internal systems supporting Customer Care and call centre operations.",
+      "Tech Lead and Senior Full-Stack Engineer with 25 years of PHP expertise — spanning Laravel, Symfony, Vue.js, TypeScript, and Nuxt — and deep experience architecting business-critical web platforms from concept to production. Currently leading the technical direction of the OMNI Channel Platform at Sunrise: driving architectural decisions, establishing engineering standards, owning code quality, and acting as the primary technical interface with business and engineering stakeholders.",
       "Specialist in backend systems, scripting and automation, modern frontend interfaces, and enterprise APIs — with strong experience in Salesforce ecosystems (LWC, platform integrations, enterprise data workflows) and AI-powered agent interfaces that integrate intelligent workflows into enterprise environments.",
       "Deeply passionate about Linux and open source. Strong hands-on experience with Docker containerisation, CI/CD pipelines, cloud-native deployment, and DevOps practices that ensure scalability, reliability, and operational excellence.",
       "Driven by ownership, technical excellence, and the continuous pursuit of improvement. Open to senior engineering positions, freelance engagements, and technical partnerships — Zürich, remote, or wherever the problem is worth solving."
@@ -35,17 +35,17 @@
   "experience": [
     {
       "company": "Sunrise Communications AG",
-      "role": "Senior Full Stack Engineer – Cloud Platform, Salesforce DevOps & AI",
+      "role": "Tech Lead OMNI Channel Platforms & Senior Full Stack Engineer",
       "period": "2012 — Present",
       "location": "Zurich, Switzerland",
       "summary": "13+ years of progressive ownership across full-stack development, Salesforce DevOps, cloud infrastructure, data engineering, and applied AI at one of Switzerland's leading telecommunications companies.",
       "achievements": [
-        "Salesforce DevOps Engineer: CI/CD pipelines, release management, custom Apex, LWC components, Flows, and API integrations.",
+        "Technical Lead for the OMNI Channel Platform: driving architectural decisions, establishing engineering standards, defining technical roadmaps, and serving as the primary technical reference for business stakeholders and engineering teams.",
+        "Designed and built scalable full-stack applications using PHP (Laravel), Vue.js, TypeScript, and REST APIs — deployed on GCP and Linux (RHEL) with Docker and CI/CD pipelines.",
+        "Architected and owned AMP — a multilingual call-centre productivity suite (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) — from design to production.",
         "Drove DevOps transformation: LAMP/LEMP to FrankenPHP on Docker/GCP/RHEL, GitLab CI/Jenkins pipelines, release automation.",
-        "Developed AMP — internal call centre portal (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) with multilingual ticket tools, distribution, and feedback systems.",
-        "Built Jordan AI (Liberty Global) — Python/FastAPI + Vue.js AI tool for real-time call analysis across Liberty Global subsidiaries.",
-        "Architected cloud-native services on GCP: compute, networking, IAM, Cloud Run.",
-        "Modernised legacy PHP applications to Laravel, Vue.js, and Nuxt — improving maintainability, testability, and delivery speed."
+        "Built Jordan AI (Liberty Global): Python/FastAPI + Vue.js — real-time call analysis and conversation pre-summaries deployed across Liberty Global subsidiaries.",
+        "Salesforce DevOps: CI/CD pipelines, release management, Apex, LWC components, API integrations, and enterprise data sync."
       ],
       "stack": ["PHP / Laravel", "Vue.js / Nuxt", "Python / FastAPI", "GCP", "Docker", "MySQL", "Oracle", "Redis", "Elasticsearch", "Salesforce / LWC", "Vertex AI", "Azure OpenAI"]
     },

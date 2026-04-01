@@ -1,0 +1,216 @@
+{
+  "refLetters": [
+    {
+      "id": "sicilia",
+      "file": "ref-letters/zeugnisse.pdf",
+      "letterDate": "2011-12-13",
+      "language": "it",
+      "author": {
+        "name": "Ing. Paolo De Stefani",
+        "title": "Amministratore Delegato",
+        "company": "Sicilia On Line S.r.l."
+      },
+      "cosignatory": null,
+      "type": "employment_certificate",
+      "period": {
+        "start": "2006-05-01",
+        "end": "2011-12-31"
+      },
+      "roles": [
+        {
+          "title": "Webmaster",
+          "department": null,
+          "startDate": "2006-05-01",
+          "endDate": "2011-12-31"
+        }
+      ],
+      "responsibilities": [
+        "Webmaster for the regional portal www.siciliaonline.it and the full network of related properties",
+        "Development using PHP, HTML, CSS, and JavaScript",
+        "Development of custom Joomla extensions; built siciliaonline.it and the entire network on Joomla CMS",
+        "Management of web server infrastructure in a LAMP environment, including high-traffic site operations"
+      ],
+      "assessment": {
+        "technical": "Demonstrated strong knowledge, competence, and capability in web technologies: PHP, HTML, CSS, and JavaScript. Particularly skilled in developing Joomla extensions. Developed excellent competencies in LAMP web server management and high-traffic site challenges.",
+        "general": "Showed great dedication to his craft and a strong aptitude for developing web projects. Employment ended due to company liquidation — all employees were laid off with regret."
+      },
+      "overallRating": "highly competent",
+      "note": "Letter issued in Italian on company closure. Employment ended due to liquidation of Sicilia On Line S.r.l., not performance-related. File also contains Leonardo Exchange Program certificate (IUCN internship, Netherlands, 1999) and two educational diplomas — not CV job entries."
+    },
+    {
+      "id": "mario",
+      "file": "ref-letters/ZZ_GP.pdf",
+      "letterDate": "2026-03-03",
+      "author": {
+        "name": "Mario Pettoffezza",
+        "title": "Head of WIN",
+        "company": "Sunrise LLC"
+      },
+      "cosignatory": {
+        "name": "Sejla Hadzic",
+        "title": "People Operations Specialist"
+      },
+      "type": "interim",
+      "period": {
+        "start": "2013-07-15",
+        "end": "2018-03-31"
+      },
+      "roles": [
+        {
+          "title": "Specialist",
+          "department": "Business Unit Operations – Internal Contact Center IPTV TS",
+          "startDate": "2013-07-15",
+          "endDate": "2014-10-31"
+        },
+        {
+          "title": "Specialist Application",
+          "department": "Service Assurance Operations",
+          "startDate": "2014-11-01",
+          "endDate": "2018-03-31"
+        }
+      ],
+      "responsibilities": [
+        "Providing 2nd- and 3rd-level support and continuously enhancing and maintaining the AMP platform to ensure the operational stability and continuity of business-critical customer-care processes",
+        "Analyzing and resolving complex technical issues, implementing enhancements and bug fixes using PHP and related technologies",
+        "Contributing to the evolution of AMP from a legacy script into a structured and maintainable internal application",
+        "Collaborating closely with business units and technical teams to ensure reliability, performance, and alignment with operational requirements"
+      ],
+      "assessment": {
+        "technical": "Possesses remarkably profound expertise and above-average experience. Successfully applies himself to new duties and uses the acquired knowledge with outstanding results. Very familiar with prevailing software applications and tools, using them with great efficiency.",
+        "initiative": "Shows initiative and works with enthusiasm and commitment. Keeps himself informed of the latest standards. Adapts easily to challenging situations and remains commendably calm and assured.",
+        "communication": "Conveys key information to relevant recipients in a timely manner and involves management when needed. Expresses opinions openly and constructively and incorporates feedback. Open to criticism and uses it for personal development.",
+        "teamwork": "Integrates into teams and collaborates with a variety of groups. Differentiates between team interests and his own. Valued employee with commendable devotion to duties and the company.",
+        "problemSolving": "Quickly identifies issues and is very effective at resolving them. Highly perceptive in evaluating scope and impact of actions, careful when weighing risks and opportunities."
+      },
+      "overallRating": "valuable",
+      "note": "Reference issued due to assumption of a new role within the company as of 1 April 2018."
+    },
+    {
+      "id": "gary",
+      "file": "ref-letters/Papa Giancarlo_ZZ_EN.pdf",
+      "letterDate": "2026-03-10",
+      "author": {
+        "name": "Gary Davenport",
+        "title": "Sr Director Platform & Data Delivery Hubs",
+        "company": "Sunrise LLC"
+      },
+      "cosignatory": {
+        "name": "Sejla Hadzic",
+        "title": "People Operations Specialist"
+      },
+      "type": "interim",
+      "period": {
+        "start": "2018-04-01",
+        "end": "2019-02-28"
+      },
+      "roles": [
+        {
+          "title": "Developer",
+          "department": "ERP, BI & Billing",
+          "startDate": "2018-04-01",
+          "endDate": "2019-02-28"
+        }
+      ],
+      "responsibilities": [
+        "Leading the development and strategic evolution of the AMP FeedbackTool v2, transforming it into a robust, enterprise-grade full-stack application using Laravel (PHP) and Vue.js",
+        "Designing and implementing secure corporate authentication through LDAP integration with the enterprise user directory, enabling centralized access control and alignment with corporate security standards",
+        "Playing a key role in modernizing the platform architecture, significantly improving reliability, scalability, and maintainability, and establishing the FeedbackTool as a trusted internal solution supporting Customer Care call center operations and Quality Management processes"
+      ],
+      "assessment": {
+        "technical": "Possesses proven expertise and extensive experience. Meets specifications in every respect in terms of quality and scope. Very satisfied with his performance. Familiar with prevailing software applications and tools and uses them sensibly.",
+        "initiative": "Flexible and resilient employee who shows initiative, works with enthusiasm and commitment. Perceptive in evaluating scope and impact of actions. Carefully weighs related risks and opportunities. Has valuable ideas for improvements and actively involves himself in innovation.",
+        "communication": "Outgoing and intuitive in interactions with others. Conveys key information to relevant recipients in a timely manner. Takes on board other opinions and constructive criticism. Tuned in to the needs of conversational partners.",
+        "teamwork": "Strong ability to integrate easily into a team and collaborate with a variety of groups. Places interests of the team above his own whenever possible. Conduct towards business partners, supervisors, and colleagues is correct.",
+        "customerFocus": "Takes customers' concerns, needs, and wishes seriously and seeks realisable solutions."
+      },
+      "overallRating": "valuable",
+      "note": "Reference covers tasks and performance up to March 31, 2018; previous interim references cover the period before."
+    },
+    {
+      "id": "bratislav",
+      "file": "ref-letters/Papa Giancarlo_ZZ_2024_Signed.pdf",
+      "letterDate": "2024-01-31",
+      "author": {
+        "name": "Bratislav Pecenkovic",
+        "title": "Head of Enterprise Big Data",
+        "company": "Sunrise LLC"
+      },
+      "cosignatory": {
+        "name": "Sejla Hadzic",
+        "title": "People Operations Specialist"
+      },
+      "type": "interim",
+      "period": {
+        "start": "2019-03-01",
+        "end": "2024-01-31"
+      },
+      "roles": [
+        {
+          "title": "Developer Big Data",
+          "department": "Enterprise Big Data",
+          "startDate": "2019-03-01",
+          "endDate": "2024-01-31"
+        }
+      ],
+      "responsibilities": [
+        "Design, development, and maintenance of the internal AMP platform and AMP FeedbackTool, supporting business-critical processes and user workflows",
+        "Implementation of backend services using PHP (Laravel) and Python, frontend components using Vue.js, and integration with enterprise systems and APIs",
+        "Deployment and operation of applications in Linux environments, including Red Hat Enterprise Linux (RHEL), using Docker, Git, and CI/CD pipelines",
+        "Ensuring platform reliability, performance, and continuous improvement in alignment with business and operational requirements"
+      ],
+      "assessment": {
+        "technical": "Possesses proven expertise and extensive experience in his area of responsibility. Prompt and deliberate when applying newly acquired knowledge. Delivers a good performance with a rational and precise approach. Familiar with prevailing software applications and uses them sensibly.",
+        "initiative": "Shows initiative and complete commitment. Interested in current professional developments and keen to evolve and deepen his professional practice. Adapts easily to circumstantial changes. Proactive and creative when working on innovation and reform.",
+        "communication": "Commendable consideration for the sensibilities of others. Empathic demeanour enables connection with others. Provides information about his area of responsibility and forwards key information. Tailor messages to the hierarchical level addressed. Expresses opinions openly and constructively.",
+        "teamwork": "Conduct towards supervisors and colleagues is faultless and considerate. Incorporates feedback of others into his work process. Offers a balanced view in discussions and differences of opinion.",
+        "leadership": "Shows initiative and complete commitment. Has a wealth of specific ideas for improvements. Effort put into managing resources is in proportion to the achieved outcome."
+      },
+      "overallRating": "valuable",
+      "note": "Reference covers performance from March 2019; tasks and assessment up to February 28, 2019 are referenced in previous interim references."
+    },
+    {
+      "id": "balajee",
+      "file": "ref-letters/Papa Giancarlo_ZZ_Signed.pdf",
+      "letterDate": "2026-03-03",
+      "author": {
+        "name": "Balajee Chandrasekaran",
+        "title": "Head of OMNI Channel",
+        "company": "Sunrise LLC"
+      },
+      "cosignatory": {
+        "name": "Sejla Hadzic",
+        "title": "People Operations Specialist"
+      },
+      "type": "interim",
+      "period": {
+        "start": "2024-02-01",
+        "end": null
+      },
+      "roles": [
+        {
+          "title": "Tech Lead OMNI Channel Platforms",
+          "department": "OMNI Channel",
+          "startDate": "2024-02-01",
+          "endDate": null
+        }
+      ],
+      "responsibilities": [
+        "Designing, building, and operating business-critical internal enterprise platforms that support core operational and call-center processes",
+        "Developing scalable, secure full-stack applications using PHP (Laravel), Python, Vue.js, and React, while delivering cloud-native solutions on Google Cloud Platform and Linux (RHEL)",
+        "Leading API design and enterprise integrations, including secure LDAP-based integrations with Clarify CRM and Pintra2, and implementing CI/CD pipelines, Docker containerization, and Git-based version control for reliable deployments",
+        "Driving the evolution of internal Customer Care and call-center platforms by delivering structured feedback workflows, AI-enabled user interfaces such as the Jordan AI Agents UI, and integrations across Salesforce and enterprise data platforms",
+        "Owning Salesforce source-code management and executing complex multi-environment deployments in alignment with enterprise release and operational standards",
+        "Partnering with engineering, operations, and business stakeholders, applying strong ownership and analytical rigor to deliver reliable, scalable, and high-performance mission-critical systems aligned with business objectives"
+      ],
+      "assessment": {
+        "technical": "Possesses remarkably profound expertise and above-average experience. Successfully applies himself to new duties with outstanding results. Exceptionally rational and precise approach delivers outstanding performance. Very familiar with prevailing software applications and tools and uses them with great efficiency.",
+        "initiative": "Flexible and resilient employee that shows initiative and complete commitment. Independently pursues further training and introduces useful new ideas. Exercises tremendous autonomy and foresightedness in decision-making. Resolute in putting decisions into practice. Proactive and creative in innovation and reform. Carefully manages budgeting of resources and consistently achieves savings.",
+        "communication": "Communicates in a timely, sincere, and comprehensive manner. Pays due attention to the various interests of addressees. Welcomes other opinions and constructive criticism. Good listener tuned in to the needs of conversational partners. Systematically analyses own performance and acquires feedback to improve professionalism.",
+        "teamwork": "Exemplary team player. Presents views with immense cogency and clarity. Keen participant in professional discussions. Shows excellent ability to advise staff constructively and help them leverage resources to deliver tangible results.",
+        "leadership": "Demonstrates distinct consideration for the sensibilities of others. Empathic and pleasant demeanour. Strong ability to advise staff and help them leverage their resources for tangible results. Full responsibility for decisions and their outcomes."
+      },
+      "overallRating": "exceptionally valuable",
+      "note": "Reference covers performance from February 2024; tasks and assessment up to January 31, 2024 are referenced in previous interim references."
+    }
+  ]
+}
