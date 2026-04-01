@@ -12,6 +12,19 @@ export interface ResumeLocation {
   region?: string
 }
 
+export interface CoreCompetency {
+  requirement: string
+  proof: string
+}
+
+export interface SuccessStory {
+  title: string
+  shortForm?: string
+  challenge: string
+  action: string
+  result: string
+}
+
 export interface ResumeBasics {
   name: string
   label?: string
@@ -20,8 +33,11 @@ export interface ResumeBasics {
   phone?: string
   url?: string
   summary?: string
+  summaryPdf?: string
   location?: ResumeLocation
   profiles?: ResumeProfileLink[]
+  coreCompetencies?: CoreCompetency[]
+  successStories?: SuccessStory[]
 }
 
 export interface ResumeWork {
@@ -33,6 +49,7 @@ export interface ResumeWork {
   endDate?: string
   summary?: string
   highlights?: string[]
+  successStories?: SuccessStory[]
 }
 
 export interface ResumeEducation {

@@ -19,6 +19,9 @@ logs
 .fleet
 .idea
 
+# Reference letters (private documents)
+content/ref-letters/
+
 # Local env files
 .env
 .env.*
