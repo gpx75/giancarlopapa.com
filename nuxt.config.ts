@@ -12,6 +12,9 @@ const {
   NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
   NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
   NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
+  NUXT_PUBLIC_SUPABASE_URL: SUPABASE_URL = '',
+  NUXT_PUBLIC_SUPABASE_ANON_KEY: SUPABASE_ANON_KEY = '',
+  SUPABASE_SERVICE_ROLE_KEY = '',
   GITHUB_SHA = ''
 } = process.env;
 
@@ -90,10 +93,13 @@ export default defineNuxtConfig({
       clientSecret: STRAVA_CLIENT_SECRET,
       refreshToken: STRAVA_REFRESH_TOKEN
     },
+    supabaseServiceRoleKey: SUPABASE_SERVICE_ROLE_KEY,
     public: {
       siteUrl: SITE_URL,
       commitSha,
-      commitDate
+      commitDate,
+      supabaseUrl: SUPABASE_URL,
+      supabaseAnonKey: SUPABASE_ANON_KEY
     }
   },
 

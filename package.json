@@ -22,6 +22,7 @@
     "@nuxt/ui": "^4.4.0",
     "@nuxtjs/mcp-toolkit": "^0.12.0",
     "@sparticuz/chromium-min": "^143.0.4",
+    "@supabase/supabase-js": "^2.101.1",
     "@tailwindcss/typography": "^0.5.19",
     "@vercel/analytics": "^1.6.1",
     "leaflet": "^1.9.4",
