@@ -61,10 +61,17 @@ async function sendReply() {
     </div>
 
     <!-- Body -->
-    <div class="flex-1 overflow-y-auto p-4">
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div v-if="mail.body_html" class="prose prose-sm dark:prose-invert max-w-none text-sm" v-html="mail.body_html" />
-      <p v-else class="text-sm whitespace-pre-wrap">{{ mail.body_text }}</p>
+    <div class="flex-1 overflow-hidden">
+      <iframe
+        v-if="mail.body_html"
+        :srcdoc="mail.body_html"
+        sandbox="allow-same-origin"
+        class="w-full h-full border-0"
+        title="Email body"
+      />
+      <div v-else class="overflow-y-auto h-full p-4">
+        <p class="text-sm whitespace-pre-wrap">{{ mail.body_text }}</p>
+      </div>
     </div>
 
     <!-- Reply -->
