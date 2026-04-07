@@ -48,12 +48,12 @@ function formatDate(dateStr: string) {
   return date.toLocaleDateString('en-CH', { day: '2-digit', month: 'short' });
 }
 
-async function selectMail(mail: Mail) {
+function selectMail(mail: Mail) {
   selected.value = mail;
   isSlideoverOpen.value = true;
   if (mail.unread) {
-    await updateMail(mail.id, { unread: false });
     mail.unread = false;
+    updateMail(mail.id, { unread: false });
   }
 }
 
@@ -238,7 +238,7 @@ const dropdownItems = (mail: Mail) => [[
         <p class="text-sm">Select a message to read</p>
       </div>
 
-      <MailDetail
+      <AdminMailDetail
         v-else
         :mail="selected"
         @reply="refresh"
@@ -248,9 +248,9 @@ const dropdownItems = (mail: Mail) => [[
 
   <!-- Mobile: slideover -->
   <ClientOnly>
-    <USlideover v-model:open="isSlideoverOpen" side="right" class="lg:hidden" :title="selected?.subject ?? ''">
+    <USlideover v-model:open="isSlideoverOpen" side="right" class="lg:hidden" :title="selected?.subject ?? ''" :description="selected?.from_name || selected?.from_email || ''">
       <template #body>
-        <MailDetail
+        <AdminMailDetail
           v-if="selected"
           :mail="selected"
           @reply="refresh"
