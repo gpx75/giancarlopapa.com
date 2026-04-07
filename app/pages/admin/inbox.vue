@@ -50,7 +50,9 @@ function formatDate(dateStr: string) {
 
 function selectMail(mail: Mail) {
   selected.value = mail;
-  isSlideoverOpen.value = true;
+  if (import.meta.client && window.innerWidth < 1024) {
+    isSlideoverOpen.value = true;
+  }
   if (mail.unread) {
     mail.unread = false;
     updateMail(mail.id, { unread: false });
