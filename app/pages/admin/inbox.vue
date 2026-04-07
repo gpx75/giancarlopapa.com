@@ -173,8 +173,8 @@ const dropdownItems = (mail: Mail) => [[
         <li
           v-for="mail in filtered"
           :key="mail.id"
-          class="flex items-start gap-3 px-4 py-3 cursor-pointer hover:bg-elevated/50 transition-colors"
-          :class="selected?.id === mail.id ? 'bg-elevated' : ''"
+          class="flex items-start gap-3 px-4 py-3 cursor-pointer transition-colors"
+          :class="selected?.id === mail.id ? 'bg-elevated border-l-2 border-primary' : 'hover:bg-elevated/50 border-l-2 border-transparent'"
           @click="selectMail(mail)"
         >
           <UAvatar
