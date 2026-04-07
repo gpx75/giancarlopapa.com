@@ -1,6 +1,12 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'admin' });
 useSeoMeta({ title: 'Admin — Overview', robots: 'noindex, nofollow' });
+
+const { data: stats } = await useFetch('/api/admin/stats');
+const { data: posts } = await useAsyncData('admin-blog-count', () =>
+  queryCollection('blog').all()
+);
+const postCount = computed(() => posts.value?.length ?? 0);
 </script>
 
 <template>
@@ -32,7 +38,7 @@ useSeoMeta({ title: 'Admin — Overview', robots: 'noindex, nofollow' });
           <div class="flex items-center gap-3">
             <UIcon name="i-lucide-mail" class="text-primary size-6 shrink-0" />
             <div>
-              <p class="text-2xl font-bold">—</p>
+              <p class="text-2xl font-bold">{{ stats?.total ?? '—' }}</p>
               <p class="text-sm text-muted">Contact submissions</p>
             </div>
           </div>
@@ -42,8 +48,8 @@ useSeoMeta({ title: 'Admin — Overview', robots: 'noindex, nofollow' });
           <div class="flex items-center gap-3">
             <UIcon name="i-lucide-bell-dot" class="text-primary size-6 shrink-0" />
             <div>
-              <p class="text-2xl font-bold">—</p>
-              <p class="text-sm text-muted">Unread messages</p>
+              <p class="text-2xl font-bold">{{ stats?.new ?? '—' }}</p>
+              <p class="text-sm text-muted">New messages</p>
             </div>
           </div>
         </UCard>
@@ -52,7 +58,7 @@ useSeoMeta({ title: 'Admin — Overview', robots: 'noindex, nofollow' });
           <div class="flex items-center gap-3">
             <UIcon name="i-lucide-file-text" class="text-primary size-6 shrink-0" />
             <div>
-              <p class="text-2xl font-bold">—</p>
+              <p class="text-2xl font-bold">{{ postCount }}</p>
               <p class="text-sm text-muted">Blog posts</p>
             </div>
           </div>

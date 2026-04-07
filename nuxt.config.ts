@@ -9,12 +9,15 @@ const {
   CONTACT_EMAIL = 'hello@giancarlopapa.com',
   RESEND_API_KEY = '',
   RESEND_TO_EMAIL = 'giancarlo.papa@gmail.com',
+  RESEND_AUDIENCE_ID = '',
   NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
   NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
   NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
   NUXT_PUBLIC_SUPABASE_URL: SUPABASE_URL = '',
   NUXT_PUBLIC_SUPABASE_ANON_KEY: SUPABASE_ANON_KEY = '',
   SUPABASE_SERVICE_ROLE_KEY = '',
+  ICLOUD_EMAIL = '',
+  ICLOUD_APP_PASSWORD = '',
   GITHUB_SHA = ''
 } = process.env;
 
@@ -94,6 +97,11 @@ export default defineNuxtConfig({
       refreshToken: STRAVA_REFRESH_TOKEN
     },
     supabaseServiceRoleKey: SUPABASE_SERVICE_ROLE_KEY,
+    resendAudienceId: RESEND_AUDIENCE_ID,
+    icloud: {
+      email: ICLOUD_EMAIL,
+      appPassword: ICLOUD_APP_PASSWORD
+    },
     public: {
       siteUrl: SITE_URL,
       commitSha,

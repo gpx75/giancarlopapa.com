@@ -9,7 +9,10 @@ watch(loggedIn, (val) => {
 
 const open = ref(false);
 
-const links = [[
+const { data: stats } = await useFetch('/api/admin/stats');
+const newCount = computed(() => stats.value?.new ?? 0);
+
+const links = computed(() => [[
   {
     label: 'Overview',
     icon: 'i-lucide-layout-dashboard',
@@ -19,7 +22,8 @@ const links = [[
   {
     label: 'Contacts',
     icon: 'i-lucide-mail',
-    to: '/admin/contacts'
+    to: '/admin/contacts',
+    ...(newCount.value > 0 ? { badge: String(newCount.value) } : {})
   }
 ], [
   {
@@ -27,7 +31,7 @@ const links = [[
     icon: 'i-lucide-arrow-left',
     to: '/'
   }
-]] satisfies NavigationMenuItem[][];
+]] satisfies NavigationMenuItem[][]);
 </script>
 
 <template>
