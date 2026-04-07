@@ -10,7 +10,9 @@ watch(loggedIn, (val) => {
 const open = ref(false);
 
 const { data: stats } = await useFetch('/api/admin/stats');
-const newCount = computed(() => stats.value?.new ?? 0);
+
+const newContactCount = computed(() => stats.value?.new ?? 0);
+const unreadInboxCount = computed(() => stats.value?.unreadInbox ?? 0);
 
 const links = computed(() => [[
   {
@@ -20,10 +22,16 @@ const links = computed(() => [[
     exact: true
   },
   {
+    label: 'Inbox',
+    icon: 'i-lucide-inbox',
+    to: '/admin/inbox',
+    ...(unreadInboxCount.value > 0 ? { badge: String(unreadInboxCount.value) } : {})
+  },
+  {
     label: 'Contacts',
-    icon: 'i-lucide-mail',
+    icon: 'i-lucide-users',
     to: '/admin/contacts',
-    ...(newCount.value > 0 ? { badge: String(newCount.value) } : {})
+    ...(newContactCount.value > 0 ? { badge: String(newContactCount.value) } : {})
   }
 ], [
   {

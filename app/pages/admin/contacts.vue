@@ -21,12 +21,14 @@ const statusOptions = [
   { label: 'Archived', value: 'archived' }
 ];
 
-const statusColor = (status: string) => ({
+type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning';
+
+const statusColor = (status: string): BadgeColor => (({
   new: 'primary',
   read: 'neutral',
   responded: 'success',
   archived: 'warning'
-}[status] ?? 'neutral');
+} as Record<string, BadgeColor>)[status] ?? 'neutral');
 
 const filter = ref<string>('all');
 const selected = ref<Lead | null>(null);
@@ -140,7 +142,7 @@ async function saveChanges() {
           :columns="columns"
           :loading="!leads"
           class="w-full"
-          @select="openLead($event as Lead)"
+          @select="(row: unknown) => openLead(row as Lead)"
         >
           <template #status-cell="{ row }">
             <UBadge

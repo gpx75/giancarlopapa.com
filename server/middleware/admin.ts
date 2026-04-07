@@ -5,7 +5,8 @@ export default defineEventHandler(async (event) => {
 
   const session = await getUserSession(event);
 
-  if (!session?.user?.email || session.user.email !== OWNER_EMAIL) {
+  const userEmail = (session?.user as Record<string, unknown> | undefined)?.email as string | undefined;
+  if (!userEmail || userEmail !== OWNER_EMAIL) {
     throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
   }
 });

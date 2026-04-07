@@ -46,10 +46,10 @@ const postCount = computed(() => posts.value?.length ?? 0);
 
         <UCard>
           <div class="flex items-center gap-3">
-            <UIcon name="i-lucide-bell-dot" class="text-primary size-6 shrink-0" />
+            <UIcon name="i-lucide-inbox" class="text-primary size-6 shrink-0" />
             <div>
-              <p class="text-2xl font-bold">{{ stats?.new ?? '—' }}</p>
-              <p class="text-sm text-muted">New messages</p>
+              <p class="text-2xl font-bold">{{ stats?.unreadInbox ?? '—' }}</p>
+              <p class="text-sm text-muted">Unread inbox</p>
             </div>
           </div>
         </UCard>
