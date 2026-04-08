@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const id = getRouterParam(event, 'id');
+  const uid = Number(getRouterParam(event, 'uid'));
   const body = await readBody(event);
 
   const allowed = ['unread', 'starred', 'archived'];
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
   const { data, error } = await db
     .from('inbox_messages')
     .update(update)
-    .eq('id', id)
+    .eq('uid', uid)
     .select()
     .single();
 

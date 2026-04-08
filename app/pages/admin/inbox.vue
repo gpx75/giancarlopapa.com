@@ -22,16 +22,21 @@ const isSlideoverOpen = ref(false);
 const syncing = ref(false);
 const syncResult = ref<string | null>(null);
 
-const { data: mails, refresh } = await useFetch<Mail[]>('/api/admin/inbox');
+const { data: fetchedMails, refresh: _refresh } = await useFetch<Mail[]>('/api/admin/inbox');
+const mails = ref<Mail[]>(fetchedMails.value ?? []);
+
+async function refresh() {
+  await _refresh();
+  mails.value = fetchedMails.value ?? [];
+}
 
 const filtered = computed(() => {
-  if (!mails.value) return [];
   return tab.value === 'unread'
     ? mails.value.filter(m => m.unread)
     : mails.value;
 });
 
-const unreadCount = computed(() => mails.value?.filter(m => m.unread).length ?? 0);
+const unreadCount = computed(() => mails.value.filter(m => m.unread).length);
 
 const tabs = computed(() => [
   { label: 'All', value: 'all', badge: filtered.value.length > 0 && tab.value === 'all' ? String(filtered.value.length) : undefined },
@@ -48,19 +53,18 @@ function formatDate(dateStr: string) {
   return date.toLocaleDateString('en-CH', { day: '2-digit', month: 'short' });
 }
 
-function selectMail(mail: Mail) {
+async function selectMail(mail: Mail) {
   selected.value = mail;
   if (import.meta.client && window.innerWidth < 1024) {
     isSlideoverOpen.value = true;
   }
   if (mail.unread) {
-    mail.unread = false;
-    updateMail(mail.id, { unread: false });
+    await updateMail(mail.uid, { unread: false });
   }
 }
 
-async function updateMail(id: string, payload: Partial<Pick<Mail, 'unread' | 'starred' | 'archived'>>) {
-  await $fetch(`/api/admin/inbox/${encodeURIComponent(id)}`, {
+async function updateMail(uid: number, payload: Partial<Pick<Mail, 'unread' | 'starred' | 'archived'>>) {
+  await $fetch(`/api/admin/inbox/${uid}`, {
     method: 'PATCH',
     body: payload
   });
@@ -68,7 +72,7 @@ async function updateMail(id: string, payload: Partial<Pick<Mail, 'unread' | 'st
 }
 
 async function archiveMail(mail: Mail) {
-  await updateMail(mail.id, { archived: true });
+  await updateMail(mail.uid, { archived: true });
   if (selected.value?.id === mail.id) {
     selected.value = null;
     isSlideoverOpen.value = false;
@@ -76,14 +80,14 @@ async function archiveMail(mail: Mail) {
 }
 
 async function toggleStar(mail: Mail) {
-  await updateMail(mail.id, { starred: !mail.starred });
+  await updateMail(mail.uid, { starred: !mail.starred });
   if (selected.value?.id === mail.id) {
-    selected.value = { ...selected.value, starred: !mail.starred };
+    selected.value = mails.value.find(m => m.id === mail.id) ?? selected.value;
   }
 }
 
 async function markUnread(mail: Mail) {
-  await updateMail(mail.id, { unread: true });
+  await updateMail(mail.uid, { unread: true });
   selected.value = null;
   isSlideoverOpen.value = false;
 }
@@ -107,7 +111,7 @@ const dropdownItems = (mail: Mail) => [[
   {
     label: mail.unread ? 'Mark as read' : 'Mark as unread',
     icon: mail.unread ? 'i-lucide-mail-open' : 'i-lucide-mail',
-    onSelect: () => mail.unread ? updateMail(mail.id, { unread: false }) : markUnread(mail)
+    onSelect: () => mail.unread ? updateMail(mail.uid, { unread: false }) : markUnread(mail)
   },
   {
     label: mail.starred ? 'Unstar' : 'Star',
@@ -157,17 +161,13 @@ const dropdownItems = (mail: Mail) => [[
     </template>
 
     <template #body>
-      <div v-if="!mails" class="flex items-center justify-center h-full">
-        <UIcon name="i-lucide-loader" class="animate-spin size-6 text-muted" />
-      </div>
-
-      <div v-else-if="filtered.length === 0" class="flex flex-col items-center justify-center h-full gap-3 text-muted">
+      <div v-if="filtered.length === 0" class="flex flex-col items-center justify-center h-full gap-3 text-muted">
         <UIcon name="i-lucide-inbox" class="size-12 opacity-30" />
         <p class="text-sm">{{ tab === 'unread' ? 'No unread messages' : 'Inbox is empty' }}</p>
         <UButton size="sm" variant="ghost" color="neutral" icon="i-lucide-refresh-cw" label="Sync now" :loading="syncing" @click="syncInbox" />
       </div>
 
-      <ul v-else class="divide-y divide-default">
+      <ul v-else-if="filtered.length > 0" class="divide-y divide-default">
         <li
           v-for="mail in filtered"
           :key="mail.id"
