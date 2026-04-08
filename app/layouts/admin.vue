@@ -9,7 +9,7 @@ watch(loggedIn, (val) => {
 
 const open = ref(false);
 
-const { data: stats } = await useFetch('/api/admin/stats');
+const { data: stats } = await useFetch('/api/admin/stats', { key: 'admin-stats' });
 
 const newContactCount = computed(() => stats.value?.new ?? 0);
 const unreadInboxCount = computed(() => stats.value?.unreadInbox ?? 0);
@@ -80,19 +80,7 @@ const links = computed(() => [[
       </template>
 
       <template #footer="{ collapsed }">
-        <div class="flex items-center gap-1" :class="collapsed ? 'flex-col' : ''">
-          <AdminUserMenu :collapsed="collapsed" class="flex-1 min-w-0" />
-          <UColorModeButton color="neutral" variant="ghost" :square="true" />
-          <UTooltip text="Go to site">
-            <UButton
-              color="neutral"
-              variant="ghost"
-              icon="i-lucide-external-link"
-              square
-              to="/"
-            />
-          </UTooltip>
-        </div>
+        <AdminUserMenu :collapsed="collapsed" class="w-full min-w-0" />
       </template>
     </UDashboardSidebar>
 

@@ -64,7 +64,7 @@ async function updateMail(id: string, payload: Partial<Pick<Mail, 'unread' | 'st
     method: 'PATCH',
     body: payload
   });
-  await refresh();
+  await Promise.all([refresh(), refreshNuxtData('admin-stats')]);
 }
 
 async function archiveMail(mail: Mail) {
@@ -141,10 +141,6 @@ const dropdownItems = (mail: Mail) => [[
               :loading="syncing"
               @click="syncInbox"
             />
-          </UTooltip>
-          <UColorModeButton />
-          <UTooltip text="Go to site">
-            <UButton color="neutral" variant="ghost" icon="i-lucide-external-link" square to="/" />
           </UTooltip>
         </template>
       </UDashboardNavbar>

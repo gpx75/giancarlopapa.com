@@ -23,6 +23,11 @@ const formattedDate = computed(() =>
   })
 );
 
+function openInMail() {
+  const subject = props.mail.subject.startsWith('Re:') ? props.mail.subject : `Re: ${props.mail.subject}`;
+  window.open(`mailto:${props.mail.from_email}?subject=${encodeURIComponent(subject)}`, '_blank');
+}
+
 async function sendReply() {
   if (!replyText.value.trim()) return;
   sending.value = true;
@@ -86,13 +91,12 @@ async function sendReply() {
       />
       <div class="flex justify-between items-center">
         <UButton
-          :href="`mailto:${mail.from_email}?subject=${encodeURIComponent(mail.subject.startsWith('Re:') ? mail.subject : 'Re: ' + mail.subject)}`"
           icon="i-lucide-external-link"
           label="Open in Mail"
           color="neutral"
           variant="ghost"
           size="sm"
-          external
+          @click="openInMail"
         />
         <UButton
           icon="i-lucide-send"

@@ -112,12 +112,6 @@ async function saveChanges() {
         <template #leading>
           <UDashboardSidebarCollapse />
         </template>
-        <template #right>
-          <UColorModeButton />
-          <UTooltip text="Go to site">
-            <UButton color="neutral" variant="ghost" icon="i-lucide-external-link" square to="/" />
-          </UTooltip>
-        </template>
       </UDashboardNavbar>
     </template>
 
