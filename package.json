@@ -32,7 +32,8 @@
     "nuxt-gtag": "^4.1.0",
     "pdf-lib": "^1.17.1",
     "puppeteer-core": "^24.37.5",
-    "resend": "^6.9.2"
+    "resend": "^6.9.2",
+    "vercel": "^50.42.0"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.1",
