@@ -23,6 +23,7 @@ const syncing = ref(false);
 const syncResult = ref<string | null>(null);
 
 const { formatInboxDate } = useDateFormatting();
+const toast = useToast();
 
 const { data: fetchedMails, refresh: _refresh } = await useFetch<Mail[]>('/api/admin/inbox');
 const mails = ref<Mail[]>(fetchedMails.value ?? []);
@@ -89,10 +90,16 @@ async function syncInbox() {
   syncResult.value = null;
   try {
     const result = await $fetch<{ synced: number }>('/api/admin/inbox/sync', { method: 'POST' });
-    syncResult.value = `Synced ${result.synced} message${result.synced === 1 ? '' : 's'}`;
+    const label = `Synced ${result.synced} message${result.synced === 1 ? '' : 's'}`;
+    syncResult.value = label;
+    toast.add({ title: 'Inbox synced', description: label, color: 'success', icon: 'i-lucide-check-circle' });
     await refresh();
   } catch (err: unknown) {
-    syncResult.value = (err as { data?: { message?: string } })?.data?.message ?? 'Sync failed';
+    const reason = (err as { data?: { message?: string }; statusMessage?: string })?.data?.message
+      ?? (err as { statusMessage?: string })?.statusMessage
+      ?? 'Sync failed';
+    syncResult.value = reason;
+    toast.add({ title: 'Inbox sync failed', description: reason, color: 'error', icon: 'i-lucide-triangle-alert' });
   } finally {
     syncing.value = false;
     setTimeout(() => { syncResult.value = null; }, 4000);
