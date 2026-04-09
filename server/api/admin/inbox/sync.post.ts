@@ -5,9 +5,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 503, message: 'IMAP not configured.' });
   }
 
+  const toDomain = config.contactEmail?.split('@')[1]?.trim() || undefined;
+
   const messages = await fetchImapMessages(
     config.icloud.email,
-    config.icloud.appPassword
+    config.icloud.appPassword,
+    { toDomain }
   );
 
   if (messages.length === 0) {
