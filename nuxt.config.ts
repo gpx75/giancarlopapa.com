@@ -13,7 +13,7 @@ const {
   NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
   NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
   NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
-  SUPABASE_URL = '',
+  NUXT_PUBLIC_SUPABASE_URL: SUPABASE_URL = '',
   SUPABASE_SERVICE_ROLE_KEY = '',
   ICLOUD_EMAIL = '',
   ICLOUD_APP_PASSWORD = '',
@@ -95,7 +95,6 @@ export default defineNuxtConfig({
       clientSecret: STRAVA_CLIENT_SECRET,
       refreshToken: STRAVA_REFRESH_TOKEN
     },
-    supabaseUrl: SUPABASE_URL,
     supabaseServiceRoleKey: SUPABASE_SERVICE_ROLE_KEY,
     resendAudienceId: RESEND_AUDIENCE_ID,
     icloud: {
@@ -105,7 +104,8 @@ export default defineNuxtConfig({
     public: {
       siteUrl: SITE_URL,
       commitSha,
-      commitDate
+      commitDate,
+      supabaseUrl: SUPABASE_URL
     }
   },
 
