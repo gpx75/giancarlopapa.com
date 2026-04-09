@@ -63,33 +63,12 @@ export default defineContentConfig({
             stack: z.array(z.string())
           })
         ),
-        projects: z
-          .array(
-            z.object({
-              name: z.string(),
-              summary: z.string(),
-              links: z.array(actionLinkSchema),
-              stack: z.array(z.string())
-            })
-          )
-          .optional(),
         skills: z.array(
           z.object({
             label: z.string(),
             items: z.array(z.string())
           })
         ),
-        writing: z
-          .array(
-            z.object({
-              title: z.string(),
-              description: z.string(),
-              platform: z.string(),
-              to: z.string(),
-              publishedAt: z.string()
-            })
-          )
-          .optional(),
         contact: z.object({
           headline: z.string(),
           subline: z.string(),

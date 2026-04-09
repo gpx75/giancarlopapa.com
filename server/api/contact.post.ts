@@ -1,7 +1,7 @@
 import { Resend } from 'resend';
 import { checkRateLimit } from '../utils/rateLimit';
+import { isValidEmail, assertValidName } from '../utils/validators';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const URL_RE = /(https?:\/\/|www\.)/i;
 const URL_GLOBAL_RE = /(https?:\/\/|www\.)/gi;
 const REPEATED_CHAR_RE = /(.)\1{6,}/;
@@ -78,18 +78,9 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  if (typeof name !== 'string' || name.trim().length < 2 || name.length > 100) {
-    throw createError({
-      statusCode: 400,
-      message: 'Name must be between 2 and 100 characters.'
-    });
-  }
+  assertValidName(name);
 
-  if (
-    typeof email !== 'string' ||
-    !EMAIL_RE.test(email) ||
-    email.length > 254
-  ) {
+  if (!isValidEmail(email)) {
     throw createError({
       statusCode: 400,
       message: 'A valid email address is required.'

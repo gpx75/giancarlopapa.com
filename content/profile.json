@@ -64,18 +64,6 @@
       "stack": ["PHP", "JavaScript", "MySQL", "Linux", "Apache", "Joomla", "Mambo", "CMS"]
     }
   ],
-  "projects": [
-    {
-      "name": "AMP — Application Management Portal",
-      "description": "Full-stack call centre productivity suite built for Sunrise agents — a multilingual ticket template engine (4 languages), automated ticket distribution system, and agent-to-agent and company-wide feedback tools. Full ownership from architecture to production.",
-      "stack": ["Laravel", "Vue.js", "Oracle", "MySQL", "Redis", "Elasticsearch", "FrankenPHP", "Docker", "GCP"]
-    },
-    {
-      "name": "Jordan AI (Liberty Global)",
-      "description": "International AI-powered call assistant deployed across Liberty Global subsidiaries. Python/FastAPI backend and Vue.js frontend connecting to live call data to generate real-time conversation pre-summaries and automated diagnostics for call centre agents.",
-      "stack": ["Python", "FastAPI", "Vue.js", "Azure OpenAI", "LLM integration", "REST APIs"]
-    }
-  ],
   "skills": [
     {
       "label": "PHP & Web",
@@ -106,7 +94,6 @@
       "items": ["Bash / Shell scripting", "Nginx / Apache", "TCP/IP / DNS", "SSL / TLS", "System hardening"]
     }
   ],
-  "writing": [],
   "contact": {
     "headline": "Let's work together",
     "subline": "Open to senior engineering roles, cloud platform projects, and applied AI engagements.",

@@ -16,12 +16,8 @@ const emit = defineEmits<{ reply: [] }>();
 const replyText = ref('');
 const sending = ref(false);
 
-const formattedDate = computed(() =>
-  new Date(props.mail.received_at).toLocaleString('en-CH', {
-    weekday: 'short', day: '2-digit', month: 'short', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
-  })
-);
+const { formatDateTime } = useDateFormatting();
+const formattedDate = computed(() => formatDateTime(props.mail.received_at));
 
 function openInMail() {
   const subject = props.mail.subject.startsWith('Re:') ? props.mail.subject : `Re: ${props.mail.subject}`;

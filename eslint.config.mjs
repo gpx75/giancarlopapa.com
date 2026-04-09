@@ -5,7 +5,8 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 export default withNuxt(
   {
     rules: {
-      // Any custom non-formatting rules can go here
+      // Vue 3 supports fragment (multi-root) templates — disable the legacy Vue 2 rule.
+      'vue/no-multiple-template-root': 'off'
     }
   },
   eslintConfigPrettier

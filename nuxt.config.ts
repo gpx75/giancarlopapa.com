@@ -13,8 +13,7 @@ const {
   NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
   NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
   NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
-  NUXT_PUBLIC_SUPABASE_URL: SUPABASE_URL = '',
-  NUXT_PUBLIC_SUPABASE_ANON_KEY: SUPABASE_ANON_KEY = '',
+  SUPABASE_URL = '',
   SUPABASE_SERVICE_ROLE_KEY = '',
   ICLOUD_EMAIL = '',
   ICLOUD_APP_PASSWORD = '',
@@ -43,6 +42,12 @@ const commitDate = commitSha
     })()
   : '';
 
+const noIndexHeaders = {
+  'Cache-Control': 'no-store, max-age=0',
+  Pragma: 'no-cache',
+  'X-Robots-Tag': 'noindex, nofollow, noarchive'
+};
+
 export default defineNuxtConfig({
   modules: [
     'nuxt-auth-utils',
@@ -53,12 +58,6 @@ export default defineNuxtConfig({
     'nuxt-gtag',
     '@nuxtjs/mcp-toolkit'
   ],
-
-  mcp: {
-    name: 'giancarlopapa.com',
-    route: '/mcp',
-    dir: 'mcp'
-  },
 
   devtools: {
     enabled: process.env.NODE_ENV !== 'production'
@@ -96,6 +95,7 @@ export default defineNuxtConfig({
       clientSecret: STRAVA_CLIENT_SECRET,
       refreshToken: STRAVA_REFRESH_TOKEN
     },
+    supabaseUrl: SUPABASE_URL,
     supabaseServiceRoleKey: SUPABASE_SERVICE_ROLE_KEY,
     resendAudienceId: RESEND_AUDIENCE_ID,
     icloud: {
@@ -105,9 +105,7 @@ export default defineNuxtConfig({
     public: {
       siteUrl: SITE_URL,
       commitSha,
-      commitDate,
-      supabaseUrl: SUPABASE_URL,
-      supabaseAnonKey: SUPABASE_ANON_KEY
+      commitDate
     }
   },
 
@@ -129,34 +127,10 @@ export default defineNuxtConfig({
           "base-uri 'self'; frame-ancestors 'none'; object-src 'none'; form-action 'self'; upgrade-insecure-requests"
       }
     },
-    '/api/**': {
-      headers: {
-        'Cache-Control': 'no-store, max-age=0',
-        Pragma: 'no-cache',
-        'X-Robots-Tag': 'noindex, nofollow, noarchive'
-      }
-    },
-    '/contact': {
-      headers: {
-        'Cache-Control': 'no-store, max-age=0',
-        Pragma: 'no-cache',
-        'X-Robots-Tag': 'noindex, nofollow, noarchive'
-      }
-    },
-    '/book': {
-      headers: {
-        'Cache-Control': 'no-store, max-age=0',
-        Pragma: 'no-cache',
-        'X-Robots-Tag': 'noindex, nofollow, noarchive'
-      }
-    },
-    '/resume': {
-      headers: {
-        'Cache-Control': 'no-store, max-age=0',
-        Pragma: 'no-cache',
-        'X-Robots-Tag': 'noindex, nofollow, noarchive'
-      }
-    }
+    '/api/**': { headers: noIndexHeaders },
+    '/contact': { headers: noIndexHeaders },
+    '/book': { headers: noIndexHeaders },
+    '/resume': { headers: noIndexHeaders }
   },
 
   compatibilityDate: '2025-01-15',
@@ -185,5 +159,11 @@ export default defineNuxtConfig({
       avatar: 256,
       avatar2x: 320
     }
-  }
+  },
+
+  mcp: {
+    name: 'giancarlopapa.com',
+    route: '/mcp',
+    dir: 'mcp'
+  },
 });

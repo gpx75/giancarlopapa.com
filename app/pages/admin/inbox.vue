@@ -22,6 +22,8 @@ const isSlideoverOpen = ref(false);
 const syncing = ref(false);
 const syncResult = ref<string | null>(null);
 
+const { formatInboxDate } = useDateFormatting();
+
 const { data: fetchedMails, refresh: _refresh } = await useFetch<Mail[]>('/api/admin/inbox');
 const mails = ref<Mail[]>(fetchedMails.value ?? []);
 
@@ -42,16 +44,6 @@ const tabs = computed(() => [
   { label: 'All', value: 'all', badge: filtered.value.length > 0 && tab.value === 'all' ? String(filtered.value.length) : undefined },
   { label: 'Unread', value: 'unread', badge: unreadCount.value > 0 ? String(unreadCount.value) : undefined }
 ]);
-
-function formatDate(dateStr: string) {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const isToday = date.toDateString() === now.toDateString();
-  if (isToday) {
-    return date.toLocaleTimeString('en-CH', { hour: '2-digit', minute: '2-digit' });
-  }
-  return date.toLocaleDateString('en-CH', { day: '2-digit', month: 'short' });
-}
 
 async function selectMail(mail: Mail) {
   selected.value = mail;
@@ -185,7 +177,7 @@ const dropdownItems = (mail: Mail) => [[
               <span class="text-sm truncate" :class="mail.unread ? 'font-semibold' : 'font-medium'">
                 {{ mail.from_name || mail.from_email }}
               </span>
-              <span class="text-xs text-muted shrink-0">{{ formatDate(mail.received_at) }}</span>
+              <span class="text-xs text-muted shrink-0">{{ formatInboxDate(mail.received_at) }}</span>
             </div>
             <p class="text-sm truncate" :class="mail.unread ? 'font-medium' : 'text-muted'">
               {{ mail.subject }}

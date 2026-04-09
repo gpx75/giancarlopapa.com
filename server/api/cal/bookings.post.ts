@@ -1,8 +1,7 @@
 import { createCalBooking } from '../../utils/cal'
 import type { CalBookingPayload, CalBookingResponse } from '~/types/cal'
 import { checkRateLimit } from '../../utils/rateLimit'
-
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+import { isValidEmail, assertValidName } from '../../utils/validators'
 
 export default defineEventHandler(
   async (event): Promise<{ booking: CalBookingResponse }> => {
@@ -26,13 +25,11 @@ export default defineEventHandler(
       })
     }
 
-    if (!EMAIL_RE.test(body.attendee.email) || body.attendee.email.length > 254) {
+    if (!isValidEmail(body.attendee.email)) {
       throw createError({ statusCode: 400, statusMessage: 'A valid attendee email is required.' })
     }
 
-    if (body.attendee.name.trim().length < 2 || body.attendee.name.length > 100) {
-      throw createError({ statusCode: 400, statusMessage: 'Attendee name must be between 2 and 100 characters.' })
-    }
+    assertValidName(body.attendee.name, 'Attendee name must be between 2 and 100 characters.')
 
     try {
       const booking: CalBookingResponse = await createCalBooking(body)
