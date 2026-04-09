@@ -43,10 +43,7 @@ for (const match of publicBody.matchAll(keyRegex)) {
 const allowedPublicKeys = new Set([
   'siteUrl',
   'commitSha',
-  'commitDate',
-  // Supabase project URL is public by design (client SDK uses it with anon/publishable keys).
-  // Only the service role key is secret and lives in private runtimeConfig.
-  'supabaseUrl'
+  'commitDate'
 ])
 
 const unexpected = [...publicKeys].filter(key => !allowedPublicKeys.has(key))
