@@ -36,7 +36,7 @@ CAL_BASE_URL=https://api.cal.com
 
 # Site
 SITE_URL=https://giancarlopapa.com
-CONTACT_EMAIL=hello@giancarlopapa.com
+CONTACT_EMAIL=contact@giancarlopapa.com
 
 # Contact form (resend.com)
 RESEND_API_KEY=re_...

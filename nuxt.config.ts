@@ -6,7 +6,7 @@ const {
   CAL_USERNAME = '',
   CAL_BASE_URL = 'https://api.cal.com',
   SITE_URL = 'https://giancarlopapa.com',
-  CONTACT_EMAIL = 'hello@giancarlopapa.com',
+  CONTACT_EMAIL = 'contact@giancarlopapa.com',
   RESEND_API_KEY = '',
   RESEND_TO_EMAIL = 'giancarlo.papa@gmail.com',
   RESEND_AUDIENCE_ID = '',
