@@ -1,8 +1,14 @@
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
-  if (!config.gmail.user || !config.gmail.appPassword) {
-    throw createError({ statusCode: 503, message: 'Gmail IMAP not configured.' });
+  const missing: string[] = [];
+  if (!config.gmail.user) missing.push('NUXT_GMAIL_USER');
+  if (!config.gmail.appPassword) missing.push('NUXT_GMAIL_APP_PASSWORD');
+  if (missing.length > 0) {
+    throw createError({
+      statusCode: 503,
+      message: `Gmail IMAP not configured — missing: ${missing.join(', ')}`
+    });
   }
 
   const toDomain = config.contactEmail?.split('@')[1]?.trim() || undefined;
