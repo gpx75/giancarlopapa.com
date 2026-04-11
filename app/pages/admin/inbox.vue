@@ -21,6 +21,8 @@ const selected = ref<Mail | null>(null);
 const isSlideoverOpen = ref(false);
 const syncing = ref(false);
 const syncResult = ref<string | null>(null);
+const purging = ref(false);
+const confirmPurgeOpen = ref(false);
 
 const { formatInboxDate } = useDateFormatting();
 const toast = useToast();
@@ -85,6 +87,26 @@ async function markUnread(mail: Mail) {
   isSlideoverOpen.value = false;
 }
 
+async function purgeInbox() {
+  purging.value = true;
+  try {
+    const result = await $fetch<{ purged: number }>('/api/admin/inbox/purge', { method: 'POST' });
+    const label = `Purged ${result.purged} message${result.purged === 1 ? '' : 's'}`;
+    toast.add({ title: 'Inbox purged', description: label, color: 'success', icon: 'i-lucide-trash-2' });
+    selected.value = null;
+    isSlideoverOpen.value = false;
+    await Promise.all([refresh(), refreshNuxtData('admin-stats')]);
+  } catch (err: unknown) {
+    const reason = (err as { data?: { message?: string }; statusMessage?: string })?.data?.message
+      ?? (err as { statusMessage?: string })?.statusMessage
+      ?? 'Purge failed';
+    toast.add({ title: 'Inbox purge failed', description: reason, color: 'error', icon: 'i-lucide-triangle-alert' });
+  } finally {
+    purging.value = false;
+    confirmPurgeOpen.value = false;
+  }
+}
+
 async function syncInbox() {
   syncing.value = true;
   syncResult.value = null;
@@ -134,6 +156,17 @@ const dropdownItems = (mail: Mail) => [[
           <UDashboardSidebarCollapse />
         </template>
         <template #right>
+          <UTooltip text="Purge inbox (delete all)">
+            <UButton
+              icon="i-lucide-trash-2"
+              color="error"
+              variant="ghost"
+              square
+              :loading="purging"
+              :disabled="syncing"
+              @click="confirmPurgeOpen = true"
+            />
+          </UTooltip>
           <UTooltip :text="syncResult ?? 'Sync inbox'">
             <UButton
               :icon="syncing ? 'i-lucide-loader' : 'i-lucide-refresh-cw'"
@@ -142,6 +175,7 @@ const dropdownItems = (mail: Mail) => [[
               variant="ghost"
               square
               :loading="syncing"
+              :disabled="purging"
               @click="syncInbox"
             />
           </UTooltip>
@@ -255,4 +289,22 @@ const dropdownItems = (mail: Mail) => [[
       </template>
     </USlideover>
   </ClientOnly>
+
+  <!-- Purge confirm -->
+  <UModal v-model:open="confirmPurgeOpen" title="Purge inbox?" :ui="{ footer: 'justify-end gap-2' }">
+    <template #body>
+      <p class="text-sm">
+        This will permanently delete <strong>every message</strong> from the inbox table.
+        Use this to wipe stale pre-migration rows — then click <em>Sync</em> to repopulate
+        from Gmail with the current <code>@giancarlopapa.com</code> filter.
+      </p>
+      <p class="text-sm text-muted mt-2">
+        This action cannot be undone.
+      </p>
+    </template>
+    <template #footer>
+      <UButton color="neutral" variant="ghost" label="Cancel" :disabled="purging" @click="confirmPurgeOpen = false" />
+      <UButton color="error" icon="i-lucide-trash-2" label="Purge all" :loading="purging" @click="purgeInbox" />
+    </template>
+  </UModal>
 </template>
