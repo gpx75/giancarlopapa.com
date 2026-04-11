@@ -12,28 +12,39 @@ export interface ImapMessage {
   receivedAt: string;
 }
 
+export interface ImapConnection {
+  host: string;
+  port?: number;
+  secure?: boolean;
+  user: string;
+  pass: string;
+}
+
 export interface FetchImapOptions {
   limit?: number;
   /**
    * Restrict to messages whose To/Cc/Bcc contains at least one recipient
    * under the given domain (e.g. 'giancarlopapa.com'). IMAP SEARCH narrows
    * the fetch server-side; a post-fetch check guards against false positives.
+   *
+   * On Gmail, uses the X-GM-RAW extension for the fastest possible search
+   * (Gmail's native query language is fully indexed and far outpaces RFC
+   * SEARCH on large mailboxes), constrained to the last year.
    */
   toDomain?: string;
 }
 
 export async function fetchImapMessages(
-  email: string,
-  password: string,
+  conn: ImapConnection,
   options: FetchImapOptions = {}
 ): Promise<ImapMessage[]> {
   const { limit = 30, toDomain } = options;
 
   const client = new ImapFlow({
-    host: 'imap.mail.me.com',
-    port: 993,
-    secure: true,
-    auth: { user: email, pass: password },
+    host: conn.host,
+    port: conn.port ?? 993,
+    secure: conn.secure ?? true,
+    auth: { user: conn.user, pass: conn.pass },
     logger: false
   });
 
@@ -43,7 +54,11 @@ export async function fetchImapMessages(
   try {
     const lock = await client.getMailboxLock('INBOX');
     try {
-      const range = await resolveFetchRange(client, { limit, toDomain });
+      const range = await resolveFetchRange(client, {
+        limit,
+        toDomain,
+        isGmail: conn.host === 'imap.gmail.com'
+      });
       if (!range) return [];
 
       for await (const msg of client.fetch(range, {
@@ -83,10 +98,17 @@ export async function fetchImapMessages(
 
 async function resolveFetchRange(
   client: ImapFlow,
-  { limit, toDomain }: { limit: number; toDomain?: string }
+  { limit, toDomain, isGmail }: { limit: number; toDomain?: string; isGmail: boolean }
 ): Promise<string | number[] | null> {
   if (toDomain) {
-    const uids = await client.search({ to: `@${toDomain}` }, { uid: true });
+    // Gmail fast path: native search syntax via X-GM-RAW is fully indexed
+    // and stays near-instant even on huge mailboxes. Cap at 1 year to keep
+    // the search bounded — admin inbox is for active triage, not archival.
+    const searchQuery = isGmail
+      ? { gmailRaw: `to:@${toDomain} newer_than:1y` }
+      : { to: `@${toDomain}` };
+
+    const uids = await client.search(searchQuery, { uid: true });
     if (!uids || uids.length === 0) return null;
     return uids.slice(-limit);
   }

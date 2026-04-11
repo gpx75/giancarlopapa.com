@@ -1,15 +1,18 @@
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
-  if (!config.icloud.email || !config.icloud.appPassword) {
-    throw createError({ statusCode: 503, message: 'IMAP not configured.' });
+  if (!config.gmail.user || !config.gmail.appPassword) {
+    throw createError({ statusCode: 503, message: 'Gmail IMAP not configured.' });
   }
 
   const toDomain = config.contactEmail?.split('@')[1]?.trim() || undefined;
 
   const messages = await fetchImapMessages(
-    config.icloud.email,
-    config.icloud.appPassword,
+    {
+      host: 'imap.gmail.com',
+      user: config.gmail.user,
+      pass: config.gmail.appPassword
+    },
     { toDomain }
   );
 

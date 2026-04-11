@@ -13,8 +13,8 @@ const {
   NUXT_STRAVA_CLIENT_ID: STRAVA_CLIENT_ID = '',
   NUXT_STRAVA_CLIENT_SECRET: STRAVA_CLIENT_SECRET = '',
   NUXT_STRAVA_REFRESH_TOKEN: STRAVA_REFRESH_TOKEN = '',
-  ICLOUD_EMAIL = '',
-  ICLOUD_APP_PASSWORD = '',
+  NUXT_GMAIL_USER: GMAIL_USER = '',
+  NUXT_GMAIL_APP_PASSWORD: GMAIL_APP_PASSWORD = '',
   GITHUB_SHA = ''
 } = process.env;
 
@@ -94,9 +94,9 @@ export default defineNuxtConfig({
       refreshToken: STRAVA_REFRESH_TOKEN
     },
     resendAudienceId: RESEND_AUDIENCE_ID,
-    icloud: {
-      email: ICLOUD_EMAIL,
-      appPassword: ICLOUD_APP_PASSWORD
+    gmail: {
+      user: GMAIL_USER,
+      appPassword: GMAIL_APP_PASSWORD
     },
     public: {
       siteUrl: SITE_URL,
