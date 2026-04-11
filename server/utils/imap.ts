@@ -23,9 +23,12 @@ export interface ImapConnection {
 export interface FetchImapOptions {
   limit?: number;
   /**
-   * Restrict to messages whose To/Cc/Bcc contains at least one recipient
+   * Restrict to messages whose **To** header contains at least one recipient
    * under the given domain (e.g. 'giancarlopapa.com'). IMAP SEARCH narrows
-   * the fetch server-side; a post-fetch check guards against false positives.
+   * the fetch server-side; a post-fetch check on parsed.to guards against
+   * false positives. Cc/Bcc are intentionally ignored — the admin inbox is
+   * for mail directly addressed to the domain, not threads where the domain
+   * is merely copied.
    *
    * On Gmail, uses the X-GM-RAW extension for the fastest possible search
    * (Gmail's native query language is fully indexed and far outpaces RFC
@@ -69,7 +72,7 @@ export async function fetchImapMessages(
         if (!msg.source) continue;
         try {
           const parsed: ParsedMail = await simpleParser(msg.source);
-          if (toDomain && !hasRecipientInDomain(parsed, toDomain)) continue;
+          if (toDomain && !hasToInDomain(parsed, toDomain)) continue;
 
           const from = parsed.from?.value[0];
           messages.push({
@@ -120,21 +123,20 @@ async function resolveFetchRange(
   return `${start}:*`;
 }
 
-function hasRecipientInDomain(parsed: ParsedMail, domain: string): boolean {
+/**
+ * Strict check: only returns true if the message's **To** header contains at
+ * least one recipient under `domain`. Cc/Bcc are deliberately ignored so
+ * threads that merely copy a domain address don't pollute the admin inbox.
+ */
+function hasToInDomain(parsed: ParsedMail, domain: string): boolean {
   const suffix = `@${domain.toLowerCase()}`;
-  const fields: (AddressObject | AddressObject[] | undefined)[] = [
-    parsed.to,
-    parsed.cc,
-    parsed.bcc
-  ];
+  const field: AddressObject | AddressObject[] | undefined = parsed.to;
+  if (!field) return false;
 
-  for (const field of fields) {
-    if (!field) continue;
-    const list = Array.isArray(field) ? field : [field];
-    for (const group of list) {
-      for (const addr of group.value) {
-        if (addr.address?.toLowerCase().endsWith(suffix)) return true;
-      }
+  const list = Array.isArray(field) ? field : [field];
+  for (const group of list) {
+    for (const addr of group.value) {
+      if (addr.address?.toLowerCase().endsWith(suffix)) return true;
     }
   }
   return false;
