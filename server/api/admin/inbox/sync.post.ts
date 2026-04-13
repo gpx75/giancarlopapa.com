@@ -13,14 +13,18 @@ export default defineEventHandler(async (event) => {
 
   const toDomain = config.contactEmail?.split('@')[1]?.trim() || undefined;
 
-  const messages = await fetchImapMessages(
-    {
-      host: 'imap.gmail.com',
-      user: config.gmail.user,
-      pass: config.gmail.appPassword
-    },
-    { toDomain }
-  );
+  const conn = {
+    host: 'imap.gmail.com',
+    user: config.gmail.user,
+    pass: config.gmail.appPassword
+  };
+
+  const [inboxMessages, sentMessages] = await Promise.all([
+    fetchImapMessages(conn, { toDomain, folder: 'INBOX' }),
+    fetchImapMessages(conn, { fromDomain: toDomain, folder: '[Gmail]/Sent Mail' })
+  ]);
+
+  const messages = [...inboxMessages, ...sentMessages];
 
   if (messages.length === 0) {
     return { synced: 0 };
@@ -37,7 +41,7 @@ export default defineEventHandler(async (event) => {
     body_text: m.bodyText,
     body_html: m.bodyHtml,
     received_at: m.receivedAt,
-    folder: 'INBOX'
+    folder: m.folder
   }));
 
   const { error } = await db
