@@ -14,6 +14,7 @@ type Mail = {
   unread: boolean
   starred: boolean
   archived: boolean
+  folder: string
 }
 
 const tab = ref<'all' | 'unread'>('all');
@@ -221,7 +222,7 @@ const dropdownItems = (mail: Mail) => [[
               <span class="text-xs text-muted shrink-0">{{ formatInboxDate(mail.received_at) }}</span>
             </div>
             <p class="text-sm truncate" :class="mail.unread ? 'font-medium' : 'text-muted'">
-              {{ mail.subject }}
+              <UBadge v-if="mail.folder === '[Gmail]/Sent Mail'" label="Sent" color="neutral" variant="subtle" size="xs" class="mr-1" />{{ mail.subject }}
             </p>
             <p class="text-xs text-muted truncate">
               {{ mail.body_text?.slice(0, 80) }}
@@ -272,7 +273,6 @@ const dropdownItems = (mail: Mail) => [[
       <AdminMailDetail
         v-else
         :mail="selected"
-        @reply="refresh"
       />
     </template>
   </UDashboardPanel>
@@ -284,7 +284,6 @@ const dropdownItems = (mail: Mail) => [[
         <AdminMailDetail
           v-if="selected"
           :mail="selected"
-          @reply="refresh"
         />
       </template>
     </USlideover>

@@ -10,6 +10,7 @@ export interface ImapMessage {
   bodyText: string;
   bodyHtml: string;
   receivedAt: string;
+  folder: string;
 }
 
 export interface ImapConnection {
@@ -35,13 +36,17 @@ export interface FetchImapOptions {
    * SEARCH on large mailboxes), constrained to the last year.
    */
   toDomain?: string;
+  /** Restrict to messages whose **From** header matches the domain. Used for sent mail. */
+  fromDomain?: string;
+  /** IMAP folder to fetch from (default: 'INBOX'). */
+  folder?: string;
 }
 
 export async function fetchImapMessages(
   conn: ImapConnection,
   options: FetchImapOptions = {}
 ): Promise<ImapMessage[]> {
-  const { limit = 30, toDomain } = options;
+  const { limit = 30, toDomain, fromDomain, folder = 'INBOX' } = options;
 
   const client = new ImapFlow({
     host: conn.host,
@@ -55,11 +60,12 @@ export async function fetchImapMessages(
   const messages: ImapMessage[] = [];
 
   try {
-    const lock = await client.getMailboxLock('INBOX');
+    const lock = await client.getMailboxLock(folder);
     try {
       const range = await resolveFetchRange(client, {
         limit,
         toDomain,
+        fromDomain,
         isGmail: conn.host === 'imap.gmail.com'
       });
       if (!range) return [];
@@ -73,6 +79,7 @@ export async function fetchImapMessages(
         try {
           const parsed: ParsedMail = await simpleParser(msg.source);
           if (toDomain && !hasToInDomain(parsed, toDomain)) continue;
+          if (fromDomain && !hasFromInDomain(parsed, fromDomain)) continue;
 
           const from = parsed.from?.value[0];
           messages.push({
@@ -83,7 +90,8 @@ export async function fetchImapMessages(
             fromEmail: from?.address ?? '',
             bodyText: parsed.text ?? '',
             bodyHtml: typeof parsed.html === 'string' ? parsed.html : '',
-            receivedAt: (parsed.date ?? new Date()).toISOString()
+            receivedAt: (parsed.date ?? new Date()).toISOString(),
+            folder
           });
         } catch {
           // skip unparseable messages
@@ -101,7 +109,7 @@ export async function fetchImapMessages(
 
 async function resolveFetchRange(
   client: ImapFlow,
-  { limit, toDomain, isGmail }: { limit: number; toDomain?: string; isGmail: boolean }
+  { limit, toDomain, fromDomain, isGmail }: { limit: number; toDomain?: string; fromDomain?: string; isGmail: boolean }
 ): Promise<string | number[] | null> {
   if (toDomain) {
     // Gmail fast path: native search syntax via X-GM-RAW is fully indexed
@@ -110,6 +118,16 @@ async function resolveFetchRange(
     const searchQuery = isGmail
       ? { gmailRaw: `to:@${toDomain} newer_than:1y` }
       : { to: `@${toDomain}` };
+
+    const uids = await client.search(searchQuery, { uid: true });
+    if (!uids || uids.length === 0) return null;
+    return uids.slice(-limit);
+  }
+
+  if (fromDomain) {
+    const searchQuery = isGmail
+      ? { gmailRaw: `from:@${fromDomain} newer_than:1y` }
+      : { from: `@${fromDomain}` };
 
     const uids = await client.search(searchQuery, { uid: true });
     if (!uids || uids.length === 0) return null;
@@ -138,6 +156,16 @@ function hasToInDomain(parsed: ParsedMail, domain: string): boolean {
     for (const addr of group.value) {
       if (addr.address?.toLowerCase().endsWith(suffix)) return true;
     }
+  }
+  return false;
+}
+
+function hasFromInDomain(parsed: ParsedMail, domain: string): boolean {
+  const suffix = `@${domain.toLowerCase()}`;
+  const from = parsed.from;
+  if (!from) return false;
+  for (const addr of from.value) {
+    if (addr.address?.toLowerCase().endsWith(suffix)) return true;
   }
   return false;
 }

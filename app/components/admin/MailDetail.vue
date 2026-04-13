@@ -10,40 +10,35 @@ type Mail = {
   starred: boolean
 }
 
-const props = defineProps<{ mail: Mail }>();
-const emit = defineEmits<{ reply: [] }>();
+type LinkedContact = {
+  id: number
+  name: string
+  email: string
+  status: string
+  created_at: string
+}
 
-const replyText = ref('');
-const sending = ref(false);
+const props = defineProps<{ mail: Mail }>();
 
 const { formatDateTime } = useDateFormatting();
 const formattedDate = computed(() => formatDateTime(props.mail.received_at));
 
-function openInMail() {
-  const subject = props.mail.subject.startsWith('Re:') ? props.mail.subject : `Re: ${props.mail.subject}`;
-  window.open(`mailto:${props.mail.from_email}?subject=${encodeURIComponent(subject)}`, '_blank');
-}
+const linkedContacts = ref<LinkedContact[]>([]);
 
-async function sendReply() {
-  if (!replyText.value.trim()) return;
-  sending.value = true;
+watch(() => props.mail.from_email, async (email) => {
+  if (!email) { linkedContacts.value = []; return; }
   try {
-    await $fetch('/api/admin/inbox/reply', {
-      method: 'POST',
-      body: {
-        to: props.mail.from_email,
-        toName: props.mail.from_name,
-        subject: props.mail.subject.startsWith('Re:') ? props.mail.subject : `Re: ${props.mail.subject}`,
-        message: replyText.value
-      }
-    });
-    replyText.value = '';
-    emit('reply');
+    linkedContacts.value = await $fetch<LinkedContact[]>('/api/admin/contacts/by-email', { params: { email } });
   } catch {
-    // error handled silently — user can retry
-  } finally {
-    sending.value = false;
+    linkedContacts.value = [];
   }
+}, { immediate: true });
+
+function openInGmail() {
+  const url = props.mail.id.startsWith('uid-')
+    ? `https://mail.google.com/mail/u/0/#search/from:${encodeURIComponent(props.mail.from_email)}+subject:${encodeURIComponent(props.mail.subject)}`
+    : `https://mail.google.com/mail/u/0/#search/rfc822msgid:${props.mail.id}`;
+  window.open(url, '_blank');
 }
 </script>
 
@@ -53,11 +48,34 @@ async function sendReply() {
     <div class="flex items-start gap-3 p-4 border-b border-default">
       <UAvatar :alt="mail.from_name || mail.from_email" size="md" class="shrink-0" />
       <div class="flex-1 min-w-0">
-        <p class="font-medium text-sm">{{ mail.from_name || mail.from_email }}</p>
+        <div class="flex items-center gap-2">
+          <p class="font-medium text-sm">{{ mail.from_name || mail.from_email }}</p>
+          <NuxtLink
+            v-if="linkedContacts.length > 0"
+            to="/admin/contacts"
+            class="inline-flex items-center gap-1"
+          >
+            <UBadge
+              :label="`Contact (${linkedContacts[0].status})`"
+              color="success"
+              variant="subtle"
+              size="xs"
+              class="capitalize"
+            />
+          </NuxtLink>
+        </div>
         <a :href="`mailto:${mail.from_email}`" class="text-xs text-primary hover:underline">
           {{ mail.from_email }}
         </a>
         <p class="text-xs text-muted mt-0.5">{{ formattedDate }}</p>
+        <!-- Linked contact message preview -->
+        <div v-if="linkedContacts.length > 0" class="mt-2 rounded-md bg-elevated/50 p-2">
+          <p class="text-xs text-muted mb-1">
+            <UIcon name="i-lucide-user" class="size-3 inline" />
+            Contact form submission:
+          </p>
+          <p class="text-xs truncate">{{ linkedContacts[0].message }}</p>
+        </div>
       </div>
     </div>
 
@@ -75,34 +93,16 @@ async function sendReply() {
       </div>
     </div>
 
-    <!-- Reply -->
-    <div class="border-t border-default p-4 space-y-2">
-      <UTextarea
-        v-model="replyText"
-        :placeholder="`Reply to ${mail.from_name || mail.from_email}...`"
-        :rows="3"
-        autoresize
-        class="w-full"
-        :disabled="sending"
+    <!-- Actions -->
+    <div class="border-t border-default p-4 flex justify-end">
+      <UButton
+        icon="i-lucide-external-link"
+        label="Open in Gmail"
+        color="neutral"
+        variant="ghost"
+        size="sm"
+        @click="openInGmail"
       />
-      <div class="flex justify-between items-center">
-        <UButton
-          icon="i-lucide-external-link"
-          label="Open in Mail"
-          color="neutral"
-          variant="ghost"
-          size="sm"
-          @click="openInMail"
-        />
-        <UButton
-          icon="i-lucide-send"
-          label="Send reply"
-          size="sm"
-          :loading="sending"
-          :disabled="!replyText.trim()"
-          @click="sendReply"
-        />
-      </div>
     </div>
   </div>
 </template>
