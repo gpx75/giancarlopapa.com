@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     keywordSets = [customKeywords];
   } else {
     const anthropic = useAnthropic();
-    const resumeText = getResumeForPrompt();
+    const resumeText = await getResumeForPrompt();
     keywordSets = await generateSearchKeywords(anthropic, resumeText);
   }
 

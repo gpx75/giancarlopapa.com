@@ -1,0 +1,246 @@
+{
+  "basics": {
+    "name": "Giancarlo Papa",
+    "label": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
+    "image": "",
+    "email": "giancarlo.papa@gmail.com",
+    "phone": "+41 76 337 13 75",
+    "url": "https://giancarlopapa.com",
+    "summary": "Senior Full-Stack Engineer with 25 years of PHP expertise and deep command of the modern web stack — from Symfony and Laravel to Vue.js, Nuxt, and headless CMS platforms including WordPress, Joomla, Craft CMS, and Shopware. Experienced in Python across data warehouse engineering, FastAPI service development, and automation; grounded in Linux server operations, Docker containerisation, and cloud-native infrastructure on GCP. I design, build, and own business-critical internal platforms — Salesforce DevOps, enterprise integrations, and applied AI systems (Vertex AI, Azure OpenAI, Gemini) — with 13+ years of platform ownership in a demanding Swiss telecommunications environment.",
+    "summaryPdf": "I am a self-taught web artisan, coding since eleven (BASIC on a C64). I design and build robust, scalable web platforms with clean architecture, driven by curiosity and a strong commitment to open source. I have delivered high-traffic public platforms in Italy and business-critical enterprise software in the Swiss telecom sector. As Tech Lead for the OMNI Channel Platforms unit at Sunrise, I take end-to-end technical ownership: architecture and technology decisions, REST/API design and system integration, engineering standards, and reliable DevOps operations. I lead hands-on, enforce best practices, and build systems that last.",
+    "coreCompetencies": [
+      {
+        "requirement": "Full-Stack Development (PHP / Laravel / Vue.js)",
+        "proof": "25 years PHP — built AMP platform (Laravel/Vue.js) running 7+ years in production at Sunrise"
+      },
+      {
+        "requirement": "Cloud & DevOps (GCP / Docker / CI-CD)",
+        "proof": "Led LAMP → Docker/GCP migration — GitLab CI pipelines, containerised deployments on RHEL"
+      },
+      {
+        "requirement": "AI & LLM Integration",
+        "proof": "Built Jordan AI (Liberty Global) — Python/FastAPI + Azure OpenAI for real-time call assistance at scale"
+      },
+      {
+        "requirement": "Technical Leadership",
+        "proof": "13+ years Tech Lead OMNI Channel Platform — architecture decisions, roadmaps, engineering standards"
+      },
+      {
+        "requirement": "Salesforce DevOps",
+        "proof": "CI/CD pipelines, Apex/LWC development, API integrations, enterprise data sync at Sunrise"
+      }
+    ],
+    "location": {
+      "address": "Im Halbiacker 1a",
+      "postalCode": "8352",
+      "city": "Elsau",
+      "countryCode": "CH",
+      "region": "Zurich"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "gpx75",
+        "url": "https://github.com/gpx75"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "gpapa",
+        "url": "https://linkedin.com/in/gpapa"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "Sunrise Communications AG",
+      "location": "Zurich, Switzerland",
+      "position": "Tech Lead OMNI Channel Platforms & Senior Full Stack Engineer",
+      "url": "https://www.sunrise.ch",
+      "startDate": "2012-01",
+      "endDate": "",
+      "summary": "13+ years of progressive ownership across full-stack development, Salesforce DevOps, cloud infrastructure, data engineering, and applied AI at one of Switzerland's leading telecommunications companies.",
+      "highlights": [
+        "Technical Lead for the OMNI Channel Platform: driving architectural decisions, establishing engineering standards, defining technical roadmaps, and serving as the primary technical reference for business stakeholders and engineering teams.",
+        "Designed and built scalable full-stack applications using PHP (Laravel), Vue.js, TypeScript, and REST APIs — deployed on GCP and Linux (RHEL) with Docker and CI/CD pipelines.",
+        "Architected and owned AMP — a multilingual call-centre productivity suite (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) — from design to production.",
+        "Salesforce DevOps Engineer: CI/CD pipelines, release management, custom Apex, LWC components, Flows, API integrations, and enterprise data sync.",
+        "Drove DevOps transformation: LAMP/LEMP to FrankenPHP on Docker/GCP/RHEL, GitLab CI/Jenkins pipelines, release automation.",
+        "Developed AMP (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch): call centre portal — ticket templates (4 langs), distribution, and feedback tools."
+      ],
+      "successStories": [
+        {
+          "title": "AMP Platform — Call Centre Backbone",
+          "shortForm": "Replaced fragile legacy script with a full-stack call-centre platform (Laravel/Vue.js) — mission-critical for 7+ years across all Sunrise Customer Care.",
+          "challenge": "Sunrise Customer Care relied on a fragile legacy PHP script that could not scale across languages or business units.",
+          "action": "Architected and delivered AMP — a full-stack Laravel/Vue.js platform with a multilingual ticket engine (4 languages), automated distribution, and feedback tools, deployed on GCP with Docker and GitLab CI.",
+          "result": "AMP became Sunrise's mission-critical call-centre platform, running reliably in production for 7+ years and supporting daily operations across the entire Customer Care organisation."
+        },
+        {
+          "title": "Jordan AI — Liberty Global",
+          "shortForm": "Built AI-powered real-time call assistant (Python/FastAPI + Azure OpenAI) — deployed internationally across Liberty Global subsidiaries.",
+          "challenge": "Call centre agents across Liberty Global subsidiaries had no real-time support during customer calls, slowing resolution times and degrading service quality.",
+          "action": "Built Jordan AI — Python/FastAPI backend + Vue.js interface — integrating live call data with Azure OpenAI to generate real-time conversation pre-summaries and automated agent diagnostics.",
+          "result": "Deployed internationally across Liberty Global subsidiaries, providing agents with real-time AI assistance during live calls."
+        },
+        {
+          "title": "DevOps Transformation",
+          "shortForm": "Migrated from manual LAMP deployments to Docker/GCP/GitLab CI — release reliability improved, deployment frequency increased substantially.",
+          "challenge": "Manual LAMP deployments were slow, error-prone, and blocked rapid iteration.",
+          "action": "Led migration to Docker containers on GCP/RHEL with GitLab CI/Jenkins pipelines and automated release workflows.",
+          "result": "Release reliability improved significantly and deployment frequency increased substantially."
+        }
+      ]
+    },
+    {
+      "name": "Sicilia On Line Srl",
+      "location": "Palermo, Italy",
+      "position": "Webmaster & Full Stack Developer",
+      "url": "https://www.siciliaonline.it",
+      "startDate": "2006-05",
+      "endDate": "2011-12",
+      "summary": "Webmaster and lead developer for siciliaonline.it — a high-traffic regional portal serving 10,000+ daily visitors — and associated properties gds.it and blogsicilia. Full ownership of PHP application development, Joomla CMS architecture, and LAMP server operations across the entire network.",
+      "highlights": [
+        "Built and scaled PHP/MySQL platforms serving 10,000+ daily visitors across siciliaonline.it, gds.it, and blogsicilia.",
+        "Developed custom Joomla/Mambo components, plugins, and templates for newsroom and editorial workflows.",
+        "Led platform redesigns improving performance, SEO, and reader engagement.",
+        "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops."
+      ],
+      "successStories": [
+        {
+          "title": "High-Traffic Portal",
+          "shortForm": "Built and scaled PHP/MySQL platforms serving 10,000+ daily visitors across siciliaonline.it, gds.it, and blogsicilia.",
+          "challenge": "The regional portal network needed to handle growing traffic while maintaining performance and editorial workflow efficiency.",
+          "action": "Developed custom Joomla components and optimised the full LAMP stack for high-availability operations.",
+          "result": "Platforms reliably served 10,000+ daily visitors with improved performance, SEO, and reader engagement."
+        },
+        {
+          "title": "Platform Modernisation",
+          "shortForm": "Evolved ad-hoc PHP scripts into structured Joomla architecture — improving performance, SEO, and editorial workflows.",
+          "challenge": "The platform consisted of ad-hoc PHP scripts with no maintainable structure, making development slow and error-prone.",
+          "action": "Architected a structured PHP/Joomla codebase with custom components, plugins, and templates for newsroom workflows.",
+          "result": "Delivered a maintainable, performant platform that supported multiple redesigns and sustained editorial productivity."
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "I.I.S.S. \"G. Salerno\" — Gangi (PA), Italy",
+      "location": "Gangi (PA), Italy",
+      "studyType": "Diploma — Istituto Tecnico Economico",
+      "area": "Sistemi Informativi Aziendali",
+      "startDate": "1991",
+      "endDate": "1997"
+    }
+  ],
+  "skills": [
+    {
+      "name": "PHP & Web",
+      "keywords": [
+        "PHP (25 yrs)", "Python", "FastAPI",
+        "Laravel", "Symfony", "Vue.js", "Nuxt",
+        "JavaScript / TypeScript", "HTML5 / CSS",
+        "Twig", "Composer", "RESTful APIs", "GraphQL"
+      ]
+    },
+    {
+      "name": "E-Commerce & CMS",
+      "keywords": [
+        "WordPress", "Joomla / Mambo", "Craft CMS",
+        "Shopware 5 & 6", "Statamic", "Headless CMS"
+      ]
+    },
+    {
+      "name": "Cloud & Platform",
+      "keywords": [
+        "Linux (RHEL / Debian / Ubuntu)", "Docker",
+        "Google Cloud Platform", "Cloud Run",
+        "GitLab CI / Jenkins", "Kubernetes", "Terraform"
+      ]
+    },
+    {
+      "name": "AI & Data",
+      "keywords": [
+        "LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API",
+        "Prompt Engineering", "Big Data Platforms",
+        "Analytics Engineering"
+      ]
+    },
+    {
+      "name": "Databases & Enterprise",
+      "keywords": [
+        "MySQL", "Oracle DB", "PostgreSQL",
+        "Redis", "Elasticsearch", "MongoDB",
+        "Salesforce / Apex / LWC", "LDAP / Active Directory"
+      ]
+    },
+    {
+      "name": "Methodology",
+      "keywords": [
+        "Agile / Scrum", "Code Reviews", "CI / CD",
+        "Unit & Integration Testing", "Static Code Analysis",
+        "Pair Programming", "Version Control (Git)"
+      ]
+    },
+    {
+      "name": "DevOps & Networking",
+      "keywords": [
+        "Bash / Shell scripting", "Nginx / Apache",
+        "TCP/IP / DNS", "SSL / TLS", "System hardening"
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "AMP — Application Management Portal",
+      "description": "Full-stack call centre productivity suite built for Sunrise agents — a multilingual ticket template engine (4 languages), automated ticket distribution system, and agent-to-agent and company-wide feedback tools. Full ownership from architecture to production.",
+      "stack": "Laravel · Vue.js · Oracle · MySQL · Redis · Elasticsearch · FrankenPHP · Docker · GCP · RHEL"
+    },
+    {
+      "name": "Jordan AI (Liberty Global)",
+      "description": "International AI-powered call assistant deployed across Liberty Global subsidiaries. Developed the Python/FastAPI backend and Vue.js frontend — connecting to live call data to generate real-time conversation pre-summaries and automated diagnostics for call centre agents.",
+      "stack": "Python · FastAPI · Vue.js · LLM integration · Azure OpenAI · REST APIs"
+    }
+  ],
+  "languages": [
+    {
+      "language": "Italian",
+      "fluency": "Mothertongue"
+    },
+    {
+      "language": "German",
+      "fluency": "Bilingual C1+"
+    },
+    {
+      "language": "English",
+      "fluency": "C1"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Sports",
+      "keywords": [
+        "Mountain biking",
+        "Running",
+        "Swimming"
+      ]
+    },
+    {
+      "name": "Lifestyle",
+      "keywords": [
+        "Cooking",
+        "Gardening",
+        "DIY",
+        "Woodworking"
+      ]
+    },
+    {
+      "name": "Creativity",
+      "keywords": [
+        "Digital Design",
+        "Furniture Restoration",
+        "Interior Design"
+      ]
+    }
+  ]
+}

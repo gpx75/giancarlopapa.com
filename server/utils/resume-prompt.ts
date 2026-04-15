@@ -1,44 +1,49 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
-
 let cachedResumeText: string | null = null;
 
-export function getResumeForPrompt(): string {
+export async function getResumeForPrompt(): Promise<string> {
   if (cachedResumeText) return cachedResumeText;
 
-  const resumePath = resolve(process.cwd(), 'content/giancarlo_papa_resume.json');
-  const raw = JSON.parse(readFileSync(resumePath, 'utf-8'));
+  const storage = useStorage('assets:server');
+  const raw = await storage.getItem('giancarlo_papa_resume.json') as Record<string, unknown> | null;
+
+  if (!raw) {
+    throw new Error('Could not load resume data from server assets');
+  }
 
   const lines: string[] = [];
 
   // Basics
-  const b = raw.basics;
+  const b = raw.basics as Record<string, unknown>;
   lines.push(`# ${b.name}`);
   lines.push(`${b.label}`);
-  lines.push(`Location: ${b.location?.city}, ${b.location?.region}, ${b.location?.countryCode}`);
+  const loc = b.location as Record<string, string> | undefined;
+  lines.push(`Location: ${loc?.city}, ${loc?.region}, ${loc?.countryCode}`);
   lines.push('');
   lines.push('## Summary');
-  lines.push(b.summary);
+  lines.push(String(b.summary));
   lines.push('');
 
   // Core competencies
-  if (b.coreCompetencies?.length) {
+  const coreCompetencies = b.coreCompetencies as Array<Record<string, string>> | undefined;
+  if (coreCompetencies?.length) {
     lines.push('## Core Competencies');
-    for (const c of b.coreCompetencies) {
+    for (const c of coreCompetencies) {
       lines.push(`- ${c.requirement}: ${c.proof}`);
     }
     lines.push('');
   }
 
   // Work experience
-  if (raw.work?.length) {
+  const work = raw.work as Array<Record<string, unknown>> | undefined;
+  if (work?.length) {
     lines.push('## Work Experience');
-    for (const w of raw.work) {
+    for (const w of work) {
       lines.push(`### ${w.position} at ${w.name} (${w.startDate}–${w.endDate || 'Present'})`);
       lines.push(`Location: ${w.location}`);
-      if (w.summary) lines.push(w.summary);
-      if (w.highlights?.length) {
-        for (const h of w.highlights) {
+      if (w.summary) lines.push(String(w.summary));
+      const highlights = w.highlights as string[] | undefined;
+      if (highlights?.length) {
+        for (const h of highlights) {
           lines.push(`- ${h}`);
         }
       }
@@ -47,38 +52,43 @@ export function getResumeForPrompt(): string {
   }
 
   // Skills
-  if (raw.skills?.length) {
+  const skills = raw.skills as Array<Record<string, unknown>> | undefined;
+  if (skills?.length) {
     lines.push('## Skills');
-    for (const s of raw.skills) {
+    for (const s of skills) {
       const level = s.level ? ` (${s.level})` : '';
       lines.push(`### ${s.name}${level}`);
-      lines.push(s.keywords?.join(', ') ?? '');
+      const keywords = s.keywords as string[] | undefined;
+      lines.push(keywords?.join(', ') ?? '');
       lines.push('');
     }
   }
 
   // Education
-  if (raw.education?.length) {
+  const education = raw.education as Array<Record<string, string>> | undefined;
+  if (education?.length) {
     lines.push('## Education');
-    for (const e of raw.education) {
+    for (const e of education) {
       lines.push(`- ${e.studyType} ${e.area}, ${e.institution} (${e.startDate}–${e.endDate})`);
     }
     lines.push('');
   }
 
   // Languages
-  if (raw.languages?.length) {
+  const languages = raw.languages as Array<Record<string, string>> | undefined;
+  if (languages?.length) {
     lines.push('## Languages');
-    for (const l of raw.languages) {
+    for (const l of languages) {
       lines.push(`- ${l.language}: ${l.fluency}`);
     }
     lines.push('');
   }
 
   // Projects
-  if (raw.projects?.length) {
+  const projects = raw.projects as Array<Record<string, unknown>> | undefined;
+  if (projects?.length) {
     lines.push('## Projects');
-    for (const p of raw.projects) {
+    for (const p of projects) {
       const stack = Array.isArray(p.stack) ? p.stack.join(', ') : (p.stack ?? '');
       lines.push(`- ${p.name}: ${p.description} (${stack})`);
     }

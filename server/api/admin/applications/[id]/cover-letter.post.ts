@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const anthropic = useAnthropic();
-  const resumeText = getResumeForPrompt();
+  const resumeText = await getResumeForPrompt();
 
   const matchContext = app.match_breakdown
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`

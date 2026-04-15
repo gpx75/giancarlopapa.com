@@ -1,20 +1,24 @@
 import type Anthropic from '@anthropic-ai/sdk';
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
 
 let cachedSkillsSummary: string | null = null;
 
-/** Build a compact skills summary from content/skills.json for AI context. */
-function getSkillsSummary(): string {
+/** Build a compact skills summary from server/assets/skills.json for AI context. */
+async function getSkillsSummary(): Promise<string> {
   if (cachedSkillsSummary) return cachedSkillsSummary;
 
   try {
-    const path = resolve(process.cwd(), 'content/skills.json');
-    const raw = JSON.parse(readFileSync(path, 'utf-8'));
+    const storage = useStorage('assets:server');
+    const raw = await storage.getItem('skills.json') as Record<string, unknown> | null;
+    if (!raw) {
+      cachedSkillsSummary = '';
+      return '';
+    }
+
+    const categories = (raw.categories ?? []) as Array<Record<string, unknown>>;
     const byLevel: Record<string, string[]> = {};
 
-    for (const cat of raw.categories ?? []) {
-      for (const s of cat.skills ?? []) {
+    for (const cat of categories) {
+      for (const s of (cat.skills ?? []) as Array<Record<string, string>>) {
         const lvl = s.level || 'other';
         if (!byLevel[lvl]) byLevel[lvl] = [];
         byLevel[lvl].push(s.name);
@@ -43,7 +47,7 @@ export async function generateSearchKeywords(
   anthropic: Anthropic,
   resumeText: string
 ): Promise<string[]> {
-  const skills = getSkillsSummary();
+  const skills = await getSkillsSummary();
   const context = skills ? `Resume:\n${resumeText}\n\nSkill Matrix:\n${skills}` : `Resume:\n${resumeText}`;
 
   const response = await callAnthropicWithRetry(anthropic, {

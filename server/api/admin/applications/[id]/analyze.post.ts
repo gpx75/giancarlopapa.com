@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const anthropic = useAnthropic();
-  const resumeText = getResumeForPrompt();
+  const resumeText = await getResumeForPrompt();
 
   const systemPrompt = `You are a job-market analyst. Compare the candidate's resume against a job description.
 
