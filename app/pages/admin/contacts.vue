@@ -58,6 +58,17 @@ const replying = ref(false);
 const relatedEmails = ref<InboxMessage[]>([]);
 const loadingEmails = ref(false);
 
+type LinkedApplication = {
+  id: number
+  company: string
+  position: string
+  status: string
+  match_rate: number | null
+  created_at: string
+}
+const relatedApplications = ref<LinkedApplication[]>([]);
+const loadingApplications = ref(false);
+
 const { data: leads, refresh } = await useFetch<Lead[]>('/api/admin/contacts');
 
 const filtered = computed(() => {
@@ -96,6 +107,7 @@ async function openLead(lead: Lead) {
   editStatus.value = lead.status;
   replyText.value = '';
   relatedEmails.value = [];
+  relatedApplications.value = [];
   isOpen.value = true;
 
   // Fetch related inbox messages in background
@@ -104,6 +116,13 @@ async function openLead(lead: Lead) {
     .then(data => { relatedEmails.value = data; })
     .catch(() => { /* silently ignore */ })
     .finally(() => { loadingEmails.value = false; });
+
+  // Fetch related applications in background
+  loadingApplications.value = true;
+  $fetch<LinkedApplication[]>('/api/admin/applications/by-email', { params: { email: lead.email } })
+    .then(data => { relatedApplications.value = data; })
+    .catch(() => { relatedApplications.value = []; })
+    .finally(() => { loadingApplications.value = false; });
 
   if (lead.status === 'new') {
     await updateLead(lead.id, { status: 'read' });
@@ -220,7 +239,7 @@ async function deleteLead() {
   </UDashboardPanel>
 
   <!-- Lead detail slideover -->
-  <USlideover v-model:open="isOpen" :title="selected?.name ?? ''" side="right">
+  <USlideover v-model:open="isOpen" :title="selected?.name ?? ''" :description="selected?.email ?? ''" side="right">
     <template #body>
       <div v-if="selected" class="flex flex-col gap-5 p-1">
         <!-- Meta -->
@@ -300,6 +319,48 @@ async function deleteLead() {
 
         <USeparator />
 
+        <!-- Related applications -->
+        <div>
+          <p class="text-xs text-muted mb-2 uppercase tracking-wide">
+            Applications
+            <span v-if="relatedApplications.length > 0" class="text-primary">({{ relatedApplications.length }})</span>
+          </p>
+
+          <div v-if="loadingApplications" class="flex items-center gap-2 text-xs text-muted py-2">
+            <UIcon name="i-lucide-loader" class="size-3 animate-spin" />
+            Loading...
+          </div>
+
+          <div v-else-if="relatedApplications.length === 0" class="text-xs text-muted py-2">
+            No linked applications.
+          </div>
+
+          <div v-else class="space-y-1.5">
+            <NuxtLink
+              v-for="app in relatedApplications"
+              :key="app.id"
+              to="/admin/applications"
+              class="flex items-center gap-2 rounded-md p-2 bg-elevated/50 text-xs"
+            >
+              <UIcon name="i-lucide-briefcase" class="size-3.5 shrink-0 text-primary" />
+              <div class="flex-1 min-w-0">
+                <span class="font-medium truncate">{{ app.position }} @ {{ app.company }}</span>
+              </div>
+              <UBadge :label="app.status" color="neutral" variant="subtle" size="xs" class="capitalize shrink-0" />
+              <UBadge
+                v-if="app.match_rate != null"
+                :label="`${app.match_rate}%`"
+                :color="app.match_rate >= 70 ? 'success' : 'warning'"
+                variant="subtle"
+                size="xs"
+                class="shrink-0"
+              />
+            </NuxtLink>
+          </div>
+        </div>
+
+        <USeparator />
+
         <!-- Status -->
         <div>
           <p class="text-xs text-muted mb-2 uppercase tracking-wide">Status</p>
@@ -371,7 +432,7 @@ async function deleteLead() {
   </USlideover>
 
   <!-- Delete confirm -->
-  <UModal v-model:open="confirmDeleteOpen" title="Delete contact?">
+  <USlideover v-model:open="confirmDeleteOpen" title="Delete contact?" description="This action is permanent" side="right">
     <template #body>
       <p class="text-sm">
         This will permanently delete <strong>{{ selected?.name }}</strong> and their message. This cannot be undone.
@@ -383,5 +444,5 @@ async function deleteLead() {
         <UButton color="error" icon="i-lucide-trash-2" label="Delete" :loading="deleting" @click="deleteLead" />
       </div>
     </template>
-  </UModal>
+  </USlideover>
 </template>

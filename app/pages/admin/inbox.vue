@@ -290,7 +290,7 @@ const dropdownItems = (mail: Mail) => [[
   </ClientOnly>
 
   <!-- Purge confirm -->
-  <UModal v-model:open="confirmPurgeOpen" title="Purge inbox?" :ui="{ footer: 'justify-end gap-2' }">
+  <USlideover v-model:open="confirmPurgeOpen" title="Purge inbox?" description="This action is permanent" side="right">
     <template #body>
       <p class="text-sm">
         This will permanently delete <strong>every message</strong> from the inbox table.
@@ -305,5 +305,5 @@ const dropdownItems = (mail: Mail) => [[
       <UButton color="neutral" variant="ghost" label="Cancel" :disabled="purging" @click="confirmPurgeOpen = false" />
       <UButton color="error" icon="i-lucide-trash-2" label="Purge all" :loading="purging" @click="purgeInbox" />
     </template>
-  </UModal>
+  </USlideover>
 </template>

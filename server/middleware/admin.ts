@@ -1,7 +1,8 @@
 const OWNER_EMAIL = 'giancarlo.papa@gmail.com';
 
 export default defineEventHandler(async (event) => {
-  if (!event.path.startsWith('/admin')) return;
+  const isAdminRoute = event.path.startsWith('/admin') || event.path.startsWith('/api/admin');
+  if (!isAdminRoute) return;
 
   const session = await getUserSession(event);
 
