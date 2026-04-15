@@ -14,7 +14,17 @@ type LinkedContact = {
   id: number
   name: string
   email: string
+  message?: string
   status: string
+  created_at: string
+}
+
+type LinkedApplication = {
+  id: number
+  company: string
+  position: string
+  status: string
+  match_rate: number | null
   created_at: string
 }
 
@@ -24,13 +34,23 @@ const { formatDateTime } = useDateFormatting();
 const formattedDate = computed(() => formatDateTime(props.mail.received_at));
 
 const linkedContacts = ref<LinkedContact[]>([]);
+const linkedApplications = ref<LinkedApplication[]>([]);
 
 watch(() => props.mail.from_email, async (email) => {
-  if (!email) { linkedContacts.value = []; return; }
+  if (!email) {
+    linkedContacts.value = [];
+    linkedApplications.value = [];
+    return;
+  }
   try {
     linkedContacts.value = await $fetch<LinkedContact[]>('/api/admin/contacts/by-email', { params: { email } });
   } catch {
     linkedContacts.value = [];
+  }
+  try {
+    linkedApplications.value = await $fetch<LinkedApplication[]>('/api/admin/applications/by-email', { params: { email } });
+  } catch {
+    linkedApplications.value = [];
   }
 }, { immediate: true });
 
@@ -56,7 +76,7 @@ function openInGmail() {
             class="inline-flex items-center gap-1"
           >
             <UBadge
-              :label="`Contact (${linkedContacts[0].status})`"
+              :label="`Contact (${linkedContacts[0]?.status})`"
               color="success"
               variant="subtle"
               size="xs"
@@ -74,7 +94,21 @@ function openInGmail() {
             <UIcon name="i-lucide-user" class="size-3 inline" />
             Contact form submission:
           </p>
-          <p class="text-xs truncate">{{ linkedContacts[0].message }}</p>
+          <p class="text-xs truncate">{{ linkedContacts[0]?.message }}</p>
+        </div>
+        <!-- Linked applications -->
+        <div v-if="linkedApplications.length > 0" class="mt-2 space-y-1">
+          <NuxtLink
+            v-for="app in linkedApplications"
+            :key="app.id"
+            to="/admin/applications"
+            class="flex items-center gap-2 rounded-md bg-elevated/50 p-2"
+          >
+            <UIcon name="i-lucide-briefcase" class="size-3 text-muted shrink-0" />
+            <span class="text-xs font-medium truncate">{{ app.position }} @ {{ app.company }}</span>
+            <UBadge :label="app.status" color="neutral" variant="subtle" size="xs" class="capitalize shrink-0" />
+            <UBadge v-if="app.match_rate != null" :label="`${app.match_rate}%`" :color="app.match_rate >= 70 ? 'success' : 'warning'" variant="subtle" size="xs" class="shrink-0" />
+          </NuxtLink>
         </div>
       </div>
     </div>

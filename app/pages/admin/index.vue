@@ -21,7 +21,7 @@ const postCount = computed(() => posts.value?.length ?? 0);
     </template>
 
     <template #body>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
         <UCard>
           <div class="flex items-center gap-3">
             <UIcon name="i-lucide-mail" class="text-primary size-6 shrink-0" />
@@ -38,6 +38,16 @@ const postCount = computed(() => posts.value?.length ?? 0);
             <div>
               <p class="text-2xl font-bold">{{ stats?.unreadInbox ?? '—' }}</p>
               <p class="text-sm text-muted">Unread inbox</p>
+            </div>
+          </div>
+        </UCard>
+
+        <UCard>
+          <div class="flex items-center gap-3">
+            <UIcon name="i-lucide-briefcase" class="text-primary size-6 shrink-0" />
+            <div>
+              <p class="text-2xl font-bold">{{ stats?.activeApplications ?? '—' }}</p>
+              <p class="text-sm text-muted">Active applications</p>
             </div>
           </div>
         </UCard>

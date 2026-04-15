@@ -114,18 +114,18 @@
   color: var(--ui-text-highlighted);
 }
 
-h1:not(.prose *):not(.admin-layout *) { font-size: var(--text-6xl); line-height: 1;      letter-spacing: -0.03em; }
-h2:not(.prose *):not(.admin-layout *) { font-size: var(--text-5xl); line-height: 1.1;    letter-spacing: -0.025em; }
-h3:not(.prose *):not(.admin-layout *) { font-size: var(--text-3xl); line-height: 1.2;    letter-spacing: -0.015em; }
-h4:not(.prose *):not(.admin-layout *) { font-size: var(--text-2xl); line-height: 1.25;   letter-spacing: -0.01em; }
-h5:not(.prose *):not(.admin-layout *)  { font-size: var(--text-xl);  line-height: 1.3; }
-h6:not(.prose *):not(.admin-layout *)  { font-size: var(--text-lg);  line-height: 1.4; }
+h1:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-6xl); line-height: 1;      letter-spacing: -0.03em; }
+h2:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-5xl); line-height: 1.1;    letter-spacing: -0.025em; }
+h3:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-3xl); line-height: 1.2;    letter-spacing: -0.015em; }
+h4:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-2xl); line-height: 1.25;   letter-spacing: -0.01em; }
+h5:not(.prose *):not(.admin-layout *):not([role="dialog"] *)  { font-size: var(--text-xl);  line-height: 1.3; }
+h6:not(.prose *):not(.admin-layout *):not([role="dialog"] *)  { font-size: var(--text-lg);  line-height: 1.4; }
 
 @media (max-width: 767px) {
-  h1:not(.prose *):not(.admin-layout *) { font-size: var(--text-4xl); }
-  h2:not(.prose *):not(.admin-layout *) { font-size: var(--text-3xl); }
-  h3:not(.prose *):not(.admin-layout *) { font-size: var(--text-2xl); }
-  h4:not(.prose *):not(.admin-layout *) { font-size: var(--text-xl); }
+  h1:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-4xl); }
+  h2:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-3xl); }
+  h3:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-2xl); }
+  h4:not(.prose *):not(.admin-layout *):not([role="dialog"] *) { font-size: var(--text-xl); }
 }
 
 /* Terminal blinking cursor */
