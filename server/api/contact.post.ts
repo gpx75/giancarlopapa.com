@@ -136,28 +136,22 @@ export default defineEventHandler(async (event) => {
   }
 
   // Persist lead to Supabase — silent, never blocks the user
-  void persistLead({ event, config, normalizedName, normalizedEmail, normalizedMessage, ip, resend });
+  void persistLead({ event, normalizedName, normalizedEmail, normalizedMessage, ip });
 
   return { success: true };
 });
 
-async function persistLead({ event, config, normalizedName, normalizedEmail, normalizedMessage, ip, resend }: {
+async function persistLead({ event, normalizedName, normalizedEmail, normalizedMessage, ip }: {
   event: Parameters<Parameters<typeof defineEventHandler>[0]>[0];
-  config: ReturnType<typeof useRuntimeConfig>;
   normalizedName: string;
   normalizedEmail: string;
   normalizedMessage: string;
   ip: string;
-  resend: Resend;
 }) {
   try {
     const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
-    const nameParts = normalizedName.trim().split(' ');
-    const firstName = nameParts[0] ?? normalizedName;
-    const lastName = nameParts.slice(1).join(' ') || undefined;
 
-    // Insert into Supabase
-    const { data: lead, error: dbError } = await db
+    const { error: dbError } = await db
       .from('contact_submissions')
       .insert({
         name: normalizedName,
@@ -165,33 +159,10 @@ async function persistLead({ event, config, normalizedName, normalizedEmail, nor
         message: normalizedMessage,
         ip,
         status: 'new'
-      })
-      .select('id')
-      .single();
+      });
 
     if (dbError) {
       console.error('[api/contact] Supabase insert error', dbError);
-      return;
-    }
-
-    // Add to Resend audience if configured
-    if (config.resendAudienceId) {
-      const { data: contact, error: audienceError } = await resend.contacts.create({
-        audienceId: config.resendAudienceId,
-        email: normalizedEmail,
-        firstName,
-        lastName,
-        unsubscribed: false
-      });
-
-      if (audienceError) {
-        console.error('[api/contact] Resend audience error', audienceError);
-      } else if (contact?.id && lead?.id) {
-        await db
-          .from('contact_submissions')
-          .update({ resend_contact_id: contact.id })
-          .eq('id', lead.id);
-      }
     }
   } catch (err) {
     console.error('[api/contact] persistLead error', err);

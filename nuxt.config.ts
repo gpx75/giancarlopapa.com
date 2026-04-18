@@ -71,7 +71,6 @@ export default defineNuxtConfig({
   //   cal.baseUrl          → NUXT_CAL_BASE_URL
   //   resend.apiKey        → NUXT_RESEND_API_KEY
   //   resend.toEmail       → NUXT_RESEND_TO_EMAIL
-  //   resendAudienceId     → NUXT_RESEND_AUDIENCE_ID
   //   strava.clientId      → NUXT_STRAVA_CLIENT_ID
   //   strava.clientSecret  → NUXT_STRAVA_CLIENT_SECRET
   //   strava.refreshToken  → NUXT_STRAVA_REFRESH_TOKEN
@@ -91,7 +90,6 @@ export default defineNuxtConfig({
       apiKey: '',
       toEmail: ''
     },
-    resendAudienceId: '',
     strava: {
       clientId: '',
       clientSecret: '',
