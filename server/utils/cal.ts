@@ -48,7 +48,7 @@ function useCalConfig() {
 
   if (!apiKey) {
     throw new Error(
-      'CAL_API_KEY is not configured. Set it in your environment variables.'
+      'NUXT_CAL_API_KEY is not configured. Set it in your environment variables.'
     );
   }
 

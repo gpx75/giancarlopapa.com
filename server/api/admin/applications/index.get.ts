@@ -1,6 +1,9 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 export default defineEventHandler(async (event) => {
   const { status } = getQuery(event);
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   let query = db
     .from('job_applications')

@@ -1,5 +1,8 @@
-export default defineEventHandler(async () => {
-  const db = useSupabaseServer();
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
+export default defineEventHandler(async (event) => {
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   const { data, error } = await db
     .from('contact_submissions')

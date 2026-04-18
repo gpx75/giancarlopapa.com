@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
@@ -30,7 +33,7 @@ export default defineEventHandler(async (event) => {
     return { synced: 0 };
   }
 
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   const rows = messages.map(m => ({
     id: m.id,

@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 export default defineEventHandler(async (event) => {
   const { email } = getQuery(event);
 
@@ -5,7 +8,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Missing email query parameter.' });
   }
 
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   const { data, error } = await db
     .from('job_applications')

@@ -99,8 +99,25 @@ async function handleCreate(payload: CreateApplicationPayload) {
     createOpen.value = false;
     toast.add({ title: 'Application created', color: 'success', icon: 'i-lucide-check' });
     openApplication(app);
-  } catch {
-    toast.add({ title: 'Failed to create', color: 'error', icon: 'i-lucide-triangle-alert' });
+  } catch (err: unknown) {
+    const statusCode = (err as { statusCode?: number; status?: number })?.statusCode
+      ?? (err as { statusCode?: number; status?: number })?.status;
+    if (statusCode === 409) {
+      const existingId = (err as { data?: { data?: { existingId?: number } } })?.data?.data?.existingId;
+      toast.add({
+        title: 'Already in applications',
+        description: 'This role is already tracked.',
+        color: 'warning',
+        icon: 'i-lucide-info'
+      });
+      const existing = applications.value?.find(a => a.id === existingId);
+      if (existing) {
+        createOpen.value = false;
+        openApplication(existing);
+      }
+    } else {
+      toast.add({ title: 'Failed to create', color: 'error', icon: 'i-lucide-triangle-alert' });
+    }
   } finally {
     creating.value = false;
   }

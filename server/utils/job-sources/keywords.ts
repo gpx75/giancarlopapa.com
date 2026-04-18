@@ -20,8 +20,10 @@ async function getSkillsSummary(): Promise<string> {
     for (const cat of categories) {
       for (const s of (cat.skills ?? []) as Array<Record<string, string>>) {
         const lvl = s.level || 'other';
-        if (!byLevel[lvl]) byLevel[lvl] = [];
-        byLevel[lvl].push(s.name);
+        const name = s.name;
+        if (!name) continue;
+        const bucket = byLevel[lvl] ?? (byLevel[lvl] = []);
+        bucket.push(name);
       }
     }
 

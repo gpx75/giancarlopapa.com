@@ -25,13 +25,14 @@ jobs:
         run: npm run build
         env:
           VERCEL: '1'
-          CAL_API_KEY: ${{ secrets.CAL_API_KEY }}
-          CAL_USERNAME: ${{ secrets.CAL_USERNAME }}
-          CAL_BASE_URL: ${{ secrets.CAL_BASE_URL }}
-          SITE_URL: ${{ secrets.SITE_URL }}
-          CONTACT_EMAIL: ${{ secrets.CONTACT_EMAIL }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
-          RESEND_TO_EMAIL: ${{ secrets.RESEND_TO_EMAIL }}
+          NUXT_CAL_API_KEY: ${{ secrets.NUXT_CAL_API_KEY }}
+          NUXT_CAL_USERNAME: ${{ secrets.NUXT_CAL_USERNAME }}
+          NUXT_CAL_BASE_URL: ${{ secrets.NUXT_CAL_BASE_URL }}
+          NUXT_PUBLIC_SITE_URL: ${{ secrets.NUXT_PUBLIC_SITE_URL }}
+          NUXT_CONTACT_EMAIL: ${{ secrets.NUXT_CONTACT_EMAIL }}
+          NUXT_RESEND_API_KEY: ${{ secrets.NUXT_RESEND_API_KEY }}
+          NUXT_RESEND_TO_EMAIL: ${{ secrets.NUXT_RESEND_TO_EMAIL }}
+          NUXT_RESEND_AUDIENCE_ID: ${{ secrets.NUXT_RESEND_AUDIENCE_ID }}
           NUXT_SESSION_PASSWORD: ${{ secrets.NUXT_SESSION_PASSWORD }}
           NUXT_OAUTH_GITHUB_CLIENT_ID: ${{ secrets.NUXT_OAUTH_GITHUB_CLIENT_ID }}
           NUXT_OAUTH_GITHUB_CLIENT_SECRET: ${{ secrets.NUXT_OAUTH_GITHUB_CLIENT_SECRET }}
@@ -40,7 +41,16 @@ jobs:
           NUXT_OAUTH_LINKEDIN_CLIENT_ID: ${{ secrets.NUXT_OAUTH_LINKEDIN_CLIENT_ID }}
           NUXT_OAUTH_LINKEDIN_CLIENT_SECRET: ${{ secrets.NUXT_OAUTH_LINKEDIN_CLIENT_SECRET }}
           NUXT_PUBLIC_GTAG_ID: ${{ secrets.NUXT_PUBLIC_GTAG_ID }}
-          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          NUXT_STRAVA_CLIENT_ID: ${{ secrets.NUXT_STRAVA_CLIENT_ID }}
+          NUXT_STRAVA_CLIENT_SECRET: ${{ secrets.NUXT_STRAVA_CLIENT_SECRET }}
+          NUXT_STRAVA_REFRESH_TOKEN: ${{ secrets.NUXT_STRAVA_REFRESH_TOKEN }}
+          NUXT_GMAIL_USER: ${{ secrets.NUXT_GMAIL_USER }}
+          NUXT_GMAIL_APP_PASSWORD: ${{ secrets.NUXT_GMAIL_APP_PASSWORD }}
+          NUXT_ANTHROPIC_API_KEY: ${{ secrets.NUXT_ANTHROPIC_API_KEY }}
+          NUXT_RAPID_API_KEY: ${{ secrets.NUXT_RAPID_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           GITHUB_SHA: ${{ github.sha }}
 
       - name: Deploy to Vercel

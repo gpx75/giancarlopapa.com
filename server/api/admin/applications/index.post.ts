@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
@@ -11,7 +14,23 @@ export default defineEventHandler(async (event) => {
     if (key in body && body[key] !== undefined) insert[key] = body[key];
   }
 
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+
+  // Prevent duplicates: same URL, or same company + position
+  const existing = await findExistingApplication(db, {
+    company: body.company,
+    position: body.position,
+    url: body.url
+  });
+
+  if (existing) {
+    throw createError({
+      statusCode: 409,
+      message: 'An application for this role already exists.',
+      data: { existingId: existing.id }
+    });
+  }
+
   const { data, error } = await db
     .from('job_applications')
     .insert(insert)

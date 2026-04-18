@@ -5,7 +5,7 @@
  * Required env vars:
  *   LINKEDIN_ACCESS_TOKEN  — OAuth access token (valid 60 days)
  *   LINKEDIN_PERSON_URN    — e.g. urn:li:person:XXXXXXXX
- *   SITE_URL               — https://giancarlopapa.com
+ *   NUXT_PUBLIC_SITE_URL   — https://giancarlopapa.com
  *
  * Run `node scripts/linkedin-auth.mjs` to generate the token and URN.
  */
@@ -14,7 +14,7 @@ import { execSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-const SITE_URL = process.env.SITE_URL || 'https://giancarlopapa.com'
+const SITE_URL = process.env.NUXT_PUBLIC_SITE_URL || 'https://giancarlopapa.com'
 const ACCESS_TOKEN = process.env.LINKEDIN_ACCESS_TOKEN
 const PERSON_URN = process.env.LINKEDIN_PERSON_URN
 

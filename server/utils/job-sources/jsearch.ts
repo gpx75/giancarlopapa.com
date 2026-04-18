@@ -20,8 +20,8 @@ interface JSearchResponse {
 }
 
 function getJSearchApiKey(): string {
-  const key = process.env.RAPIDAPI_KEY || process.env.NUXT_RAPIDAPI_KEY;
-  if (!key) throw new Error('RAPIDAPI_KEY not configured. Get a free key at rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch');
+  const key = useRuntimeConfig().rapidApiKey?.trim();
+  if (!key) throw new Error('NUXT_RAPID_API_KEY not configured. Get a free key at rapidapi.com/letscrape-6bRBa3QguO5/api/jsearch');
   return key;
 }
 

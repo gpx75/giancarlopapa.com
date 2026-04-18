@@ -3,7 +3,8 @@
  * Generates a fresh NUXT_STRAVA_REFRESH_TOKEN for Vercel.
  *
  * Usage:
- *   STRAVA_CLIENT_ID=xxx STRAVA_CLIENT_SECRET=yyy node scripts/strava-auth.mjs
+ *   NUXT_STRAVA_CLIENT_ID=xxx NUXT_STRAVA_CLIENT_SECRET=yyy \
+ *     node scripts/strava-auth.mjs
  *
  * Get CLIENT_ID and CLIENT_SECRET from:
  *   https://www.strava.com/settings/api
@@ -23,13 +24,13 @@
 
 import { createServer } from 'node:http'
 
-const CLIENT_ID = process.env.STRAVA_CLIENT_ID
-const CLIENT_SECRET = process.env.STRAVA_CLIENT_SECRET
+const CLIENT_ID = process.env.NUXT_STRAVA_CLIENT_ID
+const CLIENT_SECRET = process.env.NUXT_STRAVA_CLIENT_SECRET
 const REDIRECT_URI = 'http://localhost:3333/callback'
 const SCOPE = 'activity:read_all'
 
 if (!CLIENT_ID || !CLIENT_SECRET) {
-  console.error('Set STRAVA_CLIENT_ID and STRAVA_CLIENT_SECRET env vars.')
+  console.error('Set NUXT_STRAVA_CLIENT_ID and NUXT_STRAVA_CLIENT_SECRET env vars.')
   console.error('Get them from: https://www.strava.com/settings/api')
   process.exit(1)
 }

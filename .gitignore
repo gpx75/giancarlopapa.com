@@ -6,6 +6,7 @@
 .cache
 dist
 CLAUDE.md
+.claude/projects/
 
 # Node dependencies
 node_modules

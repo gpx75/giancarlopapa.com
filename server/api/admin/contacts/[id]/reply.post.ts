@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { Resend } from 'resend';
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +15,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const config = useRuntimeConfig(event);
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   // Fetch the contact to get recipient details
   const { data: contact, error: fetchError } = await db

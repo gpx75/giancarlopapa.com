@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 function detectSourceFromUrl(url: string): string {
   if (url.includes('linkedin.com')) return 'jsearch-linkedin';
   if (url.includes('indeed.com') || url.includes('indeed.ch')) return 'jsearch-indeed';
@@ -95,7 +98,7 @@ Respond with JSON only, no markdown fences.`
   }
 
   // Create suggestion
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   const { data, error: insertError } = await db
     .from('job_suggestions')

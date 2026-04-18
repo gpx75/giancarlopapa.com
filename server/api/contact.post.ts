@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 import { Resend } from 'resend';
 import { checkRateLimit } from '../utils/rateLimit';
 import { isValidEmail, assertValidName } from '../utils/validators';
@@ -133,12 +136,13 @@ export default defineEventHandler(async (event) => {
   }
 
   // Persist lead to Supabase — silent, never blocks the user
-  void persistLead({ config, normalizedName, normalizedEmail, normalizedMessage, ip, resend });
+  void persistLead({ event, config, normalizedName, normalizedEmail, normalizedMessage, ip, resend });
 
   return { success: true };
 });
 
-async function persistLead({ config, normalizedName, normalizedEmail, normalizedMessage, ip, resend }: {
+async function persistLead({ event, config, normalizedName, normalizedEmail, normalizedMessage, ip, resend }: {
+  event: Parameters<Parameters<typeof defineEventHandler>[0]>[0];
   config: ReturnType<typeof useRuntimeConfig>;
   normalizedName: string;
   normalizedEmail: string;
@@ -147,7 +151,7 @@ async function persistLead({ config, normalizedName, normalizedEmail, normalized
   resend: Resend;
 }) {
   try {
-    const db = useSupabaseServer();
+    const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
     const nameParts = normalizedName.trim().split(' ');
     const firstName = nameParts[0] ?? normalizedName;
     const lastName = nameParts.slice(1).join(' ') || undefined;

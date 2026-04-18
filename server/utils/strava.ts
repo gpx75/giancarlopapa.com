@@ -11,9 +11,10 @@ async function getStravaToken(): Promise<string> {
     return cachedToken
   }
 
-  const clientId = (process.env.NUXT_STRAVA_CLIENT_ID || useRuntimeConfig().strava.clientId).trim()
-  const clientSecret = (process.env.NUXT_STRAVA_CLIENT_SECRET || useRuntimeConfig().strava.clientSecret).trim()
-  const refreshToken = (process.env.NUXT_STRAVA_REFRESH_TOKEN || useRuntimeConfig().strava.refreshToken).trim()
+  const { strava } = useRuntimeConfig()
+  const clientId = strava.clientId?.trim()
+  const clientSecret = strava.clientSecret?.trim()
+  const refreshToken = strava.refreshToken?.trim()
 
   const res = await $fetch<{
     access_token: string

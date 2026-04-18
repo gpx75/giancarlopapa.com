@@ -1,3 +1,6 @@
+import { serverSupabaseServiceRole } from '#supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const source = body.source || 'all';
@@ -55,7 +58,7 @@ export default defineEventHandler(async (event) => {
   }
 
   // Batch-check existing URLs to avoid N+1 queries
-  const db = useSupabaseServer();
+  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
   const urls = deduped.map(j => j.url).filter(Boolean) as string[];
   const existingUrls = new Set<string>();
 
@@ -85,10 +88,39 @@ export default defineEventHandler(async (event) => {
     }
   }
 
+  // Also skip jobs that are already tracked as applications (by URL or by
+  // position+company). Prevents the feed from re-surfacing jobs the user
+  // already promoted/created.
+  const existingAppUrls = new Set<string>();
+  const existingAppTitleCompany = new Set<string>();
+
+  if (urls.length > 0) {
+    const { data: existingApps } = await db
+      .from('job_applications')
+      .select('url')
+      .in('url', urls);
+    for (const row of existingApps ?? []) {
+      if (row.url) existingAppUrls.add(row.url);
+    }
+  }
+
+  if (titles.length > 0) {
+    const { data: existingApps } = await db
+      .from('job_applications')
+      .select('position, company')
+      .in('position', titles)
+      .in('company', companies);
+    for (const row of existingApps ?? []) {
+      existingAppTitleCompany.add(`${row.position}::${row.company}`);
+    }
+  }
+
   // Insert new suggestions
   const toInsert = deduped.filter(job => {
     if (job.url && existingUrls.has(job.url)) return false;
     if (existingTitleCompany.has(`${job.title}::${job.company}`)) return false;
+    if (job.url && existingAppUrls.has(job.url)) return false;
+    if (existingAppTitleCompany.has(`${job.title}::${job.company}`)) return false;
     return true;
   });
 
