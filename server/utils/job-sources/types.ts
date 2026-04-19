@@ -5,6 +5,7 @@ export type JobSource =
   | 'jsearch-glassdoor'
   | 'swissdevjobs'
   | 'jobsch'
+  | 'ictjobs'
   | 'manual'
 
 /** Normalized job result from any source */

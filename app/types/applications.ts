@@ -2,7 +2,7 @@ export type ApplicationStatus = 'saved' | 'applied' | 'interviewing' | 'offered'
 export type WorkModel = 'onsite' | 'hybrid' | 'remote'
 export type CoverLetterTone = 'professional' | 'conversational' | 'formal'
 export type SuggestionStatus = 'new' | 'reviewing' | 'applied' | 'dismissed'
-export type JobSource = 'jsearch-linkedin' | 'jsearch-indeed' | 'jsearch-glassdoor' | 'swissdevjobs' | 'jobsch' | 'manual'
+export type JobSource = 'jsearch-linkedin' | 'jsearch-indeed' | 'jsearch-glassdoor' | 'swissdevjobs' | 'jobsch' | 'ictjobs' | 'manual'
 
 export interface MatchBreakdown {
   skills: number
@@ -64,6 +64,7 @@ export interface JobSuggestion {
   description: string | null
   source: string
   match_rate: number | null
+  match_breakdown: MatchBreakdown | null
   status: SuggestionStatus
   published_at: string | null
   created_at: string

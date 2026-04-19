@@ -30,6 +30,8 @@ const decided = computed(() => ({
 }));
 
 const matchDist = computed(() => stats.value?.matchDistribution ?? { high: 0, medium: 0, low: 0, total: 0, totalApplications: 0 });
+const newSuggestions = computed(() => stats.value?.newSuggestions ?? 0);
+const highMatchSuggestions = computed(() => stats.value?.highMatchSuggestions ?? 0);
 
 const matchColor = (rate: number | null): BadgeColor => {
   if (rate == null) return 'neutral';
@@ -122,14 +124,43 @@ const workModelIcon = (wm: string | null) => ({
         </div>
 
         <!-- KPI Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- New Job Matches -->
+          <NuxtLink to="/admin/matches">
+            <UCard
+              :ui="{ body: 'p-4' }"
+              class="cursor-pointer transition-colors"
+              :class="highMatchSuggestions > 0 ? 'ring-2 ring-primary/40' : ''"
+            >
+              <div class="flex items-start gap-3">
+                <div class="relative shrink-0 mt-0.5">
+                  <UIcon name="i-lucide-sparkles" class="size-5" :class="highMatchSuggestions > 0 ? 'text-primary' : 'text-muted'" />
+                  <span
+                    v-if="highMatchSuggestions > 0"
+                    class="absolute -top-1 -right-1 size-2 rounded-full bg-primary"
+                  />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm text-muted">New Matches</p>
+                  <p class="text-2xl font-bold" :class="newSuggestions > 0 ? 'text-foreground' : 'text-muted'">
+                    {{ newSuggestions }}
+                  </p>
+                  <p class="text-xs text-muted mt-0.5">
+                    <span v-if="highMatchSuggestions > 0" class="text-primary font-medium">{{ highMatchSuggestions }} high-match</span>
+                    <span v-else>unreviewed jobs</span>
+                  </p>
+                </div>
+              </div>
+            </UCard>
+          </NuxtLink>
+
           <!-- Match Quality -->
           <UCard :ui="{ body: 'p-4' }">
             <div class="flex items-start gap-3">
               <UIcon name="i-lucide-target" class="text-primary size-5 shrink-0 mt-0.5" />
               <div class="flex-1 min-w-0">
                 <p class="text-sm text-muted mb-2">Match Quality</p>
-                <div class="flex gap-2 flex-wrap">
+                <div class="flex gap-1.5 flex-wrap">
                   <UBadge label="" color="success" variant="subtle" size="sm">
                     <template #default>
                       <span class="font-bold">{{ matchDist.high }}</span>

@@ -7,20 +7,24 @@ export default defineEventHandler(async (event) => {
   const [
     { data: contacts, error: contactsError },
     { data: inbox, error: inboxError },
-    { data: applications, error: applicationsError }
+    { data: applications, error: applicationsError },
+    { data: suggestions, error: suggestionsError }
   ] = await Promise.all([
     db.from('contact_submissions').select('status'),
     db.from('inbox_messages').select('unread').eq('archived', false),
-    db.from('job_applications').select('status, match_rate')
+    db.from('job_applications').select('status, match_rate'),
+    db.from('job_suggestions').select('status, match_rate')
   ]);
 
   if (contactsError) throw createError({ statusCode: 500, message: contactsError.message });
   if (inboxError) throw createError({ statusCode: 500, message: inboxError.message });
   if (applicationsError) throw createError({ statusCode: 500, message: applicationsError.message });
+  if (suggestionsError) throw createError({ statusCode: 500, message: suggestionsError.message });
 
   const contactRows = (contacts ?? []) as { status: string }[];
   const inboxRows = (inbox ?? []) as { unread: boolean }[];
   const appRows = (applications ?? []) as { status: string; match_rate: number | null }[];
+  const suggRows = (suggestions ?? []) as { status: string; match_rate: number | null }[];
 
   const total = contactRows.length;
   const newLeads = contactRows.filter(r => r.status === 'new').length;
@@ -49,6 +53,9 @@ export default defineEventHandler(async (event) => {
     totalApplications: appRows.length
   };
 
+  const newSuggestions = suggRows.filter(s => s.status === 'new').length;
+  const highMatchSuggestions = suggRows.filter(s => s.status === 'new' && (s.match_rate ?? 0) >= 70).length;
+
   return {
     total,
     new: newLeads,
@@ -56,6 +63,8 @@ export default defineEventHandler(async (event) => {
     unreadInbox,
     activeApplications,
     pipeline,
-    matchDistribution
+    matchDistribution,
+    newSuggestions,
+    highMatchSuggestions
   };
 });
