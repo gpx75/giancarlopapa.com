@@ -2,6 +2,7 @@ import type { JobSourceProvider } from './types';
 import { createJSearchProvider } from './jsearch';
 import { swissdevjobsProvider } from './swissdevjobs';
 import { jobschProvider } from './jobsch';
+import { ictjobsProvider } from './ictjobs';
 
 const providers = new Map<string, JobSourceProvider>();
 
@@ -11,7 +12,8 @@ for (const p of [
   createJSearchProvider('indeed'),
   createJSearchProvider('glassdoor'),
   swissdevjobsProvider,
-  jobschProvider
+  jobschProvider,
+  ictjobsProvider
 ]) {
   providers.set(p.name, p);
 }

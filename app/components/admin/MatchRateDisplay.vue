@@ -14,13 +14,19 @@ const rateColor = computed((): BadgeColor => {
   return 'error';
 });
 
-const dimensions = computed(() => [
-  { label: 'Skills', value: props.breakdown.skills, weight: '30%' },
-  { label: 'Tech Stack', value: props.breakdown.techStack, weight: '25%' },
-  { label: 'Experience', value: props.breakdown.experience, weight: '25%' },
-  { label: 'Seniority', value: props.breakdown.seniority, weight: '10%' },
-  { label: 'Industry', value: props.breakdown.industry, weight: '10%' }
-]);
+const dimensions = computed(() => {
+  const base = [
+    { label: 'Skills', value: props.breakdown.skills, weight: '27%' },
+    { label: 'Tech Stack', value: props.breakdown.techStack, weight: '22%' },
+    { label: 'Experience', value: props.breakdown.experience, weight: '22%' },
+    { label: 'Seniority', value: props.breakdown.seniority, weight: '9%' },
+    { label: 'Industry', value: props.breakdown.industry, weight: '9%' }
+  ];
+  if (props.breakdown.location != null) {
+    base.push({ label: 'Location', value: props.breakdown.location, weight: '11%' });
+  }
+  return base;
+});
 
 function barColor(value: number): string {
   if (value >= 70) return 'bg-success';

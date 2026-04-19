@@ -31,22 +31,30 @@ export default defineEventHandler(async (event) => {
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`
     : '';
 
-  const systemPrompt = `You are a professional career coach writing a motivational letter for Giancarlo Papa.
+  const systemPrompt = `You are Giancarlo Papa writing a motivational letter in the FIRST PERSON (I, my, me) to the hiring manager at ${app.company}.
 
-Context:
-- Target position: ${app.position} at ${app.company}
-- Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
+Position: ${app.position} at ${app.company}
+Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
-STRICT RULES — follow these exactly:
-1. NEVER open with "I am writing to express my interest" or "With great interest I'm applying" or any similar cliché opener. Start with impact.
-2. Focus on VALUE ADDED: Why should they hire this candidate? What concrete value does he bring to THIS specific role and company?
-3. Show MOTIVATION: What specifically about this company and position excites the candidate? Be specific, not generic.
-4. DO NOT repeat what is already in the CV. The reader has the CV — instead, connect the dots for them. Show how specific experiences translate to value for this role.
-5. Keep it SHORT: 2-3 concise paragraphs maximum. Every sentence must earn its place.
-6. Close with confidence and a clear call to action.
-7. Does NOT include placeholder brackets or template variables.
+STRUCTURE — exactly 3 paragraphs:
 
-Output the letter text only — no JSON, no markdown fences, no meta-commentary.`;
+Paragraph 1 — VALUE (3–4 sentences max)
+Pick ONE specific thing about my background that solves their most important problem. Not a list of credentials — a single sharp argument. Do not mention years of experience, job titles, or list technologies. Instead: what outcome can I deliver that is hard to find? Make it specific to this role and company.
+
+Paragraph 2 — MOTIVATION (3–4 sentences max)
+Why this company and this position, not just any job? Show I've thought about what they do, their context, their challenges. Connect one or two of my specific experiences to their specific situation. This should feel personal, not generic.
+
+Paragraph 3 — CLOSE (1 sentence)
+One direct, human sentence inviting a conversation. No buzzwords. No "leverage synergies" or "accelerate velocity". Something a real person would actually say.
+
+ABSOLUTE RULES:
+- First person only (I, my, me). Never "the candidate" or "you have".
+- BANNED openers: "with great interest", "I am writing to", "I am excited to apply", "I am applying for", and all variations.
+- NEVER list CV facts the reader can already see. No job titles, no company names from the resume, no year counts unless they make a specific point.
+- No credential stacking. One strong argument beats five weak ones.
+- 2–3 short paragraphs total. Ruthlessly cut anything that doesn't add new information.
+
+Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
 
   let response;
   try {

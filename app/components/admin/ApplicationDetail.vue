@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { JobApplication, ApplicationStatus } from '~/types/applications';
+import type { JobApplication, ApplicationStatus, CvSuggestion } from '~/types/applications';
 
 type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
 
@@ -41,6 +41,9 @@ const saving = ref(false);
 const jobDescExpanded = ref(false);
 const editStatus = ref<ApplicationStatus>(props.application.status);
 const editNotes = ref(props.application.notes ?? '');
+const cvSuggestions = ref<CvSuggestion[]>([]);
+const loadingCvSuggestions = ref(false);
+const cvSuggestionsOpen = ref(false);
 
 const relatedContacts = ref<LinkedContact[]>([]);
 const relatedEmails = ref<InboxMessage[]>([]);
@@ -99,6 +102,19 @@ function fetchRelated() {
     .finally(() => { loadingEmails.value = false; });
 }
 
+async function fetchCvSuggestions() {
+  loadingCvSuggestions.value = true;
+  cvSuggestionsOpen.value = true;
+  try {
+    cvSuggestions.value = await $fetch<CvSuggestion[]>(`/api/admin/applications/${props.application.id}/cv-suggestions`, { method: 'POST' });
+  } catch {
+    toast.add({ title: 'CV suggestions failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    cvSuggestionsOpen.value = false;
+  } finally {
+    loadingCvSuggestions.value = false;
+  }
+}
+
 async function saveChanges() {
   saving.value = true;
   try {
@@ -150,6 +166,49 @@ defineExpose({ saveChanges });
     <!-- Match Rate Display -->
     <div v-if="application.match_rate != null && application.match_breakdown">
       <AdminMatchRateDisplay :rate="application.match_rate" :breakdown="application.match_breakdown" />
+
+      <!-- CV Suggestions trigger -->
+      <div class="mt-3">
+        <UButton
+          icon="i-lucide-file-pen"
+          label="Improve CV for this role"
+          variant="ghost"
+          size="xs"
+          color="neutral"
+          :loading="loadingCvSuggestions"
+          @click="fetchCvSuggestions"
+        />
+      </div>
+
+      <!-- CV Suggestions panel -->
+      <div v-if="cvSuggestionsOpen" class="mt-3 space-y-2">
+        <div v-if="loadingCvSuggestions" class="flex items-center gap-2 text-xs text-muted py-2">
+          <UIcon name="i-lucide-loader" class="size-3 animate-spin" />
+          Generating CV suggestions...
+        </div>
+        <template v-else-if="cvSuggestions.length > 0">
+          <p class="text-xs text-muted uppercase tracking-wide mb-2">CV Improvement Suggestions</p>
+          <div
+            v-for="(s, idx) in cvSuggestions"
+            :key="idx"
+            class="rounded-md border border-default p-3 text-xs space-y-1"
+          >
+            <div class="flex items-center gap-2">
+              <UBadge
+                :label="s.priority"
+                :color="s.priority === 'high' ? 'error' : s.priority === 'medium' ? 'warning' : 'neutral'"
+                variant="subtle"
+                size="xs"
+                class="capitalize shrink-0"
+              />
+              <span class="font-semibold text-foreground">{{ s.section }}</span>
+            </div>
+            <p class="text-muted">{{ s.issue }}</p>
+            <p class="text-foreground leading-relaxed">{{ s.suggestion }}</p>
+          </div>
+        </template>
+        <p v-else class="text-xs text-muted">No suggestions generated.</p>
+      </div>
     </div>
     <div v-else-if="application.job_description">
       <UButton

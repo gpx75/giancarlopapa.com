@@ -4,7 +4,7 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 const { loggedIn } = useAuth();
 
 watch(loggedIn, (val) => {
-  if (!val) navigateTo('/');
+  if (!val && !import.meta.dev) navigateTo('/');
 });
 
 const open = ref(false);
@@ -14,6 +14,7 @@ const { data: stats } = await useFetch('/api/admin/stats', { key: 'admin-stats' 
 const newContactCount = computed(() => stats.value?.new ?? 0);
 const unreadInboxCount = computed(() => stats.value?.unreadInbox ?? 0);
 const activeAppCount = computed(() => stats.value?.activeApplications ?? 0);
+const newSuggestionsCount = computed(() => stats.value?.newSuggestions ?? 0);
 
 const links = computed(() => [[
   {
@@ -33,6 +34,12 @@ const links = computed(() => [[
     icon: 'i-lucide-users',
     to: '/admin/contacts',
     ...(newContactCount.value > 0 ? { badge: String(newContactCount.value) } : {})
+  },
+  {
+    label: 'Matches',
+    icon: 'i-lucide-sparkles',
+    to: '/admin/matches',
+    ...(newSuggestionsCount.value > 0 ? { badge: String(newSuggestionsCount.value) } : {})
   },
   {
     label: 'Applications',

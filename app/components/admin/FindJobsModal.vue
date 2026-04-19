@@ -26,11 +26,12 @@ const usedKeywords = ref('');
 
 const sourceOptions = [
   { label: 'All sources', value: 'all' },
+  { label: 'ICTjobs.ch', value: 'ictjobs' },
+  { label: 'SwissDevJobs', value: 'swissdevjobs' },
+  { label: 'Jobs.ch', value: 'jobsch' },
   { label: 'LinkedIn', value: 'jsearch-linkedin' },
   { label: 'Indeed', value: 'jsearch-indeed' },
-  { label: 'Glassdoor', value: 'jsearch-glassdoor' },
-  { label: 'SwissDevJobs', value: 'swissdevjobs' },
-  { label: 'Jobs.ch', value: 'jobsch' }
+  { label: 'Glassdoor', value: 'jsearch-glassdoor' }
 ];
 
 const workTypeOptions = [
