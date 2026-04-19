@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, job_description')
+    .select('id, job_description, location, work_model')
     .eq('id', id)
     .single();
 
@@ -27,17 +27,33 @@ export default defineEventHandler(async (event) => {
   const anthropic = useAnthropic();
   const resumeText = await getResumeForPrompt();
 
+  const locationContext = app.location || app.work_model
+    ? `Job location: ${app.location ?? 'not specified'}, Work model: ${app.work_model ?? 'not specified'}`
+    : 'Job location and work model: not specified in the application record (use job description to infer)';
+
   const systemPrompt = `You are a job-market analyst. Compare the candidate's resume against a job description.
 
-Rate the match on these dimensions (each 0–100):
+CANDIDATE CONTEXT:
+- Based in Elsau ZH, Switzerland (Zurich area, ~25 min from Zurich city)
+- Location preferences: remote (ideal), hybrid in Switzerland or neighboring countries (Germany/Austria/France) (good), onsite in Zurich/ZH area (acceptable), onsite elsewhere in Switzerland (acceptable), hybrid/onsite outside Switzerland (low preference)
+
+Rate the match on these six dimensions (each 0–100):
 - skills: How well do the candidate's technical skills match the requirements?
 - experience: Does the candidate's experience level, years, and domain match?
 - industry: How relevant is the candidate's industry background?
 - seniority: Does the seniority level match?
 - techStack: How many of the required technologies does the candidate know?
+- location: How well does the job's location/work model match the candidate's preferences?
+  - Remote (fully): 95–100
+  - Hybrid in CH or neighboring country (DE/AT/FR): 80–90
+  - Onsite in Zurich city or ZH canton: 75–85
+  - Onsite elsewhere in Switzerland: 65–75
+  - Hybrid or onsite in other European countries (requires relocation): 35–50
+  - Outside Europe or requires international relocation: 10–25
+  - No location info / unclear: 50
 
 Compute an overall match_rate as a weighted average:
-  skills × 0.30 + techStack × 0.25 + experience × 0.25 + seniority × 0.10 + industry × 0.10
+  skills × 0.27 + techStack × 0.22 + experience × 0.22 + seniority × 0.09 + industry × 0.09 + location × 0.11
 
 Also provide:
 - summary: 2-3 sentence explanation of the match quality
@@ -53,6 +69,7 @@ Example:
   "industry": 60,
   "seniority": 75,
   "techStack": 82,
+  "location": 90,
   "summary": "Strong match on ...",
   "strongMatches": ["PHP", "Vue.js"],
   "gaps": ["AWS certification"]
@@ -65,7 +82,7 @@ Example:
       max_tokens: 1024,
       messages: [{
         role: 'user',
-        content: `Resume:\n${resumeText}\n\n---\n\nJob Description:\n${app.job_description}`
+        content: `Resume:\n${resumeText}\n\n---\n\n${locationContext}\n\nJob Description:\n${app.job_description}`
       }],
       system: systemPrompt
     });
@@ -82,7 +99,6 @@ Example:
 
   let analysis;
   try {
-    // Strip markdown fences if present (```json ... ``` or ``` ... ```)
     const raw = textBlock.text.replace(/^```(?:json)?\s*\n?/i, '').replace(/\n?```\s*$/i, '').trim();
     analysis = JSON.parse(raw);
   } catch {
@@ -97,6 +113,7 @@ Example:
     industry: Number(analysis.industry) || 0,
     seniority: Number(analysis.seniority) || 0,
     techStack: Number(analysis.techStack) || 0,
+    location: Number(analysis.location) || 0,
     summary: String(analysis.summary || ''),
     strongMatches: Array.isArray(analysis.strongMatches) ? analysis.strongMatches : [],
     gaps: Array.isArray(analysis.gaps) ? analysis.gaps : []

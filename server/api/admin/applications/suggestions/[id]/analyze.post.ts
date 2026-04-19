@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: suggestion, error: fetchError } = await db
     .from('job_suggestions')
-    .select('id, description, title, company')
+    .select('id, description, title, company, location')
     .eq('id', id)
     .single();
 
@@ -29,8 +29,16 @@ export default defineEventHandler(async (event) => {
 
   const systemPrompt = `You are a job-market analyst. Compare the candidate's resume against a job description.
 
+CANDIDATE CONTEXT:
+- Based in Elsau ZH, Switzerland (Zurich area, ~25 min from Zurich city)
+- Location preferences: remote (ideal), hybrid in Switzerland or neighboring (DE/AT/FR) (good), onsite in Zurich/ZH area (acceptable), onsite elsewhere in CH (acceptable), outside Switzerland (low preference)
+
 Rate the overall match from 0 to 100 as a weighted average of:
-- skills × 0.30 + techStack × 0.25 + experience × 0.25 + seniority × 0.10 + industry × 0.10
+  skills × 0.27 + techStack × 0.22 + experience × 0.22 + seniority × 0.09 + industry × 0.09 + location × 0.11
+
+Location scoring guide:
+- Remote: 95–100 | Hybrid in CH or neighboring: 80–90 | Onsite Zurich/ZH: 75–85
+- Onsite elsewhere in CH: 65–75 | Hybrid/onsite outside CH: 35–50 | International relocation: 10–25 | Unclear: 50
 
 Respond with a single JSON object only. No markdown fences.
 Example: { "match_rate": 72 }`;
@@ -42,7 +50,7 @@ Example: { "match_rate": 72 }`;
       max_tokens: 256,
       messages: [{
         role: 'user',
-        content: `Resume:\n${resumeText}\n\n---\n\nJob: ${suggestion.title} at ${suggestion.company}\nDescription:\n${suggestion.description}`
+        content: `Resume:\n${resumeText}\n\n---\n\nJob: ${suggestion.title} at ${suggestion.company}\nLocation: ${suggestion.location ?? 'not specified'}\nDescription:\n${suggestion.description}`
       }],
       system: systemPrompt
     });
@@ -59,11 +67,9 @@ Example: { "match_rate": 72 }`;
   let analysis;
   const rawText = textBlock.text.trim();
   try {
-    // Strip markdown fences if present
     const cleaned = rawText.replace(/^```json?\n?/i, '').replace(/\n?```$/i, '').trim();
     analysis = JSON.parse(cleaned);
   } catch {
-    // Try to extract match_rate from raw text as fallback
     const numMatch = rawText.match(/(\d{1,3})/);
     if (numMatch) {
       analysis = { match_rate: Number(numMatch[1]) };

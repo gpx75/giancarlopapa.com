@@ -65,9 +65,21 @@ const filtered = computed(() => {
   return applications.value.filter(a => a.status === filter.value);
 });
 
+const workModelLabel: Record<string, string> = {
+  remote: 'Remote',
+  hybrid: 'Hybrid',
+  onsite: 'On-site'
+};
+
 const columns: TableColumn<JobApplication>[] = [
   { accessorKey: 'company', header: 'Company' },
   { accessorKey: 'position', header: 'Position' },
+  { accessorKey: 'location', header: 'Location', cell: ({ row }) => row.original.location ?? '—' },
+  {
+    accessorKey: 'work_model',
+    header: 'Model',
+    cell: ({ row }) => row.original.work_model ? workModelLabel[row.original.work_model] ?? row.original.work_model : '—'
+  },
   {
     accessorKey: 'status',
     header: 'Status',
@@ -337,6 +349,16 @@ watch(viewTab, async (tab) => {
           class="w-full"
           @select="(_e: Event, row: { original: JobApplication }) => openApplication(row.original)"
         >
+          <template #work_model-cell="{ row }">
+            <UBadge
+              v-if="row.original.work_model"
+              :label="workModelLabel[row.original.work_model] ?? row.original.work_model"
+              color="neutral"
+              variant="outline"
+              size="xs"
+            />
+            <span v-else class="text-muted text-sm">&mdash;</span>
+          </template>
           <template #status-cell="{ row }">
             <UBadge
               :label="row.original.status"

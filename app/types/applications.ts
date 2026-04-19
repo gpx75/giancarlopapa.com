@@ -10,9 +10,17 @@ export interface MatchBreakdown {
   industry: number
   seniority: number
   techStack: number
+  location?: number
   summary: string
   strongMatches: string[]
   gaps: string[]
+}
+
+export interface CvSuggestion {
+  section: string
+  issue: string
+  suggestion: string
+  priority: 'high' | 'medium' | 'low'
 }
 
 export interface JobApplication {
