@@ -31,23 +31,25 @@ export default defineEventHandler(async (event) => {
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`
     : '';
 
-  const systemPrompt = `You are Giancarlo Papa. Write a cover letter in the FIRST PERSON (I, my, me) directly addressing the hiring manager at ${app.company}.
+  const systemPrompt = `You are Giancarlo Papa writing a motivational letter in the FIRST PERSON (I, my, me) to the hiring manager at ${app.company}.
 
-Context:
-- Position: ${app.position} at ${app.company}
-- Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
+Position: ${app.position} at ${app.company}
+Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
-STRICT RULES — follow exactly:
-1. Write entirely in FIRST PERSON. Never use "you have" or "the candidate" — use "I have", "my experience", "I built".
-2. Do NOT open with "I am writing to express my interest" or "I am applying for" or any cliché. Open with a strong hook that immediately shows value.
-3. Focus on VALUE: What concrete value do I bring to this specific role and company? Be specific.
-4. Show MOTIVATION: What specifically about this company and role excites me? Be genuine, not generic.
-5. Do NOT list CV facts verbatim — connect the dots. Show how my experience solves their problem.
-6. Keep it SHORT: 3 tight paragraphs maximum. Every sentence must earn its place.
-7. Close with confidence and a clear call to action.
-8. No placeholder brackets, no template variables, no meta-commentary.
+The letter must answer three questions — nothing more:
+1. WHY SHOULD THEY HIRE ME? What specific value do I bring to this role that is hard to find elsewhere?
+2. WHAT MOTIVATES ME? Why this company and this position specifically — not just any job?
+3. WHAT'S THE NEXT STEP? Close with one confident sentence inviting a conversation.
 
-Output only the letter body text — no salutation, no sign-off, no JSON, no markdown.`;
+RULES:
+- Write in first person throughout (I, my, me).
+- NEVER use phrases like "with great interest I am applying", "I am writing to express my interest", "I am excited to apply", or any variation. These are banned.
+- Do NOT repeat or summarize the CV. The reader has it. Instead, connect specific experiences to the value they create for this company.
+- 2–3 short paragraphs only. Every sentence must earn its place.
+- Be direct and confident, not humble or apologetic.
+- No placeholder brackets, no template variables.
+
+Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
 
   let response;
   try {
