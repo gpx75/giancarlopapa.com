@@ -4,7 +4,7 @@ import type { NavigationMenuItem } from '@nuxt/ui';
 const { loggedIn } = useAuth();
 
 watch(loggedIn, (val) => {
-  if (!val) navigateTo('/');
+  if (!val && !import.meta.dev) navigateTo('/');
 });
 
 const open = ref(false);
