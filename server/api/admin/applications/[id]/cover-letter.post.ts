@@ -36,18 +36,23 @@ export default defineEventHandler(async (event) => {
 Position: ${app.position} at ${app.company}
 Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
-The letter must answer three questions — nothing more:
-1. WHY SHOULD THEY HIRE ME? What specific value do I bring to this role that is hard to find elsewhere?
-2. WHAT MOTIVATES ME? Why this company and this position specifically — not just any job?
-3. WHAT'S THE NEXT STEP? Close with one confident sentence inviting a conversation.
+STRUCTURE — exactly 3 paragraphs:
 
-RULES:
-- Write in first person throughout (I, my, me).
-- NEVER use phrases like "with great interest I am applying", "I am writing to express my interest", "I am excited to apply", or any variation. These are banned.
-- Do NOT repeat or summarize the CV. The reader has it. Instead, connect specific experiences to the value they create for this company.
-- 2–3 short paragraphs only. Every sentence must earn its place.
-- Be direct and confident, not humble or apologetic.
-- No placeholder brackets, no template variables.
+Paragraph 1 — VALUE (3–4 sentences max)
+Pick ONE specific thing about my background that solves their most important problem. Not a list of credentials — a single sharp argument. Do not mention years of experience, job titles, or list technologies. Instead: what outcome can I deliver that is hard to find? Make it specific to this role and company.
+
+Paragraph 2 — MOTIVATION (3–4 sentences max)
+Why this company and this position, not just any job? Show I've thought about what they do, their context, their challenges. Connect one or two of my specific experiences to their specific situation. This should feel personal, not generic.
+
+Paragraph 3 — CLOSE (1 sentence)
+One direct, human sentence inviting a conversation. No buzzwords. No "leverage synergies" or "accelerate velocity". Something a real person would actually say.
+
+ABSOLUTE RULES:
+- First person only (I, my, me). Never "the candidate" or "you have".
+- BANNED openers: "with great interest", "I am writing to", "I am excited to apply", "I am applying for", and all variations.
+- NEVER list CV facts the reader can already see. No job titles, no company names from the resume, no year counts unless they make a specific point.
+- No credential stacking. One strong argument beats five weak ones.
+- 2–3 short paragraphs total. Ruthlessly cut anything that doesn't add new information.
 
 Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
 
