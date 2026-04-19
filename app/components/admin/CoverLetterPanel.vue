@@ -100,9 +100,27 @@ async function handleDelete(letterId: number) {
   }
 }
 
-function copyToClipboard(text: string) {
-  navigator.clipboard.writeText(text);
-  toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
+async function copyToClipboard(text: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
+  } catch {
+    // Fallback for non-HTTPS / permission-denied contexts
+    const el = document.createElement('textarea');
+    el.value = text;
+    el.style.position = 'fixed';
+    el.style.opacity = '0';
+    document.body.appendChild(el);
+    el.focus();
+    el.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(el);
+    if (ok) {
+      toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
+    } else {
+      toast.add({ title: 'Copy failed', description: 'Please copy the text manually.', color: 'error', icon: 'i-lucide-triangle-alert' });
+    }
+  }
 }
 
 const downloadingId = ref<number | null>(null);
