@@ -41,9 +41,12 @@
         { "name": "Linux (RHEL / Debian / Ubuntu)", "level": "expert", "years": 19, "icon": "i-simple-icons-linux" },
         { "name": "Docker", "level": "advanced", "years": 10, "icon": "i-simple-icons-docker" },
         { "name": "Cloud Infrastructure (GCP & AWS)", "level": "advanced", "years": 5, "icon": "i-lucide-cloud" },
+        { "name": "Serverless Deployments", "level": "advanced", "years": 4, "icon": "i-lucide-zap" },
         { "name": "Google Cloud Platform", "level": "advanced", "years": 5, "icon": "i-simple-icons-googlecloud" },
-        { "name": "AWS (S3, SQS, Lambda)", "level": "proficient", "years": 3, "icon": "i-simple-icons-amazonaws" },
         { "name": "Cloud Run", "level": "advanced", "years": 4, "icon": "i-simple-icons-googlecloud" },
+        { "name": "AWS Lambda", "level": "proficient", "years": 3, "icon": "i-simple-icons-awslambda" },
+        { "name": "AWS (S3, SQS, SNS)", "level": "proficient", "years": 3, "icon": "i-simple-icons-amazonaws" },
+        { "name": "Object Storage (S3 / GCS)", "level": "advanced", "years": 5, "icon": "i-lucide-hard-drive" },
         { "name": "GitLab CI / Jenkins", "level": "advanced", "years": 6, "icon": "i-simple-icons-gitlab" },
         { "name": "Kubernetes", "level": "proficient", "years": 2, "icon": "i-simple-icons-kubernetes" },
         { "name": "Terraform", "level": "familiar", "years": 1, "icon": "i-simple-icons-terraform" }
