@@ -226,31 +226,5 @@
       "fluency": "C1"
     }
   ],
-  "interests": [
-    {
-      "name": "Sports",
-      "keywords": [
-        "Mountain biking",
-        "Running",
-        "Swimming"
-      ]
-    },
-    {
-      "name": "Lifestyle",
-      "keywords": [
-        "Cooking",
-        "Gardening",
-        "DIY",
-        "Woodworking"
-      ]
-    },
-    {
-      "name": "Creativity",
-      "keywords": [
-        "Digital Design",
-        "Furniture Restoration",
-        "Interior Design"
-      ]
-    }
-  ]
+  "interests": []
 }
