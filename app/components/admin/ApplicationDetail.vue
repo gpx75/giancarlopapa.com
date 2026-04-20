@@ -70,7 +70,6 @@ const statusOptions = [
 ];
 
 const priorityOptions = [
-  { label: '— None —', value: '' },
   { label: 'P0 — Dream role', value: 'p0' },
   { label: 'P1 — Strong fit', value: 'p1' },
   { label: 'P2 — Backup', value: 'p2' }
@@ -336,11 +335,21 @@ defineExpose({ saveChanges });
 
     <!-- Priority selector -->
     <div ref="priorityRef">
-      <p class="text-xs text-muted mb-2 uppercase tracking-wide">Priority tier</p>
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs text-muted uppercase tracking-wide">Priority tier</p>
+        <button
+          v-if="editPriority"
+          class="text-xs text-muted hover:text-foreground"
+          @click="editPriority = ''"
+        >
+          Clear
+        </button>
+      </div>
       <USelect
         v-model="editPriority"
         :items="priorityOptions"
         value-key="value"
+        placeholder="Not set"
         class="w-full"
       />
       <p class="text-xs text-muted mt-1">
