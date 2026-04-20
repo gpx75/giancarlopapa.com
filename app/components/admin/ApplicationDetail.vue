@@ -45,6 +45,9 @@ const coverLetterRef = ref<HTMLElement | null>(null);
 
 const saving = ref(false);
 const jobDescExpanded = ref(false);
+const editingJobDesc = ref(false);
+const editJobDesc = ref(props.application.job_description ?? '');
+const savingJobDesc = ref(false);
 const editStatus = ref<ApplicationStatus>(props.application.status);
 const editNotes = ref(props.application.notes ?? '');
 const editPriority = ref<string>(props.application.priority ?? '');
@@ -119,6 +122,8 @@ watch(() => props.application, (app) => {
   editStatus.value = app.status;
   editNotes.value = app.notes ?? '';
   editPriority.value = app.priority ?? '';
+  editJobDesc.value = app.job_description ?? '';
+  editingJobDesc.value = false;
   cvSuggestions.value = [];
   cvSuggestionsOpen.value = false;
   fetchRelated();
@@ -171,6 +176,20 @@ async function savePriority(val: string) {
     emit('update', updated);
   } catch {
     toast.add({ title: 'Failed to save priority', color: 'error', icon: 'i-lucide-triangle-alert' });
+  }
+}
+
+async function saveJobDescription() {
+  savingJobDesc.value = true;
+  try {
+    const updated = await updateApplication(props.application.id, { job_description: editJobDesc.value || null });
+    emit('update', updated);
+    editingJobDesc.value = false;
+    toast.add({ title: 'Job description saved', color: 'success', icon: 'i-lucide-check' });
+  } catch {
+    toast.add({ title: 'Failed to save job description', color: 'error', icon: 'i-lucide-triangle-alert' });
+  } finally {
+    savingJobDesc.value = false;
   }
 }
 
@@ -320,7 +339,7 @@ defineExpose({ saveChanges });
           />
         </div>
       </div>
-      <div v-else-if="application.job_description">
+      <div v-else>
         <UButton
           icon="i-lucide-sparkles"
           label="Analyze match"
@@ -360,9 +379,36 @@ defineExpose({ saveChanges });
     <USeparator />
 
     <!-- Job description -->
-    <div v-if="application.job_description">
-      <p class="text-xs text-muted mb-2 uppercase tracking-wide">Job description</p>
-      <div class="relative">
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <p class="text-xs text-muted uppercase tracking-wide">Job description</p>
+        <button
+          class="text-xs text-primary hover:underline"
+          @click="editingJobDesc = !editingJobDesc; editJobDesc = application.job_description ?? ''"
+        >
+          {{ editingJobDesc ? 'Cancel' : application.job_description ? 'Edit' : 'Add' }}
+        </button>
+      </div>
+
+      <!-- Edit mode -->
+      <div v-if="editingJobDesc" class="space-y-2">
+        <UTextarea
+          v-model="editJobDesc"
+          placeholder="Paste the full job description here..."
+          :rows="10"
+          class="w-full text-sm"
+          autoresize
+        />
+        <UButton
+          label="Save"
+          size="xs"
+          :loading="savingJobDesc"
+          @click="saveJobDescription"
+        />
+      </div>
+
+      <!-- Read mode -->
+      <div v-else-if="application.job_description" class="relative">
         <p
           class="text-sm whitespace-pre-wrap"
           :class="!jobDescExpanded && 'line-clamp-6'"
@@ -370,15 +416,21 @@ defineExpose({ saveChanges });
           {{ application.job_description }}
         </p>
         <button
+          v-if="application.job_description.length > 300"
           class="text-xs text-primary hover:underline mt-1"
           @click="jobDescExpanded = !jobDescExpanded"
         >
           {{ jobDescExpanded ? 'Show less' : 'Show more' }}
         </button>
       </div>
+
+      <!-- Empty state -->
+      <p v-else class="text-sm text-muted italic">
+        No job description added. Add one to enable match analysis and cover letter generation.
+      </p>
     </div>
 
-    <USeparator v-if="application.job_description" />
+    <USeparator />
 
     <!-- Cover Letters -->
     <div ref="coverLetterRef">
