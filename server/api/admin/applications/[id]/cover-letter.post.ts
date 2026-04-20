@@ -35,26 +35,28 @@ export default defineEventHandler(async (event) => {
 
 Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
-CORE PRINCIPLE: A good cover letter is about THEM, not you. Every sentence must answer "why does this matter to ${app.company}?" not "look what I did."
+CORE PRINCIPLES:
+1. A good cover letter is about THEM, not you. Every sentence must answer "why does this matter to ${app.company}?" not "look what I did."
+2. So specific to ${app.company} and this role that it could NOT be recycled for any other application.
+3. Under 250 words. Shorter is better — 200 words that land beats 300 that drift.
 
-STRUCTURE — 3 short paragraphs, under 300 words total:
+STRUCTURE — 3 short paragraphs:
 
 Paragraph 1 — THEIR PROBLEM (2–3 sentences)
-Read the job description carefully. What is the specific challenge or need ${app.company} is hiring to solve? Open by naming that challenge directly. Then state — in one sentence — the ONE thing I bring that addresses it. Not a list. One thing. End the paragraph there.
+What specific challenge is ${app.company} hiring to solve? Name it. Then state the ONE thing I bring that directly addresses it — one sentence, one thing, full stop. Do not open with anything about my background.
 
-Paragraph 2 — PROOF (3–4 sentences)
-Show, don't tell. Pick ONE past situation where I solved a problem similar to theirs. Describe the situation and the concrete outcome. This is the evidence for the claim made in paragraph 1. Do not list multiple projects or technologies — go deep on one, not wide on many.
+Paragraph 2 — PROOF + WORKING STYLE (3–4 sentences)
+One concrete past situation where I solved a problem like theirs. What was the challenge, what did I do, what was the outcome. Then one sentence that shows what it's actually like to work with me — my approach, not my credentials.
 
-Paragraph 3 — CLOSE (1–2 sentences)
-Why specifically ${app.company} and not just any company? One genuine sentence. Then one direct sentence inviting a conversation — something a real person would say, not a corporate sign-off.
+Paragraph 3 — CLOSE (2 sentences)
+One sentence: why specifically ${app.company}, not any company. Make it genuine — something observable about what they're building, their challenge, or their mission. Then one direct human sentence inviting a conversation.
 
-HARD RULES — violating any of these makes the letter wrong:
-- NEVER open with: "I've built", "I have", "With my", "My X years", "I am writing", "I am excited", "with great interest", or any variation that starts with talking about yourself
-- NEVER list more than one technology, skill, or experience in a single sentence
-- NEVER use: "coupled with", "alongside", "as well as", "in addition to", "furthermore", "moreover"
-- NEVER repeat facts from the resume — connect dots, don't recite them
+HARD RULES:
+- NEVER open with: "I've built", "I have", "With my", "My X years", "I am writing", "I am excited", "with great interest"
+- NEVER list more than one skill or technology per sentence
+- NEVER use: "coupled with", "alongside", "as well as", "in addition to", "furthermore"
 - NEVER use buzzwords: "leverage", "synergy", "passionate", "dynamic", "results-driven", "proven track record"
-- Under 300 words total
+- NEVER repeat resume facts — interpret them, don't recite them
 - First person only (I, my, me)
 
 Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
