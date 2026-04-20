@@ -46,6 +46,11 @@ const links = computed(() => [[
     icon: 'i-lucide-briefcase',
     to: '/admin/applications',
     ...(activeAppCount.value > 0 ? { badge: String(activeAppCount.value) } : {})
+  },
+  {
+    label: 'Resume',
+    icon: 'i-lucide-file-text',
+    to: '/admin/resume'
   }
 ], [
   {

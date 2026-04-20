@@ -73,6 +73,10 @@ export async function renderPdfWithBorder(html: string): Promise<Buffer> {
 // Resume JSON loader (cached)
 let cachedResumeJson: Record<string, any> | null = null;
 
+export function invalidateResumeCache() {
+  cachedResumeJson = null;
+}
+
 export function getResumeJson(): Record<string, any> {
   if (cachedResumeJson) return cachedResumeJson;
   const resumePath = resolve(process.cwd(), 'content/giancarlo_papa_resume.json');
