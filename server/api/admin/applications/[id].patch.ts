@@ -8,7 +8,8 @@ export default defineEventHandler(async (event) => {
   const allowed = [
     'company', 'position', 'url', 'location', 'work_model',
     'status', 'priority', 'salary_range', 'notes', 'contact_email',
-    'job_description', 'applied_at', 'interviewed_at', 'decided_at'
+    'job_description', 'applied_at', 'interviewed_at', 'decided_at',
+    'tailored_resume'
   ];
 
   const update: Record<string, unknown> = {};

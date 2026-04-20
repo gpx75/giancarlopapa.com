@@ -96,7 +96,7 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
         },
         {
           role: 'assistant',
-          content: `I've been following ${app.company}`
+          content: `I came across ${app.company}`
         }
       ],
       system: systemPrompt
@@ -121,7 +121,7 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
 
   const nextVersion = (existing?.[0]?.version ?? 0) + 1;
 
-  const prefill = `I've been following ${app.company}`;
+  const prefill = `I came across ${app.company}`;
   const fullContent = `${prefill}${textBlock.text.trim().startsWith(prefill) ? textBlock.text.trim().slice(prefill.length) : ' ' + textBlock.text.trim()}`;
 
   // Draft mode: return content without saving to DB
