@@ -1,8 +1,6 @@
 import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { invalidateResumeCache } from '../../../utils/pdf-render';
-
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
@@ -12,8 +10,6 @@ export default defineEventHandler(async (event) => {
   } catch {
     throw createError({ statusCode: 400, message: 'Invalid JSON' });
   }
-
-  invalidateResumeCache();
 
   const path = resolve(process.cwd(), 'content/giancarlo_papa_resume.json');
   writeFileSync(path, JSON.stringify(parsed, null, 2), 'utf-8');
