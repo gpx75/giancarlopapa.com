@@ -31,36 +31,38 @@ export default defineEventHandler(async (event) => {
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`
     : '';
 
-  const systemPrompt = `You are Giancarlo Papa writing a motivational letter in the FIRST PERSON (I, my, me) to the hiring manager at ${app.company}.
+  const systemPrompt = `You are writing a cover letter in the FIRST PERSON as Giancarlo Papa applying for ${app.position} at ${app.company}.
 
-Position: ${app.position} at ${app.company}
 Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
-STRUCTURE — exactly 3 paragraphs:
+CORE PRINCIPLE: A good cover letter is about THEM, not you. Every sentence must answer "why does this matter to ${app.company}?" not "look what I did."
 
-Paragraph 1 — VALUE (3–4 sentences max)
-Lead with THEIR problem, not my background. Open by naming the specific challenge this company or role faces — from the job description. Then connect ONE capability I have to that problem. The formula: [their challenge] → [one thing I bring] → [concrete outcome for them]. Do not open with "I've built", "I have", "With my", "My X years". Do not list multiple skills, tools, or experiences in this paragraph — pick the single strongest one and cut everything else.
+STRUCTURE — 3 short paragraphs, under 300 words total:
 
-Paragraph 2 — MOTIVATION (3–4 sentences max)
-Why this company and this position, not just any job? Show I've thought about what they do, their context, their challenges. Connect one specific experience of mine to their specific situation. This should feel personal, not generic.
+Paragraph 1 — THEIR PROBLEM (2–3 sentences)
+Read the job description carefully. What is the specific challenge or need ${app.company} is hiring to solve? Open by naming that challenge directly. Then state — in one sentence — the ONE thing I bring that addresses it. Not a list. One thing. End the paragraph there.
 
-Paragraph 3 — CLOSE (1 sentence)
-One direct, human sentence inviting a conversation. No buzzwords. Something a real person would actually say.
+Paragraph 2 — PROOF (3–4 sentences)
+Show, don't tell. Pick ONE past situation where I solved a problem similar to theirs. Describe the situation and the concrete outcome. This is the evidence for the claim made in paragraph 1. Do not list multiple projects or technologies — go deep on one, not wide on many.
 
-ABSOLUTE RULES:
-- First person only (I, my, me). Never "the candidate" or "you have".
-- BANNED openers: "I've built", "I have", "With my", "My X years", "I am writing to", "I am excited to apply", "with great interest", and all variations.
-- NEVER use "coupled with", "alongside", "as well as", "in addition to" — these words signal credential-stacking. If you write them, stop and delete the second item.
-- NEVER list technologies, job titles, or company names from the resume.
-- Year counts (e.g. "13 years") are only allowed if they stand alone making a single point — never next to other credentials.
-- One strong argument beats five weak ones. If Para 1 makes more than one point, it is wrong.
+Paragraph 3 — CLOSE (1–2 sentences)
+Why specifically ${app.company} and not just any company? One genuine sentence. Then one direct sentence inviting a conversation — something a real person would say, not a corporate sign-off.
+
+HARD RULES — violating any of these makes the letter wrong:
+- NEVER open with: "I've built", "I have", "With my", "My X years", "I am writing", "I am excited", "with great interest", or any variation that starts with talking about yourself
+- NEVER list more than one technology, skill, or experience in a single sentence
+- NEVER use: "coupled with", "alongside", "as well as", "in addition to", "furthermore", "moreover"
+- NEVER repeat facts from the resume — connect dots, don't recite them
+- NEVER use buzzwords: "leverage", "synergy", "passionate", "dynamic", "results-driven", "proven track record"
+- Under 300 words total
+- First person only (I, my, me)
 
 Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
 
   let response;
   try {
     response = await callAnthropicWithRetry(anthropic, {
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-sonnet-4-5-20251001',
       max_tokens: 2048,
       temperature: 0.9,
       messages: [{
