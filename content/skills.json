@@ -56,7 +56,9 @@
       "label": "AI & Data",
       "icon": "i-lucide-brain",
       "skills": [
-        { "name": "LLM Integration", "level": "advanced", "years": 3, "icon": "i-lucide-bot" },
+        { "name": "AI-Assisted Development", "level": "advanced", "years": 3, "icon": "i-lucide-cpu" },
+        { "name": "AI Agent Development", "level": "advanced", "years": 2, "icon": "i-lucide-bot" },
+        { "name": "LLM Integration", "level": "advanced", "years": 3, "icon": "i-lucide-brain-circuit" },
         { "name": "Azure OpenAI / GPT", "level": "proficient", "years": 2, "icon": "i-simple-icons-microsoftazure" },
         { "name": "Vertex AI", "level": "advanced", "years": 2, "icon": "i-simple-icons-googlecloud" },
         { "name": "Gemini API", "level": "advanced", "years": 2, "icon": "i-simple-icons-googlegemini" },
