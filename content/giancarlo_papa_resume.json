@@ -103,7 +103,8 @@
         "Built and scaled PHP/MySQL platforms serving 10,000+ daily visitors across siciliaonline.it, gds.it, and blogsicilia.",
         "Developed custom Joomla/Mambo components, plugins, and templates for newsroom and editorial workflows.",
         "Led platform redesigns improving performance, SEO, and reader engagement.",
-        "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops."
+        "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops.",
+        "Integrated online payment systems via Moneynet SpA, including Stripe and PayPal gateway implementations for e-commerce and subscription flows."
       ],
       "successStories": [
         {

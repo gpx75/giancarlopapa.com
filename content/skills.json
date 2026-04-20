@@ -26,10 +26,10 @@
       "label": "Payments & Fintech",
       "icon": "i-lucide-credit-card",
       "skills": [
-        { "name": "Payment Platform Development", "level": "advanced", "years": 6, "icon": "i-lucide-banknote" },
-        { "name": "Stripe", "level": "advanced", "years": 5, "icon": "i-simple-icons-stripe" },
-        { "name": "PayPal", "level": "advanced", "years": 8, "icon": "i-simple-icons-paypal" },
-        { "name": "Payment Gateway Integration", "level": "advanced", "years": 8, "icon": "i-lucide-plug-2" },
+        { "name": "Payment Platform Development", "level": "advanced", "years": 10, "icon": "i-lucide-banknote" },
+        { "name": "Stripe", "level": "advanced", "years": 10, "icon": "i-simple-icons-stripe" },
+        { "name": "PayPal", "level": "advanced", "years": 10, "icon": "i-simple-icons-paypal" },
+        { "name": "Payment Gateway Integration", "level": "advanced", "years": 10, "icon": "i-lucide-plug-2" },
         { "name": "PCI-DSS Awareness", "level": "proficient", "years": 5, "icon": "i-lucide-shield-check" }
       ]
     },
