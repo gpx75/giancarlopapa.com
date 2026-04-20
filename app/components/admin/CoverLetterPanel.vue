@@ -14,6 +14,7 @@ const generating = ref(false);
 const savingId = ref<number | null>(null);
 const editingId = ref<number | null>(null);
 const editContent = ref('');
+const clipboardFallbackText = ref<string | null>(null);
 const tone = ref<CoverLetterTone>('professional');
 const instructions = ref('');
 
@@ -101,15 +102,19 @@ async function handleDelete(letterId: number) {
 }
 
 async function copyToClipboard(text: string) {
+  // Try modern clipboard API first
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
+      return;
+    } catch { /* fall through */ }
+  }
+  // execCommand fallback (works in most non-sandboxed contexts)
   try {
-    await navigator.clipboard.writeText(text);
-    toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
-  } catch {
-    // Fallback for non-HTTPS / permission-denied contexts
     const el = document.createElement('textarea');
     el.value = text;
-    el.style.position = 'fixed';
-    el.style.opacity = '0';
+    el.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;';
     document.body.appendChild(el);
     el.focus();
     el.select();
@@ -117,10 +122,11 @@ async function copyToClipboard(text: string) {
     document.body.removeChild(el);
     if (ok) {
       toast.add({ title: 'Copied to clipboard', color: 'success', icon: 'i-lucide-clipboard-check' });
-    } else {
-      toast.add({ title: 'Copy failed', description: 'Please copy the text manually.', color: 'error', icon: 'i-lucide-triangle-alert' });
+      return;
     }
-  }
+  } catch { /* fall through */ }
+  // Last resort: show text in an overlay so user can Cmd+A / Cmd+C
+  clipboardFallbackText.value = text;
 }
 
 const downloadingId = ref<number | null>(null);
@@ -267,5 +273,23 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
         </p>
       </div>
     </div>
+
+    <!-- Clipboard fallback overlay (iframe/sandboxed context) -->
+    <UModal v-if="clipboardFallbackText !== null" :open="true" title="Copy cover letter" @close="clipboardFallbackText = null">
+      <template #body>
+        <p class="text-xs text-muted mb-2">Clipboard access is blocked in this context. Select all and copy manually:</p>
+        <UTextarea
+          :model-value="clipboardFallbackText"
+          :rows="12"
+          readonly
+          autofocus
+          class="w-full text-sm font-mono"
+          @focus="($event.target as HTMLTextAreaElement).select()"
+        />
+      </template>
+      <template #footer>
+        <UButton label="Close" color="neutral" variant="ghost" @click="clipboardFallbackText = null" />
+      </template>
+    </UModal>
   </div>
 </template>
