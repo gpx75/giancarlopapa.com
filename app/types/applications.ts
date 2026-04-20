@@ -1,4 +1,5 @@
 export type ApplicationStatus = 'saved' | 'applied' | 'interviewing' | 'offered' | 'accepted' | 'rejected' | 'withdrawn'
+export type ApplicationPriority = 'p0' | 'p1' | 'p2'
 export type WorkModel = 'onsite' | 'hybrid' | 'remote'
 export type CoverLetterTone = 'professional' | 'conversational' | 'formal'
 export type SuggestionStatus = 'new' | 'reviewing' | 'applied' | 'dismissed'
@@ -31,6 +32,7 @@ export interface JobApplication {
   location: string | null
   work_model: WorkModel | null
   status: ApplicationStatus
+  priority: ApplicationPriority | null
   match_rate: number | null
   match_breakdown: MatchBreakdown | null
   job_description: string | null
@@ -89,6 +91,7 @@ export interface UpdateApplicationPayload {
   location?: string
   work_model?: WorkModel | null
   status?: ApplicationStatus
+  priority?: ApplicationPriority | null
   salary_range?: string | null
   notes?: string | null
   contact_email?: string | null
@@ -100,6 +103,12 @@ export interface UpdateApplicationPayload {
 export interface GenerateCoverLetterPayload {
   tone?: CoverLetterTone
   instructions?: string
+  draft?: boolean
+}
+
+export interface CoverLetterDraft {
+  content: string
+  tone: CoverLetterTone
 }
 
 export interface CreateSuggestionPayload {

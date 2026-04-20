@@ -5,12 +5,17 @@ const props = defineProps<{
   applicationId: number
 }>();
 
+const emit = defineEmits<{
+  letterCount: [n: number]
+}>();
+
 const toast = useToast();
-const { generateCoverLetter, fetchCoverLetters, updateCoverLetter, deleteCoverLetter } = useApplications();
+const { generateCoverLetterDraft, saveCoverLetterContent, fetchCoverLetters, updateCoverLetter, deleteCoverLetter } = useApplications();
 
 const letters = ref<CoverLetter[]>([]);
 const loading = ref(false);
 const generating = ref(false);
+const savingDraft = ref(false);
 const savingId = ref<number | null>(null);
 const editingId = ref<number | null>(null);
 const editContent = ref('');
@@ -18,16 +23,24 @@ const clipboardFallbackText = ref<string | null>(null);
 const tone = ref<CoverLetterTone>('professional');
 const instructions = ref('');
 
+// Draft state
+const draft = ref<{ content: string; tone: CoverLetterTone } | null>(null);
+const draftContent = ref('');
+
 const toneOptions = [
   { label: 'Professional', value: 'professional' },
   { label: 'Conversational', value: 'conversational' },
   { label: 'Formal', value: 'formal' }
 ];
 
+const wordCount = computed(() => draftContent.value.trim().split(/\s+/).filter(Boolean).length);
+const wordCountColor = computed(() => wordCount.value <= 200 ? 'success' : wordCount.value <= 220 ? 'warning' : 'error');
+
 async function loadLetters() {
   loading.value = true;
   try {
     letters.value = await fetchCoverLetters(props.applicationId);
+    emit('letterCount', letters.value.length);
   } catch {
     letters.value = [];
   } finally {
@@ -36,22 +49,45 @@ async function loadLetters() {
 }
 
 async function handleGenerate() {
+  if (draft.value !== null) {
+    if (!confirm('Discard the current draft and generate a new one?')) return;
+  }
   generating.value = true;
   try {
-    const letter = await generateCoverLetter(props.applicationId, {
+    const result = await generateCoverLetterDraft(props.applicationId, {
       tone: tone.value,
       instructions: instructions.value || undefined
     });
-    letters.value.unshift(letter);
-    editingId.value = letter.id;
-    editContent.value = letter.content;
+    draft.value = result;
+    draftContent.value = result.content;
     instructions.value = '';
-    toast.add({ title: 'Cover letter generated', color: 'success', icon: 'i-lucide-sparkles' });
   } catch {
     toast.add({ title: 'Generation failed', color: 'error', icon: 'i-lucide-triangle-alert' });
   } finally {
     generating.value = false;
   }
+}
+
+async function handleSaveDraft() {
+  if (!draft.value) return;
+  savingDraft.value = true;
+  try {
+    const letter = await saveCoverLetterContent(props.applicationId, draftContent.value, draft.value.tone);
+    letters.value.unshift(letter);
+    emit('letterCount', letters.value.length);
+    draft.value = null;
+    draftContent.value = '';
+    toast.add({ title: `Saved as v${letter.version}`, color: 'success', icon: 'i-lucide-check' });
+  } catch {
+    toast.add({ title: 'Save failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+  } finally {
+    savingDraft.value = false;
+  }
+}
+
+function discardDraft() {
+  draft.value = null;
+  draftContent.value = '';
 }
 
 function startEdit(letter: CoverLetter) {
@@ -94,6 +130,7 @@ async function handleDelete(letterId: number) {
   try {
     await deleteCoverLetter(letterId);
     letters.value = letters.value.filter(l => l.id !== letterId);
+    emit('letterCount', letters.value.length);
     if (editingId.value === letterId) cancelEdit();
     toast.add({ title: 'Deleted', color: 'success', icon: 'i-lucide-check' });
   } catch {
@@ -102,7 +139,6 @@ async function handleDelete(letterId: number) {
 }
 
 async function copyToClipboard(text: string) {
-  // Try modern clipboard API first
   if (navigator.clipboard?.writeText) {
     try {
       await navigator.clipboard.writeText(text);
@@ -110,7 +146,6 @@ async function copyToClipboard(text: string) {
       return;
     } catch { /* fall through */ }
   }
-  // execCommand fallback (works in most non-sandboxed contexts)
   try {
     const el = document.createElement('textarea');
     el.value = text;
@@ -125,7 +160,6 @@ async function copyToClipboard(text: string) {
       return;
     }
   } catch { /* fall through */ }
-  // Last resort: show text in an overlay so user can Cmd+A / Cmd+C
   clipboardFallbackText.value = text;
 }
 
@@ -184,6 +218,36 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
       />
     </div>
 
+    <!-- Draft panel -->
+    <div v-if="draft !== null" class="rounded-lg border border-primary/30 bg-primary/5 p-3 space-y-3">
+      <div class="flex items-center justify-between gap-2">
+        <p class="text-xs font-medium text-primary uppercase tracking-wide">Draft — not saved yet</p>
+        <UBadge
+          :label="`${wordCount} words`"
+          :color="wordCountColor"
+          variant="subtle"
+          size="xs"
+        />
+      </div>
+      <UTextarea
+        v-model="draftContent"
+        :rows="10"
+        autoresize
+        class="w-full text-sm"
+        placeholder="Edit your cover letter..."
+      />
+      <div class="flex gap-2 justify-end">
+        <UButton size="sm" variant="ghost" color="neutral" label="Discard" @click="discardDraft" />
+        <UButton
+          size="sm"
+          icon="i-lucide-check"
+          :label="`Save as v${letters.length + 1}`"
+          :loading="savingDraft"
+          @click="handleSaveDraft"
+        />
+      </div>
+    </div>
+
     <USeparator />
 
     <!-- Loading -->
@@ -193,12 +257,12 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
     </div>
 
     <!-- Empty state -->
-    <p v-else-if="letters.length === 0" class="text-sm text-muted py-4 text-center">
+    <p v-else-if="letters.length === 0 && draft === null" class="text-sm text-muted py-4 text-center">
       No cover letters yet. Generate one above.
     </p>
 
     <!-- Letter list -->
-    <div v-else class="space-y-3">
+    <div v-if="letters.length > 0" class="space-y-3">
       <div
         v-for="letter in letters"
         :key="letter.id"
@@ -274,7 +338,7 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
       </div>
     </div>
 
-    <!-- Clipboard fallback overlay (iframe/sandboxed context) -->
+    <!-- Clipboard fallback overlay -->
     <UModal v-if="clipboardFallbackText !== null" :open="true" title="Copy cover letter" @close="clipboardFallbackText = null">
       <template #body>
         <p class="text-xs text-muted mb-2">Clipboard access is blocked in this context. Select all and copy manually:</p>

@@ -1,4 +1,4 @@
-import type { JobApplication, CreateApplicationPayload, UpdateApplicationPayload, GenerateCoverLetterPayload, CoverLetter } from '~/types/applications';
+import type { JobApplication, ApplicationPriority, CreateApplicationPayload, UpdateApplicationPayload, GenerateCoverLetterPayload, CoverLetter, CoverLetterDraft, CoverLetterTone } from '~/types/applications';
 
 export function useApplications() {
   const { data: applications, refresh, status: fetchStatus } = useFetch<JobApplication[]>('/api/admin/applications', {
@@ -30,8 +30,8 @@ export function useApplications() {
     await refresh();
   }
 
-  async function analyzeMatch(id: number): Promise<JobApplication> {
-    const result = await $fetch<JobApplication>(`/api/admin/applications/${id}/analyze`, {
+  async function analyzeMatch(id: number): Promise<JobApplication & { suggestedPriority?: ApplicationPriority }> {
+    const result = await $fetch<JobApplication & { suggestedPriority?: ApplicationPriority }>(`/api/admin/applications/${id}/analyze`, {
       method: 'POST'
     });
     await refresh();
@@ -41,7 +41,21 @@ export function useApplications() {
   async function generateCoverLetter(id: number, payload?: GenerateCoverLetterPayload): Promise<CoverLetter> {
     return await $fetch<CoverLetter>(`/api/admin/applications/${id}/cover-letter`, {
       method: 'POST',
-      body: payload ?? {}
+      body: { ...payload, draft: false }
+    });
+  }
+
+  async function generateCoverLetterDraft(id: number, payload?: { tone?: CoverLetterTone; instructions?: string }): Promise<CoverLetterDraft> {
+    return await $fetch<CoverLetterDraft>(`/api/admin/applications/${id}/cover-letter`, {
+      method: 'POST',
+      body: { ...payload, draft: true }
+    });
+  }
+
+  async function saveCoverLetterContent(id: number, content: string, tone: CoverLetterTone): Promise<CoverLetter> {
+    return await $fetch<CoverLetter>(`/api/admin/applications/${id}/cover-letter`, {
+      method: 'POST',
+      body: { draft: false, content, tone }
     });
   }
 
@@ -69,6 +83,8 @@ export function useApplications() {
     deleteApplication,
     analyzeMatch,
     generateCoverLetter,
+    generateCoverLetterDraft,
+    saveCoverLetterContent,
     fetchCoverLetters,
     updateCoverLetter,
     deleteCoverLetter

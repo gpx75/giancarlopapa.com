@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, job_description, location, work_model')
+    .select('id, job_description, location, work_model, priority')
     .eq('id', id)
     .single();
 
@@ -128,5 +128,13 @@ Example:
     throw createError({ statusCode: 500, message: updateError.message });
   }
 
-  return updated;
+  // Suggest a priority tier if the application has none yet
+  let suggestedPriority: 'p0' | 'p1' | 'p2' | null = null;
+  if (!app.priority) {
+    if (matchRate >= 80) suggestedPriority = 'p0';
+    else if (matchRate >= 60) suggestedPriority = 'p1';
+    else suggestedPriority = 'p2';
+  }
+
+  return { ...updated, suggestedPriority };
 });

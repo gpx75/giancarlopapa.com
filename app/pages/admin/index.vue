@@ -8,11 +8,18 @@ type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error' | 'inf
 
 const { data: stats, refresh: refreshStats } = await useFetch('/api/admin/stats');
 
+const priorityOrder: Record<string, number> = { p0: 0, p1: 1, p2: 2 };
+
 const { data: topMatches } = await useAsyncData('overview-top-matches', async () => {
   const apps = await $fetch<JobApplication[]>('/api/admin/applications');
   return apps
     .filter(a => a.match_rate != null)
-    .sort((a, b) => (b.match_rate ?? 0) - (a.match_rate ?? 0))
+    .sort((a, b) => {
+      const pa = a.priority ? (priorityOrder[a.priority] ?? 99) : 99;
+      const pb = b.priority ? (priorityOrder[b.priority] ?? 99) : 99;
+      if (pa !== pb) return pa - pb;
+      return (b.match_rate ?? 0) - (a.match_rate ?? 0);
+    })
     .slice(0, 5);
 });
 
@@ -246,6 +253,14 @@ const workModelIcon = (wm: string | null) => ({
                     </p>
                   </div>
                   <div class="flex items-center gap-1.5 shrink-0">
+                    <UBadge
+                      v-if="app.priority"
+                      :label="app.priority.toUpperCase()"
+                      :color="app.priority === 'p0' ? 'success' : app.priority === 'p1' ? 'info' : 'warning'"
+                      variant="solid"
+                      size="xs"
+                      class="font-mono"
+                    />
                     <UIcon
                       v-if="app.work_model"
                       :name="workModelIcon(app.work_model)"

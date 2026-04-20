@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import type { JobApplication, ApplicationStatus, CreateApplicationPayload } from '~/types/applications';
+import type { JobApplication, ApplicationStatus, ApplicationPriority, CreateApplicationPayload } from '~/types/applications';
 
 definePageMeta({ layout: 'admin' });
 useSeoMeta({ title: 'Admin — Applications', robots: 'noindex, nofollow' });
 
 type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
+
+const priorityColor = (p: ApplicationPriority | null | undefined): BadgeColor => ({
+  p0: 'success', p1: 'info', p2: 'warning'
+}[p ?? ''] as BadgeColor ?? 'neutral');
 
 const statusColor = (status: string): BadgeColor => (({
   saved: 'neutral',
@@ -25,9 +29,10 @@ const matchColor = (rate: number | null): BadgeColor => {
 };
 
 const toast = useToast();
-const { applications, refresh, pending, createApplication, deleteApplication, analyzeMatch } = useApplications();
+const { applications, refresh, pending, createApplication, deleteApplication, analyzeMatch, updateApplication } = useApplications();
 
 const filter = ref<string>('all');
+const priorityFilter = ref<string>('all');
 const selected = ref<JobApplication | null>(null);
 const detailOpen = ref(false);
 const createOpen = ref(false);
@@ -49,11 +54,27 @@ const filterTabs = [
 
 const decidedStatuses: ApplicationStatus[] = ['accepted', 'rejected', 'withdrawn'];
 
+const priorityOrder: Record<string, number> = { p0: 0, p1: 1, p2: 2 };
+
 const filtered = computed(() => {
   if (!applications.value) return [];
-  if (filter.value === 'all') return applications.value;
-  if (filter.value === 'decided') return applications.value.filter(a => decidedStatuses.includes(a.status));
-  return applications.value.filter(a => a.status === filter.value);
+  let list = applications.value;
+  // Status filter
+  if (filter.value === 'decided') list = list.filter(a => decidedStatuses.includes(a.status));
+  else if (filter.value !== 'all') list = list.filter(a => a.status === filter.value);
+  // Priority filter
+  if (priorityFilter.value !== 'all') {
+    list = priorityFilter.value === 'none'
+      ? list.filter(a => !a.priority)
+      : list.filter(a => a.priority === priorityFilter.value);
+  }
+  // Sort: priority asc (nulls last), then match_rate desc
+  return [...list].sort((a, b) => {
+    const pa = a.priority ? (priorityOrder[a.priority] ?? 99) : 99;
+    const pb = b.priority ? (priorityOrder[b.priority] ?? 99) : 99;
+    if (pa !== pb) return pa - pb;
+    return (b.match_rate ?? -1) - (a.match_rate ?? -1);
+  });
 });
 
 const workModelLabel: Record<string, string> = {
@@ -63,6 +84,7 @@ const workModelLabel: Record<string, string> = {
 };
 
 const columns: TableColumn<JobApplication>[] = [
+  { accessorKey: 'priority', header: 'P' },
   { accessorKey: 'company', header: 'Company' },
   { accessorKey: 'position', header: 'Position' },
   { accessorKey: 'location', header: 'Location', cell: ({ row }) => row.original.location ?? '—' },
@@ -150,9 +172,26 @@ async function handleAnalyze() {
   if (!selected.value) return;
   analyzing.value = true;
   try {
-    const updated = await analyzeMatch(selected.value.id);
-    selected.value = updated;
-    toast.add({ title: 'Match analysis complete', description: `${updated.match_rate}% match`, color: 'success', icon: 'i-lucide-sparkles' });
+    const result = await analyzeMatch(selected.value.id);
+    selected.value = result;
+    toast.add({ title: 'Match analysis complete', description: `${result.match_rate}% match`, color: 'success', icon: 'i-lucide-sparkles' });
+    if (result.suggestedPriority) {
+      const label = result.suggestedPriority.toUpperCase();
+      toast.add({
+        title: `Suggested priority: ${label}`,
+        description: `Set this role as ${label} based on ${result.match_rate}% match?`,
+        color: 'info',
+        icon: 'i-lucide-flag',
+        actions: [{
+          label: `Set ${label}`,
+          click: async () => {
+            if (!selected.value) return;
+            const updated = await updateApplication(selected.value.id, { priority: result.suggestedPriority as 'p0' | 'p1' | 'p2' });
+            selected.value = updated;
+          }
+        }]
+      });
+    }
   } catch {
     toast.add({ title: 'Analysis failed', description: 'Could not complete match analysis.', color: 'error', icon: 'i-lucide-triangle-alert' });
   } finally {
@@ -182,7 +221,7 @@ async function handleAnalyze() {
     <template #body>
       <div class="flex flex-col gap-4 p-4">
         <!-- Filter tabs -->
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex gap-2 flex-wrap items-center">
           <UButton
             v-for="tab in filterTabs"
             :key="tab.value"
@@ -191,6 +230,16 @@ async function handleAnalyze() {
             :variant="filter === tab.value ? 'solid' : 'outline'"
             color="neutral"
             @click="filter = tab.value"
+          />
+          <div class="h-5 w-px bg-border mx-1" />
+          <UButton
+            v-for="pt in [{ label: 'All', value: 'all' }, { label: 'P0', value: 'p0' }, { label: 'P1', value: 'p1' }, { label: 'P2', value: 'p2' }, { label: 'Unset', value: 'none' }]"
+            :key="pt.value"
+            :label="pt.label"
+            size="sm"
+            :variant="priorityFilter === pt.value ? 'solid' : 'ghost'"
+            :color="pt.value === 'p0' ? 'success' : pt.value === 'p1' ? 'info' : pt.value === 'p2' ? 'warning' : 'neutral'"
+            @click="priorityFilter = pt.value"
           />
         </div>
 
@@ -202,6 +251,17 @@ async function handleAnalyze() {
           class="w-full"
           @select="(_e: Event, row: { original: JobApplication }) => openApplication(row.original)"
         >
+          <template #priority-cell="{ row }">
+            <UBadge
+              v-if="row.original.priority"
+              :label="row.original.priority.toUpperCase()"
+              :color="priorityColor(row.original.priority)"
+              variant="solid"
+              size="xs"
+              class="font-mono"
+            />
+            <span v-else class="text-muted text-sm">&mdash;</span>
+          </template>
           <template #work_model-cell="{ row }">
             <UBadge
               v-if="row.original.work_model"

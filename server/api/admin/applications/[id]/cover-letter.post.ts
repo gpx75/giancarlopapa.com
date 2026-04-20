@@ -11,6 +11,9 @@ export default defineEventHandler(async (event) => {
 
   const tone = body.tone || 'professional';
   const instructions = body.instructions || '';
+  const isDraft = body.draft === true;
+  // Allow saving pre-edited content directly (from draft panel)
+  const providedContent: string | undefined = body.content;
 
   const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
@@ -22,6 +25,28 @@ export default defineEventHandler(async (event) => {
 
   if (fetchError || !app) {
     throw createError({ statusCode: 404, message: 'Application not found.' });
+  }
+
+  // If caller provides pre-edited content, skip AI generation and go straight to save/draft
+  if (providedContent !== undefined) {
+    if (isDraft) {
+      return { content: providedContent.trim(), tone };
+    }
+    // Save provided content as a new version
+    const { data: existingForSave } = await db
+      .from('cover_letters')
+      .select('version')
+      .eq('application_id', id)
+      .order('version', { ascending: false })
+      .limit(1);
+    const saveVersion = (existingForSave?.[0]?.version ?? 0) + 1;
+    const { data: savedLetter, error: saveError } = await db
+      .from('cover_letters')
+      .insert({ application_id: Number(id), version: saveVersion, content: providedContent.trim(), tone })
+      .select()
+      .single();
+    if (saveError) throw createError({ statusCode: 500, message: saveError.message });
+    return savedLetter;
   }
 
   const anthropic = useAnthropic();
@@ -89,6 +114,11 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
 
   const prefill = `${app.company} needs`;
   const fullContent = `${prefill}${textBlock.text.trim().startsWith(prefill) ? textBlock.text.trim().slice(prefill.length) : ' ' + textBlock.text.trim()}`;
+
+  // Draft mode: return content without saving to DB
+  if (isDraft) {
+    return { content: fullContent.trim(), tone };
+  }
 
   const { data: letter, error: insertError } = await db
     .from('cover_letters')

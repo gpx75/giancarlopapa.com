@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
 
   const allowed = [
     'company', 'position', 'url', 'location', 'work_model',
-    'status', 'salary_range', 'notes', 'contact_email',
+    'status', 'priority', 'salary_range', 'notes', 'contact_email',
     'job_description', 'applied_at', 'interviewed_at', 'decided_at'
   ];
 

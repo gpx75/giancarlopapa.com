@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { JobApplication, ApplicationStatus, CvSuggestion } from '~/types/applications';
+import type { JobApplication, ApplicationStatus, ApplicationPriority, CvSuggestion } from '~/types/applications';
 
 type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
 
@@ -37,13 +37,22 @@ const toast = useToast();
 const { updateApplication } = useApplications();
 const { formatInboxDate, formatDate } = useDateFormatting();
 
+// Refs for section anchors
+const analyzeRef = ref<HTMLElement | null>(null);
+const priorityRef = ref<HTMLElement | null>(null);
+const cvSugRef = ref<HTMLElement | null>(null);
+const coverLetterRef = ref<HTMLElement | null>(null);
+
 const saving = ref(false);
 const jobDescExpanded = ref(false);
 const editStatus = ref<ApplicationStatus>(props.application.status);
 const editNotes = ref(props.application.notes ?? '');
+const editPriority = ref<ApplicationPriority | null | ''>(props.application.priority ?? '');
+
 const cvSuggestions = ref<CvSuggestion[]>([]);
 const loadingCvSuggestions = ref(false);
 const cvSuggestionsOpen = ref(false);
+const coverLetterCount = ref(0);
 
 const relatedContacts = ref<LinkedContact[]>([]);
 const relatedEmails = ref<InboxMessage[]>([]);
@@ -59,6 +68,22 @@ const statusOptions = [
   { label: 'Rejected', value: 'rejected' },
   { label: 'Withdrawn', value: 'withdrawn' }
 ];
+
+const priorityOptions = [
+  { label: '— None —', value: '' },
+  { label: 'P0 — Dream role', value: 'p0' },
+  { label: 'P1 — Strong fit', value: 'p1' },
+  { label: 'P2 — Backup', value: 'p2' }
+];
+
+type PriorityBadgeColor = 'success' | 'info' | 'warning' | 'neutral';
+const priorityColor = (p: ApplicationPriority | null | undefined): PriorityBadgeColor => ({
+  p0: 'success', p1: 'info', p2: 'warning'
+}[p ?? ''] as PriorityBadgeColor ?? 'neutral');
+
+const priorityLabel = (p: ApplicationPriority | null | undefined) => ({
+  p0: 'P0', p1: 'P1', p2: 'P2'
+}[p ?? ''] ?? null);
 
 const workModelLabels: Record<string, string> = {
   onsite: 'On-site',
@@ -76,9 +101,27 @@ const statusColor = (status: string): BadgeColor => (({
   withdrawn: 'warning'
 } as Record<string, BadgeColor>)[status] ?? 'neutral');
 
+// Gap scorecard — top 2 gaps from match breakdown
+const topGaps = computed(() => props.application.match_breakdown?.gaps?.slice(0, 2) ?? []);
+const dimensionScores = computed(() => {
+  const bd = props.application.match_breakdown;
+  if (!bd) return [];
+  return [
+    { label: 'Skills', score: bd.skills, weight: '27%' },
+    { label: 'Tech Stack', score: bd.techStack, weight: '22%' },
+    { label: 'Experience', score: bd.experience, weight: '22%' },
+    { label: 'Seniority', score: bd.seniority, weight: '9%' },
+    { label: 'Industry', score: bd.industry, weight: '9%' },
+    { label: 'Location', score: bd.location ?? 0, weight: '11%' }
+  ].sort((a, b) => a.score - b.score); // weakest first
+});
+
 watch(() => props.application, (app) => {
   editStatus.value = app.status;
   editNotes.value = app.notes ?? '';
+  editPriority.value = app.priority ?? '';
+  cvSuggestions.value = [];
+  cvSuggestionsOpen.value = false;
   fetchRelated();
 }, { immediate: true });
 
@@ -115,6 +158,25 @@ async function fetchCvSuggestions() {
   }
 }
 
+async function savePriority(val: string) {
+  const priority = (val || null) as ApplicationPriority | null;
+  try {
+    const updated = await updateApplication(props.application.id, { priority });
+    emit('update', updated);
+  } catch {
+    toast.add({ title: 'Failed to save priority', color: 'error', icon: 'i-lucide-triangle-alert' });
+  }
+}
+
+async function handleMarkApplied() {
+  const updated = await updateApplication(props.application.id, {
+    status: 'applied',
+    applied_at: new Date().toISOString()
+  });
+  editStatus.value = 'applied';
+  emit('update', updated);
+}
+
 async function saveChanges() {
   saving.value = true;
   try {
@@ -129,6 +191,10 @@ async function saveChanges() {
   } finally {
     saving.value = false;
   }
+}
+
+function scrollTo(el: HTMLElement | null) {
+  el?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 defineExpose({ saveChanges });
@@ -147,12 +213,22 @@ defineExpose({ saveChanges });
           <span v-if="application.location"> &middot; {{ application.location }}</span>
         </p>
       </div>
-      <UBadge
-        :label="editStatus"
-        :color="statusColor(editStatus)"
-        variant="subtle"
-        class="capitalize shrink-0"
-      />
+      <div class="flex items-center gap-2 shrink-0">
+        <UBadge
+          v-if="application.priority"
+          :label="priorityLabel(application.priority)!"
+          :color="priorityColor(application.priority)"
+          variant="solid"
+          size="xs"
+          class="font-mono"
+        />
+        <UBadge
+          :label="editStatus"
+          :color="statusColor(editStatus)"
+          variant="subtle"
+          class="capitalize"
+        />
+      </div>
     </div>
 
     <!-- Quick info -->
@@ -163,61 +239,107 @@ defineExpose({ saveChanges });
       <UButton v-if="application.url" :to="application.url" target="_blank" size="xs" variant="link" icon="i-lucide-external-link" label="Job posting" />
     </div>
 
-    <!-- Match Rate Display -->
-    <div v-if="application.match_rate != null && application.match_breakdown">
-      <AdminMatchRateDisplay :rate="application.match_rate" :breakdown="application.match_breakdown" />
+    <!-- Preparation Checklist (only for saved applications) -->
+    <AdminApplicationChecklist
+      v-if="application.status === 'saved'"
+      :application="application"
+      :cover-letter-count="coverLetterCount"
+      :cv-suggestions-loaded="cvSuggestionsOpen && !loadingCvSuggestions"
+      @go-to-analyze="scrollTo(analyzeRef); emit('analyze')"
+      @go-to-priority="scrollTo(priorityRef)"
+      @go-to-cv-suggestions="scrollTo(cvSugRef); if (!cvSuggestionsOpen) fetchCvSuggestions()"
+      @go-to-cover-letter="scrollTo(coverLetterRef)"
+      @mark-applied="handleMarkApplied"
+    />
 
-      <!-- CV Suggestions trigger -->
-      <div class="mt-3">
+    <!-- Match Rate Display -->
+    <div ref="analyzeRef">
+      <div v-if="application.match_rate != null && application.match_breakdown">
+        <AdminMatchRateDisplay :rate="application.match_rate" :breakdown="application.match_breakdown" />
+
+        <!-- Dimension gap scorecard -->
+        <div v-if="dimensionScores.length" class="mt-3 space-y-1">
+          <p class="text-xs text-muted uppercase tracking-wide mb-2">Score breakdown</p>
+          <div
+            v-for="dim in dimensionScores"
+            :key="dim.label"
+            class="flex items-center gap-2 text-xs"
+          >
+            <span class="w-20 shrink-0 text-muted">{{ dim.label }}</span>
+            <div class="flex-1 h-1.5 rounded-full bg-elevated overflow-hidden">
+              <div
+                class="h-full rounded-full transition-all"
+                :class="dim.score >= 70 ? 'bg-success' : dim.score >= 40 ? 'bg-warning' : 'bg-error'"
+                :style="{ width: `${dim.score}%` }"
+              />
+            </div>
+            <span class="w-8 text-right font-mono" :class="dim.score >= 70 ? 'text-success' : dim.score >= 40 ? 'text-warning' : 'text-error'">{{ dim.score }}</span>
+          </div>
+        </div>
+
+        <!-- Top gaps hint -->
+        <div v-if="topGaps.length" class="mt-3 flex flex-wrap gap-1.5">
+          <span class="text-xs text-muted mr-1">Gaps:</span>
+          <UBadge
+            v-for="gap in topGaps"
+            :key="gap"
+            :label="gap"
+            color="error"
+            variant="subtle"
+            size="xs"
+          />
+        </div>
+
+        <!-- CV Suggestions trigger -->
+        <div ref="cvSugRef" class="mt-3">
+          <UButton
+            icon="i-lucide-file-pen"
+            :label="cvSuggestionsOpen ? 'Refresh CV suggestions' : 'Improve CV for this role'"
+            variant="ghost"
+            size="xs"
+            color="neutral"
+            :loading="loadingCvSuggestions"
+            @click="fetchCvSuggestions"
+          />
+        </div>
+
+        <!-- CV Suggestions panel -->
+        <div v-if="cvSuggestionsOpen" class="mt-3">
+          <p class="text-xs text-muted uppercase tracking-wide mb-2">CV Improvement Suggestions</p>
+          <AdminCvSuggestionsPanel
+            :application-id="application.id"
+            :suggestions="cvSuggestions"
+            :loading="loadingCvSuggestions"
+            @regenerate="fetchCvSuggestions"
+          />
+        </div>
+      </div>
+      <div v-else-if="application.job_description">
         <UButton
-          icon="i-lucide-file-pen"
-          label="Improve CV for this role"
-          variant="ghost"
-          size="xs"
-          color="neutral"
-          :loading="loadingCvSuggestions"
-          @click="fetchCvSuggestions"
+          icon="i-lucide-sparkles"
+          label="Analyze match"
+          variant="soft"
+          size="sm"
+          @click="emit('analyze')"
         />
       </div>
-
-      <!-- CV Suggestions panel -->
-      <div v-if="cvSuggestionsOpen" class="mt-3 space-y-2">
-        <div v-if="loadingCvSuggestions" class="flex items-center gap-2 text-xs text-muted py-2">
-          <UIcon name="i-lucide-loader" class="size-3 animate-spin" />
-          Generating CV suggestions...
-        </div>
-        <template v-else-if="cvSuggestions.length > 0">
-          <p class="text-xs text-muted uppercase tracking-wide mb-2">CV Improvement Suggestions</p>
-          <div
-            v-for="(s, idx) in cvSuggestions"
-            :key="idx"
-            class="rounded-md border border-default p-3 text-xs space-y-1"
-          >
-            <div class="flex items-center gap-2">
-              <UBadge
-                :label="s.priority"
-                :color="s.priority === 'high' ? 'error' : s.priority === 'medium' ? 'warning' : 'neutral'"
-                variant="subtle"
-                size="xs"
-                class="capitalize shrink-0"
-              />
-              <span class="font-semibold text-foreground">{{ s.section }}</span>
-            </div>
-            <p class="text-muted">{{ s.issue }}</p>
-            <p class="text-foreground leading-relaxed">{{ s.suggestion }}</p>
-          </div>
-        </template>
-        <p v-else class="text-xs text-muted">No suggestions generated.</p>
-      </div>
     </div>
-    <div v-else-if="application.job_description">
-      <UButton
-        icon="i-lucide-sparkles"
-        label="Analyze match"
-        variant="soft"
-        size="sm"
-        @click="emit('analyze')"
+
+    <USeparator />
+
+    <!-- Priority selector -->
+    <div ref="priorityRef">
+      <p class="text-xs text-muted mb-2 uppercase tracking-wide">Priority tier</p>
+      <USelect
+        v-model="editPriority"
+        :items="priorityOptions"
+        value-key="value"
+        class="w-full"
+        @update:model-value="savePriority"
       />
+      <p class="text-xs text-muted mt-1">
+        P0 = dream role &middot; P1 = strong fit &middot; P2 = backup
+      </p>
     </div>
 
     <USeparator />
@@ -244,7 +366,12 @@ defineExpose({ saveChanges });
     <USeparator v-if="application.job_description" />
 
     <!-- Cover Letters -->
-    <AdminCoverLetterPanel :application-id="application.id" />
+    <div ref="coverLetterRef">
+      <AdminCoverLetterPanel
+        :application-id="application.id"
+        @letter-count="(n: number) => coverLetterCount = n"
+      />
+    </div>
 
     <USeparator />
 

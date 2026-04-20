@@ -63,7 +63,7 @@ Example:
   let response;
   try {
     response = await callAnthropicWithRetry(anthropic, {
-      model: 'claude-haiku-4-5-20251001',
+      model: 'claude-sonnet-4-5-20250929',
       max_tokens: 2048,
       messages: [{
         role: 'user',
