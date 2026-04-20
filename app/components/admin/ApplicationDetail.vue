@@ -125,6 +125,13 @@ watch(() => props.application, (app) => {
   fetchRelated();
 }, { immediate: true });
 
+// Auto-save priority when user changes it (skip if value matches current prop — happens on prop sync)
+watch(editPriority, async (val) => {
+  const currentProp = props.application.priority ?? '';
+  if (val === currentProp) return;
+  await savePriority(String(val ?? ''));
+});
+
 function fetchRelated() {
   if (!props.application.contact_email) {
     relatedContacts.value = [];
@@ -335,7 +342,6 @@ defineExpose({ saveChanges });
         :items="priorityOptions"
         value-key="value"
         class="w-full"
-        @update:model-value="savePriority"
       />
       <p class="text-xs text-muted mt-1">
         P0 = dream role &middot; P1 = strong fit &middot; P2 = backup
