@@ -47,7 +47,7 @@ const saving = ref(false);
 const jobDescExpanded = ref(false);
 const editStatus = ref<ApplicationStatus>(props.application.status);
 const editNotes = ref(props.application.notes ?? '');
-const editPriority = ref<ApplicationPriority | null | ''>(props.application.priority ?? '');
+const editPriority = ref<string>(props.application.priority ?? '');
 
 const cvSuggestions = ref<CvSuggestion[]>([]);
 const loadingCvSuggestions = ref(false);
@@ -129,7 +129,7 @@ watch(() => props.application, (app) => {
 watch(editPriority, async (val) => {
   const currentProp = props.application.priority ?? '';
   if (val === currentProp) return;
-  await savePriority(String(val ?? ''));
+  await savePriority(val);
 });
 
 function fetchRelated() {
