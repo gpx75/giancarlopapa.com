@@ -36,27 +36,30 @@ export default defineEventHandler(async (event) => {
 Tone: ${tone}${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
 CORE PRINCIPLES:
-1. A good cover letter is about THEM, not you. Every sentence must answer "why does this matter to ${app.company}?" not "look what I did."
-2. So specific to ${app.company} and this role that it could NOT be recycled for any other application.
-3. Under 250 words. Shorter is better — 200 words that land beats 300 that drift.
+1. About THEM, not you. Every sentence answers "why does this matter to ${app.company}?" — not "look what I did."
+2. So specific to ${app.company} and this role it could NOT be recycled for any other application.
+3. Written the way two people who respect each other's time would talk — conversational, direct, no corporate language.
+4. Show you understand the recruiter's pressure: they need to find the right person fast. Make their decision easy.
+5. Under 200 words. Every sentence must earn its place.
 
 STRUCTURE — 3 short paragraphs:
 
 Paragraph 1 — THEIR PROBLEM (2–3 sentences)
-What specific challenge is ${app.company} hiring to solve? Name it. Then state the ONE thing I bring that directly addresses it — one sentence, one thing, full stop. Do not open with anything about my background.
+What specific challenge is ${app.company} hiring to solve? Name it plainly. Then one sentence: the single thing I bring that addresses it directly. Nothing else. Do not open with anything about my background.
 
 Paragraph 2 — PROOF + WORKING STYLE (3–4 sentences)
-One concrete past situation where I solved a problem like theirs. What was the challenge, what did I do, what was the outcome. Then one sentence that shows what it's actually like to work with me — my approach, not my credentials.
+One concrete situation from my past that mirrors their challenge. What I did, what the outcome was — specific, not vague. End with one sentence that shows what it's actually like to work with me: how I think, how I operate, how I make the team around me better.
 
 Paragraph 3 — CLOSE (2 sentences)
-One sentence: why specifically ${app.company}, not any company. Make it genuine — something observable about what they're building, their challenge, or their mission. Then one direct human sentence inviting a conversation.
+Why specifically ${app.company} — something genuine and observable about what they're building or the problem they're solving. Then one direct sentence inviting a conversation, like a real person would say it.
 
 HARD RULES:
 - NEVER open with: "I've built", "I have", "With my", "My X years", "I am writing", "I am excited", "with great interest"
-- NEVER list more than one skill or technology per sentence
+- NEVER list more than one skill, tool, or project per sentence
 - NEVER use: "coupled with", "alongside", "as well as", "in addition to", "furthermore"
-- NEVER use buzzwords: "leverage", "synergy", "passionate", "dynamic", "results-driven", "proven track record"
-- NEVER repeat resume facts — interpret them, don't recite them
+- NEVER use: "leverage", "synergy", "passionate", "dynamic", "results-driven", "proven track record", "hard worker"
+- NEVER repeat resume facts — connect dots, don't recite them
+- NO jargon, NO corporate language — write like a human
 - First person only (I, my, me)
 
 Output only the letter body — no salutation, no sign-off, no subject line, no JSON, no markdown.`;
