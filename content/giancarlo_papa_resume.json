@@ -139,9 +139,42 @@
       "name": "PHP & Web",
       "keywords": [
         "PHP (25 yrs)", "Python", "FastAPI",
-        "Laravel", "Symfony", "Vue.js", "Nuxt",
-        "JavaScript / TypeScript", "HTML5 / CSS",
+        "Laravel", "Eloquent ORM", "Symfony", "Doctrine ORM",
+        "Vue.js", "Nuxt", "JavaScript / TypeScript", "HTML5 / CSS",
         "Twig", "Composer", "RESTful APIs", "GraphQL"
+      ]
+    },
+    {
+      "name": "AI & Development",
+      "keywords": [
+        "AI-Assisted Development", "AI Agent Development",
+        "LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API",
+        "Prompt Engineering", "Big Data Platforms", "Analytics Engineering"
+      ]
+    },
+    {
+      "name": "Cloud & Platform",
+      "keywords": [
+        "Linux (RHEL / Debian / Ubuntu)", "Docker",
+        "Cloud Infrastructure (GCP & AWS)", "Serverless Deployments",
+        "Google Cloud Platform", "Cloud Run",
+        "AWS Lambda", "AWS (S3, SQS, SNS)", "Object Storage (S3 / GCS)",
+        "GitLab CI / Jenkins", "Kubernetes", "Terraform"
+      ]
+    },
+    {
+      "name": "Payments & Fintech",
+      "keywords": [
+        "Payment Platform Development", "Stripe", "PayPal",
+        "Payment Gateway Integration", "PCI-DSS Awareness"
+      ]
+    },
+    {
+      "name": "Databases & Enterprise",
+      "keywords": [
+        "MySQL", "Oracle DB", "PostgreSQL", "MariaDB",
+        "Redis", "Elasticsearch", "MongoDB",
+        "Salesforce / Apex / LWC", "LDAP / Active Directory"
       ]
     },
     {
@@ -149,30 +182,6 @@
       "keywords": [
         "WordPress", "Joomla / Mambo", "Craft CMS",
         "Shopware 5 & 6", "Statamic", "Headless CMS"
-      ]
-    },
-    {
-      "name": "Cloud & Platform",
-      "keywords": [
-        "Linux (RHEL / Debian / Ubuntu)", "Docker",
-        "Google Cloud Platform", "Cloud Run",
-        "GitLab CI / Jenkins", "Kubernetes", "Terraform"
-      ]
-    },
-    {
-      "name": "AI & Data",
-      "keywords": [
-        "LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API",
-        "Prompt Engineering", "Big Data Platforms",
-        "Analytics Engineering"
-      ]
-    },
-    {
-      "name": "Databases & Enterprise",
-      "keywords": [
-        "MySQL", "Oracle DB", "PostgreSQL",
-        "Redis", "Elasticsearch", "MongoDB",
-        "Salesforce / Apex / LWC", "LDAP / Active Directory"
       ]
     },
     {
