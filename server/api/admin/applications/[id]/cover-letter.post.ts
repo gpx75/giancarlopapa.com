@@ -62,23 +62,24 @@ export default defineEventHandler(async (event) => {
     formal: 'Measured and precise. Structured sentences, careful word choice. Appropriate for regulated industries or traditional companies. Still clear and human — formal does not mean stiff or verbose.'
   }[tone] || '';
 
-  const systemPrompt = `You are completing a cover letter for Giancarlo Papa applying for ${app.position} at ${app.company}.${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
+  const systemPrompt = `You are writing a cover letter in the first person for Giancarlo Papa applying for ${app.position} at ${app.company}.${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
 TONE — ${tone.toUpperCase()}:
 ${toneGuide}
 
-The opening sentence has already been written. Continue it into a 3-paragraph letter under 200 words.
+The opening sentence has already been written. Continue it into a 3-paragraph letter under 200 words. Write entirely in first person ("I", "my", "I've") — Giancarlo is speaking directly.
 
 STRUCTURE:
-- Para 1 (2–3 sentences): Name ${app.company}'s specific challenge. One sentence on what Giancarlo brings to solve it.
-- Para 2 (3–4 sentences): One concrete past situation that proves the claim. What happened, what the outcome was. One sentence on how he works.
+- Para 1 (2–3 sentences): Name ${app.company}'s specific challenge. One sentence on what I bring to solve it.
+- Para 2 (3–4 sentences): One concrete past situation that proves the claim. What happened, what the outcome was. One sentence on how I work.
 - Para 3 (2 sentences): Why specifically ${app.company}. A direct human invite to talk.
 
 RULES:
-1. One skill, tool, or technology per sentence maximum — no lists
-2. No buzzwords: leverage, synergy, passionate, dynamic, results-driven, proven track record
-3. No CV recitation — interpret experience, don't repeat it
-4. Under 200 words total including the opening sentence already written
+1. First person throughout — "I built", "I led", "I've seen" — never "he" or "you"
+2. One skill, tool, or technology per sentence maximum — no lists
+3. No buzzwords: leverage, synergy, passionate, dynamic, results-driven, proven track record
+4. No CV recitation — interpret experience, don't repeat it
+5. Under 200 words total including the opening sentence already written
 
 Output only the letter body. No salutation, no sign-off, no markdown.`;
 
@@ -95,7 +96,7 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
         },
         {
           role: 'assistant',
-          content: `${app.company} needs`
+          content: `I've been following ${app.company}`
         }
       ],
       system: systemPrompt
@@ -120,7 +121,7 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
 
   const nextVersion = (existing?.[0]?.version ?? 0) + 1;
 
-  const prefill = `${app.company} needs`;
+  const prefill = `I've been following ${app.company}`;
   const fullContent = `${prefill}${textBlock.text.trim().startsWith(prefill) ? textBlock.text.trim().slice(prefill.length) : ' ' + textBlock.text.trim()}`;
 
   // Draft mode: return content without saving to DB
