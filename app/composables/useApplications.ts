@@ -1,4 +1,4 @@
-import type { JobApplication, ApplicationPriority, CreateApplicationPayload, UpdateApplicationPayload, GenerateCoverLetterPayload, CoverLetter, CoverLetterDraft, CoverLetterTone } from '~/types/applications';
+import type { JobApplication, ApplicationPriority, CreateApplicationPayload, UpdateApplicationPayload, CoverLetter, CoverLetterDraft, CoverLetterTone } from '~/types/applications';
 
 export function useApplications() {
   const { data: applications, refresh, status: fetchStatus } = useFetch<JobApplication[]>('/api/admin/applications', {
@@ -38,13 +38,6 @@ export function useApplications() {
     return result;
   }
 
-  async function generateCoverLetter(id: number, payload?: GenerateCoverLetterPayload): Promise<CoverLetter> {
-    return await $fetch<CoverLetter>(`/api/admin/applications/${id}/cover-letter`, {
-      method: 'POST',
-      body: { ...payload, draft: false }
-    });
-  }
-
   async function generateCoverLetterDraft(id: number, payload?: { tone?: CoverLetterTone; instructions?: string }): Promise<CoverLetterDraft> {
     return await $fetch<CoverLetterDraft>(`/api/admin/applications/${id}/cover-letter`, {
       method: 'POST',
@@ -82,7 +75,6 @@ export function useApplications() {
     updateApplication,
     deleteApplication,
     analyzeMatch,
-    generateCoverLetter,
     generateCoverLetterDraft,
     saveCoverLetterContent,
     fetchCoverLetters,

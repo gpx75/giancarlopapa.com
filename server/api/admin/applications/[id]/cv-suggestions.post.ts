@@ -92,5 +92,7 @@ Example:
     throw createError({ statusCode: 502, message: 'Could not parse AI response.' });
   }
 
+  await db.from('job_applications').update({ cv_suggestions: suggestions }).eq('id', id);
+
   return suggestions;
 });

@@ -59,7 +59,7 @@ function handleApply() {
 </script>
 
 <template>
-  <div class="rounded-lg border border-default bg-elevated/30 p-3 space-y-3">
+  <div class="rounded-lg border border-default bg-elevated/30 p-3 space-y-3 select-none">
     <p class="text-xs text-muted uppercase tracking-wide font-medium">Application checklist</p>
 
     <div class="space-y-1.5">

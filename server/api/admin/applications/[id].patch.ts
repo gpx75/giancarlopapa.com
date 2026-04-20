@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     'company', 'position', 'url', 'location', 'work_model',
     'status', 'priority', 'salary_range', 'notes', 'contact_email',
     'job_description', 'applied_at', 'interviewed_at', 'decided_at',
-    'tailored_resume'
+    'tailored_resume', 'cv_suggestions'
   ];
 
   const update: Record<string, unknown> = {};

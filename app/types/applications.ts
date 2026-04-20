@@ -44,6 +44,8 @@ export interface JobApplication {
   decided_at: string | null
   created_at: string
   updated_at: string
+  cv_suggestions?: CvSuggestion[] | null
+  tailored_resume?: Record<string, unknown> | null
 }
 
 export interface CoverLetter {

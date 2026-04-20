@@ -200,7 +200,7 @@ function buildResumeHtml(avatar) {
 
   <div class="header">
     <div class="hdr-left">
-      <div class="role-title">Tech Lead &amp; Senior Full Stack Engineer</div>
+      <div class="role-title">${esc(basics.label ?? 'Senior Full Stack Engineer')}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0])}</strong>${esc(basics.name.split(' ').slice(1).join(''))}</div>
       <div class="education-header">${education[0] ? `${esc(education[0].studyType)} — ${esc(education[0].area)}` : ''}</div>
       <div class="contact-line">

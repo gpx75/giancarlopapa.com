@@ -1,3 +1,6 @@
+import { readFileSync, existsSync } from 'node:fs'
+import { resolve } from 'node:path'
+
 function esc(s: string): string {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -15,17 +18,29 @@ function fmtDate(d: string): string {
   return new Date(Number(y), Number(m) - 1).toLocaleDateString('en', { month: 'short', year: 'numeric' })
 }
 
-/**
- * Highlight matched keywords in a plain text string.
- * Returns HTML with teal bold spans wrapping case-insensitive matches.
- */
 function highlight(text: string, keywords: string[]): string {
   if (!keywords.length) return esc(text)
-  // Sort longest first so multi-word phrases match before their component words
   const sorted = [...keywords].sort((a, b) => b.length - a.length)
   const escaped = sorted.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
   const pattern = new RegExp(`(${escaped.join('|')})`, 'gi')
   return esc(text).replace(pattern, '<span style="color:#3a9eae;font-weight:bold">$1</span>')
+}
+
+let cachedAvatar: string | null | undefined
+
+function getAvatar(): string | null {
+  if (cachedAvatar !== undefined) return cachedAvatar
+  try {
+    const p = resolve(process.cwd(), 'public/giancarlopapa.jpeg')
+    if (existsSync(p)) {
+      cachedAvatar = `data:image/jpeg;base64,${readFileSync(p).toString('base64')}`
+    } else {
+      cachedAvatar = null
+    }
+  } catch {
+    cachedAvatar = null
+  }
+  return cachedAvatar
 }
 
 interface ResumeData {
@@ -81,13 +96,14 @@ export function buildTailoredResumeHtml(
   const currentWork = allWork.filter(j => !j.endDate || j.endDate === '')
   const previousWork = allWork.filter(j => j.endDate && j.endDate !== '')
 
-  // Sort skills: groups that contain any matched keyword float to the top
   const kwLower = keywords.map(k => k.toLowerCase())
   const sortedSkills = [...(skills ?? [])].sort((a, b) => {
     const aMatch = a.keywords.some(k => kwLower.includes(k.toLowerCase())) ? 0 : 1
     const bMatch = b.keywords.some(k => kwLower.includes(k.toLowerCase())) ? 0 : 1
     return aMatch - bMatch
   })
+
+  const avatar = getAvatar()
 
   const contactItem = (label: string, text: string) =>
     `<span class="contact-item"><strong>${label}:</strong> ${esc(text)}</span>`
@@ -160,6 +176,8 @@ export function buildTailoredResumeHtml(
   .contact-item { white-space: nowrap; }
   .contact-item + .contact-item::before { content: '  ·  '; color: #94a3b8; }
   .lang-header { font-size: 9pt; color: #64748b; line-height: 1.5; }
+  .avatar { width: 100px; height: 100px; min-width: 100px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
+  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
   /* ── Summary ── */
   .summary { font-size: 10pt; color: #334155; line-height: 1.25; margin-bottom: 0; }
@@ -214,7 +232,7 @@ export function buildTailoredResumeHtml(
 
   <div class="header">
     <div class="hdr-left">
-      <div class="role-title">${esc(basics.label ?? 'Tech Lead &amp; Senior Full Stack Engineer')}</div>
+      <div class="role-title">${esc(basics.label ?? 'Senior Full Stack Engineer')}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0]!)}</strong>${esc(basics.name.split(' ').slice(1).join(' '))}</div>
       <div class="education-header">${education?.[0] ? `${esc(education[0].studyType ?? '')} — ${esc(education[0].area ?? '')}` : ''}</div>
       <div class="contact-line">
@@ -233,6 +251,7 @@ export function buildTailoredResumeHtml(
         <strong>Language:</strong> ${languages.filter(l => l.fluency !== 'Basic knowledge').map(l => `${esc(l.language)} ${esc(l.fluency)}`).join(' · ')}
       </div>` : ''}
     </div>
+    ${avatar ? `<div class="avatar"><img src="${avatar}" alt=""></div>` : ''}
   </div>
 
   ${sectionHeader('SUMMARY')}

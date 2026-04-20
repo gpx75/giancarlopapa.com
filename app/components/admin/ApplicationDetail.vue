@@ -109,12 +109,12 @@ const dimensionScores = computed(() => {
   const bd = props.application.match_breakdown;
   if (!bd) return [];
   return [
-    { label: 'Skills', score: bd.skills, weight: '27%' },
-    { label: 'Tech Stack', score: bd.techStack, weight: '22%' },
-    { label: 'Experience', score: bd.experience, weight: '22%' },
-    { label: 'Seniority', score: bd.seniority, weight: '9%' },
-    { label: 'Industry', score: bd.industry, weight: '9%' },
-    { label: 'Location', score: bd.location ?? 0, weight: '11%' }
+    { label: 'Skills', score: bd.skills },
+    { label: 'Tech Stack', score: bd.techStack },
+    { label: 'Experience', score: bd.experience },
+    { label: 'Seniority', score: bd.seniority },
+    { label: 'Industry', score: bd.industry },
+    { label: 'Location', score: bd.location ?? 0 }
   ].sort((a, b) => a.score - b.score); // weakest first
 });
 
@@ -124,8 +124,13 @@ watch(() => props.application, (app) => {
   editPriority.value = app.priority ?? '';
   editJobDesc.value = app.job_description ?? '';
   editingJobDesc.value = false;
-  cvSuggestions.value = [];
-  cvSuggestionsOpen.value = false;
+  if (app.cv_suggestions?.length) {
+    cvSuggestions.value = app.cv_suggestions as CvSuggestion[];
+    cvSuggestionsOpen.value = true;
+  } else {
+    cvSuggestions.value = [];
+    cvSuggestionsOpen.value = false;
+  }
   fetchRelated();
 }, { immediate: true });
 
@@ -161,6 +166,7 @@ async function fetchCvSuggestions() {
   cvSuggestionsOpen.value = true;
   try {
     cvSuggestions.value = await $fetch<CvSuggestion[]>(`/api/admin/applications/${props.application.id}/cv-suggestions`, { method: 'POST' });
+    emit('update', { ...props.application, cv_suggestions: cvSuggestions.value });
   } catch {
     toast.add({ title: 'CV suggestions failed', color: 'error', icon: 'i-lucide-triangle-alert' });
     cvSuggestionsOpen.value = false;
