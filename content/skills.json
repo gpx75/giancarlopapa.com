@@ -6,7 +6,9 @@
       "skills": [
         { "name": "PHP", "level": "expert", "years": 25, "icon": "i-simple-icons-php" },
         { "name": "Laravel", "level": "expert", "years": 12, "icon": "i-simple-icons-laravel" },
+        { "name": "Eloquent ORM", "level": "expert", "years": 12, "icon": "i-simple-icons-laravel" },
         { "name": "Symfony", "level": "advanced", "years": 8, "icon": "i-simple-icons-symfony" },
+        { "name": "Doctrine ORM", "level": "advanced", "years": 7, "icon": "i-simple-icons-symfony" },
         { "name": "Vue.js", "level": "expert", "years": 8, "icon": "i-simple-icons-vuedotjs" },
         { "name": "Nuxt", "level": "expert", "years": 5, "icon": "i-simple-icons-nuxtdotjs" },
         { "name": "JavaScript / ES2022+", "level": "expert", "years": 26, "icon": "i-simple-icons-javascript" },
@@ -38,7 +40,9 @@
       "skills": [
         { "name": "Linux (RHEL / Debian / Ubuntu)", "level": "expert", "years": 19, "icon": "i-simple-icons-linux" },
         { "name": "Docker", "level": "advanced", "years": 10, "icon": "i-simple-icons-docker" },
+        { "name": "Cloud Infrastructure (GCP & AWS)", "level": "advanced", "years": 5, "icon": "i-lucide-cloud" },
         { "name": "Google Cloud Platform", "level": "advanced", "years": 5, "icon": "i-simple-icons-googlecloud" },
+        { "name": "AWS (S3, SQS, Lambda)", "level": "proficient", "years": 3, "icon": "i-simple-icons-amazonaws" },
         { "name": "Cloud Run", "level": "advanced", "years": 4, "icon": "i-simple-icons-googlecloud" },
         { "name": "GitLab CI / Jenkins", "level": "advanced", "years": 6, "icon": "i-simple-icons-gitlab" },
         { "name": "Kubernetes", "level": "proficient", "years": 2, "icon": "i-simple-icons-kubernetes" },
