@@ -56,7 +56,16 @@ export default defineEventHandler(async (event) => {
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`
     : '';
 
-  const systemPrompt = `You are completing a cover letter for Giancarlo Papa applying for ${app.position} at ${app.company}. Tone: ${tone}.${matchContext}${instructions ? ` ${instructions}` : ''}
+  const toneGuide = {
+    professional: 'Direct and confident. Short sentences. No small talk. The kind of email a senior engineer writes to a VP — respectful but peer-to-peer, not deferential.',
+    conversational: 'Warm and human. Write as if talking to someone you just met at a conference — casual enough to be likeable, sharp enough to be taken seriously. First names feel natural here.',
+    formal: 'Measured and precise. Structured sentences, careful word choice. Appropriate for regulated industries or traditional companies. Still clear and human — formal does not mean stiff or verbose.'
+  }[tone] || '';
+
+  const systemPrompt = `You are completing a cover letter for Giancarlo Papa applying for ${app.position} at ${app.company}.${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
+
+TONE — ${tone.toUpperCase()}:
+${toneGuide}
 
 The opening sentence has already been written. Continue it into a 3-paragraph letter under 200 words.
 
@@ -65,12 +74,11 @@ STRUCTURE:
 - Para 2 (3–4 sentences): One concrete past situation that proves the claim. What happened, what the outcome was. One sentence on how he works.
 - Para 3 (2 sentences): Why specifically ${app.company}. A direct human invite to talk.
 
-RULES — 5 only:
+RULES:
 1. One skill, tool, or technology per sentence maximum — no lists
 2. No buzzwords: leverage, synergy, passionate, dynamic, results-driven, proven track record
 3. No CV recitation — interpret experience, don't repeat it
-4. Conversational — write like two people talking, not a formal letter
-5. Under 200 words total including the opening sentence already written
+4. Under 200 words total including the opening sentence already written
 
 Output only the letter body. No salutation, no sign-off, no markdown.`;
 
