@@ -36,7 +36,7 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
   // Detect salutation and closing — first line starting with "Dear" and last line like "Sincerely,"
   let salutation = '';
   let closing = '';
-  let bodyParagraphs = [...paragraphs];
+  const bodyParagraphs = [...paragraphs];
 
   if (bodyParagraphs[0] && /^(dear|to whom)/i.test(bodyParagraphs[0])) {
     salutation = bodyParagraphs.shift()!;

@@ -1,5 +1,55 @@
 import { serverSupabaseServiceRole } from '#supabase/server';
 import type { SupabaseClient } from '@supabase/supabase-js';
+import type { JobSearchResult } from '~~/server/utils/job-sources/types';
+import { getJobProvider } from '~~/server/utils/job-sources/registry';
+import { genericFetchDescription } from '~~/server/utils/generic-job-description';
+
+/** Threshold under which a description is considered a stub worth refreshing. */
+const STUB_DESCRIPTION_THRESHOLD = 400;
+/** Concurrency cap for parallel detail-page fetches. */
+const REFRESH_CONCURRENCY = 5;
+
+/**
+ * For every job whose description is suspiciously short and whose provider
+ * exposes refreshDescription(), fetch the full detail page and replace the
+ * stub. Mutates `jobs` in place. Failures are silently swallowed — we keep
+ * the stub rather than dropping the row.
+ */
+async function enrichStubDescriptions(jobs: JobSearchResult[]): Promise<void> {
+  const queue: Array<() => Promise<void>> = [];
+  for (const job of jobs) {
+    if (!job.url) continue;
+    if ((job.description?.length ?? 0) >= STUB_DESCRIPTION_THRESHOLD) continue;
+    const provider = getJobProvider(job.source);
+
+    queue.push(async () => {
+      try {
+        let full = '';
+        if (provider?.refreshDescription) {
+          full = await provider.refreshDescription(job.url);
+        }
+        if (!full) {
+          full = await genericFetchDescription(job.url);
+        }
+        if (full && full.length > (job.description?.length ?? 0)) {
+          job.description = full;
+        }
+      } catch {
+        // keep the stub
+      }
+    });
+  }
+
+  // Bounded concurrency
+  let cursor = 0;
+  async function worker() {
+    while (cursor < queue.length) {
+      const i = cursor++;
+      await queue[i]!();
+    }
+  }
+  await Promise.all(Array.from({ length: REFRESH_CONCURRENCY }, () => worker()));
+}
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -123,6 +173,12 @@ export default defineEventHandler(async (event) => {
     if (existingAppTitleCompany.has(`${job.title}::${job.company}`)) return false;
     return true;
   });
+
+  // Auto-enrich stub descriptions: if a provider has refreshDescription and
+  // the search result is shorter than 400 chars (likely a metadata stub),
+  // re-scrape the detail page in parallel before insert. "Solve forever" so
+  // we never persist a stub when the source has a richer page available.
+  await enrichStubDescriptions(toInsert);
 
   const suggestions = [];
 

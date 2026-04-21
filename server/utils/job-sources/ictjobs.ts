@@ -20,10 +20,10 @@ interface RssItem {
 function extractValue(xml: string, tag: string): string {
   // CDATA
   const cdata = xml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`, 'i'));
-  if (cdata) return cdata[1].trim();
+  if (cdata && cdata[1]) return cdata[1].trim();
   // Plain text (handles <link>URL</link>)
   const plain = xml.match(new RegExp(`<${tag}[^>]*>([^<]*)<\\/${tag}>`, 'i'));
-  if (plain) return plain[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
+  if (plain && plain[1]) return plain[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
   return '';
 }
 
@@ -31,6 +31,7 @@ function parseRssItems(xml: string): RssItem[] {
   const items: RssItem[] = [];
   for (const m of xml.matchAll(/<item>([\s\S]*?)<\/item>/g)) {
     const c = m[1];
+    if (!c) continue;
     const title = extractValue(c, 'title');
     const link = extractValue(c, 'link') || extractValue(c, 'guid');
     if (!title || !link) continue;
@@ -40,7 +41,9 @@ function parseRssItems(xml: string): RssItem[] {
       company: extractValue(c, 'dc:creator'),
       pubDate: extractValue(c, 'pubDate'),
       description: extractValue(c, 'description'),
-      categories: [...c.matchAll(/<category[^>]*><!?\[?(?:CDATA\[)?([^\]<]+)/g)].map(x => x[1].trim()),
+      categories: [...c.matchAll(/<category[^>]*><!?\[?(?:CDATA\[)?([^\]<]+)/g)]
+        .map(x => (x[1] ?? '').trim())
+        .filter(Boolean),
     });
   }
   return items;
@@ -65,14 +68,18 @@ async function fetchPageDescription(url: string): Promise<string> {
 
     for (const pat of contentPatterns) {
       const m = html.match(pat);
-      if (m) {
+      if (m && m[1]) {
         return m[1]
           .replace(/<script[\s\S]*?<\/script>/gi, '')
           .replace(/<style[\s\S]*?<\/style>/gi, '')
+          // Preserve paragraph breaks before stripping tags.
+          .replace(/<\/(p|div|li|h[1-6]|br)>/gi, '\n')
+          .replace(/<br\s*\/?>/gi, '\n')
           .replace(/<[^>]+>/g, ' ')
-          .replace(/\s+/g, ' ')
+          .replace(/[ \t]+/g, ' ')
+          .replace(/\n{3,}/g, '\n\n')
           .trim()
-          .slice(0, 4000);
+          .slice(0, 16000);
       }
     }
   } catch {
@@ -84,6 +91,10 @@ async function fetchPageDescription(url: string): Promise<string> {
 export const ictjobsProvider: JobSourceProvider = {
   name: 'ictjobs',
   label: 'ICTjobs.ch',
+
+  refreshDescription(url: string): Promise<string> {
+    return fetchPageDescription(url);
+  },
 
   async search(params: JobSearchParams): Promise<JobSearchResult[]> {
     const kw = params.keywords.toLowerCase().split(/[\s,+]+/).filter(k => k.length > 2);

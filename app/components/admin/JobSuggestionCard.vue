@@ -41,6 +41,12 @@ const age = computed(() => {
 
 const breakdown = computed(() => props.suggestion.match_breakdown);
 
+const needsReanalyze = computed(() => {
+  const b = props.suggestion.match_breakdown;
+  if (!b) return false;
+  return !b.companyPainPoints?.length && !b.valueDelivered?.length;
+});
+
 async function handleAnalyze() {
   analyzing.value = true;
   try {
@@ -75,6 +81,15 @@ async function handleAnalyze() {
           variant="subtle"
           size="xs"
         />
+        <UBadge
+          v-if="needsReanalyze"
+          label="legacy"
+          color="neutral"
+          variant="outline"
+          size="xs"
+          icon="i-lucide-zap-off"
+          title="Analyzed before impact framing was added — re-analyze for richer insights."
+        />
         <UBadge :label="suggestion.status" :color="statusColor(suggestion.status)" variant="subtle" size="xs" class="capitalize" />
       </div>
     </div>
@@ -106,6 +121,15 @@ async function handleAnalyze() {
       <p v-if="breakdown.summary" class="text-xs text-muted leading-relaxed line-clamp-2">
         {{ breakdown.summary }}
       </p>
+
+      <!-- Impact teaser: surface the top "what's broken" insight -->
+      <div
+        v-if="breakdown.companyPainPoints?.length"
+        class="flex items-start gap-1.5 text-xs text-default leading-relaxed"
+      >
+        <UIcon name="i-lucide-zap" class="text-primary size-3.5 shrink-0 mt-0.5" />
+        <span class="line-clamp-2">{{ breakdown.companyPainPoints[0] }}</span>
+      </div>
 
       <!-- Gaps -->
       <div v-if="breakdown.gaps?.length" class="flex flex-wrap gap-1">

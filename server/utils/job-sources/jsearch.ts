@@ -107,7 +107,7 @@ export function createJSearchProvider(siteName: 'linkedin' | 'indeed' | 'glassdo
         company: job.employer_name || 'Unknown',
         location: [job.job_city, job.job_state, job.job_country].filter(Boolean).join(', ') || params.location,
         url: job.job_apply_link || job.job_google_link || '',
-        description: (job.job_description || '').slice(0, 500),
+        description: job.job_description || '',
         source: sourceName,
         published_at: job.job_posted_at_datetime_utc || undefined
       }));

@@ -51,7 +51,7 @@ async function downloadPdf() {
   downloading.value = true;
   try {
     const blob = await $fetch(`/api/admin/applications/${props.applicationId}/resume-pdf`, { responseType: 'blob' });
-    const url = URL.createObjectURL(blob as Blob);
+    const url = URL.createObjectURL(blob as unknown as Blob);
     const a = document.createElement('a');
     a.href = url; a.download = `resume-${props.company.toLowerCase()}-tailored.pdf`;
     a.click(); URL.revokeObjectURL(url);

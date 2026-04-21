@@ -1,5 +1,4 @@
 const OWNER_EMAIL = 'giancarlo.papa@gmail.com';
-const DEV_BYPASS_COOKIE = 'dev-admin-bypass';
 
 export default defineEventHandler(async (event) => {
   const isAdminRoute = event.path.startsWith('/admin') || event.path.startsWith('/api/admin');

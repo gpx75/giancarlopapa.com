@@ -53,7 +53,7 @@ export const jobschProvider: JobSourceProvider = {
       company: doc.company_name || 'Unknown',
       location: 'Switzerland',
       url: doc._links?.detail_en?.href || doc._links?.detail_de?.href || `https://www.jobs.ch/en/vacancies/detail/${doc.job_id}/`,
-      description: (doc.preview || '').slice(0, 500),
+      description: doc.preview || '',
       source: 'jobsch' as const,
       published_at: doc.publication_date || undefined
     }));

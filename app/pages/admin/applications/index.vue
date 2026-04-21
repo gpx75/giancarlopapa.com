@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import type { JobApplication, ApplicationStatus, CreateApplicationPayload } from '~/types/applications';
+import type { JobApplication, ApplicationStatus, CreateApplicationPayload, WorkflowStage } from '~/types/applications';
 
 definePageMeta({ layout: 'admin' });
 useSeoMeta({ title: 'Admin — Applications', robots: 'noindex, nofollow' });
@@ -24,18 +24,46 @@ const matchColor = (rate: number | null): BadgeColor => {
   return 'error';
 };
 
-const toast = useToast();
-const { applications, refresh, pending, createApplication, deleteApplication, analyzeMatch } = useApplications();
+const stageColor = (stage: WorkflowStage): BadgeColor => {
+  if (stage === 'sent' || stage === 'closed') return 'success';
+  if (stage === 'apply' || stage === 'review') return 'info';
+  return 'neutral';
+};
 
-const filter = ref<string>('all');
-const selected = ref<JobApplication | null>(null);
-const detailOpen = ref(false);
+const toast = useToast();
+const router = useRouter();
+const route = useRoute();
+const { applications, refresh, pending, createApplication } = useApplications();
+
+// Status filter (driven by ?status= or tab clicks).
+const filter = ref<string>(typeof route.query.status === 'string' ? route.query.status : 'all');
+// Optional stage filter from /admin/analytics drill-down (?stage=apply).
+const stageFilter = ref<string>(typeof route.query.stage === 'string' ? route.query.stage : '');
 const createOpen = ref(false);
-const confirmDeleteOpen = ref(false);
 const creating = ref(false);
-const deleting = ref(false);
-const analyzing = ref(false);
-const detailRef = ref<{ saveChanges: () => Promise<void> } | null>(null);
+
+// Keep refs in sync if the user navigates back/forward.
+watch(() => route.query, (q) => {
+  filter.value = typeof q.status === 'string' ? q.status : 'all';
+  stageFilter.value = typeof q.stage === 'string' ? q.stage : '';
+});
+
+const STAGE_LABELS: Record<string, string> = {
+  analyze: 'Analyze',
+  prioritize: 'Prioritize',
+  cv: 'CV',
+  cover_letter: 'Cover letter',
+  review: 'Review',
+  apply: 'Apply',
+  interview_prep: 'Interview prep',
+  closed: 'Closed'
+};
+
+function clearStageFilter() {
+  stageFilter.value = '';
+  const { stage: _stage, ...rest } = route.query;
+  router.replace({ query: rest });
+}
 
 const filterTabs = [
   { label: 'All', value: 'all' },
@@ -50,9 +78,17 @@ const decidedStatuses: ApplicationStatus[] = ['accepted', 'rejected', 'withdrawn
 
 const filtered = computed(() => {
   if (!applications.value) return [];
-  if (filter.value === 'all') return applications.value;
-  if (filter.value === 'decided') return applications.value.filter(a => decidedStatuses.includes(a.status));
-  return applications.value.filter(a => a.status === filter.value);
+  let list = applications.value;
+  if (filter.value === 'decided') {
+    list = list.filter(a => decidedStatuses.includes(a.status));
+  } else if (filter.value !== 'all') {
+    list = list.filter(a => a.status === filter.value);
+  }
+  if (stageFilter.value) {
+    const target = stageFilter.value === 'interview_prep' ? ['interview_prep', 'sent'] : [stageFilter.value];
+    list = list.filter(a => target.includes(a.workflow?.current_stage ?? 'analyze'));
+  }
+  return list;
 });
 
 const workModelLabel: Record<string, string> = {
@@ -65,21 +101,10 @@ const columns: TableColumn<JobApplication>[] = [
   { accessorKey: 'company', header: 'Company' },
   { accessorKey: 'position', header: 'Position' },
   { accessorKey: 'location', header: 'Location', cell: ({ row }) => row.original.location ?? '—' },
-  {
-    accessorKey: 'work_model',
-    header: 'Model',
-    cell: ({ row }) => row.original.work_model ? workModelLabel[row.original.work_model] ?? row.original.work_model : '—'
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => row.original.status
-  },
-  {
-    accessorKey: 'match_rate',
-    header: 'Match',
-    cell: ({ row }) => row.original.match_rate != null ? `${row.original.match_rate}%` : '—'
-  },
+  { accessorKey: 'work_model', header: 'Model' },
+  { accessorKey: 'status', header: 'Status' },
+  { accessorKey: 'stage', header: 'Stage' },
+  { accessorKey: 'match_rate', header: 'Match' },
   {
     accessorKey: 'created_at',
     header: 'Date',
@@ -90,8 +115,7 @@ const columns: TableColumn<JobApplication>[] = [
 ];
 
 function openApplication(app: JobApplication) {
-  selected.value = app;
-  detailOpen.value = true;
+  router.push(`/admin/applications/${app.id}`);
 }
 
 async function handleCreate(payload: CreateApplicationPayload) {
@@ -106,17 +130,16 @@ async function handleCreate(payload: CreateApplicationPayload) {
       ?? (err as { statusCode?: number; status?: number })?.status;
     if (statusCode === 409) {
       const existingId = (err as { data?: { data?: { existingId?: number } } })?.data?.data?.existingId;
+      if (existingId) {
+        createOpen.value = false;
+        router.push(`/admin/applications/${existingId}`);
+      }
       toast.add({
         title: 'Already in applications',
         description: 'This role is already tracked.',
         color: 'warning',
         icon: 'i-lucide-info'
       });
-      const existing = applications.value?.find(a => a.id === existingId);
-      if (existing) {
-        createOpen.value = false;
-        openApplication(existing);
-      }
     } else {
       toast.add({ title: 'Failed to create', color: 'error', icon: 'i-lucide-triangle-alert' });
     }
@@ -125,43 +148,8 @@ async function handleCreate(payload: CreateApplicationPayload) {
   }
 }
 
-function handleUpdate(app: JobApplication) {
-  selected.value = app;
-  if (applications.value) {
-    const idx = applications.value.findIndex(a => a.id === app.id);
-    if (idx !== -1) applications.value[idx] = app;
-  }
-}
-
-async function handleDelete() {
-  if (!selected.value) return;
-  deleting.value = true;
-  try {
-    await deleteApplication(selected.value.id);
-    detailOpen.value = false;
-    selected.value = null;
-    toast.add({ title: 'Application deleted', color: 'success', icon: 'i-lucide-check' });
-  } catch {
-    toast.add({ title: 'Delete failed', color: 'error', icon: 'i-lucide-triangle-alert' });
-  } finally {
-    deleting.value = false;
-    confirmDeleteOpen.value = false;
-  }
-}
-
-async function handleAnalyze() {
-  if (!selected.value) return;
-  analyzing.value = true;
-  try {
-    const updated = await analyzeMatch(selected.value.id);
-    selected.value = updated;
-    toast.add({ title: 'Match analysis complete', description: `${updated.match_rate}% match`, color: 'success', icon: 'i-lucide-sparkles' });
-  } catch {
-    toast.add({ title: 'Analysis failed', description: 'Could not complete match analysis.', color: 'error', icon: 'i-lucide-triangle-alert' });
-  } finally {
-    analyzing.value = false;
-  }
-}
+// Re-fetch after returning from a canvas page so workflow/stage badges stay fresh.
+onActivated(() => { refresh(); });
 </script>
 
 <template>
@@ -185,7 +173,7 @@ async function handleAnalyze() {
     <template #body>
       <div class="flex flex-col gap-4 p-4">
         <!-- Filter tabs -->
-        <div class="flex gap-2 flex-wrap">
+        <div class="flex gap-2 flex-wrap items-center">
           <UButton
             v-for="tab in filterTabs"
             :key="tab.value"
@@ -194,6 +182,17 @@ async function handleAnalyze() {
             :variant="filter === tab.value ? 'solid' : 'outline'"
             color="neutral"
             @click="filter = tab.value"
+          />
+          <UBadge
+            v-if="stageFilter"
+            :label="`stage: ${STAGE_LABELS[stageFilter] ?? stageFilter}`"
+            color="primary"
+            variant="subtle"
+            size="sm"
+            icon="i-lucide-filter"
+            class="ms-2 cursor-pointer"
+            title="Click to clear stage filter"
+            @click="clearStageFilter"
           />
         </div>
 
@@ -223,6 +222,15 @@ async function handleAnalyze() {
               class="capitalize"
             />
           </template>
+          <template #stage-cell="{ row }">
+            <UBadge
+              :label="row.original.workflow?.current_stage ?? 'analyze'"
+              :color="stageColor(row.original.workflow?.current_stage ?? 'analyze')"
+              variant="soft"
+              size="xs"
+              class="font-mono"
+            />
+          </template>
           <template #match_rate-cell="{ row }">
             <UBadge
               v-if="row.original.match_rate != null"
@@ -242,42 +250,7 @@ async function handleAnalyze() {
     </template>
   </UDashboardPanel>
 
-  <!-- Application detail slideover -->
-  <USlideover v-model:open="detailOpen" :title="selected?.position ?? ''" :description="selected?.company ?? ''" side="right" :ui="{ content: 'max-w-2xl' }">
-    <template #body>
-      <AdminApplicationDetail
-        v-if="selected"
-        ref="detailRef"
-        :application="selected"
-        @update="handleUpdate"
-        @delete="confirmDeleteOpen = true"
-        @analyze="handleAnalyze"
-      />
-      <div v-if="selected && analyzing" class="flex items-center gap-2 text-sm text-muted p-4">
-        <UIcon name="i-lucide-loader" class="size-4 animate-spin" />
-        Analyzing match...
-      </div>
-    </template>
-    <template #footer>
-      <div v-if="selected" class="flex gap-2 w-full">
-        <UButton
-          icon="i-lucide-trash-2"
-          color="error"
-          variant="ghost"
-          square
-          @click="confirmDeleteOpen = true"
-        />
-        <UButton
-          label="Save"
-          icon="i-lucide-check"
-          class="flex-1"
-          @click="detailRef?.saveChanges()"
-        />
-      </div>
-    </template>
-  </USlideover>
-
-  <!-- Create modal -->
+  <!-- Create slideover -->
   <USlideover v-model:open="createOpen" title="New application" description="Add a job application to track" side="right">
     <template #body>
       <AdminApplicationForm
@@ -285,21 +258,6 @@ async function handleAnalyze() {
         @submit="handleCreate"
         @cancel="createOpen = false"
       />
-    </template>
-  </USlideover>
-
-  <!-- Delete confirm -->
-  <USlideover v-model:open="confirmDeleteOpen" title="Delete application?" description="This action is permanent" side="right">
-    <template #body>
-      <p class="text-sm">
-        This will permanently delete <strong>{{ selected?.position }}</strong> at <strong>{{ selected?.company }}</strong> and all associated cover letters. This cannot be undone.
-      </p>
-    </template>
-    <template #footer>
-      <div class="flex justify-end gap-2">
-        <UButton color="neutral" variant="ghost" label="Cancel" :disabled="deleting" @click="confirmDeleteOpen = false" />
-        <UButton color="error" icon="i-lucide-trash-2" label="Delete" :loading="deleting" @click="handleDelete" />
-      </div>
     </template>
   </USlideover>
 </template>

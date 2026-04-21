@@ -27,6 +27,15 @@ const instructions = ref('');
 const draft = ref<{ content: string; tone: CoverLetterTone } | null>(null);
 const draftContent = ref('');
 
+// Autosave to localStorage (per-application)
+const draftStore = useCoverLetterDraft(() => props.applicationId);
+const restorePromptOpen = ref(false);
+const pendingRestore = ref<{ content: string; tone: CoverLetterTone } | null>(null);
+
+watch(draftContent, (val) => {
+  if (draft.value) draftStore.scheduleSave(val, draft.value.tone);
+});
+
 const toneOptions = [
   { label: 'Professional', value: 'professional' },
   { label: 'Conversational', value: 'conversational' },
@@ -60,6 +69,7 @@ async function handleGenerate() {
     });
     draft.value = result;
     draftContent.value = result.content;
+    draftStore.scheduleSave(result.content, result.tone);
     instructions.value = '';
   } catch {
     toast.add({ title: 'Generation failed', color: 'error', icon: 'i-lucide-triangle-alert' });
@@ -77,6 +87,7 @@ async function handleSaveDraft() {
     emit('letterCount', letters.value.length);
     draft.value = null;
     draftContent.value = '';
+    draftStore.clearDraft();
     toast.add({ title: `Saved as v${letter.version}`, color: 'success', icon: 'i-lucide-check' });
   } catch {
     toast.add({ title: 'Save failed', color: 'error', icon: 'i-lucide-triangle-alert' });
@@ -88,6 +99,22 @@ async function handleSaveDraft() {
 function discardDraft() {
   draft.value = null;
   draftContent.value = '';
+  draftStore.clearDraft();
+}
+
+function acceptRestore() {
+  if (!pendingRestore.value) return;
+  draft.value = { content: pendingRestore.value.content, tone: pendingRestore.value.tone };
+  draftContent.value = pendingRestore.value.content;
+  tone.value = pendingRestore.value.tone;
+  pendingRestore.value = null;
+  restorePromptOpen.value = false;
+}
+
+function declineRestore() {
+  pendingRestore.value = null;
+  restorePromptOpen.value = false;
+  draftStore.clearDraft();
 }
 
 function startEdit(letter: CoverLetter) {
@@ -186,6 +213,15 @@ async function downloadPdf(letterId: number) {
 }
 
 watch(() => props.applicationId, () => loadLetters(), { immediate: true });
+
+// On mount: check localStorage for an unsaved draft and offer restore.
+onMounted(() => {
+  const snap = draftStore.loadFromStorage();
+  if (snap && snap.content.trim()) {
+    pendingRestore.value = { content: snap.content, tone: snap.tone };
+    restorePromptOpen.value = true;
+  }
+});
 </script>
 
 <template>
@@ -221,7 +257,11 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
     <!-- Draft panel -->
     <div v-if="draft !== null" class="rounded-lg border border-primary/30 bg-primary/5 p-3 space-y-3">
       <div class="flex items-center justify-between gap-2">
-        <p class="text-xs font-medium text-primary uppercase tracking-wide">Draft — not saved yet</p>
+        <div class="flex items-center gap-2">
+          <p class="text-xs font-medium text-primary uppercase tracking-wide">Draft — not saved yet</p>
+          <span v-if="draftStore.isDirty" class="text-[10px] text-warning">autosaving…</span>
+          <span v-else-if="draftStore.lastSavedLabel" class="text-[10px] text-muted">autosaved {{ draftStore.lastSavedLabel }}</span>
+        </div>
         <UBadge
           :label="`${wordCount} words`"
           :color="wordCountColor"
@@ -353,6 +393,21 @@ watch(() => props.applicationId, () => loadLetters(), { immediate: true });
       </template>
       <template #footer>
         <UButton label="Close" color="neutral" variant="ghost" @click="clipboardFallbackText = null" />
+      </template>
+    </UModal>
+
+    <!-- Restore unsaved draft prompt -->
+    <UModal v-model:open="restorePromptOpen" title="Restore unsaved draft?" description="An unsaved cover letter draft was found in your browser for this application.">
+      <template #body>
+        <div class="space-y-2 text-sm">
+          <p class="text-muted">{{ pendingRestore?.content?.slice(0, 240) }}{{ (pendingRestore?.content?.length ?? 0) > 240 ? '…' : '' }}</p>
+        </div>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2 w-full">
+          <UButton color="neutral" variant="ghost" label="Discard" @click="declineRestore" />
+          <UButton color="primary" icon="i-lucide-rotate-ccw" label="Restore" @click="acceptRestore" />
+        </div>
       </template>
     </UModal>
   </div>

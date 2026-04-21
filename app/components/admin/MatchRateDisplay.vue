@@ -92,5 +92,56 @@ function barColor(value: number): string {
         size="xs"
       />
     </div>
+
+    <!-- From fit to impact -->
+    <div
+      v-if="breakdown.companyPainPoints?.length || breakdown.valueDelivered?.length || breakdown.measurableImpact?.length || breakdown.whyJoin"
+      class="space-y-3 pt-3 mt-3 border-t border-default"
+    >
+      <div class="flex items-center gap-2">
+        <UIcon name="i-lucide-zap" class="text-primary size-4" />
+        <span class="text-xs font-semibold uppercase tracking-wide text-muted">
+          From fit to impact
+        </span>
+      </div>
+
+      <div v-if="breakdown.companyPainPoints?.length" class="space-y-1.5">
+        <div class="text-xs font-semibold text-error flex items-center gap-1.5">
+          <UIcon name="i-lucide-alert-triangle" class="size-3.5" />
+          What's likely broken or missing
+        </div>
+        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-error/60">
+          <li v-for="(item, i) in breakdown.companyPainPoints" :key="`pain-${i}`">{{ item }}</li>
+        </ul>
+      </div>
+
+      <div v-if="breakdown.valueDelivered?.length" class="space-y-1.5">
+        <div class="text-xs font-semibold text-primary flex items-center gap-1.5">
+          <UIcon name="i-lucide-wrench" class="size-3.5" />
+          What I would do
+        </div>
+        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-primary/60">
+          <li v-for="(item, i) in breakdown.valueDelivered" :key="`value-${i}`">{{ item }}</li>
+        </ul>
+      </div>
+
+      <div v-if="breakdown.measurableImpact?.length" class="space-y-1.5">
+        <div class="text-xs font-semibold text-success flex items-center gap-1.5">
+          <UIcon name="i-lucide-trending-up" class="size-3.5" />
+          Measurable change
+        </div>
+        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-success/60">
+          <li v-for="(item, i) in breakdown.measurableImpact" :key="`impact-${i}`">{{ item }}</li>
+        </ul>
+      </div>
+
+      <div v-if="breakdown.whyJoin" class="space-y-1.5">
+        <div class="text-xs font-semibold text-muted flex items-center gap-1.5">
+          <UIcon name="i-lucide-compass" class="size-3.5" />
+          Why join
+        </div>
+        <p class="text-sm text-default italic">{{ breakdown.whyJoin }}</p>
+      </div>
+    </div>
   </div>
 </template>

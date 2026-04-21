@@ -44,7 +44,7 @@ export default defineEventHandler(async (event) => {
     .replace(/&#\d+;/g, '')
     .replace(/\s+/g, ' ')
     .trim()
-    .slice(0, 8000); // Limit to avoid token overflow
+    .slice(0, 32000); // Generous cap; Haiku 4.5 handles this easily.
 
   if (plainText.length < 50) {
     throw createError({ statusCode: 400, message: 'Could not extract content from URL. Try pasting the job description manually.' });
@@ -57,7 +57,7 @@ export default defineEventHandler(async (event) => {
   try {
     response = await callAnthropicWithRetry(anthropic, {
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
+      max_tokens: 4096,
       messages: [{
         role: 'user',
         content: `Extract job posting details from this page content:\n\n${plainText}`
@@ -66,7 +66,7 @@ export default defineEventHandler(async (event) => {
 - title: job title (required)
 - company: company name (required)
 - location: job location (or "Not specified")
-- description: a concise 2-3 sentence summary of the role and key requirements
+- description: the FULL job description, including responsibilities, requirements, tech stack, team context, and any "about us" sections. Preserve paragraphs as readable plain text (use \\n\\n between sections). Do NOT summarise. Do NOT shorten. Include everything substantive from the posting.
 
 If you cannot identify a job posting in the content, return: { "error": "No job posting found" }
 

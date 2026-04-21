@@ -3,17 +3,18 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
-
-  if (!id) {
-    throw createError({ statusCode: 400, message: 'Missing application ID.' });
+  const numericId = Number(id);
+  if (!Number.isSafeInteger(numericId) || numericId <= 0) {
+    throw createError({ statusCode: 400, message: 'Invalid application id.' });
   }
 
   const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, job_description, location, work_model, priority')
-    .eq('id', id)
+    .select('id, job_description, location, work_model, priority, workflow')
+    .eq('id', numericId)
+    .is('deleted_at', null)
     .single();
 
   if (fetchError || !app) {
@@ -37,50 +38,16 @@ export default defineEventHandler(async (event) => {
     ? `Job location: ${app.location ?? 'not specified'}, Work model: ${app.work_model ?? 'not specified'} (pre-scored: ${locationScore}/100)`
     : `Job location and work model: not specified — infer from description (location pre-scored: ${locationScore}/100)`;
 
-  const systemPrompt = `You are a job-market analyst. Compare the candidate's resume against a job description.
-
-CANDIDATE CONTEXT:
-- Based in Elsau ZH, Switzerland (Zurich area, ~25 min from Zurich city)
-- Location has been pre-scored as ${locationScore}/100 using a distance model.
-  Use this exact value for the location dimension — do not recalculate it.
-
-Rate the match on these dimensions (each 0–100):
-- skills: How well do the candidate's technical skills match the requirements?
-- experience: Does the candidate's experience level, years, and domain match?
-- industry: How relevant is the candidate's industry background?
-- seniority: Does the seniority level match?
-- techStack: How many of the required technologies does the candidate know?
-
-Compute overall match_rate as:
-  skills × 0.27 + techStack × 0.22 + experience × 0.22 + seniority × 0.09 + industry × 0.09 + ${locationScore} × 0.11
-
-Also provide:
-- summary: 2-3 sentence explanation of the match quality
-- strongMatches: array of specific skills, technologies, or experiences that match strongly (max 8)
-- gaps: array of requirements the candidate doesn't clearly meet (max 6)
-
-Respond with a single JSON object only. No markdown fences, no extra text.
-Example:
-{
-  "match_rate": 78,
-  "skills": 85,
-  "experience": 80,
-  "industry": 60,
-  "seniority": 75,
-  "techStack": 82,
-  "summary": "Strong match on ...",
-  "strongMatches": ["PHP", "Vue.js"],
-  "gaps": ["AWS certification"]
-}`;
+  const systemPrompt = buildImpactAnalysisPrompt(locationScore);
 
   let response;
   try {
     response = await callAnthropicWithRetry(anthropic, {
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
+      max_tokens: 2048,
       messages: [{
         role: 'user',
-        content: `Resume:\n${resumeText}\n\n---\n\n${locationContext}\n\nJob Description:\n${app.job_description}`
+        content: `Resume (background only — do not narrate it back):\n${resumeText}\n\n---\n\n${locationContext}\n\nJob Description:\n${app.job_description}`
       }],
       system: systemPrompt
     });
@@ -114,13 +81,24 @@ Example:
     location: locationScore,
     summary: String(analysis.summary || ''),
     strongMatches: Array.isArray(analysis.strongMatches) ? analysis.strongMatches : [],
-    gaps: Array.isArray(analysis.gaps) ? analysis.gaps : []
+    gaps: Array.isArray(analysis.gaps) ? analysis.gaps : [],
+    companyPainPoints: Array.isArray(analysis.companyPainPoints) ? analysis.companyPainPoints : [],
+    valueDelivered: Array.isArray(analysis.valueDelivered) ? analysis.valueDelivered : [],
+    measurableImpact: Array.isArray(analysis.measurableImpact) ? analysis.measurableImpact : [],
+    whyJoin: String(analysis.whyJoin || ''),
   };
+
+  // Mark analyze stage complete and unlock prioritize.
+  const nextWorkflow = applyTransition(normalizeWorkflow(app.workflow), {
+    stage: 'analyze',
+    action: 'complete',
+    meta: { match_rate: matchRate }
+  });
 
   const { data: updated, error: updateError } = await db
     .from('job_applications')
-    .update({ match_rate: matchRate, match_breakdown: breakdown })
-    .eq('id', id)
+    .update({ match_rate: matchRate, match_breakdown: breakdown, workflow: nextWorkflow })
+    .eq('id', numericId)
     .select()
     .single();
 

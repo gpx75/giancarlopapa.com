@@ -33,4 +33,10 @@ export interface JobSourceProvider {
   readonly name: JobSource
   readonly label: string
   search(params: JobSearchParams): Promise<JobSearchResult[]>
+  /**
+   * Re-scrape the full description for a single job page. Optional —
+   * providers without per-page detail scraping should omit this.
+   * Returns empty string on any failure.
+   */
+  refreshDescription?(url: string): Promise<string>
 }

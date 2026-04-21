@@ -45,8 +45,9 @@ async function loadLetters() {
   loadingLetters.value = true;
   try {
     letters.value = await $fetch<CoverLetter[]>(`/api/admin/applications/${props.application.id}/cover-letters`);
-    if (letters.value.length > 0 && !selectedLetterId.value) {
-      selectedLetterId.value = letters.value[0].id;
+    const first = letters.value[0];
+    if (first && !selectedLetterId.value) {
+      selectedLetterId.value = first.id;
     }
   } catch {
     letters.value = [];
@@ -63,9 +64,10 @@ async function handleOpen() {
     try {
       const fetched = await $fetch<CoverLetter[]>(`/api/admin/applications/${props.application.id}/cover-letters`);
       letters.value = fetched;
-      if (fetched.length > 0) {
-        bodyText.value = fetched[0].content;
-        selectedLetterId.value = fetched[0].id;
+      const first = fetched[0];
+      if (first) {
+        bodyText.value = first.content;
+        selectedLetterId.value = first.id;
       }
     } catch {
       // ignore
@@ -186,10 +188,11 @@ const letterOptions = computed(() =>
           </div>
           <USelect
             v-else-if="letterOptions.length > 0"
-            v-model="selectedLetterId"
+            :model-value="selectedLetterId ?? undefined"
             :items="letterOptions"
             value-key="value"
             class="w-full"
+            @update:model-value="(v: number | undefined) => selectedLetterId = v ?? null"
           />
           <p v-else class="text-xs text-muted italic">
             No saved cover letters.

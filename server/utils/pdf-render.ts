@@ -71,12 +71,14 @@ export async function renderPdfWithBorder(html: string): Promise<Buffer> {
 }
 
 // Resume JSON loader (cached)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let cachedResumeJson: Record<string, any> | null = null;
 
 export function invalidateResumeCache() {
   cachedResumeJson = null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getResumeJson(): Record<string, any> {
   if (cachedResumeJson) return cachedResumeJson;
   const resumePath = resolve(process.cwd(), 'content/giancarlo_papa_resume.json');

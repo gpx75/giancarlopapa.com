@@ -148,7 +148,7 @@ const CANTON_SCORES: Record<string, number> = {
   gl: 72, glarus: 72,
   gr: 68, graubünden: 68, graubunden: 68,
   so: 72, solothurn: 72,
-  bl: 73, bl: 73,
+  bl: 73, baselland: 73,
   bs: 74, basel: 74,
   ar: 73, ai: 70,
   be: 62, bern: 62, berne: 62,

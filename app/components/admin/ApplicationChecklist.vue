@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { JobApplication, ApplicationPriority } from '~/types/applications';
+import type { JobApplication } from '~/types/applications';
 
 const props = defineProps<{
   application: JobApplication

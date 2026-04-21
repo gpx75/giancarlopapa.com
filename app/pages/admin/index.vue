@@ -77,7 +77,7 @@ const workModelIcon = (wm: string | null) => ({
             size="sm"
             variant="ghost"
             color="neutral"
-            @click="refreshStats"
+            @click="() => refreshStats()"
           />
         </template>
       </UDashboardNavbar>

@@ -56,16 +56,17 @@ export default defineEventHandler(async (event) => {
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`
     : '';
 
-  const toneGuide = {
+  const toneGuide: Record<string, string> = {
     professional: 'Direct and confident. Short sentences. No small talk. The kind of email a senior engineer writes to a VP — respectful but peer-to-peer, not deferential.',
     conversational: 'Warm and human. Write as if talking to someone you just met at a conference — casual enough to be likeable, sharp enough to be taken seriously. First names feel natural here.',
     formal: 'Measured and precise. Structured sentences, careful word choice. Appropriate for regulated industries or traditional companies. Still clear and human — formal does not mean stiff or verbose.'
-  }[tone] || '';
+  };
+  const toneInstruction = toneGuide[tone] || '';
 
   const systemPrompt = `You are writing a cover letter in the first person for Giancarlo Papa applying for ${app.position} at ${app.company}.${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
 TONE — ${tone.toUpperCase()}:
-${toneGuide}
+${toneInstruction}
 
 The opening sentence has already been written. Continue it into a 3-paragraph letter under 200 words. Write entirely in first person ("I", "my", "I've") — Giancarlo is speaking directly.
 

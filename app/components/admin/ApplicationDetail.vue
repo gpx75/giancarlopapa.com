@@ -79,13 +79,17 @@ const priorityOptions = [
 ];
 
 type PriorityBadgeColor = 'success' | 'info' | 'warning' | 'neutral';
-const priorityColor = (p: ApplicationPriority | null | undefined): PriorityBadgeColor => ({
+const PRIORITY_COLORS: Record<ApplicationPriority, PriorityBadgeColor> = {
   p0: 'success', p1: 'info', p2: 'warning'
-}[p ?? ''] as PriorityBadgeColor ?? 'neutral');
-
-const priorityLabel = (p: ApplicationPriority | null | undefined) => ({
+};
+const PRIORITY_LABELS: Record<ApplicationPriority, string> = {
   p0: 'P0', p1: 'P1', p2: 'P2'
-}[p ?? ''] ?? null);
+};
+const priorityColor = (p: ApplicationPriority | null | undefined): PriorityBadgeColor =>
+  p ? PRIORITY_COLORS[p] : 'neutral';
+
+const priorityLabel = (p: ApplicationPriority | null | undefined): string | null =>
+  p ? PRIORITY_LABELS[p] : null;
 
 const workModelLabels: Record<string, string> = {
   onsite: 'On-site',

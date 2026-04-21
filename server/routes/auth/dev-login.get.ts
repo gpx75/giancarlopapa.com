@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
   try {
     await setUserSession(event, {
       user: {
+        provider: 'github',
         email: 'giancarlo.papa@gmail.com',
         name: 'Giancarlo (dev)',
         avatar: ''
@@ -32,7 +33,7 @@ export default defineEventHandler(async (event) => {
 
   setResponseHeader(event, 'Content-Type', 'text/html; charset=utf-8');
   return `<!DOCTYPE html><html><head>
-<script>window.location.replace(${JSON.stringify(adminUrl)})<\/script>
+<script>window.location.replace(${JSON.stringify(adminUrl)})${'<'}/script>
 <meta http-equiv="refresh" content="0; url=${adminUrl}">
 </head><body>Redirecting to admin...</body></html>`;
 });

@@ -5,10 +5,22 @@ export default defineEventHandler(async (event) => {
   const id = getRouterParam(event, 'id');
   const body = await readBody(event);
 
-  const allowed = ['status', 'title', 'company', 'url', 'location', 'description', 'source'];
+  const allowed = [
+    'status', 'title', 'company', 'url', 'location', 'description', 'source',
+    'dismissed_at', 'snoozed_until'
+  ];
   const update: Record<string, unknown> = {};
   for (const key of allowed) {
     if (key in body) update[key] = body[key];
+  }
+
+  // When status flips to 'dismissed', also stamp dismissed_at (unless caller set it).
+  if (body.status === 'dismissed' && !('dismissed_at' in body)) {
+    update.dismissed_at = new Date().toISOString();
+  }
+  // When un-dismissing (status back to 'new'), clear the timestamp.
+  if (body.status === 'new' && !('dismissed_at' in body)) {
+    update.dismissed_at = null;
   }
 
   if (Object.keys(update).length === 0) {
