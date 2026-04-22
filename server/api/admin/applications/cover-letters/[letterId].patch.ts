@@ -17,10 +17,15 @@ export default defineEventHandler(async (event) => {
   }
 
   if (Object.keys(update).length === 0) {
-    throw createError({ statusCode: 400, message: 'No valid fields to update.' });
+    throw createError({
+      statusCode: 400,
+      message: 'No valid fields to update.'
+    });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   // If activating this letter, demote any other active letter on the same application first
   // to avoid colliding with the partial-unique index `(application_id) where is_active`.

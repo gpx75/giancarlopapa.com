@@ -15,7 +15,9 @@ export default defineEventHandler(async (event) => {
   // Allow saving pre-edited content directly (from draft panel)
   const providedContent: string | undefined = body.content;
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
@@ -42,10 +44,16 @@ export default defineEventHandler(async (event) => {
     const saveVersion = (existingForSave?.[0]?.version ?? 0) + 1;
     const { data: savedLetter, error: saveError } = await db
       .from('cover_letters')
-      .insert({ application_id: Number(id), version: saveVersion, content: providedContent.trim(), tone })
+      .insert({
+        application_id: Number(id),
+        version: saveVersion,
+        content: providedContent.trim(),
+        tone
+      })
       .select()
       .single();
-    if (saveError) throw createError({ statusCode: 500, message: saveError.message });
+    if (saveError)
+      throw createError({ statusCode: 500, message: saveError.message });
     return savedLetter;
   }
 
@@ -57,9 +65,12 @@ export default defineEventHandler(async (event) => {
     : '';
 
   const toneGuide: Record<string, string> = {
-    professional: 'Direct and confident. Short sentences. No small talk. The kind of email a senior engineer writes to a VP — respectful but peer-to-peer, not deferential.',
-    conversational: 'Warm and human. Write as if talking to someone you just met at a conference — casual enough to be likeable, sharp enough to be taken seriously. First names feel natural here.',
-    formal: 'Measured and precise. Structured sentences, careful word choice. Appropriate for regulated industries or traditional companies. Still clear and human — formal does not mean stiff or verbose.'
+    professional:
+      'Direct and confident. Short sentences. No small talk. The kind of email a senior engineer writes to a VP — respectful but peer-to-peer, not deferential.',
+    conversational:
+      'Warm and human. Write as if talking to someone you just met at a conference — casual enough to be likeable, sharp enough to be taken seriously. First names feel natural here.',
+    formal:
+      'Measured and precise. Structured sentences, careful word choice. Appropriate for regulated industries or traditional companies. Still clear and human — formal does not mean stiff or verbose.'
   };
   const toneInstruction = toneGuide[tone] || '';
 
@@ -104,12 +115,18 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Unknown AI error';
-    throw createError({ statusCode: 502, message: `AI request failed: ${msg}` });
+    throw createError({
+      statusCode: 502,
+      message: `AI request failed: ${msg}`
+    });
   }
 
-  const textBlock = response.content.find(b => b.type === 'text');
+  const textBlock = response.content.find((b) => b.type === 'text');
   if (!textBlock || textBlock.type !== 'text') {
-    throw createError({ statusCode: 502, message: 'Unexpected AI response format.' });
+    throw createError({
+      statusCode: 502,
+      message: 'Unexpected AI response format.'
+    });
   }
 
   // Determine next version number

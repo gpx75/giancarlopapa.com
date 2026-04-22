@@ -6,8 +6,15 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   const allowed = [
-    'status', 'title', 'company', 'url', 'location', 'description', 'source',
-    'dismissed_at', 'snoozed_until'
+    'status',
+    'title',
+    'company',
+    'url',
+    'location',
+    'description',
+    'source',
+    'dismissed_at',
+    'snoozed_until'
   ];
   const update: Record<string, unknown> = {};
   for (const key of allowed) {
@@ -24,10 +31,15 @@ export default defineEventHandler(async (event) => {
   }
 
   if (Object.keys(update).length === 0) {
-    throw createError({ statusCode: 400, message: 'No valid fields to update.' });
+    throw createError({
+      statusCode: 400,
+      message: 'No valid fields to update.'
+    });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
   const { data, error } = await db
     .from('job_suggestions')
     .update(update)

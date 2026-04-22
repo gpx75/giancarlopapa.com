@@ -3,8 +3,10 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 function detectSourceFromUrl(url: string): string {
   if (url.includes('linkedin.com')) return 'jsearch-linkedin';
-  if (url.includes('indeed.com') || url.includes('indeed.ch')) return 'jsearch-indeed';
-  if (url.includes('glassdoor.com') || url.includes('glassdoor.ch')) return 'jsearch-glassdoor';
+  if (url.includes('indeed.com') || url.includes('indeed.ch'))
+    return 'jsearch-indeed';
+  if (url.includes('glassdoor.com') || url.includes('glassdoor.ch'))
+    return 'jsearch-glassdoor';
   if (url.includes('swissdevjobs.ch')) return 'swissdevjobs';
   if (url.includes('jobs.ch')) return 'jobsch';
   return 'manual';
@@ -23,13 +25,17 @@ export default defineEventHandler(async (event) => {
   try {
     const response = await fetch(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
-        'Accept': 'text/html,application/xhtml+xml'
+        'User-Agent':
+          'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36',
+        Accept: 'text/html,application/xhtml+xml'
       }
     });
     pageText = await response.text();
   } catch {
-    throw createError({ statusCode: 400, message: 'Could not fetch URL. Try pasting the job description directly.' });
+    throw createError({
+      statusCode: 400,
+      message: 'Could not fetch URL. Try pasting the job description directly.'
+    });
   }
 
   // Strip HTML tags to get plain text (rough extraction)
@@ -47,7 +53,11 @@ export default defineEventHandler(async (event) => {
     .slice(0, 32000); // Generous cap; Haiku 4.5 handles this easily.
 
   if (plainText.length < 50) {
-    throw createError({ statusCode: 400, message: 'Could not extract content from URL. Try pasting the job description manually.' });
+    throw createError({
+      statusCode: 400,
+      message:
+        'Could not extract content from URL. Try pasting the job description manually.'
+    });
   }
 
   // Use AI to extract structured job data
@@ -58,10 +68,12 @@ export default defineEventHandler(async (event) => {
     response = await callAnthropicWithRetry(anthropic, {
       model: 'claude-haiku-4-5-20251001',
       max_tokens: 4096,
-      messages: [{
-        role: 'user',
-        content: `Extract job posting details from this page content:\n\n${plainText}`
-      }],
+      messages: [
+        {
+          role: 'user',
+          content: `Extract job posting details from this page content:\n\n${plainText}`
+        }
+      ],
       system: `Extract structured job information from the page content. Return a single JSON object with these fields:
 - title: job title (required)
 - company: company name (required)
@@ -74,10 +86,13 @@ Respond with JSON only, no markdown fences.`
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Unknown AI error';
-    throw createError({ statusCode: 502, message: `AI extraction failed: ${msg}` });
+    throw createError({
+      statusCode: 502,
+      message: `AI extraction failed: ${msg}`
+    });
   }
 
-  const textBlock = response.content.find(b => b.type === 'text');
+  const textBlock = response.content.find((b) => b.type === 'text');
   if (!textBlock || textBlock.type !== 'text') {
     throw createError({ statusCode: 502, message: 'Unexpected AI response.' });
   }
@@ -86,7 +101,10 @@ Respond with JSON only, no markdown fences.`
   try {
     extracted = JSON.parse(textBlock.text);
   } catch {
-    throw createError({ statusCode: 502, message: 'Could not parse AI response.' });
+    throw createError({
+      statusCode: 502,
+      message: 'Could not parse AI response.'
+    });
   }
 
   if (extracted.error) {
@@ -94,11 +112,16 @@ Respond with JSON only, no markdown fences.`
   }
 
   if (!extracted.title || !extracted.company) {
-    throw createError({ statusCode: 400, message: 'Could not extract job title and company from URL.' });
+    throw createError({
+      statusCode: 400,
+      message: 'Could not extract job title and company from URL.'
+    });
   }
 
   // Create suggestion
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data, error: insertError } = await db
     .from('job_suggestions')

@@ -33,7 +33,8 @@ const search = ref('');
 const filterParams = computed(() => {
   const q: Record<string, string> = { status: statusFilter.value };
   if (sourceFilter.value) q.source = sourceFilter.value;
-  if (minScore.value != null && Number.isFinite(minScore.value)) q.min_score = String(minScore.value);
+  if (minScore.value != null && Number.isFinite(minScore.value))
+    q.min_score = String(minScore.value);
   if (onlyUnanalyzed.value) q.unanalyzed = 'only';
   if (onlySnoozed.value) q.snoozed = 'only';
   else if (includeSnoozed.value) q.snoozed = 'include';
@@ -48,7 +49,8 @@ const lastRefreshedAt = import.meta.client
 function saveRefreshTimestamp() {
   const now = Date.now();
   lastRefreshedAt.value = now;
-  if (import.meta.client) localStorage.setItem('admin_matches_last_refresh', String(now));
+  if (import.meta.client)
+    localStorage.setItem('admin_matches_last_refresh', String(now));
 }
 
 const lastRefreshedLabel = computed(() => {
@@ -65,7 +67,8 @@ const lastRefreshedLabel = computed(() => {
 // Sorted: analyzed by match_rate desc, then unanalyzed by date desc
 const sorted = computed(() =>
   [...suggestions.value].sort((a, b) => {
-    if (a.match_rate != null && b.match_rate != null) return b.match_rate - a.match_rate;
+    if (a.match_rate != null && b.match_rate != null)
+      return b.match_rate - a.match_rate;
     if (a.match_rate != null) return -1;
     if (b.match_rate != null) return 1;
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
@@ -75,7 +78,8 @@ const sorted = computed(() =>
 // ---- View mode (flat vs. grouped-by-company) ----
 type ViewMode = 'flat' | 'company';
 const viewMode = ref<ViewMode>(
-  import.meta.client && localStorage.getItem('admin_matches_view_mode') === 'company'
+  import.meta.client &&
+    localStorage.getItem('admin_matches_view_mode') === 'company'
     ? 'company'
     : 'flat'
 );
@@ -84,10 +88,10 @@ watch(viewMode, (v) => {
 });
 
 interface CompanyGroup {
-  company: string
-  bestMatch: number | null
-  hasUnanalyzed: boolean
-  items: JobSuggestion[]
+  company: string;
+  bestMatch: number | null;
+  hasUnanalyzed: boolean;
+  items: JobSuggestion[];
 }
 
 const grouped = computed<CompanyGroup[]>(() => {
@@ -101,11 +105,13 @@ const grouped = computed<CompanyGroup[]>(() => {
     }
     g.items.push(s);
     if (s.match_rate == null) g.hasUnanalyzed = true;
-    else if (g.bestMatch == null || s.match_rate > g.bestMatch) g.bestMatch = s.match_rate;
+    else if (g.bestMatch == null || s.match_rate > g.bestMatch)
+      g.bestMatch = s.match_rate;
   }
   // Sort groups by bestMatch desc; null bestMatch goes last
   return Array.from(map.values()).sort((a, b) => {
-    if (a.bestMatch != null && b.bestMatch != null) return b.bestMatch - a.bestMatch;
+    if (a.bestMatch != null && b.bestMatch != null)
+      return b.bestMatch - a.bestMatch;
     if (a.bestMatch != null) return -1;
     if (b.bestMatch != null) return 1;
     return a.company.localeCompare(b.company);
@@ -126,7 +132,9 @@ function isCollapsed(company: string) {
 // Ensure the group containing the selected suggestion is never collapsed
 watch([selectedId, grouped], () => {
   if (!selectedId.value) return;
-  const g = grouped.value.find((grp) => grp.items.some((s) => s.id === selectedId.value));
+  const g = grouped.value.find((grp) =>
+    grp.items.some((s) => s.id === selectedId.value)
+  );
   if (g && collapsedCompanies.value.has(g.company)) {
     const next = new Set(collapsedCompanies.value);
     next.delete(g.company);
@@ -134,16 +142,24 @@ watch([selectedId, grouped], () => {
   }
 });
 
-const selected = computed(() => sorted.value.find(s => s.id === selectedId.value) ?? null);
+const selected = computed(
+  () => sorted.value.find((s) => s.id === selectedId.value) ?? null
+);
 
 async function load() {
   loading.value = true;
   try {
-    suggestions.value = await $fetch<JobSuggestion[]>('/api/admin/applications/suggestions', {
-      query: filterParams.value
-    });
+    suggestions.value = await $fetch<JobSuggestion[]>(
+      '/api/admin/applications/suggestions',
+      {
+        query: filterParams.value
+      }
+    );
     // Keep selection if still in list, otherwise pick first
-    if (selectedId.value && !suggestions.value.some(s => s.id === selectedId.value)) {
+    if (
+      selectedId.value &&
+      !suggestions.value.some((s) => s.id === selectedId.value)
+    ) {
       selectedId.value = suggestions.value[0]?.id ?? null;
     } else if (!selectedId.value) {
       selectedId.value = suggestions.value[0]?.id ?? null;
@@ -155,24 +171,45 @@ async function load() {
   }
 }
 
-watch(filterParams, () => { load(); }, { deep: true });
+watch(
+  filterParams,
+  () => {
+    load();
+  },
+  { deep: true }
+);
 
 async function refreshJobFeed() {
   refreshing.value = true;
   try {
-    const data = await $fetch<{ imported: number }>('/api/admin/applications/suggestions/find-jobs', {
-      method: 'POST',
-      body: { source: 'all' }
-    });
+    const data = await $fetch<{ imported: number }>(
+      '/api/admin/applications/suggestions/find-jobs',
+      {
+        method: 'POST',
+        body: { source: 'all' }
+      }
+    );
     saveRefreshTimestamp();
     if (data.imported > 0) {
-      toast.add({ title: `${data.imported} new jobs found`, color: 'success', icon: 'i-lucide-sparkles' });
+      toast.add({
+        title: `${data.imported} new jobs found`,
+        color: 'success',
+        icon: 'i-lucide-sparkles'
+      });
     } else {
-      toast.add({ title: 'No new jobs found', color: 'neutral', icon: 'i-lucide-check' });
+      toast.add({
+        title: 'No new jobs found',
+        color: 'neutral',
+        icon: 'i-lucide-check'
+      });
     }
     await load();
   } catch {
-    toast.add({ title: 'Refresh failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Refresh failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     refreshing.value = false;
   }
@@ -181,12 +218,23 @@ async function refreshJobFeed() {
 async function analyzeSuggestion(suggestion: JobSuggestion) {
   analyzingId.value = suggestion.id;
   try {
-    const updated = await $fetch<JobSuggestion>(`/api/admin/applications/suggestions/${suggestion.id}/analyze`, { method: 'POST' });
-    const idx = suggestions.value.findIndex(s => s.id === suggestion.id);
+    const updated = await $fetch<JobSuggestion>(
+      `/api/admin/applications/suggestions/${suggestion.id}/analyze`,
+      { method: 'POST' }
+    );
+    const idx = suggestions.value.findIndex((s) => s.id === suggestion.id);
     if (idx >= 0) suggestions.value[idx] = updated;
-    toast.add({ title: `${updated.match_rate}% match`, color: 'success', icon: 'i-lucide-sparkles' });
+    toast.add({
+      title: `${updated.match_rate}% match`,
+      color: 'success',
+      icon: 'i-lucide-sparkles'
+    });
   } catch {
-    toast.add({ title: 'Analysis failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Analysis failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     analyzingId.value = null;
   }
@@ -195,8 +243,11 @@ async function analyzeSuggestion(suggestion: JobSuggestion) {
 async function refreshDescription(suggestion: JobSuggestion) {
   refreshingId.value = suggestion.id;
   try {
-    const updated = await $fetch<JobSuggestion>(`/api/admin/applications/suggestions/${suggestion.id}/refresh-description`, { method: 'POST' });
-    const idx = suggestions.value.findIndex(s => s.id === suggestion.id);
+    const updated = await $fetch<JobSuggestion>(
+      `/api/admin/applications/suggestions/${suggestion.id}/refresh-description`,
+      { method: 'POST' }
+    );
+    const idx = suggestions.value.findIndex((s) => s.id === suggestion.id);
     if (idx >= 0) suggestions.value[idx] = updated;
     toast.add({
       title: 'Description refreshed',
@@ -215,10 +266,15 @@ async function refreshDescription(suggestion: JobSuggestion) {
 async function bulkRefreshDescriptions() {
   bulkRefreshing.value = true;
   try {
-    const result = await $fetch<{ candidates: number; refreshed: number; unchanged: number; failed: number; total: number }>(
-      '/api/admin/applications/suggestions/bulk-refresh-descriptions',
-      { method: 'POST' }
-    );
+    const result = await $fetch<{
+      candidates: number;
+      refreshed: number;
+      unchanged: number;
+      failed: number;
+      total: number;
+    }>('/api/admin/applications/suggestions/bulk-refresh-descriptions', {
+      method: 'POST'
+    });
     if (result.candidates === 0) {
       toast.add({
         title: 'Nothing to refresh',
@@ -246,12 +302,23 @@ async function bulkRefreshDescriptions() {
 async function promoteSuggestion(suggestion: JobSuggestion) {
   promotingId.value = suggestion.id;
   try {
-    const app = await $fetch<JobApplication>(`/api/admin/applications/suggestions/${suggestion.id}/promote`, { method: 'POST' });
-    suggestions.value = suggestions.value.filter(s => s.id !== suggestion.id);
-    toast.add({ title: 'Promoted to application', color: 'success', icon: 'i-lucide-briefcase' });
+    const app = await $fetch<JobApplication>(
+      `/api/admin/applications/suggestions/${suggestion.id}/promote`,
+      { method: 'POST' }
+    );
+    suggestions.value = suggestions.value.filter((s) => s.id !== suggestion.id);
+    toast.add({
+      title: 'Promoted to application',
+      color: 'success',
+      icon: 'i-lucide-briefcase'
+    });
     router.push(`/admin/applications/${app.id}`);
   } catch {
-    toast.add({ title: 'Promote failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Promote failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     promotingId.value = null;
   }
@@ -261,15 +328,18 @@ async function dismissSuggestion(suggestion: JobSuggestion) {
   // Optimistic update for the active view; server soft-dismisses with timestamp
   const prev = [...suggestions.value];
   if (statusFilter.value === 'active') {
-    suggestions.value = suggestions.value.filter(s => s.id !== suggestion.id);
+    suggestions.value = suggestions.value.filter((s) => s.id !== suggestion.id);
   }
   try {
-    const updated = await $fetch<JobSuggestion>(`/api/admin/applications/suggestions/${suggestion.id}`, {
-      method: 'PATCH',
-      body: { status: 'dismissed' }
-    });
+    const updated = await $fetch<JobSuggestion>(
+      `/api/admin/applications/suggestions/${suggestion.id}`,
+      {
+        method: 'PATCH',
+        body: { status: 'dismissed' }
+      }
+    );
     if (statusFilter.value !== 'active') {
-      const idx = suggestions.value.findIndex(s => s.id === suggestion.id);
+      const idx = suggestions.value.findIndex((s) => s.id === suggestion.id);
       if (idx >= 0) suggestions.value[idx] = updated;
     }
     toast.add({
@@ -277,16 +347,22 @@ async function dismissSuggestion(suggestion: JobSuggestion) {
       description: 'Find it again in the Dismissed filter.',
       color: 'neutral',
       icon: 'i-lucide-x',
-      actions: [{
-        label: 'Undo',
-        color: 'primary',
-        variant: 'link',
-        onClick: () => undismiss(updated)
-      }]
+      actions: [
+        {
+          label: 'Undo',
+          color: 'primary',
+          variant: 'link',
+          onClick: () => undismiss(updated)
+        }
+      ]
     });
   } catch {
     suggestions.value = prev;
-    toast.add({ title: 'Dismiss failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Dismiss failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   }
 }
 
@@ -299,7 +375,11 @@ async function undismiss(suggestion: JobSuggestion) {
     await load();
     toast.add({ title: 'Restored', color: 'success', icon: 'i-lucide-check' });
   } catch {
-    toast.add({ title: 'Restore failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Restore failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   }
 }
 
@@ -327,7 +407,9 @@ async function applySnooze() {
     snoozingId.value = null;
     await load();
     toast.add({
-      title: isoUntil ? `Snoozed until ${snoozeUntilDate.value}` : 'Snooze cleared',
+      title: isoUntil
+        ? `Snoozed until ${snoozeUntilDate.value}`
+        : 'Snooze cleared',
       color: 'neutral',
       icon: 'i-lucide-bell-off'
     });
@@ -339,14 +421,25 @@ async function applySnooze() {
 
 async function unsnooze(suggestion: JobSuggestion) {
   try {
-    await $fetch(`/api/admin/applications/suggestions/${suggestion.id}/snooze`, {
-      method: 'POST',
-      body: { until: null }
-    });
+    await $fetch(
+      `/api/admin/applications/suggestions/${suggestion.id}/snooze`,
+      {
+        method: 'POST',
+        body: { until: null }
+      }
+    );
     await load();
-    toast.add({ title: 'Snooze cleared', color: 'success', icon: 'i-lucide-bell' });
+    toast.add({
+      title: 'Snooze cleared',
+      color: 'success',
+      icon: 'i-lucide-bell'
+    });
   } catch {
-    toast.add({ title: 'Failed', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Failed',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   }
 }
 
@@ -366,7 +459,9 @@ const sourceOptions = computed(() => {
   return Array.from(set).sort();
 });
 
-onMounted(() => { load(); });
+onMounted(() => {
+  load();
+});
 </script>
 
 <template>
@@ -377,7 +472,10 @@ onMounted(() => { load(); });
           <UDashboardSidebarCollapse />
         </template>
         <template #right>
-          <span v-if="lastRefreshedLabel" class="text-xs text-muted hidden sm:inline">
+          <span
+            v-if="lastRefreshedLabel"
+            class="text-xs text-muted hidden sm:inline"
+          >
             Updated {{ lastRefreshedLabel }}
           </span>
           <UButton
@@ -410,7 +508,9 @@ onMounted(() => { load(); });
 
     <template #body>
       <!-- Filter bar -->
-      <div class="border-b border-default px-4 py-3 flex flex-wrap items-center gap-2 bg-elevated/40">
+      <div
+        class="border-b border-default px-4 py-3 flex flex-wrap items-center gap-2 bg-elevated/40"
+      >
         <UButtonGroup size="xs">
           <UButton
             :variant="statusFilter === 'active' ? 'solid' : 'outline'"
@@ -442,7 +542,7 @@ onMounted(() => { load(); });
 
         <USelect
           v-model="sourceFilter"
-          :items="sourceOptions.map(s => ({ label: s, value: s }))"
+          :items="sourceOptions.map((s) => ({ label: s, value: s }))"
           placeholder="All sources"
           size="xs"
           class="w-40"
@@ -460,7 +560,11 @@ onMounted(() => { load(); });
 
         <UCheckbox v-model="onlyUnanalyzed" label="Unanalyzed only" />
         <UCheckbox v-model="onlySnoozed" label="Snoozed only" />
-        <UCheckbox v-if="!onlySnoozed" v-model="includeSnoozed" label="Include snoozed" />
+        <UCheckbox
+          v-if="!onlySnoozed"
+          v-model="includeSnoozed"
+          label="Include snoozed"
+        />
 
         <UButton
           icon="i-lucide-filter-x"
@@ -472,7 +576,9 @@ onMounted(() => { load(); });
           Reset
         </UButton>
 
-        <span class="ml-auto text-xs text-muted">{{ sorted.length }} match{{ sorted.length === 1 ? '' : 'es' }}</span>
+        <span class="ml-auto text-xs text-muted"
+          >{{ sorted.length }} match{{ sorted.length === 1 ? '' : 'es' }}</span
+        >
 
         <UButtonGroup size="xs">
           <UButton
@@ -493,20 +599,34 @@ onMounted(() => { load(); });
       </div>
 
       <!-- Master-detail body -->
-      <div v-if="loading" class="flex items-center justify-center gap-2 py-20 text-sm text-muted">
+      <div
+        v-if="loading"
+        class="flex items-center justify-center gap-2 py-20 text-sm text-muted"
+      >
         <UIcon name="i-lucide-loader" class="size-4 animate-spin" />
         Loading matches...
       </div>
 
-      <div v-else-if="sorted.length === 0" class="flex flex-col items-center justify-center gap-3 py-20 text-muted">
+      <div
+        v-else-if="sorted.length === 0"
+        class="flex flex-col items-center justify-center gap-3 py-20 text-muted"
+      >
         <UIcon name="i-lucide-sparkles" class="size-10 opacity-20" />
         <p class="text-sm">No matches with these filters.</p>
-        <UButton icon="i-lucide-filter-x" label="Reset filters" size="sm" variant="outline" @click="clearFilters" />
+        <UButton
+          icon="i-lucide-filter-x"
+          label="Reset filters"
+          size="sm"
+          variant="outline"
+          @click="clearFilters"
+        />
       </div>
 
       <div v-else class="grid grid-cols-1 lg:grid-cols-12 gap-0 min-h-0 flex-1">
         <!-- Master list -->
-        <div class="lg:col-span-5 xl:col-span-4 border-r border-default overflow-y-auto max-h-[calc(100vh-var(--header-height,0px)-7rem)]">
+        <div
+          class="lg:col-span-5 xl:col-span-4 border-r border-default overflow-y-auto max-h-[calc(100vh-var(--header-height,0px)-7rem)]"
+        >
           <!-- Flat mode -->
           <ul v-if="viewMode === 'flat'" class="divide-y divide-default">
             <li
@@ -527,7 +647,13 @@ onMounted(() => { load(); });
                     <UBadge
                       v-if="s.match_rate != null"
                       :label="`${s.match_rate}%`"
-                      :color="s.match_rate >= 70 ? 'success' : s.match_rate >= 40 ? 'warning' : 'error'"
+                      :color="
+                        s.match_rate >= 70
+                          ? 'success'
+                          : s.match_rate >= 40
+                            ? 'warning'
+                            : 'error'
+                      "
                       variant="subtle"
                       size="xs"
                     />
@@ -538,9 +664,17 @@ onMounted(() => { load(); });
                       variant="outline"
                       size="xs"
                     />
-                    <UBadge :label="s.source" color="neutral" variant="subtle" size="xs" />
                     <UBadge
-                      v-if="s.snoozed_until && new Date(s.snoozed_until) > new Date()"
+                      :label="s.source"
+                      color="neutral"
+                      variant="subtle"
+                      size="xs"
+                    />
+                    <UBadge
+                      v-if="
+                        s.snoozed_until &&
+                        new Date(s.snoozed_until) > new Date()
+                      "
                       label="snoozed"
                       color="warning"
                       variant="subtle"
@@ -573,15 +707,30 @@ onMounted(() => { load(); });
                 @click="toggleCompany(g.company)"
               >
                 <UIcon
-                  :name="isCollapsed(g.company) ? 'i-lucide-chevron-right' : 'i-lucide-chevron-down'"
+                  :name="
+                    isCollapsed(g.company)
+                      ? 'i-lucide-chevron-right'
+                      : 'i-lucide-chevron-down'
+                  "
                   class="size-4 text-muted shrink-0"
                 />
-                <UIcon name="i-lucide-building-2" class="size-4 text-primary-500 shrink-0" />
-                <span class="font-medium text-sm truncate flex-1">{{ g.company }}</span>
+                <UIcon
+                  name="i-lucide-building-2"
+                  class="size-4 text-primary-500 shrink-0"
+                />
+                <span class="font-medium text-sm truncate flex-1">{{
+                  g.company
+                }}</span>
                 <UBadge
                   v-if="g.bestMatch != null"
                   :label="`${g.bestMatch}%`"
-                  :color="g.bestMatch >= 70 ? 'success' : g.bestMatch >= 40 ? 'warning' : 'error'"
+                  :color="
+                    g.bestMatch >= 70
+                      ? 'success'
+                      : g.bestMatch >= 40
+                        ? 'warning'
+                        : 'error'
+                  "
                   variant="subtle"
                   size="xs"
                 />
@@ -592,7 +741,10 @@ onMounted(() => { load(); });
                   size="xs"
                 />
               </button>
-              <ul v-if="!isCollapsed(g.company)" class="divide-y divide-default bg-default">
+              <ul
+                v-if="!isCollapsed(g.company)"
+                class="divide-y divide-default bg-default"
+              >
                 <li
                   v-for="s in g.items"
                   :key="s.id"
@@ -602,15 +754,26 @@ onMounted(() => { load(); });
                 >
                   <div class="flex items-start gap-2">
                     <div class="flex-1 min-w-0">
-                      <div class="font-medium text-sm truncate">{{ s.title }}</div>
-                      <div v-if="s.location" class="text-xs text-muted truncate font-mono">
+                      <div class="font-medium text-sm truncate">
+                        {{ s.title }}
+                      </div>
+                      <div
+                        v-if="s.location"
+                        class="text-xs text-muted truncate font-mono"
+                      >
                         {{ s.location }}
                       </div>
                       <div class="flex items-center gap-1 mt-1 flex-wrap">
                         <UBadge
                           v-if="s.match_rate != null"
                           :label="`${s.match_rate}%`"
-                          :color="s.match_rate >= 70 ? 'success' : s.match_rate >= 40 ? 'warning' : 'error'"
+                          :color="
+                            s.match_rate >= 70
+                              ? 'success'
+                              : s.match_rate >= 40
+                                ? 'warning'
+                                : 'error'
+                          "
                           variant="subtle"
                           size="xs"
                         />
@@ -621,9 +784,17 @@ onMounted(() => { load(); });
                           variant="outline"
                           size="xs"
                         />
-                        <UBadge :label="s.source" color="neutral" variant="subtle" size="xs" />
                         <UBadge
-                          v-if="s.snoozed_until && new Date(s.snoozed_until) > new Date()"
+                          :label="s.source"
+                          color="neutral"
+                          variant="subtle"
+                          size="xs"
+                        />
+                        <UBadge
+                          v-if="
+                            s.snoozed_until &&
+                            new Date(s.snoozed_until) > new Date()
+                          "
                           label="snoozed"
                           color="warning"
                           variant="subtle"
@@ -647,8 +818,13 @@ onMounted(() => { load(); });
         </div>
 
         <!-- Detail panel -->
-        <div class="lg:col-span-7 xl:col-span-8 overflow-y-auto max-h-[calc(100vh-var(--header-height,0px)-7rem)]">
-          <div v-if="!selected" class="flex items-center justify-center h-full text-sm text-muted">
+        <div
+          class="lg:col-span-7 xl:col-span-8 overflow-y-auto max-h-[calc(100vh-var(--header-height,0px)-7rem)]"
+        >
+          <div
+            v-if="!selected"
+            class="flex items-center justify-center h-full text-sm text-muted"
+          >
             Select a match to view details
           </div>
 
@@ -659,7 +835,9 @@ onMounted(() => { load(); });
                 <h2 class="text-xl font-semibold">{{ selected.title }}</h2>
                 <div class="text-sm text-muted font-mono mt-1">
                   {{ selected.company }}
-                  <span v-if="selected.location"> · {{ selected.location }}</span>
+                  <span v-if="selected.location">
+                    · {{ selected.location }}</span
+                  >
                 </div>
               </div>
               <div class="flex flex-wrap items-center gap-2">
@@ -697,7 +875,10 @@ onMounted(() => { load(); });
                   Re-analyze
                 </UButton>
                 <UButton
-                  v-if="selected.snoozed_until && new Date(selected.snoozed_until) > new Date()"
+                  v-if="
+                    selected.snoozed_until &&
+                    new Date(selected.snoozed_until) > new Date()
+                  "
                   icon="i-lucide-bell"
                   size="xs"
                   variant="outline"
@@ -750,7 +931,10 @@ onMounted(() => { load(); });
 
             <!-- Snoozed banner -->
             <UAlert
-              v-if="selected.snoozed_until && new Date(selected.snoozed_until) > new Date()"
+              v-if="
+                selected.snoozed_until &&
+                new Date(selected.snoozed_until) > new Date()
+              "
               color="warning"
               variant="soft"
               icon="i-lucide-bell-off"
@@ -758,13 +942,19 @@ onMounted(() => { load(); });
             />
 
             <!-- Match analysis -->
-            <UCard v-if="selected.match_rate != null && selected.match_breakdown" variant="soft">
+            <UCard
+              v-if="selected.match_rate != null && selected.match_breakdown"
+              variant="soft"
+            >
               <template #header>
                 <div class="flex items-center gap-2">
                   <UIcon name="i-lucide-bar-chart-3" class="text-primary-500" />
                   <h3 class="font-semibold">Match analysis</h3>
                   <UButton
-                    v-if="!selected.match_breakdown.companyPainPoints?.length && !selected.match_breakdown.valueDelivered?.length"
+                    v-if="
+                      !selected.match_breakdown.companyPainPoints?.length &&
+                      !selected.match_breakdown.valueDelivered?.length
+                    "
                     icon="i-lucide-sparkles"
                     size="xs"
                     variant="ghost"
@@ -786,8 +976,14 @@ onMounted(() => { load(); });
             <UCard v-else variant="soft">
               <div class="flex items-center justify-between gap-3">
                 <div class="text-sm text-muted">
-                  <span v-if="selected.description">No analysis yet — run it to score this against your CV.</span>
-                  <span v-else>Add a job description (or import from URL) to enable analysis.</span>
+                  <span v-if="selected.description"
+                    >No analysis yet — run it to score this against your
+                    CV.</span
+                  >
+                  <span v-else
+                    >Add a job description (or import from URL) to enable
+                    analysis.</span
+                  >
                 </div>
                 <div class="flex items-center gap-2">
                   <UButton
@@ -824,14 +1020,24 @@ onMounted(() => { load(); });
                     @click="jdOpen = !jdOpen"
                   >
                     <UIcon
-                      :name="jdOpen ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
+                      :name="
+                        jdOpen
+                          ? 'i-lucide-chevron-down'
+                          : 'i-lucide-chevron-right'
+                      "
                       class="size-4 text-muted"
                     />
                     <UIcon name="i-lucide-file-text" class="text-primary-500" />
                     <h3 class="font-semibold">Job description</h3>
                     <UBadge
                       :label="`${selected.description.length} chars`"
-                      :color="selected.description.length < 400 ? 'error' : selected.description.length < 800 ? 'warning' : 'neutral'"
+                      :color="
+                        selected.description.length < 400
+                          ? 'error'
+                          : selected.description.length < 800
+                            ? 'warning'
+                            : 'neutral'
+                      "
                       variant="subtle"
                       size="xs"
                     />
@@ -849,7 +1055,12 @@ onMounted(() => { load(); });
                   </UButton>
                 </div>
               </template>
-              <div v-if="jdOpen" class="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-xs leading-relaxed max-h-[60vh] overflow-y-auto">{{ selected.description }}</div>
+              <div
+                v-if="jdOpen"
+                class="prose prose-sm dark:prose-invert max-w-none whitespace-pre-wrap text-xs leading-relaxed max-h-[60vh] overflow-y-auto"
+              >
+                {{ selected.description }}
+              </div>
             </UCard>
           </div>
         </div>
@@ -858,14 +1069,23 @@ onMounted(() => { load(); });
   </UDashboardPanel>
 
   <!-- Find Jobs slideover -->
-  <USlideover v-model:open="findJobsOpen" title="Find Jobs" description="Search job boards for matching positions" side="right">
+  <USlideover
+    v-model:open="findJobsOpen"
+    title="Find Jobs"
+    description="Search job boards for matching positions"
+    side="right"
+  >
     <template #body>
       <AdminFindJobsModal @imported="load" />
     </template>
   </USlideover>
 
   <!-- Snooze modal -->
-  <UModal v-model:open="snoozeOpen" title="Snooze match" description="Hide this suggestion until the chosen date.">
+  <UModal
+    v-model:open="snoozeOpen"
+    title="Snooze match"
+    description="Hide this suggestion until the chosen date."
+  >
     <template #body>
       <div class="space-y-3">
         <UFormField label="Snooze until">
@@ -883,11 +1103,13 @@ onMounted(() => { load(); });
             size="xs"
             variant="outline"
             color="neutral"
-            @click="() => {
-              const d = new Date();
-              d.setDate(d.getDate() + preset.days);
-              snoozeUntilDate = d.toISOString().slice(0, 10);
-            }"
+            @click="
+              () => {
+                const d = new Date();
+                d.setDate(d.getDate() + preset.days);
+                snoozeUntilDate = d.toISOString().slice(0, 10);
+              }
+            "
           >
             {{ preset.label }}
           </UButton>
@@ -896,7 +1118,9 @@ onMounted(() => { load(); });
     </template>
     <template #footer>
       <div class="flex justify-end gap-2 w-full">
-        <UButton color="neutral" variant="ghost" @click="snoozeOpen = false">Cancel</UButton>
+        <UButton color="neutral" variant="ghost" @click="snoozeOpen = false"
+          >Cancel</UButton
+        >
         <UButton color="primary" @click="applySnooze">Snooze</UButton>
       </div>
     </template>

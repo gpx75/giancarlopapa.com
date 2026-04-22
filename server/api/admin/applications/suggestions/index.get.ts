@@ -15,18 +15,24 @@ export default defineEventHandler(async (event) => {
   const status = typeof q.status === 'string' ? q.status : undefined;
   const source = typeof q.source === 'string' ? q.source : undefined;
   const search = typeof q.search === 'string' ? q.search.trim() : undefined;
-  const minScore = typeof q.min_score === 'string' ? Number(q.min_score) : undefined;
+  const minScore =
+    typeof q.min_score === 'string' ? Number(q.min_score) : undefined;
   const unanalyzed = q.unanalyzed === 'only';
   const snoozed = typeof q.snoozed === 'string' ? q.snoozed : undefined;
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
   const nowIso = new Date().toISOString();
 
   function buildQuery(withPublishedAt: boolean) {
     let query = db.from('job_suggestions').select('*');
 
     if (withPublishedAt) {
-      query = query.order('published_at', { ascending: false, nullsFirst: false });
+      query = query.order('published_at', {
+        ascending: false,
+        nullsFirst: false
+      });
     }
     query = query.order('created_at', { ascending: false });
 
@@ -53,8 +59,10 @@ export default defineEventHandler(async (event) => {
     }
 
     if (source) query = query.ilike('source', `%${source}%`);
-    if (search) query = query.or(`title.ilike.%${search}%,company.ilike.%${search}%`);
-    if (Number.isFinite(minScore)) query = query.gte('match_rate', minScore as number);
+    if (search)
+      query = query.or(`title.ilike.%${search}%,company.ilike.%${search}%`);
+    if (Number.isFinite(minScore))
+      query = query.gte('match_rate', minScore as number);
     if (unanalyzed) query = query.is('match_rate', null);
 
     return query;

@@ -13,11 +13,22 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Invalid application id.' });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const [appResult, lettersResult] = await Promise.all([
-    db.from('job_applications').select('*').eq('id', numericId).is('deleted_at', null).single(),
-    db.from('cover_letters').select('*').eq('application_id', numericId).order('version', { ascending: false })
+    db
+      .from('job_applications')
+      .select('*')
+      .eq('id', numericId)
+      .is('deleted_at', null)
+      .single(),
+    db
+      .from('cover_letters')
+      .select('*')
+      .eq('application_id', numericId)
+      .order('version', { ascending: false })
   ]);
 
   if (appResult.error) {
@@ -25,7 +36,10 @@ export default defineEventHandler(async (event) => {
   }
 
   if (lettersResult.error) {
-    throw createError({ statusCode: 500, message: lettersResult.error.message });
+    throw createError({
+      statusCode: 500,
+      message: lettersResult.error.message
+    });
   }
 
   return {

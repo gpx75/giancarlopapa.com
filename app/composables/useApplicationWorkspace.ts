@@ -20,11 +20,19 @@ export function useApplicationWorkspace(id: MaybeRefOrGetter<number>) {
     pending.value = true;
     error.value = null;
     try {
-      application.value = await $fetch<JobApplication>(`/api/admin/applications/${idRef.value}`);
+      application.value = await $fetch<JobApplication>(
+        `/api/admin/applications/${idRef.value}`
+      );
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Failed to load application.';
+      const msg =
+        err instanceof Error ? err.message : 'Failed to load application.';
       error.value = msg;
-      toast.add({ title: 'Load failed', description: msg, color: 'error', icon: 'i-lucide-triangle-alert' });
+      toast.add({
+        title: 'Load failed',
+        description: msg,
+        color: 'error',
+        icon: 'i-lucide-triangle-alert'
+      });
     } finally {
       pending.value = false;
     }
@@ -32,17 +40,25 @@ export function useApplicationWorkspace(id: MaybeRefOrGetter<number>) {
 
   async function transition(payload: WorkflowTransitionPayload) {
     try {
-      const res = await $fetch<{ id: number, workflow: JobApplication['workflow'] }>(
-        `/api/admin/applications/${idRef.value}/workflow`,
-        { method: 'POST', body: payload }
-      );
+      const res = await $fetch<{
+        id: number;
+        workflow: JobApplication['workflow'];
+      }>(`/api/admin/applications/${idRef.value}/workflow`, {
+        method: 'POST',
+        body: payload
+      });
       if (application.value) {
         application.value = { ...application.value, workflow: res.workflow };
       }
       return true;
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Transition rejected.';
-      toast.add({ title: 'Stage blocked', description: msg, color: 'warning', icon: 'i-lucide-shield-alert' });
+      toast.add({
+        title: 'Stage blocked',
+        description: msg,
+        color: 'warning',
+        icon: 'i-lucide-shield-alert'
+      });
       return false;
     }
   }

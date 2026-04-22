@@ -19,7 +19,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Invalid suggestion id.' });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: suggestion, error: fetchError } = await db
     .from('job_suggestions')
@@ -31,7 +33,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: 'Suggestion not found.' });
   }
   if (!suggestion.url) {
-    throw createError({ statusCode: 400, message: 'Suggestion has no URL to refresh from.' });
+    throw createError({
+      statusCode: 400,
+      message: 'Suggestion has no URL to refresh from.'
+    });
   }
 
   let description = '';
@@ -47,7 +52,10 @@ export default defineEventHandler(async (event) => {
   }
 
   if (!description.trim()) {
-    throw createError({ statusCode: 502, message: 'Could not extract a description from the source page.' });
+    throw createError({
+      statusCode: 502,
+      message: 'Could not extract a description from the source page.'
+    });
   }
 
   const { data: updated, error: updateError } = await db

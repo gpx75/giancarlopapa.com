@@ -6,7 +6,9 @@ export default defineEventHandler(async (event) => {
   if (!Number.isSafeInteger(id) || id <= 0) {
     throw createError({ statusCode: 400, message: 'Invalid application id.' });
   }
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
   const { data, error } = await db
     .from('application_reference_letters')
     .select('*')

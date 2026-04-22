@@ -2,34 +2,41 @@
 import type { ApplicationWorkflow, WorkflowStage } from '~/types/applications';
 
 const props = defineProps<{
-  workflow: ApplicationWorkflow
-  active: WorkflowStage
+  workflow: ApplicationWorkflow;
+  active: WorkflowStage;
 }>();
 
 const emit = defineEmits<{
-  select: [stage: WorkflowStage]
+  select: [stage: WorkflowStage];
 }>();
 
 interface StepDef {
-  stage: WorkflowStage
-  label: string
-  icon: string
+  stage: WorkflowStage;
+  label: string;
+  icon: string;
 }
 
 const STEPS: StepDef[] = [
-  { stage: 'analyze',        label: 'Analyze',      icon: 'i-lucide-radar' },
-  { stage: 'prioritize',     label: 'Prioritize',   icon: 'i-lucide-flag' },
-  { stage: 'cv',             label: 'CV',           icon: 'i-lucide-file-text' },
-  { stage: 'cover_letter',   label: 'Cover Letter', icon: 'i-lucide-mail' },
-  { stage: 'review',         label: 'Review',       icon: 'i-lucide-clipboard-check' },
-  { stage: 'apply',          label: 'Apply',        icon: 'i-lucide-send' },
-  { stage: 'interview_prep', label: 'Interview',    icon: 'i-lucide-message-square' }
+  { stage: 'analyze', label: 'Analyze', icon: 'i-lucide-radar' },
+  { stage: 'prioritize', label: 'Prioritize', icon: 'i-lucide-flag' },
+  { stage: 'cv', label: 'CV', icon: 'i-lucide-file-text' },
+  { stage: 'cover_letter', label: 'Cover Letter', icon: 'i-lucide-mail' },
+  { stage: 'review', label: 'Review', icon: 'i-lucide-clipboard-check' },
+  { stage: 'apply', label: 'Apply', icon: 'i-lucide-send' },
+  {
+    stage: 'interview_prep',
+    label: 'Interview',
+    icon: 'i-lucide-message-square'
+  }
 ];
 
 const locked = computed(() => props.workflow.current_stage === 'closed');
 
 function statusOf(stage: WorkflowStage) {
-  return props.workflow.stages[stage as Exclude<WorkflowStage, 'sent' | 'closed'>]?.status ?? 'pending';
+  return (
+    props.workflow.stages[stage as Exclude<WorkflowStage, 'sent' | 'closed'>]
+      ?.status ?? 'pending'
+  );
 }
 
 function colorOf(stage: WorkflowStage) {
@@ -69,7 +76,9 @@ function iconOf(step: StepDef) {
           class="justify-start truncate"
           @click="emit('select', step.stage)"
         >
-          <span class="hidden sm:inline text-xs font-mono opacity-70 mr-1">{{ String(i + 1).padStart(2, '0') }}</span>
+          <span class="hidden sm:inline text-xs font-mono opacity-70 mr-1">{{
+            String(i + 1).padStart(2, '0')
+          }}</span>
           <span class="truncate">{{ step.label }}</span>
         </UButton>
       </li>

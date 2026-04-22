@@ -62,7 +62,11 @@ export function useCoverLetterDraft(
       timer = null;
     }
     if (import.meta.client) {
-      try { localStorage.removeItem(storageKey.value); } catch { /* noop */ }
+      try {
+        localStorage.removeItem(storageKey.value);
+      } catch {
+        /* noop */
+      }
     }
     lastSavedAt.value = null;
     isDirty.value = false;

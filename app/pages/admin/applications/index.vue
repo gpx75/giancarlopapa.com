@@ -1,21 +1,35 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import type { JobApplication, ApplicationStatus, CreateApplicationPayload, WorkflowStage } from '~/types/applications';
+import type {
+  JobApplication,
+  ApplicationStatus,
+  CreateApplicationPayload,
+  WorkflowStage
+} from '~/types/applications';
 
 definePageMeta({ layout: 'admin' });
 useSeoMeta({ title: 'Admin — Applications', robots: 'noindex, nofollow' });
 
-type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error' | 'info';
+type BadgeColor =
+  | 'primary'
+  | 'neutral'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'info';
 
-const statusColor = (status: string): BadgeColor => (({
-  saved: 'neutral',
-  applied: 'primary',
-  interviewing: 'info',
-  offered: 'success',
-  accepted: 'success',
-  rejected: 'error',
-  withdrawn: 'warning'
-} as Record<string, BadgeColor>)[status] ?? 'neutral');
+const statusColor = (status: string): BadgeColor =>
+  (
+    ({
+      saved: 'neutral',
+      applied: 'primary',
+      interviewing: 'info',
+      offered: 'success',
+      accepted: 'success',
+      rejected: 'error',
+      withdrawn: 'warning'
+    }) as Record<string, BadgeColor>
+  )[status] ?? 'neutral';
 
 const matchColor = (rate: number | null): BadgeColor => {
   if (rate == null) return 'neutral';
@@ -36,17 +50,24 @@ const route = useRoute();
 const { applications, refresh, pending, createApplication } = useApplications();
 
 // Status filter (driven by ?status= or tab clicks).
-const filter = ref<string>(typeof route.query.status === 'string' ? route.query.status : 'all');
+const filter = ref<string>(
+  typeof route.query.status === 'string' ? route.query.status : 'all'
+);
 // Optional stage filter from /admin/analytics drill-down (?stage=apply).
-const stageFilter = ref<string>(typeof route.query.stage === 'string' ? route.query.stage : '');
+const stageFilter = ref<string>(
+  typeof route.query.stage === 'string' ? route.query.stage : ''
+);
 const createOpen = ref(false);
 const creating = ref(false);
 
 // Keep refs in sync if the user navigates back/forward.
-watch(() => route.query, (q) => {
-  filter.value = typeof q.status === 'string' ? q.status : 'all';
-  stageFilter.value = typeof q.stage === 'string' ? q.stage : '';
-});
+watch(
+  () => route.query,
+  (q) => {
+    filter.value = typeof q.status === 'string' ? q.status : 'all';
+    stageFilter.value = typeof q.stage === 'string' ? q.stage : '';
+  }
+);
 
 const STAGE_LABELS: Record<string, string> = {
   analyze: 'Analyze',
@@ -74,19 +95,28 @@ const filterTabs = [
   { label: 'Decided', value: 'decided' }
 ];
 
-const decidedStatuses: ApplicationStatus[] = ['accepted', 'rejected', 'withdrawn'];
+const decidedStatuses: ApplicationStatus[] = [
+  'accepted',
+  'rejected',
+  'withdrawn'
+];
 
 const filtered = computed(() => {
   if (!applications.value) return [];
   let list = applications.value;
   if (filter.value === 'decided') {
-    list = list.filter(a => decidedStatuses.includes(a.status));
+    list = list.filter((a) => decidedStatuses.includes(a.status));
   } else if (filter.value !== 'all') {
-    list = list.filter(a => a.status === filter.value);
+    list = list.filter((a) => a.status === filter.value);
   }
   if (stageFilter.value) {
-    const target = stageFilter.value === 'interview_prep' ? ['interview_prep', 'sent'] : [stageFilter.value];
-    list = list.filter(a => target.includes(a.workflow?.current_stage ?? 'analyze'));
+    const target =
+      stageFilter.value === 'interview_prep'
+        ? ['interview_prep', 'sent']
+        : [stageFilter.value];
+    list = list.filter((a) =>
+      target.includes(a.workflow?.current_stage ?? 'analyze')
+    );
   }
   return list;
 });
@@ -100,7 +130,11 @@ const workModelLabel: Record<string, string> = {
 const columns: TableColumn<JobApplication>[] = [
   { accessorKey: 'company', header: 'Company' },
   { accessorKey: 'position', header: 'Position' },
-  { accessorKey: 'location', header: 'Location', cell: ({ row }) => row.original.location ?? '—' },
+  {
+    accessorKey: 'location',
+    header: 'Location',
+    cell: ({ row }) => row.original.location ?? '—'
+  },
   { accessorKey: 'work_model', header: 'Model' },
   { accessorKey: 'status', header: 'Status' },
   { accessorKey: 'stage', header: 'Stage' },
@@ -108,9 +142,12 @@ const columns: TableColumn<JobApplication>[] = [
   {
     accessorKey: 'created_at',
     header: 'Date',
-    cell: ({ row }) => new Date(row.original.created_at).toLocaleDateString('en-CH', {
-      day: '2-digit', month: 'short', year: 'numeric'
-    })
+    cell: ({ row }) =>
+      new Date(row.original.created_at).toLocaleDateString('en-CH', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      })
   }
 ];
 
@@ -123,13 +160,19 @@ async function handleCreate(payload: CreateApplicationPayload) {
   try {
     const app = await createApplication(payload);
     createOpen.value = false;
-    toast.add({ title: 'Application created', color: 'success', icon: 'i-lucide-check' });
+    toast.add({
+      title: 'Application created',
+      color: 'success',
+      icon: 'i-lucide-check'
+    });
     openApplication(app);
   } catch (err: unknown) {
-    const statusCode = (err as { statusCode?: number; status?: number })?.statusCode
-      ?? (err as { statusCode?: number; status?: number })?.status;
+    const statusCode =
+      (err as { statusCode?: number; status?: number })?.statusCode ??
+      (err as { statusCode?: number; status?: number })?.status;
     if (statusCode === 409) {
-      const existingId = (err as { data?: { data?: { existingId?: number } } })?.data?.data?.existingId;
+      const existingId = (err as { data?: { data?: { existingId?: number } } })
+        ?.data?.data?.existingId;
       if (existingId) {
         createOpen.value = false;
         router.push(`/admin/applications/${existingId}`);
@@ -141,7 +184,11 @@ async function handleCreate(payload: CreateApplicationPayload) {
         icon: 'i-lucide-info'
       });
     } else {
-      toast.add({ title: 'Failed to create', color: 'error', icon: 'i-lucide-triangle-alert' });
+      toast.add({
+        title: 'Failed to create',
+        color: 'error',
+        icon: 'i-lucide-triangle-alert'
+      });
     }
   } finally {
     creating.value = false;
@@ -149,7 +196,9 @@ async function handleCreate(payload: CreateApplicationPayload) {
 }
 
 // Re-fetch after returning from a canvas page so workflow/stage badges stay fresh.
-onActivated(() => { refresh(); });
+onActivated(() => {
+  refresh();
+});
 </script>
 
 <template>
@@ -202,12 +251,18 @@ onActivated(() => { refresh(); });
           :columns="columns"
           :loading="pending"
           class="w-full"
-          @select="(_e: Event, row: { original: JobApplication }) => openApplication(row.original)"
+          @select="
+            (_e: Event, row: { original: JobApplication }) =>
+              openApplication(row.original)
+          "
         >
           <template #work_model-cell="{ row }">
             <UBadge
               v-if="row.original.work_model"
-              :label="workModelLabel[row.original.work_model] ?? row.original.work_model"
+              :label="
+                workModelLabel[row.original.work_model] ??
+                row.original.work_model
+              "
               color="neutral"
               variant="outline"
               size="xs"
@@ -225,7 +280,9 @@ onActivated(() => { refresh(); });
           <template #stage-cell="{ row }">
             <UBadge
               :label="row.original.workflow?.current_stage ?? 'analyze'"
-              :color="stageColor(row.original.workflow?.current_stage ?? 'analyze')"
+              :color="
+                stageColor(row.original.workflow?.current_stage ?? 'analyze')
+              "
               variant="soft"
               size="xs"
               class="font-mono"
@@ -243,7 +300,10 @@ onActivated(() => { refresh(); });
           </template>
         </UTable>
 
-        <p v-if="filtered.length === 0 && !pending" class="text-sm text-muted text-center py-8">
+        <p
+          v-if="filtered.length === 0 && !pending"
+          class="text-sm text-muted text-center py-8"
+        >
           No applications found.
         </p>
       </div>
@@ -251,7 +311,12 @@ onActivated(() => { refresh(); });
   </UDashboardPanel>
 
   <!-- Create slideover -->
-  <USlideover v-model:open="createOpen" title="New application" description="Add a job application to track" side="right">
+  <USlideover
+    v-model:open="createOpen"
+    title="New application"
+    description="Add a job application to track"
+    side="right"
+  >
     <template #body>
       <AdminApplicationForm
         :loading="creating"

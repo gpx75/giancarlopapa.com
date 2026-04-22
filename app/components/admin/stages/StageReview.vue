@@ -2,31 +2,58 @@
 import type { JobApplication, ReviewChecklist } from '~/types/applications';
 
 const props = defineProps<{
-  application: JobApplication
+  application: JobApplication;
 }>();
 
 const emit = defineEmits<{
-  transitioned: []
+  transitioned: [];
 }>();
 
 const stage = computed(() => props.application.workflow.stages.review);
 
-const CHECKS: { key: keyof ReviewChecklist, label: string, hint: string }[] = [
-  { key: 'jd_read',         label: 'JD re-read end-to-end',         hint: 'No skimming. Look for buried requirements.' },
-  { key: 'scoring_ok',      label: 'Match scoring still makes sense', hint: 'Spot-check the breakdown — adjust if the JD changed.' },
-  { key: 'cv_ok',           label: 'Tailored CV reviewed & saved',  hint: 'Open the tailored JSON, scan for stale claims, regenerate PDF.' },
-  { key: 'cover_letter_ok', label: 'Active cover letter chosen',    hint: 'Exactly one version is pinned and the prose reads cleanly.' },
-  { key: 'references_ok',   label: 'Reference letters selected',    hint: 'Ticked the right ones for this employer.' },
-  { key: 'recipient_ok',    label: 'Recipient & subject correct',   hint: 'Email, name, role title, ATS link — verified.' }
+const CHECKS: { key: keyof ReviewChecklist; label: string; hint: string }[] = [
+  {
+    key: 'jd_read',
+    label: 'JD re-read end-to-end',
+    hint: 'No skimming. Look for buried requirements.'
+  },
+  {
+    key: 'scoring_ok',
+    label: 'Match scoring still makes sense',
+    hint: 'Spot-check the breakdown — adjust if the JD changed.'
+  },
+  {
+    key: 'cv_ok',
+    label: 'Tailored CV reviewed & saved',
+    hint: 'Open the tailored JSON, scan for stale claims, regenerate PDF.'
+  },
+  {
+    key: 'cover_letter_ok',
+    label: 'Active cover letter chosen',
+    hint: 'Exactly one version is pinned and the prose reads cleanly.'
+  },
+  {
+    key: 'references_ok',
+    label: 'Reference letters selected',
+    hint: 'Ticked the right ones for this employer.'
+  },
+  {
+    key: 'recipient_ok',
+    label: 'Recipient & subject correct',
+    hint: 'Email, name, role title, ATS link — verified.'
+  }
 ];
 
 const checklist = ref<ReviewChecklist>({ ...stage.value.checklist });
 
-watch(() => props.application.id, () => {
-  checklist.value = { ...props.application.workflow.stages.review.checklist };
-});
+watch(
+  () => props.application.id,
+  () => {
+    checklist.value = { ...props.application.workflow.stages.review.checklist };
+  }
+);
 
-const allChecked = computed(() => CHECKS.every(c => checklist.value[c.key]));
+const allChecked = computed(() => CHECKS.every((c) => checklist.value[c.key]));
 
 const completing = ref(false);
 async function complete() {
@@ -34,7 +61,11 @@ async function complete() {
   try {
     await $fetch(`/api/admin/applications/${props.application.id}/workflow`, {
       method: 'POST',
-      body: { stage: 'review', action: 'complete', meta: { checklist: checklist.value } }
+      body: {
+        stage: 'review',
+        action: 'complete',
+        meta: { checklist: checklist.value }
+      }
     });
     emit('transitioned');
   } finally {
@@ -83,7 +114,9 @@ async function reset() {
         />
         <div class="min-w-0 flex-1">
           <div class="text-sm font-medium">{{ c.label }}</div>
-          <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">{{ c.hint }}</div>
+          <div class="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">
+            {{ c.hint }}
+          </div>
         </div>
       </li>
     </ul>

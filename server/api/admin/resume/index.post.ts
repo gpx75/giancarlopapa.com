@@ -23,7 +23,10 @@ export default defineEventHandler(async (event) => {
 
   if (result.status !== 0) {
     const stderr = result.stderr?.toString() ?? '';
-    throw createError({ statusCode: 500, message: `PDF generation failed: ${stderr}` });
+    throw createError({
+      statusCode: 500,
+      message: `PDF generation failed: ${stderr}`
+    });
   }
 
   return { ok: true };

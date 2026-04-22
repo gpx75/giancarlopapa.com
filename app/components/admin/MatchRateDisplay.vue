@@ -4,8 +4,8 @@ import type { MatchBreakdown } from '~/types/applications';
 type BadgeColor = 'success' | 'warning' | 'error';
 
 const props = defineProps<{
-  rate: number
-  breakdown: MatchBreakdown
+  rate: number;
+  breakdown: MatchBreakdown;
 }>();
 
 const rateColor = computed((): BadgeColor => {
@@ -23,7 +23,11 @@ const dimensions = computed(() => {
     { label: 'Industry', value: props.breakdown.industry, weight: '9%' }
   ];
   if (props.breakdown.location != null) {
-    base.push({ label: 'Location', value: props.breakdown.location, weight: '11%' });
+    base.push({
+      label: 'Location',
+      value: props.breakdown.location,
+      weight: '11%'
+    });
   }
   return base;
 });
@@ -56,7 +60,11 @@ function barColor(value: number): string {
 
     <!-- Dimension bars -->
     <div class="space-y-2">
-      <div v-for="dim in dimensions" :key="dim.label" class="flex items-center gap-2">
+      <div
+        v-for="dim in dimensions"
+        :key="dim.label"
+        class="flex items-center gap-2"
+      >
         <span class="text-xs text-muted w-20 shrink-0">{{ dim.label }}</span>
         <div class="flex-1 h-2 bg-muted/20 rounded-full overflow-hidden">
           <div
@@ -95,7 +103,12 @@ function barColor(value: number): string {
 
     <!-- From fit to impact -->
     <div
-      v-if="breakdown.companyPainPoints?.length || breakdown.valueDelivered?.length || breakdown.measurableImpact?.length || breakdown.whyJoin"
+      v-if="
+        breakdown.companyPainPoints?.length ||
+        breakdown.valueDelivered?.length ||
+        breakdown.measurableImpact?.length ||
+        breakdown.whyJoin
+      "
       class="space-y-3 pt-3 mt-3 border-t border-default"
     >
       <div class="flex items-center gap-2">
@@ -110,28 +123,50 @@ function barColor(value: number): string {
           <UIcon name="i-lucide-alert-triangle" class="size-3.5" />
           What's likely broken or missing
         </div>
-        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-error/60">
-          <li v-for="(item, i) in breakdown.companyPainPoints" :key="`pain-${i}`">{{ item }}</li>
+        <ul
+          class="text-sm text-default space-y-1 pl-5 list-disc marker:text-error/60"
+        >
+          <li
+            v-for="(item, i) in breakdown.companyPainPoints"
+            :key="`pain-${i}`"
+          >
+            {{ item }}
+          </li>
         </ul>
       </div>
 
       <div v-if="breakdown.valueDelivered?.length" class="space-y-1.5">
-        <div class="text-xs font-semibold text-primary flex items-center gap-1.5">
+        <div
+          class="text-xs font-semibold text-primary flex items-center gap-1.5"
+        >
           <UIcon name="i-lucide-wrench" class="size-3.5" />
           What I would do
         </div>
-        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-primary/60">
-          <li v-for="(item, i) in breakdown.valueDelivered" :key="`value-${i}`">{{ item }}</li>
+        <ul
+          class="text-sm text-default space-y-1 pl-5 list-disc marker:text-primary/60"
+        >
+          <li v-for="(item, i) in breakdown.valueDelivered" :key="`value-${i}`">
+            {{ item }}
+          </li>
         </ul>
       </div>
 
       <div v-if="breakdown.measurableImpact?.length" class="space-y-1.5">
-        <div class="text-xs font-semibold text-success flex items-center gap-1.5">
+        <div
+          class="text-xs font-semibold text-success flex items-center gap-1.5"
+        >
           <UIcon name="i-lucide-trending-up" class="size-3.5" />
           Measurable change
         </div>
-        <ul class="text-sm text-default space-y-1 pl-5 list-disc marker:text-success/60">
-          <li v-for="(item, i) in breakdown.measurableImpact" :key="`impact-${i}`">{{ item }}</li>
+        <ul
+          class="text-sm text-default space-y-1 pl-5 list-disc marker:text-success/60"
+        >
+          <li
+            v-for="(item, i) in breakdown.measurableImpact"
+            :key="`impact-${i}`"
+          >
+            {{ item }}
+          </li>
         </ul>
       </div>
 

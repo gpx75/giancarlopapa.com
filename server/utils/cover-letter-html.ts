@@ -16,21 +16,30 @@ interface CoverLetterHtmlOptions {
     email: string;
     phone: string;
     url: string;
-    location: { city: string; region: string; countryCode: string; postalCode: string };
+    location: {
+      city: string;
+      region: string;
+      countryCode: string;
+      postalCode: string;
+    };
     profiles: Array<{ network: string; url: string }>;
   };
 }
 
 export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
   const { content, company, position, basics } = opts;
-  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  const githubProfile = basics.profiles.find(p => p.network === 'GitHub');
-  const linkedinProfile = basics.profiles.find(p => p.network === 'LinkedIn');
+  const today = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+  const githubProfile = basics.profiles.find((p) => p.network === 'GitHub');
+  const linkedinProfile = basics.profiles.find((p) => p.network === 'LinkedIn');
 
   // Split content into paragraphs
   const paragraphs = content
     .split(/\n\n+/)
-    .map(p => p.trim())
+    .map((p) => p.trim())
     .filter(Boolean);
 
   // Detect salutation and closing — first line starting with "Dear" and last line like "Sincerely,"
@@ -48,7 +57,10 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
   }
 
   // If closing contains the name on a separate line, split it
-  const closingLines = closing.split('\n').map(l => l.trim()).filter(Boolean);
+  const closingLines = closing
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -190,16 +202,23 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
 
   ${salutation ? `<div class="salutation">${esc(salutation)}</div>` : ''}
 
-  ${bodyParagraphs.map(p => `<p class="body-paragraph">${esc(p)}</p>`).join('\n  ')}
+  ${bodyParagraphs.map((p) => `<p class="body-paragraph">${esc(p)}</p>`).join('\n  ')}
 
-  ${closingLines.length ? `
+  ${
+    closingLines.length
+      ? `
   <div class="closing">
-    ${closingLines.map((line, i) =>
-      i === closingLines.length - 1 && line.includes(basics.name.split(' ')[0] ?? '')
-        ? `<div class="sign-name">${esc(line)}</div>`
-        : `<div>${esc(line)}</div>`
-    ).join('\n    ')}
-  </div>` : ''}
+    ${closingLines
+      .map((line, i) =>
+        i === closingLines.length - 1 &&
+        line.includes(basics.name.split(' ')[0] ?? '')
+          ? `<div class="sign-name">${esc(line)}</div>`
+          : `<div>${esc(line)}</div>`
+      )
+      .join('\n    ')}
+  </div>`
+      : ''
+  }
 </body>
 </html>`;
 }

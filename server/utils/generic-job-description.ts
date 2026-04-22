@@ -11,16 +11,18 @@
 export async function genericFetchDescription(url: string): Promise<string> {
   try {
     const html = await $fetch<string>(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)'
+      },
       responseType: 'text',
-      timeout: 10_000,
+      timeout: 10_000
     });
 
     const patterns = [
       /<article[^>]*>([\s\S]*?)<\/article>/i,
       /class="[^"]*(?:job-description|description|entry-content|job-body|job__description|posting-description|content--main)[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
       /<main[^>]*>([\s\S]*?)<\/main>/i,
-      /<body[^>]*>([\s\S]*?)<\/body>/i,
+      /<body[^>]*>([\s\S]*?)<\/body>/i
     ];
 
     for (const pat of patterns) {

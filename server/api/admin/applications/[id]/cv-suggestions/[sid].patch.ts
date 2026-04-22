@@ -7,24 +7,37 @@ export default defineEventHandler(async (event) => {
   const sidParam = getRouterParam(event, 'sid');
   const id = Number(idParam);
   const sid = Number(sidParam);
-  if (!Number.isSafeInteger(id) || id <= 0 || !Number.isSafeInteger(sid) || sid <= 0) {
+  if (
+    !Number.isSafeInteger(id) ||
+    id <= 0 ||
+    !Number.isSafeInteger(sid) ||
+    sid <= 0
+  ) {
     throw createError({ statusCode: 400, message: 'Invalid id.' });
   }
 
   const body = await readBody<CvSuggestionUpdatePayload>(event);
   const update: Record<string, unknown> = {};
-  if (body.status && ['pending', 'applied', 'dismissed'].includes(body.status)) {
+  if (
+    body.status &&
+    ['pending', 'applied', 'dismissed'].includes(body.status)
+  ) {
     update.status = body.status;
   }
   if (body.applied_note !== undefined) {
     update.applied_note = body.applied_note;
   }
   if (Object.keys(update).length === 0) {
-    throw createError({ statusCode: 400, message: 'No valid fields to update.' });
+    throw createError({
+      statusCode: 400,
+      message: 'No valid fields to update.'
+    });
   }
   update.updated_at = new Date().toISOString();
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: row, error } = await db
     .from('application_cv_suggestions')
@@ -35,7 +48,10 @@ export default defineEventHandler(async (event) => {
     .single();
 
   if (error || !row) {
-    throw createError({ statusCode: 500, message: error?.message ?? 'Update failed.' });
+    throw createError({
+      statusCode: 500,
+      message: error?.message ?? 'Update failed.'
+    });
   }
 
   // Recompute counters and persist into workflow.

@@ -2,12 +2,12 @@
 import type { JobApplication } from '~/types/applications';
 
 const props = defineProps<{
-  application: JobApplication
-  defaultOpen?: boolean
+  application: JobApplication;
+  defaultOpen?: boolean;
 }>();
 
 const emit = defineEmits<{
-  saved: [JobApplication]
+  saved: [JobApplication];
 }>();
 
 const editing = ref(false);
@@ -17,38 +17,55 @@ const toast = useToast();
 
 const open = ref(props.defaultOpen ?? false);
 
-const charCount = computed(() => props.application.job_description?.length ?? 0);
+const charCount = computed(
+  () => props.application.job_description?.length ?? 0
+);
 const wordCount = computed(() =>
   props.application.job_description
-    ? props.application.job_description.trim().split(/\s+/).filter(Boolean).length
+    ? props.application.job_description.trim().split(/\s+/).filter(Boolean)
+        .length
     : 0
 );
-const lengthBadge = computed<{ label: string; color: 'success' | 'warning' | 'error' | 'neutral' }>(() => {
+const lengthBadge = computed<{
+  label: string;
+  color: 'success' | 'warning' | 'error' | 'neutral';
+}>(() => {
   if (!charCount.value) return { label: 'empty', color: 'error' };
   if (charCount.value < 400) return { label: 'too short', color: 'error' };
   if (charCount.value < 800) return { label: 'thin', color: 'warning' };
   return { label: `${wordCount.value} words`, color: 'neutral' };
 });
 
-watch(() => props.application.id, () => {
-  draft.value = props.application.job_description ?? '';
-  editing.value = false;
-  open.value = props.defaultOpen ?? false;
-});
+watch(
+  () => props.application.id,
+  () => {
+    draft.value = props.application.job_description ?? '';
+    editing.value = false;
+    open.value = props.defaultOpen ?? false;
+  }
+);
 
 async function save() {
   saving.value = true;
   try {
-    const updated = await $fetch<JobApplication>(`/api/admin/applications/${props.application.id}`, {
-      method: 'PATCH',
-      body: { job_description: draft.value }
-    });
+    const updated = await $fetch<JobApplication>(
+      `/api/admin/applications/${props.application.id}`,
+      {
+        method: 'PATCH',
+        body: { job_description: draft.value }
+      }
+    );
     emit('saved', updated);
     toast.add({ title: 'JD saved', color: 'success', icon: 'i-lucide-check' });
     editing.value = false;
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Save failed.';
-    toast.add({ title: 'Save failed', description: msg, color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Save failed',
+      description: msg,
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     saving.value = false;
   }
@@ -102,10 +119,24 @@ function startEdit() {
             Edit
           </UButton>
           <template v-else>
-            <UButton size="xs" color="neutral" variant="ghost" @click.stop="editing = false; draft = application.job_description ?? ''">
+            <UButton
+              size="xs"
+              color="neutral"
+              variant="ghost"
+              @click.stop="
+                editing = false;
+                draft = application.job_description ?? '';
+              "
+            >
               Cancel
             </UButton>
-            <UButton size="xs" color="primary" :loading="saving" @click.stop="save">Save</UButton>
+            <UButton
+              size="xs"
+              color="primary"
+              :loading="saving"
+              @click.stop="save"
+              >Save</UButton
+            >
           </template>
         </div>
       </div>

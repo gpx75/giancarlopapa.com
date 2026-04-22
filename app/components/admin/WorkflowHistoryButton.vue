@@ -1,14 +1,14 @@
 <script setup lang="ts">
 interface HistoryEvent {
-  id: number
-  stage: string
-  action: string
-  meta: Record<string, unknown> | null
-  created_at: string
+  id: number;
+  stage: string;
+  action: string;
+  meta: Record<string, unknown> | null;
+  created_at: string;
 }
 
 const props = defineProps<{
-  applicationId: number
+  applicationId: number;
 }>();
 
 const open = ref(false);
@@ -26,15 +26,32 @@ const STAGE_LABELS: Record<string, string> = {
   closed: 'Closed'
 };
 
-const ACTION_META: Record<string, { color: 'primary' | 'success' | 'warning' | 'neutral' | 'info', icon: string, label: string }> = {
+const ACTION_META: Record<
+  string,
+  {
+    color: 'primary' | 'success' | 'warning' | 'neutral' | 'info';
+    icon: string;
+    label: string;
+  }
+> = {
   enter: { color: 'info', icon: 'i-lucide-log-in', label: 'Entered' },
-  complete: { color: 'success', icon: 'i-lucide-check-circle', label: 'Completed' },
+  complete: {
+    color: 'success',
+    icon: 'i-lucide-check-circle',
+    label: 'Completed'
+  },
   unlock: { color: 'warning', icon: 'i-lucide-unlock', label: 'Unlocked' },
   skip: { color: 'neutral', icon: 'i-lucide-skip-forward', label: 'Skipped' }
 };
 
 function actionInfo(action: string) {
-  return ACTION_META[action] ?? { color: 'neutral' as const, icon: 'i-lucide-circle-dot', label: action };
+  return (
+    ACTION_META[action] ?? {
+      color: 'neutral' as const,
+      icon: 'i-lucide-circle-dot',
+      label: action
+    }
+  );
 }
 
 const DOT_CLASSES: Record<string, string> = {
@@ -77,7 +94,9 @@ function ago(iso: string) {
 async function load() {
   loading.value = true;
   try {
-    events.value = await $fetch<HistoryEvent[]>(`/api/admin/applications/${props.applicationId}/workflow-history`);
+    events.value = await $fetch<HistoryEvent[]>(
+      `/api/admin/applications/${props.applicationId}/workflow-history`
+    );
   } catch {
     events.value = [];
   } finally {
@@ -130,16 +149,26 @@ watch(open, (v) => {
                 :icon="actionInfo(ev.action).icon"
                 :label="actionInfo(ev.action).label"
               />
-              <span class="text-sm font-medium">{{ stageLabel(ev.stage) }}</span>
-              <span class="text-xs text-muted ms-auto" :title="formatDate(ev.created_at)">
+              <span class="text-sm font-medium">{{
+                stageLabel(ev.stage)
+              }}</span>
+              <span
+                class="text-xs text-muted ms-auto"
+                :title="formatDate(ev.created_at)"
+              >
                 {{ ago(ev.created_at) }}
               </span>
             </div>
             <details v-if="ev.meta && Object.keys(ev.meta).length" class="mt-2">
-              <summary class="text-xs text-muted cursor-pointer hover:text-default">
+              <summary
+                class="text-xs text-muted cursor-pointer hover:text-default"
+              >
                 Meta ({{ Object.keys(ev.meta).length }} fields)
               </summary>
-              <pre class="text-xs font-mono bg-elevated/50 rounded-md p-2 mt-1 overflow-auto max-h-60">{{ JSON.stringify(ev.meta, null, 2) }}</pre>
+              <pre
+                class="text-xs font-mono bg-elevated/50 rounded-md p-2 mt-1 overflow-auto max-h-60"
+                >{{ JSON.stringify(ev.meta, null, 2) }}</pre
+              >
             </details>
           </li>
         </ol>

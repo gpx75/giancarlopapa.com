@@ -48,7 +48,9 @@ async function enrichStubDescriptions(jobs: JobSearchResult[]): Promise<void> {
       await queue[i]!();
     }
   }
-  await Promise.all(Array.from({ length: REFRESH_CONCURRENCY }, () => worker()));
+  await Promise.all(
+    Array.from({ length: REFRESH_CONCURRENCY }, () => worker())
+  );
 }
 
 export default defineEventHandler(async (event) => {
@@ -56,17 +58,25 @@ export default defineEventHandler(async (event) => {
   const source = body.source || 'all';
   const customKeywords = body.keywords || '';
   const location = body.location || 'Switzerland';
-  const workType = (body.work_type || '') as '' | 'remote' | 'hybrid' | 'on_site';
+  const workType = (body.work_type || '') as
+    | ''
+    | 'remote'
+    | 'hybrid'
+    | 'on_site';
   const maxResults = Math.min(body.max_results || 10, 25);
 
   // Resolve providers
-  const providers = (source === 'all'
-    ? listJobProviders().map(p => getJobProvider(p.name))
-    : [getJobProvider(source)]
+  const providers = (
+    source === 'all'
+      ? listJobProviders().map((p) => getJobProvider(p.name))
+      : [getJobProvider(source)]
   ).filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   if (providers.length === 0) {
-    throw createError({ statusCode: 400, message: `Unknown job source: ${source}` });
+    throw createError({
+      statusCode: 400,
+      message: `Unknown job source: ${source}`
+    });
   }
 
   // Generate search keywords from resume + skills if not provided
@@ -80,11 +90,15 @@ export default defineEventHandler(async (event) => {
   }
 
   // Search all providers × all keyword sets in parallel
-  const searchPromises = providers.flatMap(provider =>
-    keywordSets.map(keywords =>
-      provider.search({ keywords, location, workType, maxResults })
+  const searchPromises = providers.flatMap((provider) =>
+    keywordSets.map((keywords) =>
+      provider
+        .search({ keywords, location, workType, maxResults })
         .catch((err) => {
-          console.error(`[find-jobs] ${provider.name} "${keywords}":`, err instanceof Error ? err.message : err);
+          console.error(
+            `[find-jobs] ${provider.name} "${keywords}":`,
+            err instanceof Error ? err.message : err
+          );
           return [] as Awaited<ReturnType<typeof provider.search>>;
         })
     )
@@ -96,7 +110,7 @@ export default defineEventHandler(async (event) => {
   const relevant = filterRelevantJobs(allResults);
 
   // Deduplicate by URL or title+company
-  const unique = new Map<string, typeof relevant[0]>();
+  const unique = new Map<string, (typeof relevant)[0]>();
   for (const job of relevant) {
     const key = job.url || `${job.title}::${job.company}`;
     if (!unique.has(key)) unique.set(key, job);
@@ -104,12 +118,19 @@ export default defineEventHandler(async (event) => {
   const deduped = Array.from(unique.values());
 
   if (deduped.length === 0) {
-    return { found: 0, imported: 0, suggestions: [], keywords: keywordSets.join(', ') };
+    return {
+      found: 0,
+      imported: 0,
+      suggestions: [],
+      keywords: keywordSets.join(', ')
+    };
   }
 
   // Batch-check existing URLs to avoid N+1 queries
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
-  const urls = deduped.map(j => j.url).filter(Boolean) as string[];
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
+  const urls = deduped.map((j) => j.url).filter(Boolean) as string[];
   const existingUrls = new Set<string>();
 
   if (urls.length > 0) {
@@ -123,8 +144,8 @@ export default defineEventHandler(async (event) => {
   }
 
   // Also check by title+company to catch duplicates with different URLs
-  const titles = deduped.map(j => j.title);
-  const companies = deduped.map(j => j.company);
+  const titles = deduped.map((j) => j.title);
+  const companies = deduped.map((j) => j.company);
   const existingTitleCompany = new Set<string>();
 
   if (titles.length > 0) {
@@ -166,11 +187,12 @@ export default defineEventHandler(async (event) => {
   }
 
   // Insert new suggestions
-  const toInsert = deduped.filter(job => {
+  const toInsert = deduped.filter((job) => {
     if (job.url && existingUrls.has(job.url)) return false;
     if (existingTitleCompany.has(`${job.title}::${job.company}`)) return false;
     if (job.url && existingAppUrls.has(job.url)) return false;
-    if (existingAppTitleCompany.has(`${job.title}::${job.company}`)) return false;
+    if (existingAppTitleCompany.has(`${job.title}::${job.company}`))
+      return false;
     return true;
   });
 

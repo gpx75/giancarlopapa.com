@@ -132,34 +132,67 @@ const CITY_SCORES: Array<[pattern: RegExp, score: number]> = [
   // International / relocation
   [/\buk\b|\bengland\b|\blondon\b/i, 15],
   [/\bnl\b|\bnetherlands\b|\bamsterdam\b/i, 14],
-  [/\busa\b|\bunited states\b|\bnew york\b/i, 8],
+  [/\busa\b|\bunited states\b|\bnew york\b/i, 8]
 ];
 
 // Canton name/abbrev → fallback score (used when no city matched)
 const CANTON_SCORES: Record<string, number> = {
-  zh: 90, zuerich: 90, zürich: 90, zurich: 90,
-  tg: 88, thurgau: 88,
-  sh: 88, schaffhausen: 88,
-  ag: 80, aargau: 80,
-  sg: 80, stgallen: 80,
-  zg: 82, zug: 82,
-  lu: 77, luzern: 77, lucerne: 77,
-  sz: 79, schwyz: 79,
-  gl: 72, glarus: 72,
-  gr: 68, graubünden: 68, graubunden: 68,
-  so: 72, solothurn: 72,
-  bl: 73, baselland: 73,
-  bs: 74, basel: 74,
-  ar: 73, ai: 70,
-  be: 62, bern: 62, berne: 62,
-  fr: 55, fribourg: 55,
-  ne: 52, neuenburg: 52,
-  vd: 48, vaud: 48,
-  vs: 43, valais: 43, wallis: 43,
-  ti: 40, tessin: 40, ticino: 40,
-  ge: 32, genf: 32, genève: 32, geneva: 32,
-  ju: 54, jura: 54,
-  nw: 77, ow: 75, ur: 66,
+  zh: 90,
+  zuerich: 90,
+  zürich: 90,
+  zurich: 90,
+  tg: 88,
+  thurgau: 88,
+  sh: 88,
+  schaffhausen: 88,
+  ag: 80,
+  aargau: 80,
+  sg: 80,
+  stgallen: 80,
+  zg: 82,
+  zug: 82,
+  lu: 77,
+  luzern: 77,
+  lucerne: 77,
+  sz: 79,
+  schwyz: 79,
+  gl: 72,
+  glarus: 72,
+  gr: 68,
+  graubünden: 68,
+  graubunden: 68,
+  so: 72,
+  solothurn: 72,
+  bl: 73,
+  baselland: 73,
+  bs: 74,
+  basel: 74,
+  ar: 73,
+  ai: 70,
+  be: 62,
+  bern: 62,
+  berne: 62,
+  fr: 55,
+  fribourg: 55,
+  ne: 52,
+  neuenburg: 52,
+  vd: 48,
+  vaud: 48,
+  vs: 43,
+  valais: 43,
+  wallis: 43,
+  ti: 40,
+  tessin: 40,
+  ticino: 40,
+  ge: 32,
+  genf: 32,
+  genève: 32,
+  geneva: 32,
+  ju: 54,
+  jura: 54,
+  nw: 77,
+  ow: 75,
+  ur: 66
 };
 
 /**
@@ -172,7 +205,12 @@ export function scoreLocation(locationStr: string | null | undefined): number {
   const s = locationStr.toLowerCase().trim();
 
   // Remote — best case
-  if (/\bfully?\s+remote\b|^remote$|100\s*%\s*remote|telearbeit\s*100|home.?office\s*only/i.test(s)) return 98;
+  if (
+    /\bfully?\s+remote\b|^remote$|100\s*%\s*remote|telearbeit\s*100|home.?office\s*only/i.test(
+      s
+    )
+  )
+    return 98;
   if (/\bhome.?office\b|\btelearbeit\b|remote.?first/i.test(s)) return 95;
 
   // Hybrid — check if combined with known location

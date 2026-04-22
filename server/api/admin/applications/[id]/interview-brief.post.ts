@@ -18,11 +18,15 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Invalid application id.' });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, company, position, location, work_model, job_description, match_breakdown')
+    .select(
+      'id, company, position, location, work_model, job_description, match_breakdown'
+    )
     .eq('id', id)
     .single();
 
@@ -46,9 +50,15 @@ export default defineEventHandler(async (event) => {
       ? `Measurable impact:\n- ${breakdown.measurableImpact.join('\n- ')}`
       : '',
     breakdown.whyJoin ? `Why join: ${breakdown.whyJoin}` : '',
-    breakdown.strongMatches?.length ? `Strong matches: ${breakdown.strongMatches.join(', ')}` : '',
-    breakdown.gaps?.length ? `Gaps to address: ${breakdown.gaps.join(', ')}` : ''
-  ].filter(Boolean).join('\n\n');
+    breakdown.strongMatches?.length
+      ? `Strong matches: ${breakdown.strongMatches.join(', ')}`
+      : '',
+    breakdown.gaps?.length
+      ? `Gaps to address: ${breakdown.gaps.join(', ')}`
+      : ''
+  ]
+    .filter(Boolean)
+    .join('\n\n');
 
   const systemPrompt = `You write concise, high-signal interview preparation briefs for a Senior Full Stack Engineer (Giancarlo Papa) preparing for an interview.
 
@@ -86,16 +96,21 @@ Tone: precise, senior, no fluff. Write in the candidate's voice ("I", "my"). No 
     });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Unknown AI error';
-    throw createError({ statusCode: 502, message: `AI request failed: ${msg}` });
+    throw createError({
+      statusCode: 502,
+      message: `AI request failed: ${msg}`
+    });
   }
 
-  const textBlock = response.content.find(b => b.type === 'text');
+  const textBlock = response.content.find((b) => b.type === 'text');
   if (!textBlock || textBlock.type !== 'text') {
     throw createError({ statusCode: 502, message: 'Unexpected AI response.' });
   }
 
   return {
     brief: textBlock.text.trim(),
-    based_on_match_analysis: Boolean(breakdown.companyPainPoints?.length || breakdown.valueDelivered?.length)
+    based_on_match_analysis: Boolean(
+      breakdown.companyPainPoints?.length || breakdown.valueDelivered?.length
+    )
   };
 });

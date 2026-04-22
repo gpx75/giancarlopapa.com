@@ -16,7 +16,9 @@ const REFRESH_CONCURRENCY = 5;
  * place. Returns counts so the UI can report.
  */
 export default defineEventHandler(async (event) => {
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: rows, error: fetchError } = await db
     .from('job_suggestions')
@@ -26,10 +28,16 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 500, message: fetchError.message });
   }
 
-  type Row = { id: number; url: string | null; source: string; description: string | null };
-  const candidates = (rows as Row[] ?? []).filter((r) => {
+  type Row = {
+    id: number;
+    url: string | null;
+    source: string;
+    description: string | null;
+  };
+  const candidates = ((rows as Row[]) ?? []).filter((r) => {
     if (!r.url) return false;
-    if ((r.description?.length ?? 0) >= STUB_DESCRIPTION_THRESHOLD) return false;
+    if ((r.description?.length ?? 0) >= STUB_DESCRIPTION_THRESHOLD)
+      return false;
     return true;
   });
 
@@ -70,13 +78,15 @@ export default defineEventHandler(async (event) => {
     }
   }
 
-  await Promise.all(Array.from({ length: REFRESH_CONCURRENCY }, () => worker()));
+  await Promise.all(
+    Array.from({ length: REFRESH_CONCURRENCY }, () => worker())
+  );
 
   return {
     candidates: candidates.length,
     refreshed,
     unchanged,
     failed,
-    total: rows?.length ?? 0,
+    total: rows?.length ?? 0
   };
 });

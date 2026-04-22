@@ -1,29 +1,40 @@
-import type { JobSourceProvider, JobSearchParams, JobSearchResult } from './types';
+import type {
+  JobSourceProvider,
+  JobSearchParams,
+  JobSearchResult
+} from './types';
 
 // Category slugs that cover relevant IT roles on ictjobs.ch
 const FEED_CATEGORIES = [
   'software-entwicklung',
   'netzwerke-systeme',
   'beratung-consultants',
-  'ki-machine-learning',
+  'ki-machine-learning'
 ];
 
 interface RssItem {
-  title: string
-  link: string
-  company: string
-  pubDate: string
-  description: string
-  categories: string[]
+  title: string;
+  link: string;
+  company: string;
+  pubDate: string;
+  description: string;
+  categories: string[];
 }
 
 function extractValue(xml: string, tag: string): string {
   // CDATA
-  const cdata = xml.match(new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`, 'i'));
+  const cdata = xml.match(
+    new RegExp(`<${tag}[^>]*><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>`, 'i')
+  );
   if (cdata && cdata[1]) return cdata[1].trim();
   // Plain text (handles <link>URL</link>)
   const plain = xml.match(new RegExp(`<${tag}[^>]*>([^<]*)<\\/${tag}>`, 'i'));
-  if (plain && plain[1]) return plain[1].replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').trim();
+  if (plain && plain[1])
+    return plain[1]
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .trim();
   return '';
 }
 
@@ -42,8 +53,8 @@ function parseRssItems(xml: string): RssItem[] {
       pubDate: extractValue(c, 'pubDate'),
       description: extractValue(c, 'description'),
       categories: [...c.matchAll(/<category[^>]*><!?\[?(?:CDATA\[)?([^\]<]+)/g)]
-        .map(x => (x[1] ?? '').trim())
-        .filter(Boolean),
+        .map((x) => (x[1] ?? '').trim())
+        .filter(Boolean)
     });
   }
   return items;
@@ -53,9 +64,11 @@ function parseRssItems(xml: string): RssItem[] {
 async function fetchPageDescription(url: string): Promise<string> {
   try {
     const html = await $fetch<string>(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)'
+      },
       responseType: 'text',
-      timeout: 8_000,
+      timeout: 8_000
     });
 
     // Try known WordPress content selectors
@@ -63,23 +76,25 @@ async function fetchPageDescription(url: string): Promise<string> {
       /class="entry-content[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/(?:div|section|article)/i,
       /<article[^>]*>([\s\S]*?)<\/article>/i,
       /class="job-description[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
-      /class="content[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/(?:div|section)/i,
+      /class="content[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/(?:div|section)/i
     ];
 
     for (const pat of contentPatterns) {
       const m = html.match(pat);
       if (m && m[1]) {
-        return m[1]
-          .replace(/<script[\s\S]*?<\/script>/gi, '')
-          .replace(/<style[\s\S]*?<\/style>/gi, '')
-          // Preserve paragraph breaks before stripping tags.
-          .replace(/<\/(p|div|li|h[1-6]|br)>/gi, '\n')
-          .replace(/<br\s*\/?>/gi, '\n')
-          .replace(/<[^>]+>/g, ' ')
-          .replace(/[ \t]+/g, ' ')
-          .replace(/\n{3,}/g, '\n\n')
-          .trim()
-          .slice(0, 16000);
+        return (
+          m[1]
+            .replace(/<script[\s\S]*?<\/script>/gi, '')
+            .replace(/<style[\s\S]*?<\/style>/gi, '')
+            // Preserve paragraph breaks before stripping tags.
+            .replace(/<\/(p|div|li|h[1-6]|br)>/gi, '\n')
+            .replace(/<br\s*\/?>/gi, '\n')
+            .replace(/<[^>]+>/g, ' ')
+            .replace(/[ \t]+/g, ' ')
+            .replace(/\n{3,}/g, '\n\n')
+            .trim()
+            .slice(0, 16000)
+        );
       }
     }
   } catch {
@@ -97,20 +112,23 @@ export const ictjobsProvider: JobSourceProvider = {
   },
 
   async search(params: JobSearchParams): Promise<JobSearchResult[]> {
-    const kw = params.keywords.toLowerCase().split(/[\s,+]+/).filter(k => k.length > 2);
+    const kw = params.keywords
+      .toLowerCase()
+      .split(/[\s,+]+/)
+      .filter((k) => k.length > 2);
     // At least 1/3 of keywords must match for broader coverage
     const minMatches = Math.max(1, Math.ceil(kw.length / 3));
 
     // Fetch all category feeds in parallel
     const feedFetches = await Promise.allSettled(
-      FEED_CATEGORIES.map(cat =>
+      FEED_CATEGORIES.map((cat) =>
         $fetch<string>(`https://ictjobs.ch/feed/?cat=${cat}`, {
           headers: {
             'User-Agent': 'Mozilla/5.0',
-            'Accept': 'application/rss+xml, application/xml, text/xml',
+            Accept: 'application/rss+xml, application/xml, text/xml'
           },
           responseType: 'text',
-          timeout: 10_000,
+          timeout: 10_000
         })
       )
     );
@@ -131,20 +149,28 @@ export const ictjobsProvider: JobSourceProvider = {
     if (allItems.length === 0) throw new Error('Could not reach ictjobs.ch');
 
     // Filter by keyword relevance
-    const filtered = allItems.filter(item => {
-      const blob = [item.title, item.company, item.description, ...item.categories]
-        .join(' ').toLowerCase();
-      return kw.filter(k => blob.includes(k)).length >= minMatches;
+    const filtered = allItems.filter((item) => {
+      const blob = [
+        item.title,
+        item.company,
+        item.description,
+        ...item.categories
+      ]
+        .join(' ')
+        .toLowerCase();
+      return kw.filter((k) => blob.includes(k)).length >= minMatches;
     });
 
     // Work-type filter (ictjobs descriptions use German terms)
     let results = filtered;
     if (params.workType === 'remote') {
-      results = results.filter(j =>
-        /remote|homeoffice|home.?office|telearbeit/i.test(j.title + ' ' + j.description)
+      results = results.filter((j) =>
+        /remote|homeoffice|home.?office|telearbeit/i.test(
+          j.title + ' ' + j.description
+        )
       );
     } else if (params.workType === 'hybrid') {
-      results = results.filter(j =>
+      results = results.filter((j) =>
         /hybrid/i.test(j.title + ' ' + j.description)
       );
     }
@@ -154,7 +180,9 @@ export const ictjobsProvider: JobSourceProvider = {
     // Fetch full page descriptions for top matches (cap at 6 to avoid rate-limiting)
     const fetchCount = Math.min(6, limited.length);
     const fullDescriptions = await Promise.all(
-      limited.slice(0, fetchCount).map(item => fetchPageDescription(item.link))
+      limited
+        .slice(0, fetchCount)
+        .map((item) => fetchPageDescription(item.link))
     );
 
     return limited.map((item, i) => ({
@@ -164,7 +192,9 @@ export const ictjobsProvider: JobSourceProvider = {
       url: item.link,
       description: fullDescriptions[i] || item.description || '',
       source: 'ictjobs' as const,
-      published_at: item.pubDate ? new Date(item.pubDate).toISOString() : undefined,
+      published_at: item.pubDate
+        ? new Date(item.pubDate).toISOString()
+        : undefined
     }));
-  },
+  }
 };

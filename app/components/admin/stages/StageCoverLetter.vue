@@ -2,11 +2,11 @@
 import type { JobApplication } from '~/types/applications';
 
 const props = defineProps<{
-  application: JobApplication
+  application: JobApplication;
 }>();
 
 const emit = defineEmits<{
-  transitioned: []
+  transitioned: [];
 }>();
 
 const stage = computed(() => props.application.workflow.stages.cover_letter);
@@ -42,11 +42,18 @@ async function reset() {
           <div>
             <h2 class="text-lg font-semibold">Cover letter</h2>
             <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-              Draft, refine, and pin an active version. Generation never overwrites — every run is a new draft.
+              Draft, refine, and pin an active version. Generation never
+              overwrites — every run is a new draft.
             </p>
           </div>
           <UBadge
-            :color="stage.status === 'done' ? 'success' : stage.status === 'in_progress' ? 'info' : 'neutral'"
+            :color="
+              stage.status === 'done'
+                ? 'success'
+                : stage.status === 'in_progress'
+                  ? 'info'
+                  : 'neutral'
+            "
             variant="subtle"
           >
             {{ stage.status }}

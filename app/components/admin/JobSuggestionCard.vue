@@ -4,14 +4,14 @@ import type { JobSuggestion } from '~/types/applications';
 type BadgeColor = 'primary' | 'neutral' | 'success' | 'warning' | 'error';
 
 const props = defineProps<{
-  suggestion: JobSuggestion
-  highlight?: boolean
+  suggestion: JobSuggestion;
+  highlight?: boolean;
 }>();
 
 const emit = defineEmits<{
-  promote: [suggestion: JobSuggestion]
-  dismiss: [suggestion: JobSuggestion]
-  analyze: [suggestion: JobSuggestion]
+  promote: [suggestion: JobSuggestion];
+  dismiss: [suggestion: JobSuggestion];
+  analyze: [suggestion: JobSuggestion];
 }>();
 
 const analyzing = ref(false);
@@ -19,12 +19,15 @@ const analyzing = ref(false);
 const matchColor = (rate: number): BadgeColor =>
   rate >= 70 ? 'success' : rate >= 40 ? 'warning' : 'error';
 
-const statusColor = (status: string): BadgeColor => (({
-  new: 'primary',
-  reviewing: 'neutral',
-  applied: 'success',
-  dismissed: 'warning'
-} as Record<string, BadgeColor>)[status] ?? 'neutral');
+const statusColor = (status: string): BadgeColor =>
+  (
+    ({
+      new: 'primary',
+      reviewing: 'neutral',
+      applied: 'success',
+      dismissed: 'warning'
+    }) as Record<string, BadgeColor>
+  )[status] ?? 'neutral';
 
 const age = computed(() => {
   const dateStr = props.suggestion.published_at;
@@ -53,7 +56,9 @@ async function handleAnalyze() {
     emit('analyze', props.suggestion);
   } finally {
     // parent handles state; reset after brief delay
-    setTimeout(() => { analyzing.value = false; }, 2000);
+    setTimeout(() => {
+      analyzing.value = false;
+    }, 2000);
   }
 }
 </script>
@@ -69,7 +74,9 @@ async function handleAnalyze() {
         <p class="text-sm font-medium truncate">{{ suggestion.title }}</p>
         <p class="text-xs text-muted truncate">
           {{ suggestion.company }}
-          <span v-if="suggestion.location"> &middot; {{ suggestion.location }}</span>
+          <span v-if="suggestion.location">
+            &middot; {{ suggestion.location }}</span
+          >
         </p>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -90,7 +97,13 @@ async function handleAnalyze() {
           icon="i-lucide-zap-off"
           title="Analyzed before impact framing was added — re-analyze for richer insights."
         />
-        <UBadge :label="suggestion.status" :color="statusColor(suggestion.status)" variant="subtle" size="xs" class="capitalize" />
+        <UBadge
+          :label="suggestion.status"
+          :color="statusColor(suggestion.status)"
+          variant="subtle"
+          size="xs"
+          class="capitalize"
+        />
       </div>
     </div>
 
@@ -98,19 +111,29 @@ async function handleAnalyze() {
     <template v-if="breakdown">
       <!-- Score bars (compact) -->
       <div class="grid grid-cols-3 gap-x-3 gap-y-1">
-        <div v-for="dim in [
-          { label: 'Skills', value: breakdown.skills },
-          { label: 'Stack', value: breakdown.techStack },
-          { label: 'Exp', value: breakdown.experience },
-          { label: 'Seniority', value: breakdown.seniority },
-          { label: 'Industry', value: breakdown.industry },
-          { label: 'Location', value: breakdown.location },
-        ]" :key="dim.label" class="flex items-center gap-1">
+        <div
+          v-for="dim in [
+            { label: 'Skills', value: breakdown.skills },
+            { label: 'Stack', value: breakdown.techStack },
+            { label: 'Exp', value: breakdown.experience },
+            { label: 'Seniority', value: breakdown.seniority },
+            { label: 'Industry', value: breakdown.industry },
+            { label: 'Location', value: breakdown.location }
+          ]"
+          :key="dim.label"
+          class="flex items-center gap-1"
+        >
           <span class="text-xs text-muted w-14 shrink-0">{{ dim.label }}</span>
           <div class="flex-1 bg-elevated rounded-full h-1">
             <div
               class="h-1 rounded-full"
-              :class="(dim.value ?? 0) >= 70 ? 'bg-success' : (dim.value ?? 0) >= 40 ? 'bg-warning' : 'bg-error'"
+              :class="
+                (dim.value ?? 0) >= 70
+                  ? 'bg-success'
+                  : (dim.value ?? 0) >= 40
+                    ? 'bg-warning'
+                    : 'bg-error'
+              "
               :style="{ width: `${dim.value ?? 0}%` }"
             />
           </div>
@@ -118,7 +141,10 @@ async function handleAnalyze() {
       </div>
 
       <!-- Summary -->
-      <p v-if="breakdown.summary" class="text-xs text-muted leading-relaxed line-clamp-2">
+      <p
+        v-if="breakdown.summary"
+        class="text-xs text-muted leading-relaxed line-clamp-2"
+      >
         {{ breakdown.summary }}
       </p>
 
@@ -127,7 +153,10 @@ async function handleAnalyze() {
         v-if="breakdown.companyPainPoints?.length"
         class="flex items-start gap-1.5 text-xs text-default leading-relaxed"
       >
-        <UIcon name="i-lucide-zap" class="text-primary size-3.5 shrink-0 mt-0.5" />
+        <UIcon
+          name="i-lucide-zap"
+          class="text-primary size-3.5 shrink-0 mt-0.5"
+        />
         <span class="line-clamp-2">{{ breakdown.companyPainPoints[0] }}</span>
       </div>
 
@@ -152,14 +181,31 @@ async function handleAnalyze() {
     </template>
 
     <!-- Description excerpt (when not yet analyzed) -->
-    <p v-else-if="suggestion.description" class="text-xs text-muted line-clamp-2">
+    <p
+      v-else-if="suggestion.description"
+      class="text-xs text-muted line-clamp-2"
+    >
       {{ suggestion.description }}
     </p>
 
     <!-- Actions -->
     <div class="flex items-center gap-2">
-      <UBadge v-if="suggestion.source !== 'manual'" :label="suggestion.source" color="neutral" variant="outline" size="xs" />
-      <UButton v-if="suggestion.url" :to="suggestion.url" target="_blank" size="xs" variant="link" icon="i-lucide-external-link" label="View" />
+      <UBadge
+        v-if="suggestion.source !== 'manual'"
+        :label="suggestion.source"
+        color="neutral"
+        variant="outline"
+        size="xs"
+      />
+      <UButton
+        v-if="suggestion.url"
+        :to="suggestion.url"
+        target="_blank"
+        size="xs"
+        variant="link"
+        icon="i-lucide-external-link"
+        label="View"
+      />
       <div class="flex-1" />
       <UButton
         v-if="suggestion.description && suggestion.match_rate == null"

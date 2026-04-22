@@ -9,56 +9,72 @@ watch(loggedIn, (val) => {
 
 const open = ref(false);
 
-const { data: stats } = await useFetch('/api/admin/stats', { key: 'admin-stats' });
+const { data: stats } = await useFetch('/api/admin/stats', {
+  key: 'admin-stats'
+});
 
 const newContactCount = computed(() => stats.value?.new ?? 0);
 const unreadInboxCount = computed(() => stats.value?.unreadInbox ?? 0);
 const activeAppCount = computed(() => stats.value?.activeApplications ?? 0);
 const newSuggestionsCount = computed(() => stats.value?.newSuggestions ?? 0);
 
-const links = computed(() => [[
-  {
-    label: 'Overview',
-    icon: 'i-lucide-layout-dashboard',
-    to: '/admin',
-    exact: true
-  },
-  {
-    label: 'Inbox',
-    icon: 'i-lucide-inbox',
-    to: '/admin/inbox',
-    ...(unreadInboxCount.value > 0 ? { badge: String(unreadInboxCount.value) } : {})
-  },
-  {
-    label: 'Contacts',
-    icon: 'i-lucide-users',
-    to: '/admin/contacts',
-    ...(newContactCount.value > 0 ? { badge: String(newContactCount.value) } : {})
-  },
-  {
-    label: 'Matches',
-    icon: 'i-lucide-sparkles',
-    to: '/admin/matches',
-    ...(newSuggestionsCount.value > 0 ? { badge: String(newSuggestionsCount.value) } : {})
-  },
-  {
-    label: 'Applications',
-    icon: 'i-lucide-briefcase',
-    to: '/admin/applications',
-    ...(activeAppCount.value > 0 ? { badge: String(activeAppCount.value) } : {})
-  },
-  {
-    label: 'Analytics',
-    icon: 'i-lucide-bar-chart-3',
-    to: '/admin/analytics'
-  }
-], [
-  {
-    label: 'Back to site',
-    icon: 'i-lucide-arrow-left',
-    to: '/'
-  }
-]] satisfies NavigationMenuItem[][]);
+const links = computed(
+  () =>
+    [
+      [
+        {
+          label: 'Overview',
+          icon: 'i-lucide-layout-dashboard',
+          to: '/admin',
+          exact: true
+        },
+        {
+          label: 'Inbox',
+          icon: 'i-lucide-inbox',
+          to: '/admin/inbox',
+          ...(unreadInboxCount.value > 0
+            ? { badge: String(unreadInboxCount.value) }
+            : {})
+        },
+        {
+          label: 'Contacts',
+          icon: 'i-lucide-users',
+          to: '/admin/contacts',
+          ...(newContactCount.value > 0
+            ? { badge: String(newContactCount.value) }
+            : {})
+        },
+        {
+          label: 'Matches',
+          icon: 'i-lucide-sparkles',
+          to: '/admin/matches',
+          ...(newSuggestionsCount.value > 0
+            ? { badge: String(newSuggestionsCount.value) }
+            : {})
+        },
+        {
+          label: 'Applications',
+          icon: 'i-lucide-briefcase',
+          to: '/admin/applications',
+          ...(activeAppCount.value > 0
+            ? { badge: String(activeAppCount.value) }
+            : {})
+        },
+        {
+          label: 'Analytics',
+          icon: 'i-lucide-bar-chart-3',
+          to: '/admin/analytics'
+        }
+      ],
+      [
+        {
+          label: 'Back to site',
+          icon: 'i-lucide-arrow-left',
+          to: '/'
+        }
+      ]
+    ] satisfies NavigationMenuItem[][]
+);
 </script>
 
 <template>
@@ -76,8 +92,15 @@ const links = computed(() => [[
           class="flex items-center gap-2 min-w-0 px-1 py-1 rounded-md"
           :class="collapsed ? 'justify-center' : ''"
         >
-          <UAvatar src="/giancarlopapa_avatar.jpeg" alt="GP" size="xs" class="shrink-0" />
-          <span v-if="!collapsed" class="font-mono font-bold text-sm truncate">GP // admin</span>
+          <UAvatar
+            src="/giancarlopapa_avatar.jpeg"
+            alt="GP"
+            size="xs"
+            class="shrink-0"
+          />
+          <span v-if="!collapsed" class="font-mono font-bold text-sm truncate"
+            >GP // admin</span
+          >
         </NuxtLink>
       </template>
 

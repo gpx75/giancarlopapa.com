@@ -1,22 +1,26 @@
-import type { JobSourceProvider, JobSearchParams, JobSearchResult } from './types';
+import type {
+  JobSourceProvider,
+  JobSearchParams,
+  JobSearchResult
+} from './types';
 
 interface SwissDevJob {
-  _id: string
-  name: string
-  company: string
-  actualCity: string
-  cityCategory: string
-  jobUrl: string
-  redirectJobUrl?: string
-  workplace: string
-  jobType: string
-  expLevel: string
-  techCategory: string
-  technologies: string[]
-  annualSalaryFrom?: number
-  annualSalaryTo?: number
-  language: string
-  companySize: string
+  _id: string;
+  name: string;
+  company: string;
+  actualCity: string;
+  cityCategory: string;
+  jobUrl: string;
+  redirectJobUrl?: string;
+  workplace: string;
+  jobType: string;
+  expLevel: string;
+  techCategory: string;
+  technologies: string[];
+  annualSalaryFrom?: number;
+  annualSalaryTo?: number;
+  language: string;
+  companySize: string;
 }
 
 /** Strip HTML tags but preserve paragraph breaks. */
@@ -53,12 +57,16 @@ async function fetchFullDescription(url: string): Promise<string> {
 
   try {
     const html = await $fetch<string>(url, {
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)' },
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; giancarlopapa.com job-scanner)'
+      },
       responseType: 'text',
-      timeout: 8_000,
+      timeout: 8_000
     });
 
-    const m = html.match(/window\.__detailedJob\s*=\s*(\{[\s\S]*?\})\s*;?\s*<\/script>/);
+    const m = html.match(
+      /window\.__detailedJob\s*=\s*(\{[\s\S]*?\})\s*;?\s*<\/script>/
+    );
     if (!m || !m[1]) return '';
 
     let data: Record<string, unknown>;
@@ -108,9 +116,12 @@ export const swissdevjobsProvider: JobSourceProvider = {
   async search(params: JobSearchParams): Promise<JobSearchResult[]> {
     let jobs: SwissDevJob[];
     try {
-      jobs = await $fetch<SwissDevJob[]>('https://swissdevjobs.ch/api/jobsLight', {
-        headers: { 'User-Agent': 'Mozilla/5.0' }
-      });
+      jobs = await $fetch<SwissDevJob[]>(
+        'https://swissdevjobs.ch/api/jobsLight',
+        {
+          headers: { 'User-Agent': 'Mozilla/5.0' }
+        }
+      );
     } catch {
       throw new Error('Could not reach swissdevjobs.ch');
     }
@@ -118,41 +129,49 @@ export const swissdevjobsProvider: JobSourceProvider = {
     if (!Array.isArray(jobs)) return [];
 
     // Filter by keywords — require at least half the terms to match for broader results
-    const kw = params.keywords.toLowerCase().split(/\s+/).filter(k => k.length > 1);
+    const kw = params.keywords
+      .toLowerCase()
+      .split(/\s+/)
+      .filter((k) => k.length > 1);
     const minMatches = Math.max(1, Math.ceil(kw.length / 2));
-    const filtered = jobs.filter(job => {
+    const filtered = jobs.filter((job) => {
       const searchable = [
         job.name,
         job.company,
         job.techCategory,
         ...(job.technologies || [])
-      ].join(' ').toLowerCase();
+      ]
+        .join(' ')
+        .toLowerCase();
 
-      const matches = kw.filter(k => searchable.includes(k)).length;
+      const matches = kw.filter((k) => searchable.includes(k)).length;
       return matches >= minMatches;
     });
 
     // Filter by work type
     let results = filtered;
     if (params.workType === 'remote') {
-      results = results.filter(j => j.workplace === 'remote');
+      results = results.filter((j) => j.workplace === 'remote');
     } else if (params.workType === 'hybrid') {
-      results = results.filter(j => j.workplace === 'hybrid');
+      results = results.filter((j) => j.workplace === 'hybrid');
     } else if (params.workType === 'on_site') {
-      results = results.filter(j => j.workplace === 'office');
+      results = results.filter((j) => j.workplace === 'office');
     }
 
     const top = results.slice(0, params.maxResults);
 
     // Fetch full descriptions in parallel (bounded by maxResults).
     const fullDescriptions = await Promise.all(
-      top.map(job => fetchFullDescription(`https://swissdevjobs.ch/jobs/${job.jobUrl}`))
+      top.map((job) =>
+        fetchFullDescription(`https://swissdevjobs.ch/jobs/${job.jobUrl}`)
+      )
     );
 
     return top.map((job, i) => {
-      const salary = job.annualSalaryFrom && job.annualSalaryTo
-        ? `CHF ${(job.annualSalaryFrom / 1000).toFixed(0)}k–${(job.annualSalaryTo / 1000).toFixed(0)}k`
-        : '';
+      const salary =
+        job.annualSalaryFrom && job.annualSalaryTo
+          ? `CHF ${(job.annualSalaryFrom / 1000).toFixed(0)}k–${(job.annualSalaryTo / 1000).toFixed(0)}k`
+          : '';
       const tech = (job.technologies || []).slice(0, 5).join(', ');
       const metaLine = [
         job.expLevel,
@@ -160,12 +179,12 @@ export const swissdevjobsProvider: JobSourceProvider = {
         job.workplace,
         salary,
         tech ? `Tech: ${tech}` : ''
-      ].filter(Boolean).join(' · ');
+      ]
+        .filter(Boolean)
+        .join(' · ');
 
       const fullDesc = fullDescriptions[i] || '';
-      const description = fullDesc
-        ? `${metaLine}\n\n${fullDesc}`
-        : metaLine;
+      const description = fullDesc ? `${metaLine}\n\n${fullDesc}` : metaLine;
 
       return {
         title: job.name,

@@ -15,10 +15,14 @@ function getChromePath(): string {
   const envPath = process.env.CHROMIUM_EXECUTABLE_PATH;
   if (envPath && existsSync(envPath)) return envPath;
 
-  const defaultPath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+  const defaultPath =
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
   if (existsSync(defaultPath)) return defaultPath;
 
-  throw createError({ statusCode: 503, message: 'Chrome not found. Set CHROMIUM_EXECUTABLE_PATH.' });
+  throw createError({
+    statusCode: 503,
+    message: 'Chrome not found. Set CHROMIUM_EXECUTABLE_PATH.'
+  });
 }
 
 export async function renderPdfWithBorder(html: string): Promise<Buffer> {
@@ -26,7 +30,11 @@ export async function renderPdfWithBorder(html: string): Promise<Buffer> {
   const executablePath = getChromePath();
 
   const browser = await puppeteer.launch({
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage'
+    ],
     executablePath,
     headless: true
   });
@@ -46,7 +54,7 @@ export async function renderPdfWithBorder(html: string): Promise<Buffer> {
 
     // Draw 4mm teal border on every page (matching resume)
     const pdfDoc = await PDFDocument.load(rawPdf);
-    const borderWidth = 4 * 72 / 25.4; // 4mm in pt
+    const borderWidth = (4 * 72) / 25.4; // 4mm in pt
     const borderInset = borderWidth / 2;
     const borderColor = rgb(58 / 255, 158 / 255, 174 / 255); // #3a9eae
 
@@ -81,7 +89,10 @@ export function invalidateResumeCache() {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getResumeJson(): Record<string, any> {
   if (cachedResumeJson) return cachedResumeJson;
-  const resumePath = resolve(process.cwd(), 'content/giancarlo_papa_resume.json');
+  const resumePath = resolve(
+    process.cwd(),
+    'content/giancarlo_papa_resume.json'
+  );
   cachedResumeJson = JSON.parse(readFileSync(resumePath, 'utf-8'));
   return cachedResumeJson!;
 }

@@ -2,11 +2,11 @@
 import type { JobApplication } from '~/types/applications';
 
 const props = defineProps<{
-  application: JobApplication
+  application: JobApplication;
 }>();
 
 const emit = defineEmits<{
-  refreshed: [JobApplication]
+  refreshed: [JobApplication];
 }>();
 
 const toast = useToast();
@@ -23,14 +23,26 @@ const breakdown = computed(() => props.application.match_breakdown ?? null);
 async function runAnalysis() {
   running.value = true;
   try {
-    const updated = await $fetch<JobApplication>(`/api/admin/applications/${props.application.id}/analyze`, {
-      method: 'POST'
-    });
+    const updated = await $fetch<JobApplication>(
+      `/api/admin/applications/${props.application.id}/analyze`,
+      {
+        method: 'POST'
+      }
+    );
     emit('refreshed', updated);
-    toast.add({ title: 'Analysis complete', color: 'success', icon: 'i-lucide-check' });
+    toast.add({
+      title: 'Analysis complete',
+      color: 'success',
+      icon: 'i-lucide-check'
+    });
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Analysis failed.';
-    toast.add({ title: 'Analysis failed', description: msg, color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'Analysis failed',
+      description: msg,
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     running.value = false;
   }
@@ -48,7 +60,13 @@ async function runAnalysis() {
           </p>
         </div>
         <UBadge
-          :color="stage.status === 'done' ? 'success' : stage.status === 'in_progress' ? 'info' : 'neutral'"
+          :color="
+            stage.status === 'done'
+              ? 'success'
+              : stage.status === 'in_progress'
+                ? 'info'
+                : 'neutral'
+          "
           variant="subtle"
         >
           {{ stage.status }}

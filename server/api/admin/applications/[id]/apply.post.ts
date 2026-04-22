@@ -9,10 +9,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Invalid application id.' });
   }
 
-  const body = await readBody<{ mode?: ApplyMode, applied_at?: string }>(event);
+  const body = await readBody<{ mode?: ApplyMode; applied_at?: string }>(event);
   const mode: ApplyMode = body.mode === 'export' ? 'export' : 'send';
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: app, error } = await db
     .from('job_applications')

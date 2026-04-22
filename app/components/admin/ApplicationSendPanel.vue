@@ -2,11 +2,11 @@
 import type { JobApplication, CoverLetter } from '~/types/applications';
 
 const props = defineProps<{
-  application: JobApplication
+  application: JobApplication;
 }>();
 
 const emit = defineEmits<{
-  sent: []
+  sent: [];
 }>();
 
 const toast = useToast();
@@ -25,14 +25,18 @@ const loadingLetters = ref(false);
 const selectedLetterId = ref<number | null>(null);
 
 // Reset form when application changes
-watch(() => props.application, (app) => {
-  to.value = app.contact_email ?? '';
-  subject.value = `Application — ${app.position} at ${app.company}`;
-  bodyText.value = '';
-  selectedLetterId.value = null;
-  letters.value = [];
-  open.value = false;
-}, { immediate: true });
+watch(
+  () => props.application,
+  (app) => {
+    to.value = app.contact_email ?? '';
+    subject.value = `Application — ${app.position} at ${app.company}`;
+    bodyText.value = '';
+    selectedLetterId.value = null;
+    letters.value = [];
+    open.value = false;
+  },
+  { immediate: true }
+);
 
 // When cover letter PDF toggle is enabled, ensure we have letters loaded
 watch(attachCoverLetterPdf, async (val) => {
@@ -44,7 +48,9 @@ watch(attachCoverLetterPdf, async (val) => {
 async function loadLetters() {
   loadingLetters.value = true;
   try {
-    letters.value = await $fetch<CoverLetter[]>(`/api/admin/applications/${props.application.id}/cover-letters`);
+    letters.value = await $fetch<CoverLetter[]>(
+      `/api/admin/applications/${props.application.id}/cover-letters`
+    );
     const first = letters.value[0];
     if (first && !selectedLetterId.value) {
       selectedLetterId.value = first.id;
@@ -62,7 +68,9 @@ async function handleOpen() {
   if (bodyText.value === '') {
     loadingLetters.value = true;
     try {
-      const fetched = await $fetch<CoverLetter[]>(`/api/admin/applications/${props.application.id}/cover-letters`);
+      const fetched = await $fetch<CoverLetter[]>(
+        `/api/admin/applications/${props.application.id}/cover-letters`
+      );
       letters.value = fetched;
       const first = fetched[0];
       if (first) {
@@ -79,7 +87,11 @@ async function handleOpen() {
 
 async function handleSend() {
   if (!to.value || !subject.value || !bodyText.value) {
-    toast.add({ title: 'To, subject, and body are required.', color: 'error', icon: 'i-lucide-triangle-alert' });
+    toast.add({
+      title: 'To, subject, and body are required.',
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
     return;
   }
 
@@ -93,23 +105,34 @@ async function handleSend() {
         body: bodyText.value,
         attachResume: attachResume.value,
         attachCoverLetterPdf: attachCoverLetterPdf.value,
-        coverLetterId: attachCoverLetterPdf.value ? selectedLetterId.value : undefined
+        coverLetterId: attachCoverLetterPdf.value
+          ? selectedLetterId.value
+          : undefined
       }
     });
 
-    toast.add({ title: 'Application sent!', color: 'success', icon: 'i-lucide-send' });
+    toast.add({
+      title: 'Application sent!',
+      color: 'success',
+      icon: 'i-lucide-send'
+    });
     open.value = false;
     emit('sent');
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Failed to send application.';
-    toast.add({ title: message, color: 'error', icon: 'i-lucide-triangle-alert' });
+    const message =
+      err instanceof Error ? err.message : 'Failed to send application.';
+    toast.add({
+      title: message,
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
   } finally {
     sending.value = false;
   }
 }
 
 const letterOptions = computed(() =>
-  letters.value.map(l => ({
+  letters.value.map((l) => ({
     label: `v${l.version} — ${l.tone}`,
     value: l.id
   }))
@@ -131,8 +154,13 @@ const letterOptions = computed(() =>
 
     <div v-else class="space-y-4">
       <div class="flex items-center justify-between">
-        <p class="text-xs text-muted uppercase tracking-wide">Send Application</p>
-        <button class="text-xs text-muted hover:text-foreground" @click="open = false">
+        <p class="text-xs text-muted uppercase tracking-wide">
+          Send Application
+        </p>
+        <button
+          class="text-xs text-muted hover:text-foreground"
+          @click="open = false"
+        >
           Cancel
         </button>
       </div>
@@ -140,7 +168,11 @@ const letterOptions = computed(() =>
       <!-- To -->
       <div class="space-y-1">
         <label class="text-xs text-muted">To</label>
-        <UInput v-model="to" placeholder="recruiter@company.com" class="w-full" />
+        <UInput
+          v-model="to"
+          placeholder="recruiter@company.com"
+          class="w-full"
+        />
       </div>
 
       <!-- Subject -->
@@ -153,7 +185,10 @@ const letterOptions = computed(() =>
       <div class="space-y-1">
         <div class="flex items-center justify-between">
           <label class="text-xs text-muted">Body</label>
-          <span v-if="loadingLetters" class="text-xs text-muted flex items-center gap-1">
+          <span
+            v-if="loadingLetters"
+            class="text-xs text-muted flex items-center gap-1"
+          >
             <UIcon name="i-lucide-loader" class="size-3 animate-spin" />
             Loading...
           </span>
@@ -172,17 +207,26 @@ const letterOptions = computed(() =>
         <p class="text-xs text-muted">Attachments</p>
 
         <div class="flex items-center gap-2">
-          <UCheckbox v-model="attachResume" label="Include tailored resume PDF" />
+          <UCheckbox
+            v-model="attachResume"
+            label="Include tailored resume PDF"
+          />
         </div>
 
         <div class="flex items-center gap-2">
-          <UCheckbox v-model="attachCoverLetterPdf" label="Include cover letter as PDF" />
+          <UCheckbox
+            v-model="attachCoverLetterPdf"
+            label="Include cover letter as PDF"
+          />
         </div>
 
         <!-- Cover letter version selector -->
         <div v-if="attachCoverLetterPdf" class="pl-6 space-y-1">
           <label class="text-xs text-muted">Cover letter version</label>
-          <div v-if="loadingLetters" class="text-xs text-muted flex items-center gap-1">
+          <div
+            v-if="loadingLetters"
+            class="text-xs text-muted flex items-center gap-1"
+          >
             <UIcon name="i-lucide-loader" class="size-3 animate-spin" />
             Loading cover letters...
           </div>
@@ -192,7 +236,9 @@ const letterOptions = computed(() =>
             :items="letterOptions"
             value-key="value"
             class="w-full"
-            @update:model-value="(v: number | undefined) => selectedLetterId = v ?? null"
+            @update:model-value="
+              (v: number | undefined) => (selectedLetterId = v ?? null)
+            "
           />
           <p v-else class="text-xs text-muted italic">
             No saved cover letters.

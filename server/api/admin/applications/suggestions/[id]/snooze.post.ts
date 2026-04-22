@@ -21,11 +21,16 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, message: 'Invalid date.' });
     }
     if (ts <= Date.now()) {
-      throw createError({ statusCode: 400, message: 'Snooze date must be in the future.' });
+      throw createError({
+        statusCode: 400,
+        message: 'Snooze date must be in the future.'
+      });
     }
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
   const { data, error } = await db
     .from('job_suggestions')
     .update({ snoozed_until: until })

@@ -1,6 +1,9 @@
 import { serverSupabaseServiceRole } from '#supabase/server';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type { ApplicationWorkflow, WorkflowTransitionPayload } from '~/types/applications';
+import type {
+  ApplicationWorkflow,
+  WorkflowTransitionPayload
+} from '~/types/applications';
 import { applyTransition, normalizeWorkflow } from '~~/server/utils/workflow';
 
 export default defineEventHandler(async (event) => {
@@ -15,7 +18,9 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Missing stage or action.' });
   }
 
-  const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
+  const db = serverSupabaseServiceRole<unknown>(
+    event
+  ) as unknown as SupabaseClient;
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
@@ -32,7 +37,8 @@ export default defineEventHandler(async (event) => {
   try {
     next = applyTransition(normalizeWorkflow(app.workflow), body);
   } catch (err) {
-    const msg = err instanceof Error ? err.message : 'Invalid workflow transition.';
+    const msg =
+      err instanceof Error ? err.message : 'Invalid workflow transition.';
     throw createError({ statusCode: 409, message: msg });
   }
 
