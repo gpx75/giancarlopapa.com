@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   const [inboxMessages, sentMessages] = await Promise.all([
     fetchImapMessages(conn, { toDomain, folder: 'INBOX' }),
-    fetchImapMessages(conn, { fromDomain: toDomain, folder: '[Gmail]/Sent Mail' })
+    fetchImapMessages(conn, { fromDomain: toDomain, folder: '[Gmail]/Sent Mail', specialUse: '\\Sent' })
   ]);
 
   const messages = [...inboxMessages, ...sentMessages];

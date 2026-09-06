@@ -38,15 +38,23 @@ export interface FetchImapOptions {
   toDomain?: string;
   /** Restrict to messages whose **From** header matches the domain. Used for sent mail. */
   fromDomain?: string;
-  /** IMAP folder to fetch from (default: 'INBOX'). */
+  /** IMAP folder to fetch from (default: 'INBOX'). Used as-is unless `specialUse` resolves a different path. */
   folder?: string;
+  /**
+   * Resolve the folder by IMAP SPECIAL-USE flag (e.g. '\\Sent') instead of the
+   * literal `folder` path. Gmail's `[Gmail]/...` folder names are localized
+   * per account (e.g. Italian accounts use "Posta inviata", not "Sent Mail"),
+   * so special-use flags are the only locale-independent way to find them.
+   * Falls back to `folder` if no mailbox reports the flag.
+   */
+  specialUse?: string;
 }
 
 export async function fetchImapMessages(
   conn: ImapConnection,
   options: FetchImapOptions = {}
 ): Promise<ImapMessage[]> {
-  const { limit = 30, toDomain, fromDomain, folder = 'INBOX' } = options;
+  const { limit = 30, toDomain, fromDomain, folder = 'INBOX', specialUse } = options;
 
   const client = new ImapFlow({
     host: conn.host,
@@ -60,7 +68,10 @@ export async function fetchImapMessages(
   const messages: ImapMessage[] = [];
 
   try {
-    const lock = await client.getMailboxLock(folder);
+    const resolvedFolder = specialUse
+      ? await resolveMailboxBySpecialUse(client, specialUse, folder)
+      : folder;
+    const lock = await client.getMailboxLock(resolvedFolder);
     try {
       const range = await resolveFetchRange(client, {
         limit,
@@ -105,6 +116,16 @@ export async function fetchImapMessages(
   }
 
   return messages.reverse();
+}
+
+async function resolveMailboxBySpecialUse(
+  client: ImapFlow,
+  specialUse: string,
+  fallback: string
+): Promise<string> {
+  const mailboxes = await client.list();
+  const match = mailboxes.find(mb => mb.specialUse === specialUse);
+  return match?.path ?? fallback;
 }
 
 async function resolveFetchRange(
