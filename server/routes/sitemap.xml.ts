@@ -42,7 +42,7 @@ export default defineEventHandler(async (event) => {
   ];
 
   const blogDir = join(process.cwd(), 'content', 'blog');
-  let blogEntries: SitemapEntry[] = [];
+  let blogEntries: SitemapEntry[];
 
   try {
     const markdownFiles = await walkMarkdownFiles(blogDir);

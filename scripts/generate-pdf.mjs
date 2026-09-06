@@ -304,7 +304,7 @@ try {
   const html = buildResumeHtml(avatarBase64)
 
   console.log('→ Rendering resume HTML…')
-  await page.setContent(html, { waitUntil: 'networkidle0' })
+  await page.setContent(html, { waitUntil: 'load' })
   await page.evaluate(() => document.fonts.ready)
 
   const rawPdf = await page.pdf({

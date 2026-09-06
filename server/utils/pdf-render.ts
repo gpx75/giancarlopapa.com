@@ -42,7 +42,7 @@ export async function renderPdfWithBorder(html: string): Promise<Buffer> {
   try {
     const page = await browser.newPage();
     await page.emulateMediaType('print');
-    await page.setContent(html, { waitUntil: 'networkidle0' });
+    await page.setContent(html, { waitUntil: 'load' });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await page.evaluate(() => (globalThis as any).document.fonts.ready);
 
