@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
   ] = await Promise.all([
     db.from('contact_submissions').select('status'),
     db.from('inbox_messages').select('unread').eq('archived', false),
-    db.from('job_applications').select('status, match_rate'),
+    db.from('job_applications').select('status, match_rate').is('deleted_at', null),
     db.from('job_suggestions').select('status, match_rate')
   ]);
 
