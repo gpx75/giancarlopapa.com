@@ -99,7 +99,7 @@ Respond with JSON only, no markdown fences.`
 
   let extracted;
   try {
-    extracted = JSON.parse(textBlock.text);
+    extracted = JSON.parse(stripJsonFence(textBlock.text));
   } catch {
     throw createError({
       statusCode: 502,

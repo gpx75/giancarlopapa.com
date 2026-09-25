@@ -1,6 +1,10 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 
+// Only the current role renders bullet highlights, and only the first N of
+// them — keep this in sync with workEntry()'s default below.
+export const MAX_CURRENT_ROLE_HIGHLIGHTS = 4
+
 function esc(s: string): string {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -114,7 +118,7 @@ export function buildTailoredResumeHtml(
       <div class="section-rule"></div>
     </div>`
 
-  const workEntry = (job: NonNullable<ResumeData['work']>[number], maxHighlights = 4) => {
+  const workEntry = (job: NonNullable<ResumeData['work']>[number], maxHighlights = MAX_CURRENT_ROLE_HIGHLIGHTS) => {
     const highlights = (job.highlights ?? []).slice(0, maxHighlights)
       .map(h => `<li>${highlight(h, keywords)}</li>`).join('')
     const stories = (job.successStories ?? [])
@@ -169,13 +173,13 @@ export function buildTailoredResumeHtml(
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
   .hdr-left { flex: 1; min-width: 0; }
   .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 18pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; }
-  .name { font-family: 'Space Grotesk', sans-serif; font-size: 12pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
+  .name { font-family: 'Space Grotesk', sans-serif; font-size: 14pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
   .name strong { font-weight: 800; margin-right: 0.15em; }
-  .education-header { font-size: 9pt; color: #64748b; margin-bottom: 3px; }
-  .contact-line { font-size: 9pt; color: #64748b; line-height: 1.5; margin-bottom: 1px; }
+  .education-header { font-size: 10pt; color: #64748b; margin-bottom: 3px; }
+  .contact-line { font-size: 10pt; color: #64748b; line-height: 1.5; margin-bottom: 1px; }
   .contact-item { white-space: nowrap; }
   .contact-item + .contact-item::before { content: '  ·  '; color: #94a3b8; }
-  .lang-header { font-size: 9pt; color: #64748b; line-height: 1.5; }
+  .lang-header { font-size: 10pt; color: #64748b; line-height: 1.5; }
   .avatar { width: 100px; height: 100px; min-width: 100px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
   .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
 
@@ -197,7 +201,7 @@ export function buildTailoredResumeHtml(
   .work-row { margin-bottom: 4px; page-break-inside: avoid; }
   .work-row-compact { margin-bottom: 4px; }
   .jobtitle { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; }
-  .company-line { font-size: 9pt; color: #64748b; margin-bottom: 1px; }
+  .company-line { font-size: 10pt; color: #64748b; margin-bottom: 1px; }
   .jsummary { font-size: 10pt; color: #334155; line-height: 1.25; margin-top: 1px; }
   .highlights { list-style: none; margin-top: 1px; }
   .highlights li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 0; }

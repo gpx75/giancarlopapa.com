@@ -11,6 +11,13 @@ export function useAnthropic() {
   return new Anthropic({ apiKey });
 }
 
+export function stripJsonFence(text: string): string {
+  return text
+    .replace(/^```(?:json)?\s*\n?/i, '')
+    .replace(/\n?```\s*$/i, '')
+    .trim();
+}
+
 export async function callAnthropicWithRetry(
   client: Anthropic,
   params: MessageCreateParamsNonStreaming,

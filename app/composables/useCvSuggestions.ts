@@ -1,6 +1,9 @@
 import type {
   PersistedCvSuggestion,
-  CvSuggestionStatus
+  CvSuggestionStatus,
+  CvEditOp,
+  ProposeCvEditsResponse,
+  ApplyCvEditsResponse
 } from '~/types/applications';
 
 export function useCvSuggestions(applicationId: MaybeRefOrGetter<number>) {
@@ -78,6 +81,23 @@ export function useCvSuggestions(applicationId: MaybeRefOrGetter<number>) {
     }
   }
 
+  async function proposeDiff(suggestionId: number) {
+    return $fetch<ProposeCvEditsResponse>(
+      `/api/admin/applications/${idRef.value}/cv-suggestions/${suggestionId}/propose-diff`,
+      { method: 'POST' }
+    );
+  }
+
+  async function applyEdits(suggestionId: number, edits: CvEditOp[]) {
+    const result = await $fetch<ApplyCvEditsResponse>(
+      `/api/admin/applications/${idRef.value}/cv-suggestions/${suggestionId}/apply`,
+      { method: 'POST', body: { edits } }
+    );
+    const idx = suggestions.value.findIndex((s) => s.id === suggestionId);
+    if (idx >= 0) suggestions.value[idx] = result.suggestion;
+    return result;
+  }
+
   const counters = computed(() => {
     const total = suggestions.value.length;
     const applied = suggestions.value.filter(
@@ -97,6 +117,8 @@ export function useCvSuggestions(applicationId: MaybeRefOrGetter<number>) {
     refresh,
     regenerate,
     setStatus,
+    proposeDiff,
+    applyEdits,
     counters
   };
 }

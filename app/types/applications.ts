@@ -125,6 +125,40 @@ export interface CvSuggestionUpdatePayload {
 }
 
 // ---------------------------------------------------------------------------
+// CV suggestion auto-apply: structured, path-addressable edits proposed by
+// the AI and validated deterministically before ever touching the resume.
+// ---------------------------------------------------------------------------
+export type CvEditOp =
+  | { op: 'replace'; path: string; find: string; replace: string }
+  | { op: 'insert'; path: string; value: unknown }
+  | { op: 'manual'; reason: string };
+
+export interface ValidatedCvEdit {
+  op: CvEditOp['op'];
+  path?: string;
+  status: 'ok' | 'error' | 'manual';
+  message?: string;
+  before?: string;
+  after?: string;
+  value?: unknown;
+}
+
+export interface ProposedCvEdit {
+  op: CvEditOp;
+  result: ValidatedCvEdit;
+}
+
+export interface ProposeCvEditsResponse {
+  edits: ProposedCvEdit[];
+}
+
+export interface ApplyCvEditsResponse {
+  resume: Record<string, unknown>;
+  pageCount: number;
+  suggestion: PersistedCvSuggestion;
+}
+
+// ---------------------------------------------------------------------------
 // Reference letters (per-app selection from content/ref-letters.json)
 // ---------------------------------------------------------------------------
 export interface ApplicationReferenceLetter {

@@ -2,7 +2,8 @@
 import type {
   JobApplication,
   PersistedCvSuggestion,
-  CvSuggestionStatus
+  CvSuggestionStatus,
+  ProposedCvEdit
 } from '~/types/applications';
 
 const props = defineProps<{
@@ -13,6 +14,15 @@ const emit = defineEmits<{
   transitioned: [];
 }>();
 
+const toast = useToast();
+
+// $fetch's own error message is a generic "422 Server Error" — the useful
+// text lives in the h3 error body under `data.message`.
+function apiErrorMessage(err: unknown, fallback: string): string {
+  const data = (err as { data?: { message?: string } } | undefined)?.data;
+  return data?.message ?? (err instanceof Error ? err.message : fallback);
+}
+
 const {
   suggestions,
   loading,
@@ -20,8 +30,60 @@ const {
   refresh,
   regenerate,
   setStatus,
+  proposeDiff,
+  applyEdits,
   counters
 } = useCvSuggestions(() => props.application.id);
+
+// ---- Auto-apply preview modal ----
+const previewOpen = ref(false);
+const previewLoading = ref(false);
+const previewApplying = ref(false);
+const previewSuggestion = ref<PersistedCvSuggestion | null>(null);
+const previewEdits = ref<ProposedCvEdit[]>([]);
+const previewError = ref('');
+
+const applicableEdits = computed(() =>
+  previewEdits.value.filter((e) => e.result.status === 'ok')
+);
+
+async function openPreview(suggestion: PersistedCvSuggestion) {
+  previewSuggestion.value = suggestion;
+  previewEdits.value = [];
+  previewError.value = '';
+  previewOpen.value = true;
+  previewLoading.value = true;
+  try {
+    const { edits } = await proposeDiff(suggestion.id);
+    previewEdits.value = edits;
+  } catch (err: unknown) {
+    previewError.value = apiErrorMessage(err, 'Could not generate a diff.');
+  } finally {
+    previewLoading.value = false;
+  }
+}
+
+async function confirmApply() {
+  if (!previewSuggestion.value || applicableEdits.value.length === 0) return;
+  previewApplying.value = true;
+  try {
+    const result = await applyEdits(
+      previewSuggestion.value.id,
+      applicableEdits.value.map((e) => e.op)
+    );
+    toast.add({
+      title: 'Applied to tailored resume',
+      description: `Now ${result.pageCount} page${result.pageCount === 1 ? '' : 's'}.`,
+      color: 'success',
+      icon: 'i-lucide-sparkles'
+    });
+    previewOpen.value = false;
+  } catch (err: unknown) {
+    previewError.value = apiErrorMessage(err, 'Apply failed.');
+  } finally {
+    previewApplying.value = false;
+  }
+}
 
 onMounted(refresh);
 watch(() => props.application.id, refresh);
@@ -133,10 +195,10 @@ async function reset() {
           { label: 'Dismissed', value: 'dismissed' }
         ]"
         :model-value="filter"
+        class="mb-4"
         @update:model-value="
           (v: string | number) => (filter = v as 'all' | CvSuggestionStatus)
         "
-        class="mb-4"
       />
 
       <div v-if="loading" class="text-sm text-neutral-500">Loading…</div>
@@ -176,6 +238,16 @@ async function reset() {
             {{ s.suggestion }}
           </div>
           <div class="flex flex-wrap gap-1.5">
+            <UButton
+              v-if="s.status === 'pending'"
+              size="xs"
+              color="primary"
+              variant="soft"
+              icon="i-lucide-wand-2"
+              @click="openPreview(s)"
+            >
+              Auto-apply
+            </UButton>
             <UButton
               size="xs"
               :color="s.status === 'applied' ? 'success' : 'neutral'"
@@ -232,5 +304,94 @@ async function reset() {
         Mark CV ready
       </UButton>
     </div>
+
+    <!-- Auto-apply preview modal -->
+    <UModal
+      v-model:open="previewOpen"
+      title="Review auto-apply"
+      description="Applies to the tailored resume for this application only — the public CV is never touched."
+    >
+      <template #body>
+        <div v-if="previewLoading" class="text-sm text-neutral-500 py-4">
+          Working out the exact edit…
+        </div>
+
+        <div v-else class="space-y-3">
+          <UAlert
+            v-if="previewError"
+            color="error"
+            variant="soft"
+            icon="i-lucide-triangle-alert"
+            :title="previewError"
+          />
+
+          <div
+            v-for="(e, i) in previewEdits"
+            :key="i"
+            class="rounded-lg border border-neutral-200 dark:border-neutral-800 p-3 text-sm"
+          >
+            <div class="flex items-center gap-2 mb-2">
+              <UBadge
+                :color="
+                  e.result.status === 'ok'
+                    ? 'success'
+                    : e.result.status === 'manual'
+                      ? 'warning'
+                      : 'error'
+                "
+                variant="subtle"
+                size="xs"
+              >
+                {{ e.result.status }}
+              </UBadge>
+              <span
+                v-if="e.result.path"
+                class="text-xs font-mono text-neutral-500"
+                >{{ e.result.path }}</span
+              >
+            </div>
+
+            <template v-if="e.result.status === 'ok' && e.op.op === 'replace'">
+              <div class="text-error line-through opacity-70 mb-1">
+                {{ e.result.before }}
+              </div>
+              <div class="text-success">{{ e.result.after }}</div>
+            </template>
+            <template
+              v-else-if="e.result.status === 'ok' && e.op.op === 'insert'"
+            >
+              <div class="text-success">+ {{ e.result.value }}</div>
+            </template>
+            <div v-else class="text-neutral-500">{{ e.result.message }}</div>
+          </div>
+
+          <p
+            v-if="!previewLoading && previewEdits.length && !applicableEdits.length"
+            class="text-sm text-neutral-500"
+          >
+            Nothing here can be auto-applied — edit the tailored resume
+            manually instead.
+          </p>
+        </div>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2 w-full">
+          <UButton color="neutral" variant="ghost" @click="previewOpen = false">
+            Cancel
+          </UButton>
+          <UButton
+            color="primary"
+            icon="i-lucide-wand-2"
+            :disabled="!applicableEdits.length"
+            :loading="previewApplying"
+            @click="confirmApply"
+          >
+            Apply {{ applicableEdits.length }} edit{{
+              applicableEdits.length === 1 ? '' : 's'
+            }}
+          </UButton>
+        </div>
+      </template>
+    </UModal>
   </div>
 </template>
