@@ -13,6 +13,7 @@ const emit = defineEmits<{
 const toast = useToast();
 const saving = ref(false);
 const completing = ref(false);
+const rejecting = ref(false);
 const generating = ref(false);
 const overwriteOpen = ref(false);
 
@@ -74,11 +75,15 @@ const readyToComplete = computed(() =>
   checklistItems.value.every((i) => checklist[i.key])
 );
 
-async function postTransition(action: 'enter' | 'complete') {
+async function postTransition(
+  action: 'enter' | 'complete',
+  outcome?: 'rejected'
+) {
   const body = {
     stage: 'interview_prep',
     action,
     meta: {
+      ...(outcome ? { outcome } : {}),
       notes: notes.value,
       scheduled_at: scheduledAt.value || null,
       checklist: { ...checklist }
@@ -175,6 +180,29 @@ async function markComplete() {
     });
   } finally {
     completing.value = false;
+  }
+}
+
+async function markRejected() {
+  rejecting.value = true;
+  try {
+    await postTransition('complete', 'rejected');
+    toast.add({
+      title: 'Marked as rejected and closed',
+      color: 'success',
+      icon: 'i-lucide-check'
+    });
+    emit('transitioned');
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : 'Update failed.';
+    toast.add({
+      title: 'Could not close',
+      description: msg,
+      color: 'error',
+      icon: 'i-lucide-triangle-alert'
+    });
+  } finally {
+    rejecting.value = false;
   }
 }
 </script>
@@ -284,16 +312,26 @@ async function markComplete() {
             variant="ghost"
             icon="i-lucide-save"
             :loading="saving"
-            :disabled="locked || completing"
+            :disabled="locked || completing || rejecting"
             @click="saveProgress"
           >
             Save progress
           </UButton>
           <UButton
+            color="error"
+            variant="soft"
+            icon="i-lucide-circle-x"
+            :loading="rejecting"
+            :disabled="locked || saving || completing"
+            @click="markRejected"
+          >
+            Rejected — close
+          </UButton>
+          <UButton
             color="success"
             icon="i-lucide-check-circle"
             :loading="completing"
-            :disabled="locked || saving || !readyToComplete"
+            :disabled="locked || saving || rejecting || !readyToComplete"
             @click="markComplete"
           >
             Mark complete & close

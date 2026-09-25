@@ -42,9 +42,24 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 409, message: msg });
   }
 
+  // A rejection closes the workflow without the interview checklist and
+  // records the outcome on the application itself.
+  const rejected =
+    body.stage === 'interview_prep' &&
+    body.action === 'complete' &&
+    body.meta?.outcome === 'rejected';
+
   const { data: updated, error: updateError } = await db
     .from('job_applications')
-    .update({ workflow: next })
+    .update(
+      rejected
+        ? {
+            workflow: next,
+            status: 'rejected',
+            decided_at: new Date().toISOString()
+          }
+        : { workflow: next }
+    )
     .eq('id', id)
     .select('id, workflow')
     .single();
