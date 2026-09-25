@@ -64,6 +64,11 @@ const links = computed(
           label: 'Analytics',
           icon: 'i-lucide-bar-chart-3',
           to: '/admin/analytics'
+        },
+        {
+          label: 'RAV reports',
+          icon: 'i-lucide-file-text',
+          to: '/admin/rav'
         }
       ],
       [

@@ -47,6 +47,7 @@ jobs:
           NUXT_GMAIL_APP_PASSWORD: ${{ secrets.NUXT_GMAIL_APP_PASSWORD }}
           NUXT_ANTHROPIC_API_KEY: ${{ secrets.NUXT_ANTHROPIC_API_KEY }}
           NUXT_RAPID_API_KEY: ${{ secrets.NUXT_RAPID_API_KEY }}
+          NUXT_RAV_AHV_NUMBER: ${{ secrets.NUXT_RAV_AHV_NUMBER }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

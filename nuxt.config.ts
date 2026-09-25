@@ -76,6 +76,7 @@ export default defineNuxtConfig({
   //   strava.refreshToken  → NUXT_STRAVA_REFRESH_TOKEN
   //   gmail.user           → NUXT_GMAIL_USER
   //   gmail.appPassword    → NUXT_GMAIL_APP_PASSWORD
+  //   rav.ahvNumber        → NUXT_RAV_AHV_NUMBER
   //   anthropicApiKey      → NUXT_ANTHROPIC_API_KEY
   //   rapidApiKey          → NUXT_RAPID_API_KEY
   //   public.siteUrl       → NUXT_PUBLIC_SITE_URL
@@ -98,6 +99,9 @@ export default defineNuxtConfig({
     gmail: {
       user: '',
       appPassword: ''
+    },
+    rav: {
+      ahvNumber: ''
     },
     anthropicApiKey: '',
     rapidApiKey: '',
