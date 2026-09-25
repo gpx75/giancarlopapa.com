@@ -20,6 +20,10 @@ const bulkRefreshing = ref(false);
 const snoozeOpen = ref(false);
 const snoozeUntilDate = ref<string>('');
 const jdOpen = ref(false);
+const deletingId = ref<number | null>(null);
+const bulkDeleting = ref(false);
+const deleteConfirmOpen = ref(false);
+const deleteTarget = ref<JobSuggestion | 'bulk' | null>(null);
 
 // ---- Filters ----
 const statusFilter = ref<'active' | 'dismissed' | 'all'>('active');
@@ -383,6 +387,79 @@ async function undismiss(suggestion: JobSuggestion) {
   }
 }
 
+function confirmDelete(suggestion: JobSuggestion) {
+  deleteTarget.value = suggestion;
+  deleteConfirmOpen.value = true;
+}
+
+function confirmDeleteAllDismissed() {
+  deleteTarget.value = 'bulk';
+  deleteConfirmOpen.value = true;
+}
+
+async function performDelete() {
+  if (deleteTarget.value === 'bulk') {
+    bulkDeleting.value = true;
+    try {
+      const result = await $fetch<{ deleted: number }>(
+        '/api/admin/applications/suggestions/dismissed',
+        { method: 'DELETE' }
+      );
+      suggestions.value = suggestions.value.filter(
+        (s) => s.status !== 'dismissed'
+      );
+      if (
+        selectedId.value &&
+        !suggestions.value.some((s) => s.id === selectedId.value)
+      ) {
+        selectedId.value = suggestions.value[0]?.id ?? null;
+      }
+      toast.add({
+        title: `${result.deleted} match${result.deleted === 1 ? '' : 'es'} deleted`,
+        color: 'success',
+        icon: 'i-lucide-trash-2'
+      });
+    } catch {
+      toast.add({
+        title: 'Delete failed',
+        color: 'error',
+        icon: 'i-lucide-triangle-alert'
+      });
+    } finally {
+      bulkDeleting.value = false;
+    }
+  } else if (deleteTarget.value) {
+    const suggestion = deleteTarget.value;
+    deletingId.value = suggestion.id;
+    try {
+      await $fetch(`/api/admin/applications/suggestions/${suggestion.id}`, {
+        method: 'DELETE'
+      });
+      suggestions.value = suggestions.value.filter(
+        (s) => s.id !== suggestion.id
+      );
+      if (selectedId.value === suggestion.id) {
+        selectedId.value = suggestions.value[0]?.id ?? null;
+      }
+      toast.add({
+        title: 'Deleted',
+        color: 'success',
+        icon: 'i-lucide-trash-2'
+      });
+    } catch {
+      toast.add({
+        title: 'Delete failed',
+        color: 'error',
+        icon: 'i-lucide-triangle-alert'
+      });
+    } finally {
+      deletingId.value = null;
+    }
+  }
+  deleteConfirmOpen.value = false;
+  deleteTarget.value = null;
+}
+
 function openSnooze(suggestion: JobSuggestion) {
   snoozingId.value = suggestion.id;
   // Default: 7 days from now, formatted YYYY-MM-DD
@@ -502,6 +579,16 @@ onMounted(() => {
             size="sm"
             @click="findJobsOpen = true"
           />
+          <UButton
+            v-if="statusFilter === 'dismissed' && sorted.length > 0"
+            icon="i-lucide-trash-2"
+            label="Empty trash"
+            size="sm"
+            color="error"
+            variant="outline"
+            :loading="bulkDeleting"
+            @click="confirmDeleteAllDismissed"
+          />
         </template>
       </UDashboardNavbar>
     </template>
@@ -511,7 +598,7 @@ onMounted(() => {
       <div
         class="border-b border-default px-4 py-3 flex flex-wrap items-center gap-2 bg-elevated/40"
       >
-        <UButtonGroup size="xs">
+        <UFieldGroup size="xs">
           <UButton
             :variant="statusFilter === 'active' ? 'solid' : 'outline'"
             color="neutral"
@@ -530,7 +617,7 @@ onMounted(() => {
             label="All"
             @click="statusFilter = 'all'"
           />
-        </UButtonGroup>
+        </UFieldGroup>
 
         <UInput
           v-model="search"
@@ -580,7 +667,7 @@ onMounted(() => {
           >{{ sorted.length }} match{{ sorted.length === 1 ? '' : 'es' }}</span
         >
 
-        <UButtonGroup size="xs">
+        <UFieldGroup size="xs">
           <UButton
             :variant="viewMode === 'flat' ? 'solid' : 'outline'"
             color="neutral"
@@ -595,7 +682,7 @@ onMounted(() => {
             title="Group by company"
             @click="viewMode = 'company'"
           />
-        </UButtonGroup>
+        </UFieldGroup>
       </div>
 
       <!-- Master-detail body -->
@@ -690,6 +777,16 @@ onMounted(() => {
                     />
                   </div>
                 </div>
+                <UButton
+                  v-if="s.status === 'dismissed'"
+                  icon="i-lucide-trash-2"
+                  size="xs"
+                  variant="ghost"
+                  color="error"
+                  :loading="deletingId === s.id"
+                  title="Delete permanently"
+                  @click.stop="confirmDelete(s)"
+                />
               </div>
             </li>
           </ul>
@@ -810,6 +907,16 @@ onMounted(() => {
                         />
                       </div>
                     </div>
+                    <UButton
+                      v-if="s.status === 'dismissed'"
+                      icon="i-lucide-trash-2"
+                      size="xs"
+                      variant="ghost"
+                      color="error"
+                      :loading="deletingId === s.id"
+                      title="Delete permanently"
+                      @click.stop="confirmDelete(s)"
+                    />
                   </div>
                 </li>
               </ul>
@@ -916,6 +1023,17 @@ onMounted(() => {
                   @click="undismiss(selected)"
                 >
                   Restore
+                </UButton>
+                <UButton
+                  v-if="selected.status === 'dismissed'"
+                  icon="i-lucide-trash-2"
+                  size="xs"
+                  variant="ghost"
+                  color="error"
+                  :loading="deletingId === selected.id"
+                  @click="confirmDelete(selected)"
+                >
+                  Delete
                 </UButton>
                 <UButton
                   icon="i-lucide-briefcase"
@@ -1122,6 +1240,45 @@ onMounted(() => {
           >Cancel</UButton
         >
         <UButton color="primary" @click="applySnooze">Snooze</UButton>
+      </div>
+    </template>
+  </UModal>
+
+  <!-- Delete confirmation modal -->
+  <UModal
+    v-model:open="deleteConfirmOpen"
+    title="Delete permanently?"
+    description="This cannot be undone."
+  >
+    <template #body>
+      <p class="text-sm text-muted">
+        <template v-if="deleteTarget === 'bulk'">
+          This will permanently delete all {{ sorted.length }} dismissed
+          matches.
+        </template>
+        <template v-else-if="deleteTarget">
+          This will permanently delete "{{ deleteTarget.title }}" ({{
+            deleteTarget.company
+          }}).
+        </template>
+      </p>
+    </template>
+    <template #footer>
+      <div class="flex justify-end gap-2 w-full">
+        <UButton
+          color="neutral"
+          variant="ghost"
+          @click="deleteConfirmOpen = false"
+        >
+          Cancel
+        </UButton>
+        <UButton
+          color="error"
+          :loading="bulkDeleting || deletingId != null"
+          @click="performDelete"
+        >
+          Delete
+        </UButton>
       </div>
     </template>
   </UModal>
