@@ -28,7 +28,7 @@ const sender = {
   name: 'Giancarlo Papa',
   role: 'Senior Full Stack Engineer',
   email: 'giancarlo.papa@gmail.com',
-  phone: '+41 77 804 35 29',
+  phone: '+41 76 337 13 75',
   location: 'Elsau ZH, Switzerland',
   url: 'giancarlopapa.com',
   github: 'github.com/gpx75',
