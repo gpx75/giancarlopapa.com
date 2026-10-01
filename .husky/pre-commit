@@ -21,3 +21,8 @@ if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json';
   git add public/giancarlo_papa_resume.pdf
   echo "✓ Updated PDF staged."
 fi
+
+# Warn (never block) when translated CVs no longer match the English master.
+if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume'; then
+  node scripts/translate-resume.mjs --check
+fi

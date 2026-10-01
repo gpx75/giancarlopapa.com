@@ -11,6 +11,7 @@
     "lint": "npm run check:runtime-public && eslint .",
     "typecheck": "nuxt typecheck",
     "generate-pdf": "node --env-file=.env scripts/generate-pdf.mjs",
+    "translate-resume": "node --env-file=.env scripts/translate-resume.mjs",
     "prepare": "husky"
   },
   "dependencies": {

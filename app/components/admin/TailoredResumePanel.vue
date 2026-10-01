@@ -6,6 +6,7 @@ const open = ref(false);
 const jsonText = ref('');
 const saving = ref(false);
 const downloading = ref(false);
+const tailoring = ref(false);
 const jsonError = ref('');
 const loaded = ref(false);
 
@@ -71,6 +72,29 @@ async function resetToMaster() {
   });
 }
 
+async function tailorToAd() {
+  tailoring.value = true;
+  try {
+    const data = await $fetch(
+      `/api/admin/applications/${props.applicationId}/core-competencies`,
+      { method: 'POST' }
+    );
+    jsonText.value = JSON.stringify(data, null, 2);
+    jsonError.value = '';
+    toast.add({
+      title: 'Tailored to job ad',
+      description: 'Core Competencies now mirror the ad — review the proofs before sending.',
+      color: 'success',
+      icon: 'i-lucide-check'
+    });
+  } catch (err: unknown) {
+    const msg = (err as { data?: { message?: string } })?.data?.message || 'Tailoring failed';
+    toast.add({ title: msg, color: 'error', icon: 'i-lucide-triangle-alert' });
+  } finally {
+    tailoring.value = false;
+  }
+}
+
 async function downloadPdf() {
   downloading.value = true;
   try {
@@ -113,6 +137,13 @@ async function downloadPdf() {
 
     <div v-if="open" class="border-t border-default p-3 space-y-3">
       <div class="flex items-center gap-2 flex-wrap">
+        <UButton
+          icon="i-lucide-target"
+          label="Tailor to job ad"
+          size="xs"
+          :loading="tailoring"
+          @click="tailorToAd"
+        />
         <UButton
           icon="i-lucide-download"
           label="Download tailored PDF"

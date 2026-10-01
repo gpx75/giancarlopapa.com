@@ -1,0 +1,102 @@
+{
+  "en": {
+    "languageName": "English",
+    "locale": "en-GB",
+    "sections": {
+      "summary": "Summary",
+      "coreCompetencies": "Core Competencies",
+      "workExperience": "Work Experience",
+      "previousWorkExperience": "Previous Work Experience",
+      "keyProjects": "Key Projects",
+      "technicalSkills": "Technical Skills",
+      "education": "Education",
+      "interests": "Interests"
+    },
+    "successStories": "Success Stories",
+    "present": "Present",
+    "contact": {
+      "email": "Email",
+      "phone": "Phone",
+      "location": "Location",
+      "web": "Web",
+      "languages": "Languages"
+    },
+    "coverLetterRe": "Re:",
+    "emailSubject": "Application — {position} at {company}"
+  },
+  "de": {
+    "languageName": "Deutsch",
+    "locale": "de-CH",
+    "sections": {
+      "summary": "Profil",
+      "coreCompetencies": "Kernkompetenzen",
+      "workExperience": "Berufserfahrung",
+      "previousWorkExperience": "Frühere Berufserfahrung",
+      "keyProjects": "Schlüsselprojekte",
+      "technicalSkills": "Technische Kenntnisse",
+      "education": "Ausbildung",
+      "interests": "Interessen"
+    },
+    "successStories": "Erfolge",
+    "present": "heute",
+    "contact": {
+      "email": "E-Mail",
+      "phone": "Telefon",
+      "location": "Wohnort",
+      "web": "Web",
+      "languages": "Sprachen"
+    },
+    "coverLetterRe": "Betreff:",
+    "emailSubject": "Bewerbung als {position} bei {company}"
+  },
+  "fr": {
+    "languageName": "Français",
+    "locale": "fr-CH",
+    "sections": {
+      "summary": "Profil",
+      "coreCompetencies": "Compétences clés",
+      "workExperience": "Expérience professionnelle",
+      "previousWorkExperience": "Expérience professionnelle antérieure",
+      "keyProjects": "Projets clés",
+      "technicalSkills": "Compétences techniques",
+      "education": "Formation",
+      "interests": "Centres d'intérêt"
+    },
+    "successStories": "Réalisations",
+    "present": "aujourd'hui",
+    "contact": {
+      "email": "E-mail",
+      "phone": "Téléphone",
+      "location": "Domicile",
+      "web": "Web",
+      "languages": "Langues"
+    },
+    "coverLetterRe": "Objet :",
+    "emailSubject": "Candidature — {position} chez {company}"
+  },
+  "it": {
+    "languageName": "Italiano",
+    "locale": "it-CH",
+    "sections": {
+      "summary": "Profilo",
+      "coreCompetencies": "Competenze chiave",
+      "workExperience": "Esperienza professionale",
+      "previousWorkExperience": "Esperienze precedenti",
+      "keyProjects": "Progetti principali",
+      "technicalSkills": "Competenze tecniche",
+      "education": "Formazione",
+      "interests": "Interessi"
+    },
+    "successStories": "Risultati",
+    "present": "oggi",
+    "contact": {
+      "email": "E-mail",
+      "phone": "Telefono",
+      "location": "Residenza",
+      "web": "Web",
+      "languages": "Lingue"
+    },
+    "coverLetterRe": "Oggetto:",
+    "emailSubject": "Candidatura — {position} presso {company}"
+  }
+}

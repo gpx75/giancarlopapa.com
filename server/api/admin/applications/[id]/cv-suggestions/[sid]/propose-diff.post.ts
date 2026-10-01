@@ -14,6 +14,7 @@ const SYSTEM_PROMPT = [
   '- "find" must be copied VERBATIM (exact characters) from the given resume JSON — it will be matched programmatically, not interpreted.',
   '- "path" must reference a field that actually exists in the given resume JSON (e.g. "basics.summary", "work[0].highlights[2]", "skills[3].keywords").',
   '- For "insert", the new item\'s shape must match existing items in that array (a string for a list of highlight strings, an object with the same keys for a list of skill-group or project objects).',
+  '- Write any new or replacement text in the same language as the resume JSON (the suggestion itself may be in English).',
   '- Prefer the smallest edit that fulfils the suggestion. Split unrelated changes into separate operations.',
   '- If the suggestion asks for something that is not a simple text replace or list append (e.g. reordering existing items, restructuring a section), use "manual" instead of guessing.',
   '',
@@ -45,7 +46,7 @@ export default defineEventHandler(async (event) => {
       .single(),
     db
       .from('job_applications')
-      .select('tailored_resume')
+      .select('tailored_resume, language')
       .eq('id', id)
       .single()
   ]);
@@ -60,7 +61,7 @@ export default defineEventHandler(async (event) => {
   const suggestion = suggestionRes.data;
   const baseResume =
     (appRes.data.tailored_resume as Record<string, unknown> | null) ??
-    getResumeJson();
+    getResumeJsonFor(appRes.data.language);
 
   const anthropic = useAnthropic();
   let response;

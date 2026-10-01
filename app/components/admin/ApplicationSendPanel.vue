@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { JobApplication, CoverLetter } from '~/types/applications';
+import resumeLabels from '~~/content/resume-labels.json';
 
 const props = defineProps<{
   application: JobApplication;
@@ -26,10 +27,13 @@ const selectedLetterId = ref<number | null>(null);
 
 // Reset form when application changes
 watch(
-  () => props.application,
-  (app) => {
+  () => [props.application.id, props.application.language] as const,
+  () => {
+    const app = props.application;
     to.value = app.contact_email ?? '';
-    subject.value = `Application — ${app.position} at ${app.company}`;
+    subject.value = resumeLabels[app.language ?? 'en'].emailSubject
+      .replace('{position}', app.position)
+      .replace('{company}', app.company);
     bodyText.value = '';
     selectedLetterId.value = null;
     letters.value = [];

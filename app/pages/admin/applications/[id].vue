@@ -224,6 +224,12 @@ async function confirmDelete() {
           @select="selectStage"
         />
 
+        <!-- Documents language (suggested from the ad) -->
+        <AdminApplicationLanguage
+          :application="application"
+          @updated="onJdSaved"
+        />
+
         <!-- Job description (full width, top) -->
         <AdminJobDescriptionViewer
           :application="application"

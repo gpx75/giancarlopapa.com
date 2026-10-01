@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
   // 1. Fetch application data
   const { data: app, error: appErr } = await db
     .from('job_applications')
-    .select('id, company, position, contact_email, tailored_resume, match_breakdown')
+    .select('id, company, position, contact_email, tailored_resume, match_breakdown, language')
     .eq('id', id)
     .single();
 
@@ -49,12 +49,12 @@ export default defineEventHandler(async (event) => {
 
   // 2. Generate tailored resume PDF if requested
   if (attachResume) {
-    const resumeData = app.tailored_resume ?? getResumeJson();
+    const resumeData = app.tailored_resume ?? getResumeJsonFor(app.language);
     const keywords: string[] = app.match_breakdown?.strongMatches ?? [];
     const company: string = app.company ?? 'company';
     const position: string = app.position ?? '';
 
-    const resumeHtml = buildTailoredResumeHtml(resumeData, keywords, company, position);
+    const resumeHtml = buildTailoredResumeHtml(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
     const resumePdf = await renderPdfWithBorder(resumeHtml);
 
     const slug = company.toLowerCase().replace(/\s+/g, '-');
@@ -78,13 +78,14 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 404, message: 'Cover letter not found.' });
     }
 
-    const resumeData = getResumeJson();
+    const resumeData = getResumeJsonFor(app.language);
     const clHtml = buildCoverLetterHtml({
       content: letter.content,
       company: app.company,
       position: app.position,
       contactEmail: app.contact_email,
-      basics: resumeData.basics
+      basics: resumeData.basics,
+      language: normalizeResumeLanguage(app.language)
     });
 
     const clPdf = await renderPdfWithBorder(clHtml);

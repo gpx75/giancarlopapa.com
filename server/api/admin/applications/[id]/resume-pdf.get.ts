@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error } = await db
     .from('job_applications')
-    .select('tailored_resume, match_breakdown, company, position')
+    .select('tailored_resume, match_breakdown, company, position, language')
     .eq('id', id)
     .single();
 
@@ -20,12 +20,12 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 404, message: 'Application not found.' });
   }
 
-  const resumeData = app.tailored_resume ?? getResumeJson();
+  const resumeData = app.tailored_resume ?? getResumeJsonFor(app.language);
   const keywords: string[] = app.match_breakdown?.strongMatches ?? [];
   const company: string = app.company ?? 'company';
   const position: string = app.position ?? '';
 
-  const html = buildTailoredResumeHtml(resumeData, keywords, company, position);
+  const html = buildTailoredResumeHtml(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
   const pdf = await renderPdfWithBorder(html);
 
   const slug = company.toLowerCase().replace(/\s+/g, '-');

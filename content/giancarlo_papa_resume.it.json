@@ -1,0 +1,282 @@
+{
+    "basics": {
+        "name": "Giancarlo Papa",
+        "label": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
+        "image": "",
+        "email": "giancarlo.papa@gmail.com",
+        "phone": "+41 76 337 13 75",
+        "url": "https://giancarlopapa.com",
+        "summary": "Senior Full-Stack Engineer con 25 anni di esperienza in PHP e una profonda padronanza dello stack web moderno — da Symfony e Laravel a Vue.js, Nuxt e piattaforme CMS headless come WordPress, Joomla, Craft CMS e Shopware. Esperienza con Python nel data warehouse engineering, nello sviluppo di servizi FastAPI e nell'automazione; solide basi nell'amministrazione di server Linux, nella containerizzazione con Docker e nelle infrastrutture cloud-native su GCP. Progetto, realizzo e gestisco in autonomia piattaforme interne business-critical — Salesforce DevOps, integrazioni enterprise e sistemi AI applicati (Vertex AI, Azure OpenAI, Gemini) — con oltre 13 anni di platform ownership in un esigente contesto svizzero delle telecomunicazioni.",
+        "summaryPdf": "Sono un artigiano del web autodidatta: programmo da quando avevo undici anni (BASIC su un C64). Progetto e realizzo piattaforme web robuste e scalabili con un'architettura pulita, guidato dalla curiosità e da un forte impegno per l'open source. Ho realizzato piattaforme pubbliche ad alto traffico in Italia e software enterprise business-critical nel settore svizzero delle telecomunicazioni. Come Tech Lead dell'unità OMNI Channel Platforms di Sunrise assumo la responsabilità tecnica end-to-end: architettura e scelte tecnologiche, design REST/API e integrazione dei sistemi, standard ingegneristici e operazioni DevOps affidabili. Guido lavorando in prima persona sul codice, applico le best practice e costruisco sistemi destinati a durare.",
+        "coreCompetencies": [
+            {
+                "requirement": "Sviluppo Full-Stack (PHP / Laravel / Vue.js)",
+                "proof": "25 anni di PHP — realizzazione della piattaforma AMP (Laravel/Vue.js), in produzione da oltre 7 anni presso Sunrise"
+            },
+            {
+                "requirement": "Cloud & DevOps (GCP / Docker / CI-CD)",
+                "proof": "Guida della migrazione da LAMP a Docker/GCP — pipeline GitLab CI, deployment containerizzati su RHEL"
+            },
+            {
+                "requirement": "Integrazione AI & LLM",
+                "proof": "Realizzazione di Jordan AI (Liberty Global) — Python/FastAPI + Azure OpenAI per l'assistenza in tempo reale alle chiamate, su larga scala"
+            },
+            {
+                "requirement": "Leadership tecnica",
+                "proof": "Oltre 13 anni come Tech Lead della OMNI Channel Platform — decisioni architetturali, roadmap, standard ingegneristici"
+            },
+            {
+                "requirement": "Salesforce DevOps",
+                "proof": "Pipeline CI/CD, sviluppo Apex/LWC, integrazioni API, sincronizzazione dei dati enterprise presso Sunrise"
+            }
+        ],
+        "location": {
+            "address": "Im Halbiacker 1a",
+            "postalCode": "8352",
+            "city": "Elsau",
+            "countryCode": "CH",
+            "region": "Zurigo"
+        },
+        "profiles": [
+            {
+                "network": "GitHub",
+                "username": "gpx75",
+                "url": "https://github.com/gpx75"
+            },
+            {
+                "network": "LinkedIn",
+                "username": "gpapa",
+                "url": "https://linkedin.com/in/gpapa"
+            }
+        ]
+    },
+    "work": [
+        {
+            "name": "Sunrise Communications AG",
+            "location": "Zurigo, Svizzera",
+            "position": "Tech Lead OMNI Channel Platforms & Senior Full Stack Engineer",
+            "url": "https://www.sunrise.ch",
+            "startDate": "2012-01",
+            "endDate": "",
+            "summary": "Oltre 13 anni con responsabilità crescenti in sviluppo full-stack, Salesforce DevOps, infrastruttura cloud, data engineering e AI applicata presso una delle principali aziende svizzere di telecomunicazioni.",
+            "highlights": [
+                "Technical Lead della OMNI Channel Platform: guida delle decisioni architetturali, definizione degli standard ingegneristici e delle roadmap tecniche, punto di riferimento tecnico per stakeholder di business e team di sviluppo.",
+                "Progettazione e realizzazione di applicazioni full-stack scalabili con PHP (Laravel), Vue.js, TypeScript e REST API — deployment su GCP e Linux (RHEL) con Docker e pipeline CI/CD.",
+                "Architettura e ownership di AMP — suite multilingue per la produttività del call center (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) — dal design alla produzione.",
+                "Salesforce DevOps Engineer: pipeline CI/CD, release management, sviluppo Apex custom, componenti LWC, Flows, integrazioni API e sincronizzazione dei dati enterprise.",
+                "Guida della trasformazione DevOps: da LAMP/LEMP a FrankenPHP su Docker/GCP/RHEL, pipeline GitLab CI/Jenkins, automazione delle release.",
+                "Sviluppo di AMP (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch): portale per il call center — template di ticket (4 lingue), distribuzione e strumenti di feedback."
+            ],
+            "successStories": [
+                {
+                    "title": "Piattaforma AMP — la colonna portante del call center",
+                    "shortForm": "Sostituzione di un fragile script legacy con una piattaforma full-stack per il call center (Laravel/Vue.js) — mission-critical da oltre 7 anni in tutto il Customer Care di Sunrise.",
+                    "challenge": "Il Customer Care di Sunrise dipendeva da un fragile script PHP legacy, non scalabile né su più lingue né su più unità di business.",
+                    "action": "Architettura e realizzazione di AMP — piattaforma full-stack Laravel/Vue.js con motore di ticket multilingue (4 lingue), distribuzione automatizzata e strumenti di feedback, con deployment su GCP tramite Docker e GitLab CI.",
+                    "result": "AMP è diventata la piattaforma mission-critical del call center di Sunrise, in produzione in modo affidabile da oltre 7 anni e a supporto delle operazioni quotidiane dell'intera organizzazione Customer Care."
+                },
+                {
+                    "title": "Jordan AI — Liberty Global",
+                    "shortForm": "Realizzazione di un assistente AI in tempo reale per le chiamate (Python/FastAPI + Azure OpenAI) — in uso a livello internazionale nelle filiali Liberty Global.",
+                    "challenge": "Gli agenti dei call center delle filiali Liberty Global non disponevano di alcun supporto in tempo reale durante le chiamate con i clienti, con tempi di risoluzione più lunghi e qualità del servizio ridotta.",
+                    "action": "Realizzazione di Jordan AI — backend Python/FastAPI e interfaccia Vue.js — integrando i dati delle chiamate in tempo reale con Azure OpenAI per generare pre-riassunti delle conversazioni e diagnosi automatiche per gli agenti.",
+                    "result": "Soluzione distribuita a livello internazionale nelle filiali Liberty Global, con assistenza AI in tempo reale agli agenti durante le chiamate."
+                },
+                {
+                    "title": "Trasformazione DevOps",
+                    "shortForm": "Migrazione da deployment LAMP manuali a Docker/GCP/GitLab CI — maggiore affidabilità delle release e frequenza di deployment sensibilmente aumentata.",
+                    "challenge": "I deployment LAMP manuali erano lenti, soggetti a errori e ostacolavano l'iterazione rapida.",
+                    "action": "Guida della migrazione verso container Docker su GCP/RHEL con pipeline GitLab CI/Jenkins e workflow di release automatizzati.",
+                    "result": "Affidabilità delle release migliorata in modo significativo e frequenza di deployment sensibilmente aumentata."
+                }
+            ]
+        },
+        {
+            "name": "Sicilia On Line Srl",
+            "location": "Palermo, Italia",
+            "position": "Webmaster & Full Stack Developer",
+            "url": "https://www.siciliaonline.it",
+            "startDate": "2006-05",
+            "endDate": "2011-12",
+            "summary": "Webmaster e sviluppatore principale di siciliaonline.it — portale regionale ad alto traffico con oltre 10'000 visitatori al giorno — e delle testate collegate gds.it e blogsicilia. Responsabilità completa dello sviluppo delle applicazioni PHP, dell'architettura del CMS Joomla e della gestione dei server LAMP per l'intero network.",
+            "highlights": [
+                "Realizzazione e scaling di piattaforme PHP/MySQL con oltre 10'000 visitatori al giorno su siciliaonline.it, gds.it e blogsicilia.",
+                "Sviluppo di componenti, plugin e template Joomla/Mambo personalizzati per i flussi di lavoro redazionali.",
+                "Guida dei redesign delle piattaforme con miglioramenti di performance, SEO e coinvolgimento dei lettori.",
+                "Gestione completa dello stack LAMP: Apache, MySQL, hardening dei server e operazioni in alta disponibilità.",
+                "Integrazione di sistemi di pagamento online tramite Moneynet SpA, comprese le implementazioni dei gateway Stripe e PayPal per e-commerce e flussi di abbonamento."
+            ],
+            "successStories": [
+                {
+                    "title": "Portale ad alto traffico",
+                    "shortForm": "Realizzazione e scaling di piattaforme PHP/MySQL con oltre 10'000 visitatori al giorno su siciliaonline.it, gds.it e blogsicilia.",
+                    "challenge": "Il network di portali regionali doveva gestire un traffico crescente mantenendo performance ed efficienza dei flussi di lavoro redazionali.",
+                    "action": "Sviluppo di componenti Joomla personalizzati e ottimizzazione dell'intero stack LAMP per operazioni in alta disponibilità.",
+                    "result": "Le piattaforme hanno servito in modo affidabile oltre 10'000 visitatori al giorno, con miglioramenti di performance, SEO e coinvolgimento dei lettori."
+                },
+                {
+                    "title": "Modernizzazione della piattaforma",
+                    "shortForm": "Evoluzione da script PHP ad hoc a un'architettura Joomla strutturata — migliorando performance, SEO e flussi di lavoro redazionali.",
+                    "challenge": "La piattaforma era costituita da script PHP ad hoc senza una struttura manutenibile, rendendo lo sviluppo lento e soggetto a errori.",
+                    "action": "Architettura di un codebase PHP/Joomla strutturato con componenti, plugin e template personalizzati per i flussi di lavoro redazionali.",
+                    "result": "Realizzazione di una piattaforma manutenibile e performante, capace di sostenere diversi redesign e una produttività redazionale costante."
+                }
+            ]
+        }
+    ],
+    "education": [
+        {
+            "institution": "I.I.S.S. \"G. Salerno\" — Gangi (PA), Italia",
+            "location": "Gangi (PA), Italia",
+            "studyType": "Diploma — Istituto Tecnico Economico",
+            "area": "Sistemi Informativi Aziendali",
+            "startDate": "1991",
+            "endDate": "1997"
+        }
+    ],
+    "skills": [
+        {
+            "name": "PHP & Web",
+            "keywords": [
+                "PHP (25 anni)",
+                "Python",
+                "FastAPI",
+                "Laravel",
+                "Eloquent ORM",
+                "Symfony",
+                "Doctrine ORM",
+                "Vue.js",
+                "Nuxt",
+                "JavaScript / TypeScript",
+                "HTML5 / CSS",
+                "Twig",
+                "Composer",
+                "RESTful APIs",
+                "GraphQL"
+            ]
+        },
+        {
+            "name": "AI & Sviluppo",
+            "keywords": [
+                "Sviluppo assistito dall'AI",
+                "Sviluppo di AI Agent",
+                "Integrazione LLM",
+                "Azure OpenAI / GPT",
+                "Vertex AI",
+                "Gemini API",
+                "Prompt Engineering",
+                "Piattaforme Big Data",
+                "Analytics Engineering"
+            ]
+        },
+        {
+            "name": "Cloud & Platform",
+            "keywords": [
+                "Linux (RHEL / Debian / Ubuntu)",
+                "Docker",
+                "Infrastruttura Cloud (GCP & AWS)",
+                "Deployment serverless",
+                "Google Cloud Platform",
+                "Cloud Run",
+                "AWS Lambda",
+                "AWS (S3, SQS, SNS)",
+                "Object Storage (S3 / GCS)",
+                "GitLab CI / Jenkins",
+                "Kubernetes",
+                "Terraform"
+            ]
+        },
+        {
+            "name": "Pagamenti & Fintech",
+            "keywords": [
+                "Sviluppo di piattaforme di pagamento",
+                "Stripe",
+                "PayPal",
+                "Integrazione di payment gateway",
+                "Conoscenza PCI-DSS"
+            ]
+        },
+        {
+            "name": "Database & Enterprise",
+            "keywords": [
+                "MySQL",
+                "Oracle DB",
+                "PostgreSQL",
+                "MariaDB",
+                "Redis",
+                "Elasticsearch",
+                "MongoDB",
+                "Salesforce / Apex / LWC",
+                "LDAP / Active Directory"
+            ]
+        },
+        {
+            "name": "E-Commerce & CMS",
+            "keywords": [
+                "WordPress",
+                "Joomla / Mambo",
+                "Craft CMS",
+                "Shopware 5 & 6",
+                "Statamic",
+                "Headless CMS"
+            ]
+        },
+        {
+            "name": "Metodologia",
+            "keywords": [
+                "Agile / Scrum",
+                "Code Reviews",
+                "CI / CD",
+                "Unit & Integration Testing",
+                "Analisi statica del codice",
+                "Pair Programming",
+                "Version Control (Git)"
+            ]
+        },
+        {
+            "name": "DevOps & Networking",
+            "keywords": [
+                "Bash / Shell scripting",
+                "Nginx / Apache",
+                "TCP/IP / DNS",
+                "SSL / TLS",
+                "Hardening dei sistemi"
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "name": "AMP — Application Management Portal",
+            "description": "Suite full-stack per la produttività del call center realizzata per gli agenti Sunrise — motore multilingue di template per ticket (4 lingue), sistema di distribuzione automatica dei ticket e strumenti di feedback tra agenti e a livello aziendale. Ownership completa dall'architettura alla produzione.",
+            "stack": "Laravel · Vue.js · Oracle · MySQL · Redis · Elasticsearch · FrankenPHP · Docker · GCP · RHEL"
+        },
+        {
+            "name": "Jordan AI (Liberty Global)",
+            "description": "Assistente internazionale per le chiamate basato su AI, in uso nelle filiali Liberty Global. Sviluppo del backend Python/FastAPI e del frontend Vue.js — con connessione ai dati delle chiamate in tempo reale per generare pre-riassunti delle conversazioni e diagnosi automatiche per gli agenti del call center.",
+            "stack": "Python · FastAPI · Vue.js · LLM integration · Azure OpenAI · REST APIs"
+        }
+    ],
+    "languages": [
+        {
+            "language": "Italiano",
+            "fluency": "Madrelingua"
+        },
+        {
+            "language": "Tedesco",
+            "fluency": "Bilingue C1+"
+        },
+        {
+            "language": "Inglese",
+            "fluency": "C1"
+        }
+    ],
+    "interests": [],
+    "meta": {
+        "translation": {
+            "language": "it",
+            "sourceHash": "d68f8725e1c7976ff199b116727cd46216717d1cbc51027927dba323e64501ed",
+            "translatedAt": "2026-09-30T06:55:02.897Z",
+            "reviewed": false
+        }
+    }
+}
