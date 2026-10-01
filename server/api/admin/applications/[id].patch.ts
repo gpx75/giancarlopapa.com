@@ -9,12 +9,16 @@ export default defineEventHandler(async (event) => {
     'company', 'position', 'url', 'location', 'work_model',
     'status', 'priority', 'salary_range', 'notes', 'contact_email',
     'job_description', 'applied_at', 'interviewed_at', 'decided_at',
-    'tailored_resume', 'cv_suggestions'
+    'tailored_resume', 'cv_suggestions', 'language'
   ];
 
   const update: Record<string, unknown> = {};
   for (const key of allowed) {
     if (key in body) update[key] = body[key];
+  }
+
+  if ('language' in update && !RESUME_LANGUAGES.includes(update.language as ResumeLanguage)) {
+    throw createError({ statusCode: 400, message: 'Unsupported language.' });
   }
 
   if (Object.keys(update).length === 0) {

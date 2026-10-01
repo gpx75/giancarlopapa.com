@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error } = await db
     .from('job_applications')
-    .select('tailored_resume')
+    .select('tailored_resume, language')
     .eq('id', id)
     .single();
 
@@ -24,5 +24,5 @@ export default defineEventHandler(async (event) => {
     return app.tailored_resume;
   }
 
-  return getResumeJson();
+  return getResumeJsonFor(app?.language);
 });

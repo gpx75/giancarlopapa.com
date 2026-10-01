@@ -160,5 +160,10 @@ function startEdit() {
         No job description yet. Add one to enable analysis and CV suggestions.
       </div>
     </div>
+    <!-- Always visible, even with the description collapsed. -->
+    <AdminJobSourceLink
+      :url="application.url"
+      :class="!open && 'border-t-0 pt-0 mt-0'"
+    />
   </UCard>
 </template>

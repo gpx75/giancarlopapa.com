@@ -41,7 +41,20 @@ const workTypeOptions = [
   { label: 'On-site', value: 'on_site' }
 ];
 
+function looksLikeUrl(value: string): boolean {
+  return /^https?:\/\//i.test(value.trim());
+}
+
 async function findJobs() {
+  if (looksLikeUrl(keywords.value)) {
+    toast.add({
+      title: 'That looks like a job URL',
+      description: 'Paste it into "Import from URL" below instead — this field searches by keywords.',
+      color: 'warning',
+      icon: 'i-lucide-triangle-alert'
+    });
+    return;
+  }
   searching.value = true;
   results.value = [];
   resultSummary.value = '';
@@ -78,6 +91,14 @@ async function findJobs() {
 // Import from URL
 const importUrl = ref('');
 const importing = ref(false);
+// Shown once an import fails: the description pasted by hand always works,
+// whatever the site does to block automated access.
+const importError = ref('');
+const pastedDescription = ref('');
+
+watch(importUrl, () => {
+  importError.value = '';
+});
 
 async function importFromUrl() {
   if (!importUrl.value.trim()) return;
@@ -85,14 +106,18 @@ async function importFromUrl() {
   try {
     await $fetch('/api/admin/applications/suggestions/import-url', {
       method: 'POST',
-      body: { url: importUrl.value.trim() }
+      body: {
+        url: importUrl.value.trim(),
+        text: importError.value ? pastedDescription.value.trim() || undefined : undefined
+      }
     });
     toast.add({ title: 'Job imported!', color: 'success', icon: 'i-lucide-check' });
     importUrl.value = '';
+    pastedDescription.value = '';
+    importError.value = '';
     emit('imported');
   } catch (err: unknown) {
-    const msg = (err as { data?: { message?: string } })?.data?.message || 'Import failed';
-    toast.add({ title: msg, color: 'error', icon: 'i-lucide-triangle-alert' });
+    importError.value = (err as { data?: { message?: string } })?.data?.message || 'Import failed.';
   } finally {
     importing.value = false;
   }
@@ -171,7 +196,7 @@ async function importFromUrl() {
     <!-- Import from URL -->
     <div class="space-y-3">
       <p class="text-xs text-muted uppercase tracking-wide">Import from URL</p>
-      <p class="text-xs text-muted">Paste any job posting URL — AI extracts title, company and description.</p>
+      <p class="text-xs text-muted">Paste any job posting URL — AI extracts title, company and description. If the site blocks it, you can paste the description instead.</p>
       <div class="flex gap-2">
         <UInput
           v-model="importUrl"
@@ -188,6 +213,36 @@ async function importFromUrl() {
           @click="importFromUrl"
         />
       </div>
+
+      <template v-if="importError">
+        <UAlert
+          color="warning"
+          variant="soft"
+          icon="i-lucide-clipboard-paste"
+          :title="importError"
+          description="Open the posting in your browser, copy the whole job description and paste it here. Title, company and location are extracted from it; the text is kept as is."
+        />
+        <UFormField label="Job description" name="pastedDescription">
+          <UTextarea
+            v-model="pastedDescription"
+            :rows="8"
+            autoresize
+            :maxrows="16"
+            class="w-full"
+            placeholder="Paste the full job description…"
+          />
+        </UFormField>
+        <div class="flex justify-end">
+          <UButton
+            icon="i-lucide-clipboard-check"
+            label="Import pasted description"
+            size="sm"
+            :loading="importing"
+            :disabled="pastedDescription.trim().length < 200"
+            @click="importFromUrl"
+          />
+        </div>
+      </template>
     </div>
   </div>
 </template>

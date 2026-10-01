@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: appErr } = await db
     .from('job_applications')
-    .select('company, position, contact_email')
+    .select('company, position, contact_email, language')
     .eq('id', letter.application_id)
     .single();
 
@@ -32,14 +32,15 @@ export default defineEventHandler(async (event) => {
   }
 
   // Load resume basics for header
-  const resumeData = getResumeJson();
+  const resumeData = getResumeJsonFor(app.language);
 
   const html = buildCoverLetterHtml({
     content: letter.content,
     company: app.company,
     position: app.position,
     contactEmail: app.contact_email,
-    basics: resumeData.basics
+    basics: resumeData.basics,
+    language: normalizeResumeLanguage(app.language)
   });
 
   const pdf = await renderPdfWithBorder(html);

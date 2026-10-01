@@ -1,3 +1,5 @@
+import type { ResumeLanguage } from '#shared/utils/resume-language';
+
 export type ApplicationStatus =
   | 'saved'
   | 'applied'
@@ -214,6 +216,8 @@ export interface JobApplication {
   updated_at: string;
   cv_suggestions?: CvSuggestion[] | null;
   tailored_resume?: Record<string, unknown> | null;
+  /** Language of the CV, cover letter and email — absent until the migration runs. */
+  language?: ResumeLanguage;
   workflow: ApplicationWorkflow;
   deleted_at?: string | null;
 }

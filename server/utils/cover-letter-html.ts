@@ -22,13 +22,18 @@ interface CoverLetterHtmlOptions {
       countryCode: string;
       postalCode: string;
     };
+    label?: string;
     profiles: Array<{ network: string; url: string }>;
   };
+  language?: ResumeLanguage;
 }
 
 export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
   const { content, company, position, basics } = opts;
-  const today = new Date().toLocaleDateString('en-US', {
+  const language = opts.language ?? 'en';
+  const labels = getResumeLabels(language);
+  const title = cleanJobTitle(position) || basics.label || 'Senior Full Stack Engineer';
+  const today = new Date().toLocaleDateString(labels.locale, {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
@@ -42,17 +47,18 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
     .map((p) => p.trim())
     .filter(Boolean);
 
-  // Detect salutation and closing — first line starting with "Dear" and last line like "Sincerely,"
+  // Detect salutation and closing (EN/DE/FR/IT) — e.g. "Dear …" / "Sehr geehrte …"
+  // first, "Sincerely," / "Freundliche Grüsse" last.
   let salutation = '';
   let closing = '';
   const bodyParagraphs = [...paragraphs];
 
-  if (bodyParagraphs[0] && /^(dear|to whom)/i.test(bodyParagraphs[0])) {
+  if (bodyParagraphs[0] && /^(dear|to whom|sehr geehrte|liebe|guten tag|hallo|madame|monsieur|bonjour|gentile|egregi|spettabile|buongiorno)/i.test(bodyParagraphs[0])) {
     salutation = bodyParagraphs.shift()!;
   }
 
   const lastP = bodyParagraphs[bodyParagraphs.length - 1] ?? '';
-  if (/^(sincerely|regards|best|warm|kind|yours|thank)/i.test(lastP)) {
+  if (/^(sincerely|regards|best|warm|kind|yours|thank|freundliche|mit freundlichen|beste grüsse|herzliche|cordialement|meilleures salutations|je vous prie|distinti saluti|cordiali saluti|cordialmente)/i.test(lastP)) {
     closing = bodyParagraphs.pop()!;
   }
 
@@ -63,7 +69,7 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
     .filter(Boolean);
 
   return `<!DOCTYPE html>
-<html lang="en">
+<html lang="${language}">
 <head>
 <meta charset="UTF-8">
 <style>
@@ -110,7 +116,7 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
     margin-bottom: 4px;
   }
   .contact-line {
-    font-size: 9pt;
+    font-size: 10pt;
     color: #64748b;
     line-height: 1.5;
     margin-bottom: 1px;
@@ -182,14 +188,14 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
 
   <div class="header">
     <div class="name"><span class="first">${esc(basics.name.split(' ')[0] ?? '')}</span> ${esc(basics.name.split(' ').slice(1).join(' '))}</div>
-    <div class="title">Senior Full Stack Engineer</div>
+    <div class="title">${esc(title)}</div>
     <div class="contact-line">
-      <span class="contact-item"><strong>Email:</strong> ${esc(basics.email)}</span>
-      <span class="contact-item"><strong>Phone:</strong> ${esc(basics.phone)}</span>
-      <span class="contact-item"><strong>Web:</strong> ${esc(basics.url.replace('https://', ''))}</span>
+      <span class="contact-item"><strong>${esc(labels.contact.email)}:</strong> ${esc(basics.email)}</span>
+      <span class="contact-item"><strong>${esc(labels.contact.phone)}:</strong> ${esc(basics.phone)}</span>
+      <span class="contact-item"><strong>${esc(labels.contact.web)}:</strong> ${esc(basics.url.replace('https://', ''))}</span>
     </div>
     <div class="contact-line">
-      <span class="contact-item"><strong>Location:</strong> ${esc(`${basics.location.postalCode} ${basics.location.city}, ${basics.location.region} — ${basics.location.countryCode}`)}</span>
+      <span class="contact-item"><strong>${esc(labels.contact.location)}:</strong> ${esc(`${basics.location.postalCode} ${basics.location.city}, ${basics.location.region} — ${basics.location.countryCode}`)}</span>
       ${githubProfile ? `<span class="contact-item"><strong>GitHub:</strong> ${esc(githubProfile.url.replace('https://', ''))}</span>` : ''}
       ${linkedinProfile ? `<span class="contact-item"><strong>LinkedIn:</strong> ${esc(linkedinProfile.url.replace('https://', ''))}</span>` : ''}
     </div>
@@ -198,7 +204,7 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
   <div class="divider"></div>
 
   <div class="date">${esc(today)}</div>
-  <div class="re-line">Re: ${esc(position)} — ${esc(company)}</div>
+  <div class="re-line">${esc(labels.coverLetterRe)} ${esc(position)} — ${esc(company)}</div>
 
   ${salutation ? `<div class="salutation">${esc(salutation)}</div>` : ''}
 

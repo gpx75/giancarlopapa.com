@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
 
   const appRes = await db
     .from('job_applications')
-    .select('tailored_resume, match_breakdown, company, position, workflow')
+    .select('tailored_resume, match_breakdown, company, position, workflow, language')
     .eq('id', id)
     .single();
   if (appRes.error || !appRes.data) {
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
   const app = appRes.data;
 
   const baseResume =
-    (app.tailored_resume as Record<string, unknown> | null) ?? getResumeJson();
+    (app.tailored_resume as Record<string, unknown> | null) ?? getResumeJsonFor(app.language);
 
   // Re-validate against the CURRENT resume — content may have shifted since
   // the client last reviewed the proposed diff.
@@ -60,7 +60,8 @@ export default defineEventHandler(async (event) => {
     nextResume as unknown as Parameters<typeof buildTailoredResumeHtml>[0],
     keywords,
     (app.company as string) ?? '',
-    (app.position as string) ?? ''
+    (app.position as string) ?? '',
+    normalizeResumeLanguage(app.language)
   );
   const pdf = await renderPdfWithBorder(html);
   const pageCount = (await PDFDocument.load(pdf)).getPageCount();

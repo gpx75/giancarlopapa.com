@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, company, position, job_description, match_breakdown')
+    .select('id, company, position, job_description, match_breakdown, language')
     .eq('id', id)
     .single();
 
@@ -74,24 +74,34 @@ export default defineEventHandler(async (event) => {
   };
   const toneInstruction = toneGuide[tone] || '';
 
+  const languageInstruction: Record<ResumeLanguage, string> = {
+    en: 'English',
+    de: 'German — Swiss usage: "ss" instead of "ß", formal "Sie"',
+    fr: 'French — Swiss usage, formal "vous"',
+    it: 'Italian — Swiss usage, formal "Lei"'
+  };
+  const letterLanguage = languageInstruction[normalizeResumeLanguage(app.language)];
+
   const systemPrompt = `You are writing a cover letter in the first person for Giancarlo Papa applying for ${app.position} at ${app.company}.${matchContext}${instructions ? `\nAdditional instructions: ${instructions}` : ''}
 
 TONE — ${tone.toUpperCase()}:
 ${toneInstruction}
 
-The opening sentence has already been written. Continue it into a 3-paragraph letter under 200 words. Write entirely in first person ("I", "my", "I've") — Giancarlo is speaking directly.
+LANGUAGE: write the letter in ${letterLanguage}, as a native speaker would. Keep technology names as they are.
+
+Write a short letter of 2–3 short paragraphs, under 180 words in total. Write entirely in first person ("I", "my", "I've") — Giancarlo is speaking directly. The reader already has the CV: the letter must answer what the CV cannot.
 
 STRUCTURE:
-- Para 1 (2–3 sentences): Name ${app.company}'s specific challenge. One sentence on what I bring to solve it.
-- Para 2 (3–4 sentences): One concrete past situation that proves the claim. What happened, what the outcome was. One sentence on how I work.
-- Para 3 (2 sentences): Why specifically ${app.company}. A direct human invite to talk.
+- Para 1 — Value: open directly with the pain point or challenge ${app.company} is hiring to solve, and the concrete value I add to solve it. This is "why should they take me".
+- Para 2 — Motivation: why this specific position and why ${app.company} (product, mission, stack, stage, team) — something that could not be said about any other company.
+- Para 3 (optional, 1–2 sentences): a direct, human invite to talk.
 
 RULES:
 1. First person throughout — "I built", "I led", "I've seen" — never "he" or "you"
-2. One skill, tool, or technology per sentence maximum — no lists
-3. No buzzwords: leverage, synergy, passionate, dynamic, results-driven, proven track record
-4. No CV recitation — interpret experience, don't repeat it
-5. Under 200 words total including the opening sentence already written
+2. The first sentence must carry information. Never open with a stock phrase: no "With great interest", "I am writing to apply", "I came across", "I am excited to apply", "Please find attached" — nor their equivalents in any language ("Mit grossem Interesse", "Hiermit bewerbe ich mich", "Avec grand intérêt", "Je me permets de postuler", "Con grande interesse", "Mi candido per") or similar.
+3. Do NOT repeat the CV: no job history, no lists of technologies, no years of experience recital. At most one short concrete example, and only as proof of the value claim.
+4. No buzzwords: leverage, synergy, passionate, dynamic, results-driven, proven track record
+5. Relevance over completeness — every sentence must connect to what the ad asks for.
 
 Output only the letter body. No salutation, no sign-off, no markdown.`;
 
@@ -105,10 +115,6 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
         {
           role: 'user',
           content: `Candidate resume:\n${resumeText}\n\n---\n\nJob description:\n${app.job_description || '(not provided)'}`
-        },
-        {
-          role: 'assistant',
-          content: `I came across ${app.company}`
         }
       ],
       system: systemPrompt
@@ -139,8 +145,7 @@ Output only the letter body. No salutation, no sign-off, no markdown.`;
 
   const nextVersion = (existing?.[0]?.version ?? 0) + 1;
 
-  const prefill = `I came across ${app.company}`;
-  const fullContent = `${prefill}${textBlock.text.trim().startsWith(prefill) ? textBlock.text.trim().slice(prefill.length) : ' ' + textBlock.text.trim()}`;
+  const fullContent = textBlock.text;
 
   // Draft mode: return content without saving to DB
   if (isDraft) {
