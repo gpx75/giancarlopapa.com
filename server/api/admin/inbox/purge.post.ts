@@ -1,22 +1,13 @@
 import { serverSupabaseServiceRole } from '#supabase/server';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-const OWNER_EMAIL = 'giancarlo.papa@gmail.com';
-
 /**
  * Destructive: deletes ALL rows from `inbox_messages`. Used to wipe stale
- * pre-migration iCloud rows so a fresh Gmail-filtered sync can repopulate
- * the table cleanly. Owner-only — we double-check the session here because
- * the global admin middleware only guards `/admin/*` UI routes, not
- * `/api/admin/*`.
+ * rows so a fresh Gmail-filtered sync can repopulate the table cleanly.
+ * Owner-only via server/middleware/admin.ts, which guards every
+ * `/api/admin/*` route (and skips auth in local dev, like all admin APIs).
  */
 export default defineEventHandler(async (event) => {
-  const session = await getUserSession(event);
-  const userEmail = (session?.user as Record<string, unknown> | undefined)?.email as string | undefined;
-  if (!userEmail || userEmail !== OWNER_EMAIL) {
-    throw createError({ statusCode: 403, statusMessage: 'Forbidden' });
-  }
-
   const db = serverSupabaseServiceRole<unknown>(event) as unknown as SupabaseClient;
 
   // Supabase requires a filter on delete() — use a condition that matches
