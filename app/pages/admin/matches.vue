@@ -1179,6 +1179,7 @@ onMounted(() => {
               >
                 {{ selected.description }}
               </div>
+              <AdminJobSourceLink :url="selected.url" />
             </UCard>
           </div>
         </div>

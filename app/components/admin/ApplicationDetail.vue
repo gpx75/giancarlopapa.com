@@ -591,6 +591,8 @@ defineExpose({ saveChanges });
         No job description added. Add one to enable match analysis and cover
         letter generation.
       </p>
+
+      <AdminJobSourceLink :url="application.url" />
     </div>
 
     <USeparator />
