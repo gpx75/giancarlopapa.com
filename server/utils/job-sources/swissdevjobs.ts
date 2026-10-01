@@ -3,6 +3,7 @@ import type {
   JobSearchParams,
   JobSearchResult
 } from './types';
+import { htmlToText } from './html-text';
 
 interface SwissDevJob {
   _id: string;
@@ -23,37 +24,19 @@ interface SwissDevJob {
   companySize: string;
 }
 
-/** Strip HTML tags but preserve paragraph breaks. */
-function htmlToText(html: string): string {
-  return html
-    .replace(/<\/(p|div|li|h[1-6]|br)>/gi, '\n')
-    .replace(/<br\s*\/?>/gi, '\n')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/[ \t]+/g, ' ')
-    .replace(/\n{3,}/g, '\n\n')
-    .trim();
-}
-
 /**
- * Fetch the full job description by parsing the `window.__detailedJob` JSON
- * embedded in the page (SwissDevJobs is client-side rendered, so the listing
- * API returns metadata only). Returns empty string on any failure.
+ * Fetch the `window.__detailedJob` JSON embedded in a SwissDevJobs detail page
+ * (the site is client-side rendered, so the listing API returns metadata only).
+ * Returns null on any failure.
  */
-async function fetchFullDescription(url: string): Promise<string> {
+async function fetchDetailedJob(
+  url: string
+): Promise<Record<string, unknown> | null> {
   // Only the SwissDevJobs detail pages embed `window.__detailedJob`. Some
   // listings link straight to external ATSes (join.com, lever, greenhouse,
   // workable, smartrecruiters, etc.) via `redirectJobUrl` — bail out so the
   // caller can fall back to the generic HTML extractor.
-  try {
-    const host = new URL(url).hostname;
-    if (!/(^|\.)swissdevjobs\.ch$/i.test(host)) return '';
-  } catch {
-    return '';
-  }
+  if (!isSwissDevJobsUrl(url)) return null;
 
   try {
     const html = await $fetch<string>(url, {
@@ -67,37 +50,74 @@ async function fetchFullDescription(url: string): Promise<string> {
     const m = html.match(
       /window\.__detailedJob\s*=\s*(\{[\s\S]*?\})\s*;?\s*<\/script>/
     );
-    if (!m || !m[1]) return '';
+    if (!m || !m[1]) return null;
 
-    let data: Record<string, unknown>;
-    try {
-      data = JSON.parse(m[1]);
-    } catch {
-      return '';
-    }
-
-    const parts: string[] = [];
-    const desc = data.description;
-    if (typeof desc === 'string' && desc.trim()) {
-      parts.push(htmlToText(desc));
-    }
-    const responsibilities = data.responsibilitiesTextArea;
-    if (typeof responsibilities === 'string' && responsibilities.trim()) {
-      parts.push('Responsibilities:\n' + htmlToText(responsibilities));
-    }
-    const mustHave = data.requirementsMustTextArea;
-    if (typeof mustHave === 'string' && mustHave.trim()) {
-      parts.push('Requirements (must-have):\n' + htmlToText(mustHave));
-    }
-    const niceToHave = data.requirementsNiceTextArea;
-    if (typeof niceToHave === 'string' && niceToHave.trim()) {
-      parts.push('Requirements (nice-to-have):\n' + htmlToText(niceToHave));
-    }
-
-    return parts.join('\n\n').slice(0, 16000);
+    return JSON.parse(m[1]);
   } catch {
-    return '';
+    return null;
   }
+}
+
+/** Build a plain-text description from the detailed job JSON. */
+function describeDetailedJob(data: Record<string, unknown>): string {
+  const parts: string[] = [];
+  const desc = data.description;
+  if (typeof desc === 'string' && desc.trim()) {
+    parts.push(htmlToText(desc));
+  }
+  const responsibilities = data.responsibilitiesTextArea;
+  if (typeof responsibilities === 'string' && responsibilities.trim()) {
+    parts.push('Responsibilities:\n' + htmlToText(responsibilities));
+  }
+  const mustHave = data.requirementsMustTextArea;
+  if (typeof mustHave === 'string' && mustHave.trim()) {
+    parts.push('Requirements (must-have):\n' + htmlToText(mustHave));
+  }
+  const niceToHave = data.requirementsNiceTextArea;
+  if (typeof niceToHave === 'string' && niceToHave.trim()) {
+    parts.push('Requirements (nice-to-have):\n' + htmlToText(niceToHave));
+  }
+
+  return parts.join('\n\n').slice(0, 16000);
+}
+
+/** Full job description for a SwissDevJobs URL. Returns '' on any failure. */
+async function fetchFullDescription(url: string): Promise<string> {
+  const data = await fetchDetailedJob(url);
+  return data ? describeDetailedJob(data) : '';
+}
+
+export function isSwissDevJobsUrl(url: string): boolean {
+  try {
+    return /(^|\.)swissdevjobs\.ch$/i.test(new URL(url).hostname);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Structured job data for a single SwissDevJobs URL — used by "Import from
+ * URL", where the generic HTML extractor only sees the empty SPA shell.
+ * Returns null when the page has no embedded job.
+ */
+export async function importSwissDevJob(url: string): Promise<{
+  title: string;
+  company: string;
+  location: string;
+  description: string;
+} | null> {
+  const data = await fetchDetailedJob(url);
+  if (!data || typeof data.name !== 'string' || typeof data.company !== 'string') {
+    return null;
+  }
+
+  const city = data.actualCity || data.cityCategory;
+  return {
+    title: data.name,
+    company: data.company,
+    location: typeof city === 'string' && city ? `${city}, Switzerland` : 'Switzerland',
+    description: describeDetailedJob(data)
+  };
 }
 
 /**

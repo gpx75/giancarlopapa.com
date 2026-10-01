@@ -25,19 +25,45 @@ function getChromePath(): string {
   });
 }
 
-export async function renderPdfWithBorder(html: string): Promise<Buffer> {
+async function launchBrowser() {
   const puppeteer = await getPuppeteer();
-  const executablePath = getChromePath();
-
-  const browser = await puppeteer.launch({
+  return puppeteer.launch({
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
       '--disable-dev-shm-usage'
     ],
-    executablePath,
+    executablePath: getChromePath(),
     headless: true
   });
+}
+
+/**
+ * Visible text of a page after its JavaScript has run — for job boards that
+ * serve an empty HTML shell. Returns null when Chrome is unavailable (e.g. on
+ * Vercel) or the page fails to load.
+ */
+export async function renderPageText(url: string): Promise<string | null> {
+  let browser;
+  try {
+    browser = await launchBrowser();
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.0.0 Safari/537.36'
+    );
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 25_000 });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return await page.evaluate(() => (globalThis as any).document.body?.innerText ?? '');
+  } catch (err: unknown) {
+    console.warn('[renderPageText] failed:', err instanceof Error ? err.message : err);
+    return null;
+  } finally {
+    await browser?.close();
+  }
+}
+
+export async function renderPdfWithBorder(html: string): Promise<Buffer> {
+  const browser = await launchBrowser();
 
   try {
     const page = await browser.newPage();
