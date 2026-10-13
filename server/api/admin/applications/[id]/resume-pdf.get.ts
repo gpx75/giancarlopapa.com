@@ -25,10 +25,9 @@ export default defineEventHandler(async (event) => {
   const company: string = app.company ?? 'company';
   const position: string = app.position ?? '';
 
-  const html = buildTailoredResumeHtml(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
-  const pdf = await renderPdfWithBorder(html);
+  const { pdf } = await renderTailoredResumePdf(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
 
-  const slug = company.toLowerCase().replace(/\s+/g, '-');
+  const slug = fileSlug(company);
   setResponseHeaders(event, {
     'Content-Type': 'application/pdf',
     'Content-Disposition': `inline; filename="resume-${slug}-tailored.pdf"`

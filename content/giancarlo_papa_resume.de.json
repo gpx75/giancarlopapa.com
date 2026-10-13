@@ -7,7 +7,7 @@
         "phone": "+41 76 337 13 75",
         "url": "https://giancarlopapa.com",
         "summary": "Senior Full Stack Engineer mit 25 Jahren PHP-Erfahrung und fundierter Beherrschung des modernen Web-Stacks – von Symfony und Laravel über Vue.js und Nuxt bis zu Headless-CMS-Plattformen wie WordPress, Joomla, Craft CMS und Shopware. Erfahren in Python für Data-Warehouse-Engineering, FastAPI-Serviceentwicklung und Automatisierung; fundiert in Linux-Serverbetrieb, Docker-Containerisierung und Cloud-native Infrastruktur auf GCP. Ich konzipiere, entwickle und verantworte geschäftskritische interne Plattformen – Salesforce DevOps, Enterprise-Integrationen und angewandte KI-Systeme (Vertex AI, Azure OpenAI, Gemini) – mit über 13 Jahren Plattformverantwortung in einem anspruchsvollen Schweizer Telekommunikationsumfeld.",
-        "summaryPdf": "Ich bin ein autodidaktischer Web-Handwerker und programmiere seit meinem elften Lebensjahr (BASIC auf einem C64). Ich konzipiere und entwickle robuste, skalierbare Webplattformen mit klarer Architektur – angetrieben von Neugier und einem starken Engagement für Open Source. Ich habe Publikumsplattformen mit hohem Traffic in Italien und geschäftskritische Enterprise-Software im Schweizer Telekommunikationssektor realisiert. Als Tech Lead der Unit OMNI Channel Platforms bei Sunrise trage ich die technische Gesamtverantwortung: Architektur- und Technologieentscheide, REST-/API-Design und Systemintegration, Engineering-Standards sowie einen verlässlichen DevOps-Betrieb. Ich führe hands-on, setze Best Practices durch und baue Systeme, die Bestand haben.",
+        "summaryPdf": "Ich bin ein autodidaktischer Web-Artisan und programmiere seit meinem elften Lebensjahr (BASIC auf einem C64). Ich konzipiere und entwickle robuste, skalierbare Webplattformen mit klarer Architektur – angetrieben von Neugier und einem starken Engagement für Open Source. Ich habe Publikumsplattformen mit hohem Traffic in Italien und geschäftskritische Enterprise-Software im Schweizer Telekommunikationssektor realisiert. Als Tech Lead der Unit OMNI Channel Platforms bei Sunrise trage ich die technische Gesamtverantwortung: Architektur- und Technologieentscheide, REST-/API-Design und Systemintegration, Engineering-Standards sowie einen verlässlichen DevOps-Betrieb. Ich führe hands-on, setze Best Practices durch und baue Systeme, die Bestand haben.",
         "coreCompetencies": [
             {
                 "requirement": "Full-Stack-Entwicklung (PHP / Laravel / Vue.js)",
@@ -263,18 +263,43 @@
         },
         {
             "language": "Deutsch",
-            "fluency": "Zweisprachig C1+"
+            "fluency": "Zweisprachig C2"
         },
         {
             "language": "Englisch",
             "fluency": "C1"
         }
     ],
-    "interests": [],
+    "interests": [
+        {
+            "name": "Trailrunning",
+            "keywords": []
+        },
+        {
+            "name": "Wandern",
+            "keywords": []
+        },
+        {
+            "name": "Möbelrestaurierung",
+            "keywords": []
+        },
+        {
+            "name": "Reisen",
+            "keywords": []
+        },
+        {
+            "name": "Gartenarbeit",
+            "keywords": []
+        },
+        {
+            "name": "Handwerken",
+            "keywords": []
+        }
+    ],
     "meta": {
         "translation": {
             "language": "de",
-            "sourceHash": "d68f8725e1c7976ff199b116727cd46216717d1cbc51027927dba323e64501ed",
+            "sourceHash": "051977b7d7e3a8a1936fcd2a890579876a17d8e2ae0f3da3780ca0141dd0c2ff",
             "translatedAt": "2026-09-30T06:53:01.354Z",
             "reviewed": false
         }

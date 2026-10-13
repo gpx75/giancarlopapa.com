@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
 
   setResponseHeaders(event, {
     'Content-Type': 'application/pdf',
-    'Content-Disposition': `inline; filename="cover-letter-${app.company.toLowerCase().replace(/\s+/g, '-')}.pdf"`
+    'Content-Disposition': `inline; filename="cover-letter-${fileSlug(app.company)}.pdf"`
   });
 
   return pdf;

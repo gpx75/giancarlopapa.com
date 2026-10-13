@@ -1,9 +1,6 @@
 import { serverSupabaseServiceRole } from '#supabase/server';
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { PDFDocument } from 'pdf-lib';
 import type { ApplyCvEditsResponse, CvEditOp } from '~/types/applications';
-
-const MAX_PAGES = 2;
 
 export default defineEventHandler(async (event) => {
   const id = Number(getRouterParam(event, 'id'));
@@ -54,7 +51,9 @@ export default defineEventHandler(async (event) => {
   const keywords: string[] =
     (app.match_breakdown as { strongMatches?: string[] } | null)
       ?.strongMatches ?? [];
-  const html = buildTailoredResumeHtml(
+  // Same fitting as the real download: only reject when even the tightest
+  // spacing can't keep the CV on two pages.
+  const { pages: pageCount } = await renderTailoredResumePdf(
     // ResumeData isn't exported from tailored-resume-html.ts; shape is
     // guaranteed by applyCvEdits, which only mutates an existing valid resume.
     nextResume as unknown as Parameters<typeof buildTailoredResumeHtml>[0],
@@ -63,13 +62,11 @@ export default defineEventHandler(async (event) => {
     (app.position as string) ?? '',
     normalizeResumeLanguage(app.language)
   );
-  const pdf = await renderPdfWithBorder(html);
-  const pageCount = (await PDFDocument.load(pdf)).getPageCount();
 
-  if (pageCount > MAX_PAGES) {
+  if (pageCount > MAX_RESUME_PAGES) {
     throw createError({
       statusCode: 422,
-      message: `This would grow the tailored resume to ${pageCount} pages (max ${MAX_PAGES}) — not applied.`
+      message: `This would grow the tailored resume to ${pageCount} pages (max ${MAX_RESUME_PAGES}) — not applied.`
     });
   }
 

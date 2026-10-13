@@ -158,7 +158,7 @@ async function downloadPdf() {
           size="xs"
           variant="ghost"
           color="neutral"
-          to="/api/resume/pdf"
+          to="/giancarlo_papa_resume.pdf"
           target="_blank"
         />
         <UButton

@@ -54,10 +54,9 @@ export default defineEventHandler(async (event) => {
     const company: string = app.company ?? 'company';
     const position: string = app.position ?? '';
 
-    const resumeHtml = buildTailoredResumeHtml(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
-    const resumePdf = await renderPdfWithBorder(resumeHtml);
+    const { pdf: resumePdf } = await renderTailoredResumePdf(resumeData, keywords, company, position, normalizeResumeLanguage(app.language));
 
-    const slug = company.toLowerCase().replace(/\s+/g, '-');
+    const slug = fileSlug(company);
     const filename = `resume-${slug}-tailored.pdf`;
     attachments.push({
       filename,
@@ -89,7 +88,7 @@ export default defineEventHandler(async (event) => {
     });
 
     const clPdf = await renderPdfWithBorder(clHtml);
-    const clSlug = app.company.toLowerCase().replace(/\s+/g, '-');
+    const clSlug = fileSlug(app.company);
     const clFilename = `cover-letter-${clSlug}.pdf`;
     attachments.push({
       filename: clFilename,
