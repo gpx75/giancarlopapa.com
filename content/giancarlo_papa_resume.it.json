@@ -263,18 +263,43 @@
         },
         {
             "language": "Tedesco",
-            "fluency": "Bilingue C1+"
+            "fluency": "Bilingue C2"
         },
         {
             "language": "Inglese",
             "fluency": "C1"
         }
     ],
-    "interests": [],
+    "interests": [
+        {
+            "name": "Trail running",
+            "keywords": []
+        },
+        {
+            "name": "Escursionismo",
+            "keywords": []
+        },
+        {
+            "name": "Restauro di mobili",
+            "keywords": []
+        },
+        {
+            "name": "Viaggi",
+            "keywords": []
+        },
+        {
+            "name": "Giardinaggio",
+            "keywords": []
+        },
+        {
+            "name": "Lavori manuali",
+            "keywords": []
+        }
+    ],
     "meta": {
         "translation": {
             "language": "it",
-            "sourceHash": "d68f8725e1c7976ff199b116727cd46216717d1cbc51027927dba323e64501ed",
+            "sourceHash": "051977b7d7e3a8a1936fcd2a890579876a17d8e2ae0f3da3780ca0141dd0c2ff",
             "translatedAt": "2026-09-30T06:55:02.897Z",
             "reviewed": false
         }

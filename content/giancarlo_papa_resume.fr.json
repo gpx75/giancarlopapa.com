@@ -263,18 +263,43 @@
         },
         {
             "language": "Allemand",
-            "fluency": "Bilingue C1+"
+            "fluency": "Bilingue C2"
         },
         {
             "language": "Anglais",
             "fluency": "C1"
         }
     ],
-    "interests": [],
+    "interests": [
+        {
+            "name": "Trail",
+            "keywords": []
+        },
+        {
+            "name": "Randonnée",
+            "keywords": []
+        },
+        {
+            "name": "Restauration de meubles",
+            "keywords": []
+        },
+        {
+            "name": "Voyages",
+            "keywords": []
+        },
+        {
+            "name": "Jardinage",
+            "keywords": []
+        },
+        {
+            "name": "Bricolage",
+            "keywords": []
+        }
+    ],
     "meta": {
         "translation": {
             "language": "fr",
-            "sourceHash": "d68f8725e1c7976ff199b116727cd46216717d1cbc51027927dba323e64501ed",
+            "sourceHash": "051977b7d7e3a8a1936fcd2a890579876a17d8e2ae0f3da3780ca0141dd0c2ff",
             "translatedAt": "2026-09-30T06:53:57.435Z",
             "reviewed": false
         }

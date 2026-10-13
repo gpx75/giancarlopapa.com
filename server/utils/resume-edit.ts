@@ -125,9 +125,9 @@ export function applyCvEdits(
         continue;
       }
 
-      // The tailored PDF only renders highlight bullets for the current role
-      // (no endDate), and caps them at MAX_CURRENT_ROLE_HIGHLIGHTS — an
-      // insert beyond that would be saved but silently invisible in the PDF.
+      // The tailored PDF shows at most MAX_CURRENT_ROLE_HIGHLIGHTS bullets for
+      // the current role (no endDate) and MAX_PREVIOUS_ROLE_HIGHLIGHTS for
+      // previous roles — an insert beyond that would be saved but invisible.
       const isWorkHighlights =
         tokens.length === 3 &&
         tokens[0] === 'work' &&
@@ -137,13 +137,12 @@ export function applyCvEdits(
         const job = getAtPath(resume, tokens.slice(0, 2)) as
           | { endDate?: string }
           | undefined;
-        if (job?.endDate) {
+        if (job?.endDate && arr.length >= MAX_PREVIOUS_ROLE_HIGHLIGHTS) {
           results.push({
             op: 'insert',
             path: edit.path,
             status: 'error',
-            message:
-              'The tailored PDF only shows highlight bullets for the current role — this would be saved but invisible.'
+            message: `Previous roles show their first ${MAX_PREVIOUS_ROLE_HIGHLIGHTS} highlights in the tailored PDF — adding another won't appear. Replace an existing one instead.`
           });
           continue;
         }

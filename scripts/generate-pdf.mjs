@@ -46,6 +46,12 @@ function fmtDate(d) {
     .toLocaleDateString('en', { month: 'short', year: 'numeric' })
 }
 
+// The headline stays on one line next to the photo: about 48 characters
+// fit at 16pt, so longer titles step down (never below 11pt).
+function titleFontSize(title) {
+  return Math.max(11, Math.min(16, Math.floor((16 * 48) / Math.max(title.length, 1))))
+}
+
 function esc(s) {
   return String(s)
     .replace(/&/g, '&amp;')
@@ -58,6 +64,7 @@ function buildResumeHtml(avatar) {
   const { basics, work, skills, languages, education, interests, projects } = resume
   const coreCompetencies = basics.coreCompetencies ?? []
   const summaryPdf = basics.summaryPdf ?? basics.summary
+  const roleTitle = basics.label ?? 'Senior Full Stack Engineer'
 
   // All work entries on page 1
   const allWork = work ?? []
@@ -84,26 +91,22 @@ function buildResumeHtml(avatar) {
       ${rest.length ? wrap(rest.join('')) : ''}`
   }
 
-  // A job's title, company line and first bullet stay together (plus the
-  // section heading for the first job); later bullets may move to the next page.
+  // A job is never split across pages: title, company line and all bullets
+  // (plus the section heading for the first job) move to the next page together.
   const workEntry = (job, heading = '') => {
-    const highlights = (job.highlights ?? []).slice(0, 4).map(h => `<li>${esc(h)}</li>`)
-    const [first, ...rest] = highlights
+    const highlights = (job.highlights ?? []).slice(0, 6).map(h => `<li>${esc(h)}</li>`).join('')
     const dateRange = `${fmtDate(job.startDate)} – ${fmtDate(job.endDate)}`
     const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
     return `
-      <div class="work-row">
-        <div class="keep">
-          ${heading}
-          <div class="jobtitle">${esc(job.position)}</div>
-          <div class="company-line">${esc(meta)}</div>
-          ${first ? `<ul class="highlights">${first}</ul>` : ''}
-        </div>
-        ${rest.length ? `<ul class="highlights">${rest.join('')}</ul>` : ''}
+      <div class="work-row keep">
+        ${heading}
+        <div class="jobtitle">${esc(job.position)}</div>
+        <div class="company-line">${esc(meta)}</div>
+        ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
       </div>`
   }
 
-  // Compact work entry (previous roles — summary, no highlights)
+  // Compact work entry (previous roles — summary + first 3 highlights)
   const workEntryCompact = (job, heading = '') => {
     const dateRange = `${fmtDate(job.startDate)} – ${fmtDate(job.endDate)}`
     const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
@@ -113,6 +116,7 @@ function buildResumeHtml(avatar) {
         <div class="jobtitle">${esc(job.position)}</div>
         <div class="company-line">${esc(meta)}</div>
         ${job.summary ? `<div class="jsummary">${esc(job.summary)}</div>` : ''}
+        ${job.highlights?.length ? `<ul class="highlights">${job.highlights.slice(0, 3).map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
       </div>`
   }
 
@@ -151,7 +155,9 @@ function buildResumeHtml(avatar) {
   /* ── Header ── */
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
   .hdr-left { flex: 1; min-width: 0; }
-  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; }
+  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .role-title.fs-15 { font-size: 15pt; } .role-title.fs-14 { font-size: 14pt; } .role-title.fs-13 { font-size: 13pt; }
+  .role-title.fs-12 { font-size: 12pt; } .role-title.fs-11 { font-size: 11pt; }
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 20pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
   .name strong { font-weight: 800; margin-right: 0.15em; }
   .education-header { font-size: 10pt; color: #64748b; margin-bottom: 3px; }
@@ -167,6 +173,9 @@ function buildResumeHtml(avatar) {
 
   /* ── Section headers ── */
   .keep { break-inside: avoid; page-break-inside: avoid; }
+  /* Never split a single item across pages: bullets, skill rows, projects
+     and paragraphs move whole to the next page. */
+  li, p, .jsummary, .skill-row, .project-row { break-inside: avoid; page-break-inside: avoid; }
   .section-hdr { margin-top: 12px; margin-bottom: 4px; }
   .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 11pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; margin-top: 16px; }
   .section-rule { width: 100%; height: 1px; background: #cbd5e1; margin-top: 1px; }
@@ -177,7 +186,6 @@ function buildResumeHtml(avatar) {
   .competencies li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
 
   /* ── Work entries ── */
-  /* Long entries may split across pages, but only between bullets. */
   .work-row { margin-bottom: 4px; }
   .work-row li { break-inside: avoid; page-break-inside: avoid; }
   .work-row-compact { margin-bottom: 4px; }
@@ -205,7 +213,6 @@ function buildResumeHtml(avatar) {
 
   /* ── Languages & Education ── */
   .lang-line { font-size: 10pt; color: #334155; line-height: 1.3; }
-  .edu-entry { margin-bottom: 2px; page-break-inside: avoid; }
   .interest-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
 
   /* ── Accent bar ── */
@@ -219,8 +226,9 @@ function buildResumeHtml(avatar) {
 
   <div class="header">
     <div class="hdr-left">
-      <div class="role-title">${esc(basics.label ?? 'Senior Full Stack Engineer')}</div>
+      <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0])}</strong>${esc(basics.name.split(' ').slice(1).join(''))}</div>
+      ${education?.[0] ? `<div class="education-header">${esc([education[0].studyType, education[0].area].filter(Boolean).join(' — '))}</div>` : ''}
       <div class="contact-line">
         ${contactItem('Email', basics.email)}
         ${contactItem('Phone', basics.phone)}
@@ -236,6 +244,9 @@ function buildResumeHtml(avatar) {
       <div class="lang-header">
         <strong>Language:</strong> ${languages.filter(l => l.fluency !== 'Basic knowledge').map(l => `${esc(l.language)} ${esc(l.fluency)}`).join(' · ')}
       </div>
+      ${interests?.length ? `<div class="lang-header">
+        <strong>Interests:</strong> ${interests.map(g => esc(g.name)).join(' · ')}
+      </div>` : ''}
     </div>
     ${avatar ? `<div class="avatar"><img src="${avatar}" alt=""></div>` : ''}
   </div>
@@ -264,17 +275,7 @@ function buildResumeHtml(avatar) {
       <span class="skill-kw-inline">${g.keywords.map(k => esc(k)).join(', ')}</span>
     </div>`))}
 
-  ${section('EDUCATION', education.map(edu => `
-    <div class="edu-entry">
-      <div class="jobtitle">${esc(edu.institution)}</div>
-      <div class="company">${esc([edu.studyType, edu.area].filter(Boolean).join(' · '))}</div>
-      <div class="wloc">${esc([edu.startDate, edu.endDate].filter(Boolean).join(' – '))}</div>
-    </div>`))}
-
-  ${section('INTERESTS', interests?.length ? [`
-    <div class="lang-line">
-      ${interests.map(g => `<strong>${esc(g.name)}:</strong> ${g.keywords.map(k => esc(k)).join(', ')}`).join(' &nbsp;·&nbsp; ')}
-    </div>`] : [])}
+  <!-- Education and interests are shown in the header. -->
 </body>
 </html>`
 }

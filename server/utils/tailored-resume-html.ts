@@ -1,9 +1,28 @@
 import { readFileSync, existsSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-// Only the current role renders bullet highlights, and only the first N of
-// them — keep this in sync with workEntry()'s default below.
-export const MAX_CURRENT_ROLE_HIGHLIGHTS = 4
+// Bullet highlights shown per role in the full layout (the compact fit levels
+// show fewer — see RESUME_FIT_LEVELS). resume-edit.ts uses these to reject
+// inserts that would never appear.
+export const MAX_CURRENT_ROLE_HIGHLIGHTS = 6
+export const MAX_PREVIOUS_ROLE_HIGHLIGHTS = 3
+
+/**
+ * How hard the layout works to fit two pages — tried in order by
+ * renderTailoredResumePdf():
+ *   0–2  full content (all bullets), spacing normal → tightest
+ *   3–4  compact content (4 bullets for the current role, previous roles
+ *        summary only), spacing tighter → tightest
+ * Never the font size (min 10pt).
+ */
+export type ResumeFitLevel = 0 | 1 | 2 | 3 | 4
+export const RESUME_FIT_LEVELS: readonly ResumeFitLevel[] = [0, 1, 2, 3, 4]
+
+// The headline stays on one line next to the photo: about 48 characters
+// fit at 16pt, so longer titles step down (never below 11pt).
+function titleFontSize(title: string): number {
+  return Math.max(11, Math.min(16, Math.floor((16 * 48) / Math.max(title.length, 1))))
+}
 
 function esc(s: string): string {
   return String(s)
@@ -102,10 +121,18 @@ export function buildTailoredResumeHtml(
   keywords: string[],
   _company: string,
   position: string,
-  language: ResumeLanguage = 'en'
+  language: ResumeLanguage = 'en',
+  fit: ResumeFitLevel = 0
 ): string {
+  const compact = fit >= 3
+  const density = compact ? fit - 2 : fit
   const labels = getResumeLabels(language)
-  const { basics, work, skills, education, languages, projects, interests } = resume
+  const { basics, work, skills, education, languages, projects } = resume
+  // Interests aren't tailored per job: tailored copies made before they were
+  // added fall back to the current master in the CV's language.
+  const interests: ResumeData['interests'] = resume.interests?.length
+    ? resume.interests
+    : getResumeJsonFor(language).interests
   const coreCompetencies = basics.coreCompetencies ?? []
   const summaryPdf = basics.summaryPdf ?? basics.summary ?? ''
   // Headline mirrors the job ad's title; the master label is only a fallback.
@@ -165,23 +192,20 @@ export function buildTailoredResumeHtml(
 
   type WorkItem = NonNullable<ResumeData['work']>[number]
 
-  // A job's title, company line and first bullet stay together (plus the
-  // section heading for the first job); later bullets may move to the next page.
+  // A job is never split across pages: title, company line and all bullets
+  // (plus the section heading for the first job) move to the next page together.
   const workEntry = (job: WorkItem, heading = '') => {
-    const highlights = (job.highlights ?? []).slice(0, MAX_CURRENT_ROLE_HIGHLIGHTS)
+    const highlights = (job.highlights ?? []).slice(0, compact ? 4 : MAX_CURRENT_ROLE_HIGHLIGHTS)
       .map(h => `<li>${highlight(h, keywords)}</li>`)
-    const [first, ...rest] = highlights
+      .join('')
     const dateRange = `${fmtDate(job.startDate, labels)} – ${fmtDate(job.endDate ?? '', labels)}`
     const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
     return `
-      <div class="work-row">
-        <div class="keep">
-          ${heading}
-          <div class="jobtitle">${esc(job.position)}</div>
-          <div class="company-line">${esc(meta)}</div>
-          ${first ? `<ul class="highlights">${first}</ul>` : ''}
-        </div>
-        ${rest.length ? `<ul class="highlights">${rest.join('')}</ul>` : ''}
+      <div class="work-row keep">
+        ${heading}
+        <div class="jobtitle">${esc(job.position)}</div>
+        <div class="company-line">${esc(meta)}</div>
+        ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
       </div>`
   }
 
@@ -194,6 +218,10 @@ export function buildTailoredResumeHtml(
         <div class="jobtitle">${esc(job.position)}</div>
         <div class="company-line">${esc(meta)}</div>
         ${job.summary ? `<div class="jsummary">${highlight(job.summary, keywords)}</div>` : ''}
+        ${!compact && job.highlights?.length ? `<ul class="highlights">${job.highlights
+          .slice(0, MAX_PREVIOUS_ROLE_HIGHLIGHTS)
+          .map(h => `<li>${highlight(h, keywords)}</li>`)
+          .join('')}</ul>` : ''}
       </div>`
   }
 
@@ -214,7 +242,9 @@ export function buildTailoredResumeHtml(
   /* ── Header ── */
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
   .hdr-left { flex: 1; min-width: 0; }
-  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; }
+  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .role-title.fs-15 { font-size: 15pt; } .role-title.fs-14 { font-size: 14pt; } .role-title.fs-13 { font-size: 13pt; }
+  .role-title.fs-12 { font-size: 12pt; } .role-title.fs-11 { font-size: 11pt; }
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 20pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
   .name strong { font-weight: 800; margin-right: 0.15em; }
   .education-header { font-size: 10pt; color: #64748b; margin-bottom: 3px; }
@@ -230,6 +260,9 @@ export function buildTailoredResumeHtml(
 
   /* ── Section headers ── */
   .keep { break-inside: avoid; page-break-inside: avoid; }
+  /* Never split a single item across pages: bullets, skill rows, projects
+     and paragraphs move whole to the next page. */
+  li, p, .jsummary, .skill-row, .project-row { break-inside: avoid; page-break-inside: avoid; }
   .section-hdr { margin-top: 12px; margin-bottom: 4px; }
   .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 11pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; margin-top: 16px; }
   .section-rule { width: 100%; height: 1px; background: #cbd5e1; margin-top: 1px; }
@@ -240,7 +273,6 @@ export function buildTailoredResumeHtml(
   .competencies li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
 
   /* ── Work entries ── */
-  /* Long entries may split across pages, but only between bullets. */
   .work-row { margin-bottom: 4px; }
   .work-row li { break-inside: avoid; page-break-inside: avoid; }
   .work-row-compact { margin-bottom: 4px; }
@@ -268,19 +300,31 @@ export function buildTailoredResumeHtml(
 
   /* ── Languages & Education ── */
   .lang-line { font-size: 10pt; color: #334155; line-height: 1.3; }
-  .edu-entry { margin-bottom: 2px; page-break-inside: avoid; }
 
   /* ── Accent bar ── */
   .accent-bar { height: 3px; background: linear-gradient(90deg, #2a7a8a 0%, #3a9eae 100%); margin-bottom: 10px; border-radius: 1px; }
+
+  /* ── Tighter spacing levels (fit to two pages) ── */
+  body.density-1 .section-hdr { margin-top: 4px; }
+  body.density-1 .section-title { margin-top: 10px; }
+  body.density-1 :is(.summary, .jsummary, .project-desc, li) { line-height: 1.2; }
+  body.density-1 .skill-kw-inline { line-height: 1.22; }
+  body.density-2 .section-hdr { margin-top: 2px; margin-bottom: 2px; }
+  body.density-2 .section-title { margin-top: 6px; margin-bottom: 2px; }
+  body.density-2 :is(.summary, .jsummary, .project-desc, li) { line-height: 1.15; }
+  body.density-2 .skill-kw-inline { line-height: 1.15; }
+  body.density-2 .contact-line, body.density-2 .lang-header { line-height: 1.35; }
+  body.density-2 .stories li { margin-bottom: 0; }
 </style>
 </head>
-<body>
+<body class="density-${density}">
   <div class="accent-bar"></div>
 
   <div class="header">
     <div class="hdr-left">
-      <div class="role-title">${esc(roleTitle)}</div>
+      <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0]!)}</strong>${esc(basics.name.split(' ').slice(1).join(' '))}</div>
+      ${education?.[0] ? `<div class="education-header">${esc([education[0].studyType, education[0].area].filter(Boolean).join(' — '))}</div>` : ''}
       <div class="contact-line">
         ${contactItem(labels.contact.email, basics.email)}
         ${contactItem(labels.contact.phone, basics.phone)}
@@ -324,17 +368,12 @@ export function buildTailoredResumeHtml(
       <span class="skill-kw-inline">${g.keywords.map(k => highlight(k, keywords)).join(', ')}</span>
     </div>`))}
 
-  ${section(labels.sections.education, (education ?? []).map(edu => `
-    <div class="edu-entry">
-      <div class="jobtitle">${esc(edu.institution)}</div>
-      <div class="company-line">${esc([edu.studyType, edu.area].filter(Boolean).join(' · '))}</div>
-      <div class="company-line">${esc([edu.startDate, edu.endDate].filter(Boolean).join(' – '))}</div>
-    </div>`))}
+  ${interests?.length ? section(labels.sections.interests, [`
+    <div class="skill-row">
+      <span class="skill-kw-inline">${interests.map(g => esc(g.name)).join(' · ')}</span>
+    </div>`]) : ''}
 
-  ${section(labels.sections.interests, interests?.length ? [`
-    <div class="lang-line">
-      ${interests.map(g => `<strong>${esc(g.name)}:</strong> ${g.keywords.map(k => esc(k)).join(', ')}`).join(' &nbsp;·&nbsp; ')}
-    </div>`] : [])}
+  <!-- Education is shown in the header. -->
 </body>
 </html>`
 }

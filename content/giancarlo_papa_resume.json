@@ -219,12 +219,19 @@
     },
     {
       "language": "German",
-      "fluency": "Bilingual C1+"
+      "fluency": "Bilingual C2"
     },
     {
       "language": "English",
       "fluency": "C1"
     }
   ],
-  "interests": []
+  "interests": [
+    { "name": "Trail running", "keywords": [] },
+    { "name": "Hiking", "keywords": [] },
+    { "name": "Furniture restoration", "keywords": [] },
+    { "name": "Travelling", "keywords": [] },
+    { "name": "Gardening", "keywords": [] },
+    { "name": "Handicrafts", "keywords": [] }
+  ]
 }
