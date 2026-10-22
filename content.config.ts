@@ -92,6 +92,8 @@ export default defineContentConfig({
           phone: z.string().optional(),
           url: z.string().optional(),
           summary: z.string().optional(),
+          nationality: z.string().optional(),
+          workPermit: z.string().optional(),
           location: z
             .object({
               address: z.string().optional(),

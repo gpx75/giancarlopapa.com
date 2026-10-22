@@ -65,6 +65,9 @@ NARRATIVE FIELDS — these MUST be written from the candidate's point of view ev
 - strongMatches (max 8): specific technologies / experiences from the JD where the candidate is unambiguously a strong fit.
 - gaps (max 6): JD requirements where the candidate is light or absent. State as candidate-facing
   notes ("no formal Kubernetes cert"), not as company-facing weaknesses.
+- keywords (max 15): short terms (1–3 words each, e.g. "Vue.js", "TypeScript", "PostgreSQL",
+  "CI/CD") that the JD asks for AND the candidate genuinely has. Spell each exactly as it appears
+  in the candidate's resume skills — matching skill groups are listed first in the tailored CV. No sentences.
 
 Respond with a SINGLE JSON object only — no markdown fences, no commentary.
 
@@ -79,6 +82,7 @@ Schema:
   "measurableImpact": string[],
   "whyJoin": string,
   "strongMatches": string[],
-  "gaps": string[]
+  "gaps": string[],
+  "keywords": string[]
 }`;
 }

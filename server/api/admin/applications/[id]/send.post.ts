@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
   // 2. Generate tailored resume PDF if requested
   if (attachResume) {
     const resumeData = app.tailored_resume ?? getResumeJsonFor(app.language);
-    const keywords: string[] = app.match_breakdown?.strongMatches ?? [];
+    const keywords = resumeMatchKeywords(app.match_breakdown);
     const company: string = app.company ?? 'company';
     const position: string = app.position ?? '';
 
