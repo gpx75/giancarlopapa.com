@@ -3,6 +3,19 @@ import { PDFDocument } from 'pdf-lib';
 export const MAX_RESUME_PAGES = 2;
 
 /**
+ * JD terms that order the tailored CV's skill groups (matching groups first). Uses the analysis' short `keywords`;
+ * older analyses only have `strongMatches`, which are usually full sentences
+ * that match no skill — so only their short entries are kept.
+ */
+export function resumeMatchKeywords(breakdown: unknown): string[] {
+  const b = breakdown as { keywords?: unknown; strongMatches?: unknown } | null;
+  const strings = (v: unknown) => (Array.isArray(v) ? v.filter((k): k is string => typeof k === 'string') : []);
+  const keywords = strings(b?.keywords);
+  if (keywords.length) return keywords;
+  return strings(b?.strongMatches).filter(k => k.length <= 30);
+}
+
+/**
  * Renders the tailored CV, stepping through RESUME_FIT_LEVELS (tighter
  * spacing first, then fewer bullets) until it fits on MAX_RESUME_PAGES.
  * Returns the first render that fits, or the most compact one (with its page

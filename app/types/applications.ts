@@ -180,6 +180,8 @@ export interface MatchBreakdown {
   summary: string;
   strongMatches: string[];
   gaps: string[];
+  // Short JD terms that order the tailored CV's skills (older analyses won't have these).
+  keywords?: string[];
   // From-fit-to-impact framing (optional; older analyses won't have these).
   companyPainPoints?: string[];
   valueDelivered?: string[];

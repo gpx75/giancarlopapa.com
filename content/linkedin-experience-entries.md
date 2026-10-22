@@ -35,7 +35,7 @@ Webmaster and lead developer for siciliaonline.it — a high-traffic regional to
 **Employment type:** Full-time
 
 **Description:**
-Joined Sunrise in April 2012 as a contractor via Tempobrain, working within the Sunrise TV team, and converted to a permanent role in July 2013. Started as Specialist in the Internal Contact Center IPTV TS, then promoted to Specialist Application in the Service Assurance Operations department. Responsible for 2nd- and 3rd-level support and continuous improvement of the internal AMP platform, supporting business-critical customer-care processes.
+Joined Sunrise in April 2012 as a contractor via Tempobrain, working within the Sunrise TV team, and converted to a permanent role in July 2013 as Specialist Application in the Service Assurance Operations department. Responsible for 2nd- and 3rd-level support and continuous improvement of the internal AMP platform, supporting business-critical customer-care processes.
 
 - Provided 2nd- and 3rd-level technical support and ensured operational stability of the AMP platform used by internal customer-care teams.
 - Evolved AMP from a legacy script into a structured, maintainable internal application — improving reliability and long-term sustainability.

@@ -19,7 +19,8 @@
       "phone": "Phone",
       "location": "Location",
       "web": "Web",
-      "languages": "Languages"
+      "languages": "Languages",
+      "nationality": "Nationality"
     },
     "coverLetterRe": "Re:",
     "emailSubject": "Application — {position} at {company}"
@@ -44,7 +45,8 @@
       "phone": "Telefon",
       "location": "Wohnort",
       "web": "Web",
-      "languages": "Sprachen"
+      "languages": "Sprachen",
+      "nationality": "Nationalität"
     },
     "coverLetterRe": "Betreff:",
     "emailSubject": "Bewerbung als {position} bei {company}"
@@ -69,7 +71,8 @@
       "phone": "Téléphone",
       "location": "Domicile",
       "web": "Web",
-      "languages": "Langues"
+      "languages": "Langues",
+      "nationality": "Nationalité"
     },
     "coverLetterRe": "Objet :",
     "emailSubject": "Candidature — {position} chez {company}"
@@ -94,7 +97,8 @@
       "phone": "Telefono",
       "location": "Residenza",
       "web": "Web",
-      "languages": "Lingue"
+      "languages": "Lingue",
+      "nationality": "Nazionalità"
     },
     "coverLetterRe": "Oggetto:",
     "emailSubject": "Candidatura — {position} presso {company}"

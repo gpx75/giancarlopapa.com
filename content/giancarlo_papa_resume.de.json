@@ -2,6 +2,8 @@
     "basics": {
         "name": "Giancarlo Papa",
         "label": "Senior Full Stack Engineer – Cloud Platform & AI Engineering",
+        "nationality": "Italienisch (EU)",
+        "workPermit": "Ausweis C",
         "image": "",
         "email": "giancarlo.papa@gmail.com",
         "phone": "+41 76 337 13 75",
@@ -299,7 +301,7 @@
     "meta": {
         "translation": {
             "language": "de",
-            "sourceHash": "051977b7d7e3a8a1936fcd2a890579876a17d8e2ae0f3da3780ca0141dd0c2ff",
+            "sourceHash": "093492ab770f0d7b4297e437316b32f71c787492e21d93553ceffbdf8db942d3",
             "translatedAt": "2026-09-30T06:53:01.354Z",
             "reviewed": false
         }

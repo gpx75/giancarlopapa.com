@@ -48,9 +48,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const keywords: string[] =
-    (app.match_breakdown as { strongMatches?: string[] } | null)
-      ?.strongMatches ?? [];
+  const keywords = resumeMatchKeywords(app.match_breakdown);
   // Same fitting as the real download: only reject when even the tightest
   // spacing can't keep the CV on two pages.
   const { pages: pageCount } = await renderTailoredResumePdf(

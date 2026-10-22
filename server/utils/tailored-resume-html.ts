@@ -41,14 +41,6 @@ function fmtDate(d: string, labels: ResumeLabels): string {
   return new Date(Number(y), Number(m) - 1).toLocaleDateString(labels.locale, { month: 'short', year: 'numeric' })
 }
 
-function highlight(text: string, keywords: string[]): string {
-  if (!keywords.length) return esc(text)
-  const sorted = [...keywords].sort((a, b) => b.length - a.length)
-  const escaped = sorted.map(k => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-  const pattern = new RegExp(`(${escaped.join('|')})`, 'gi')
-  return esc(text).replace(pattern, '<span style="color:#3a9eae;font-weight:bold">$1</span>')
-}
-
 /**
  * Job-ad title as a CV headline: drops workload ("60-100%", "80–100 %"),
  * gender markers ("(m/w/d)", "(f/m/x)", "m/f/d") and dangling separators.
@@ -90,6 +82,8 @@ interface ResumeData {
     summary?: string
     summaryPdf?: string
     coreCompetencies?: Array<{ requirement: string; proof: string }>
+    nationality?: string
+    workPermit?: string
     location: { city: string; region: string; countryCode: string; postalCode: string }
     profiles: Array<{ network: string; url: string }>
   }
@@ -133,6 +127,9 @@ export function buildTailoredResumeHtml(
   const interests: ResumeData['interests'] = resume.interests?.length
     ? resume.interests
     : getResumeJsonFor(language).interests
+  // Same for nationality and work permit: older tailored copies fall back to the master.
+  const nationality: string | undefined = basics.nationality ?? getResumeJsonFor(language).basics?.nationality
+  const workPermit: string | undefined = basics.workPermit ?? getResumeJsonFor(language).basics?.workPermit
   const coreCompetencies = basics.coreCompetencies ?? []
   const summaryPdf = basics.summaryPdf ?? basics.summary ?? ''
   // Headline mirrors the job ad's title; the master label is only a fallback.
@@ -160,11 +157,14 @@ export function buildTailoredResumeHtml(
   const storyWords = new Set(allWork.flatMap(j => (j.successStories ?? []).flatMap(s => words(s.title))))
   const extraProjects = (projects ?? []).filter(p => !storyWords.has(words(p.name)[0] ?? ''))
 
-  // Success stories are one global section under the summary (challenge →
-  // result, 1–2 lines each), not buried inside each job entry.
-  const stories = allWork.flatMap(j => j.successStories ?? [])
-    .filter(s => s.shortForm)
-    .map(s => `<li><strong>${esc(s.title)}:</strong> ${highlight(s.shortForm!, keywords)}</li>`)
+  // Success stories sit under the job they belong to, as in the coach's
+  // template: a 1–2 line challenge → result teaser for the interview.
+  const storiesFor = (job: WorkItem) => {
+    const items = (job.successStories ?? []).filter(s => s.shortForm)
+    if (!items.length) return ''
+    return `<div class="stories-title">${esc(labels.successStories)}</div>
+      <ul class="stories">${items.map(s => `<li><strong>${esc(s.title)}:</strong> ${esc(s.shortForm!)}</li>`).join('')}</ul>`
+  }
 
   const avatar = getAvatar()
 
@@ -194,39 +194,56 @@ export function buildTailoredResumeHtml(
 
   // A job is never split across pages: title, company line and all bullets
   // (plus the section heading for the first job) move to the next page together.
+  // Company first, then role and dates on one line (coach's template).
+  // Consecutive roles at the same company share one company line; each role
+  // shows its own dates.
+  const dateRange = (job: WorkItem) => `${fmtDate(job.startDate, labels)} – ${fmtDate(job.endDate ?? '', labels)}`
+  const companyLine = (job: WorkItem) =>
+    `<div class="company-name">${esc([job.name, job.location].filter(Boolean).join(' | '))}</div>`
+  const roleLine = (job: WorkItem) =>
+    `<div class="jobtitle">${esc(job.position)} <span class="role-dates">· ${esc(dateRange(job))}</span></div>`
+
   const workEntry = (job: WorkItem, heading = '') => {
     const highlights = (job.highlights ?? []).slice(0, compact ? 4 : MAX_CURRENT_ROLE_HIGHLIGHTS)
-      .map(h => `<li>${highlight(h, keywords)}</li>`)
+      .map(h => `<li>${esc(h)}</li>`)
       .join('')
-    const dateRange = `${fmtDate(job.startDate, labels)} – ${fmtDate(job.endDate ?? '', labels)}`
-    const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
     return `
       <div class="work-row keep">
         ${heading}
-        <div class="jobtitle">${esc(job.position)}</div>
-        <div class="company-line">${esc(meta)}</div>
+        ${companyLine(job)}
+        ${roleLine(job)}
         ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
+        ${storiesFor(job)}
       </div>`
   }
 
-  const workEntryCompact = (job: WorkItem, heading = '') => {
-    const dateRange = `${fmtDate(job.startDate, labels)} – ${fmtDate(job.endDate ?? '', labels)}`
-    const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
-    return `
+  const workEntryCompact = (job: WorkItem, heading = '', group?: WorkItem[]) => `
       <div class="work-row keep">
         ${heading}
-        <div class="jobtitle">${esc(job.position)}</div>
-        <div class="company-line">${esc(meta)}</div>
-        ${job.summary ? `<div class="jsummary">${highlight(job.summary, keywords)}</div>` : ''}
+        ${!group || group[0] === job ? companyLine(job) : ''}
+        <div class="${group ? 'role-in-group' : ''}">
+        ${roleLine(job)}
+        ${job.summary ? `<div class="jsummary">${esc(job.summary)}</div>` : ''}
         ${!compact && job.highlights?.length ? `<ul class="highlights">${job.highlights
           .slice(0, MAX_PREVIOUS_ROLE_HIGHLIGHTS)
-          .map(h => `<li>${highlight(h, keywords)}</li>`)
+          .map(h => `<li>${esc(h)}</li>`)
           .join('')}</ul>` : ''}
+        ${storiesFor(job)}
+        </div>
       </div>`
-  }
 
   const workSection = (title: string, jobs: WorkItem[], entry: typeof workEntry) =>
     jobs.map((j, i) => entry(j, i === 0 ? sectionHeader(title) : '')).join('')
+
+  const previousWorkSection = (title: string, jobs: WorkItem[]) =>
+    jobs.map((j, i) => {
+      let start = i
+      while (start > 0 && jobs[start - 1]!.name === j.name) start--
+      let end = i
+      while (end < jobs.length - 1 && jobs[end + 1]!.name === j.name) end++
+      const group = end > start ? jobs.slice(start, end + 1) : undefined
+      return workEntryCompact(j, i === 0 ? sectionHeader(title) : '', group)
+    }).join('')
 
   return `<!DOCTYPE html>
 <html lang="${language}">
@@ -247,7 +264,6 @@ export function buildTailoredResumeHtml(
   .role-title.fs-12 { font-size: 12pt; } .role-title.fs-11 { font-size: 11pt; }
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 20pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
   .name strong { font-weight: 800; margin-right: 0.15em; }
-  .education-header { font-size: 10pt; color: #64748b; margin-bottom: 3px; }
   .contact-line { font-size: 10pt; color: #64748b; line-height: 1.5; margin-bottom: 1px; }
   .contact-item { white-space: nowrap; }
   .contact-item + .contact-item::before { content: '  ·  '; color: #94a3b8; }
@@ -278,13 +294,18 @@ export function buildTailoredResumeHtml(
   .work-row-compact { margin-bottom: 4px; }
   .jobtitle { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; }
   .company-line { font-size: 10pt; color: #64748b; margin-bottom: 1px; }
+  .company-name { font-size: 10pt; color: #64748b; margin-bottom: 1px; }
+  .work-row + .work-row .company-name { margin-top: 6px; }
+  .jobtitle .role-dates { font-family: 'JetBrains Mono','Courier New',Courier,monospace; font-weight: 400; color: #64748b; }
+  .role-in-group { margin-top: 3px; }
   .jsummary { font-size: 10pt; color: #334155; line-height: 1.25; margin-top: 1px; }
   .highlights { list-style: none; margin-top: 1px; }
   .highlights li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 0; }
   .highlights li::before { content: '•'; position: absolute; left: 0; }
 
   /* ── Success Stories ── */
-  .stories { list-style: none; margin-top: 2px; }
+  .stories-title { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; margin-top: 3px; }
+  .stories { list-style: none; margin-top: 1px; }
   .stories li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
   .stories li::before { content: '▸'; position: absolute; left: 0; color: #3a9eae; }
 
@@ -324,7 +345,6 @@ export function buildTailoredResumeHtml(
     <div class="hdr-left">
       <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0]!)}</strong>${esc(basics.name.split(' ').slice(1).join(' '))}</div>
-      ${education?.[0] ? `<div class="education-header">${esc([education[0].studyType, education[0].area].filter(Boolean).join(' — '))}</div>` : ''}
       <div class="contact-line">
         ${contactItem(labels.contact.email, basics.email)}
         ${contactItem(labels.contact.phone, basics.phone)}
@@ -333,6 +353,9 @@ export function buildTailoredResumeHtml(
         ${contactItem(labels.contact.location, `${basics.location.postalCode} ${basics.location.city}, ${basics.location.region} — ${basics.location.countryCode}`)}
         ${contactItem(labels.contact.web, basics.url.replace('https://', ''))}
       </div>
+      ${nationality || workPermit ? `<div class="contact-line">
+        ${contactItem(labels.contact.nationality, [nationality, workPermit].filter(Boolean).join(' · '))}
+      </div>` : ''}
       <div class="contact-line">
         ${githubProfile ? contactItem('GitHub', githubProfile.url.replace('https://', '')) : ''}
         ${linkedinProfile ? contactItem('LinkedIn', linkedinProfile.url.replace('https://', '')) : ''}
@@ -346,34 +369,36 @@ export function buildTailoredResumeHtml(
 
   ${section(labels.sections.summary, [`<p class="summary">${esc(summaryPdf)}</p>`])}
 
-  ${section(labels.successStories, stories, 'stories')}
-
   ${section(labels.sections.coreCompetencies, coreCompetencies.map(c =>
-    `<li><strong>${esc(c.requirement)}</strong> — ${highlight(c.proof, keywords)}</li>`
+    `<li><strong>${esc(c.requirement)}</strong> — ${esc(c.proof)}</li>`
   ), 'competencies')}
 
   ${workSection(labels.sections.workExperience, currentWork, workEntry)}
 
-  ${workSection(labels.sections.previousWorkExperience, previousWork, workEntryCompact)}
-
   ${section(labels.sections.keyProjects, extraProjects.map(p => `
     <div class="project-row">
       <div class="project-name">${esc(p.name)}</div>
-      <div class="project-desc">${highlight(p.description, keywords)}</div>
+      <div class="project-desc">${esc(p.description)}</div>
+    </div>`))}
+
+  ${previousWorkSection(labels.sections.previousWorkExperience, previousWork)}
+
+  ${section(labels.sections.education, (education ?? []).map(e => `
+    <div class="work-row">
+      <div class="jobtitle">${esc([e.studyType, e.area].filter(Boolean).join(' — '))}</div>
+      <div class="company-line">${esc([e.institution, [e.startDate, e.endDate].filter(Boolean).join(' – ')].filter(Boolean).join(' · '))}</div>
     </div>`))}
 
   ${section(labels.sections.technicalSkills, sortedSkills.map(g => `
     <div class="skill-row">
       <span class="skill-label">${esc(g.name)}:</span>
-      <span class="skill-kw-inline">${g.keywords.map(k => highlight(k, keywords)).join(', ')}</span>
+      <span class="skill-kw-inline">${g.keywords.map(k => esc(k)).join(', ')}</span>
     </div>`))}
 
   ${interests?.length ? section(labels.sections.interests, [`
     <div class="skill-row">
       <span class="skill-kw-inline">${interests.map(g => esc(g.name)).join(' · ')}</span>
     </div>`]) : ''}
-
-  <!-- Education is shown in the header. -->
 </body>
 </html>`
 }

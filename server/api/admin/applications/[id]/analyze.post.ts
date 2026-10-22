@@ -110,6 +110,9 @@ export default defineEventHandler(async (event) => {
       ? analysis.strongMatches
       : [],
     gaps: Array.isArray(analysis.gaps) ? analysis.gaps : [],
+    keywords: Array.isArray(analysis.keywords)
+      ? analysis.keywords.filter((k: unknown) => typeof k === 'string' && k.length <= 40)
+      : [],
     companyPainPoints: Array.isArray(analysis.companyPainPoints)
       ? analysis.companyPainPoints
       : [],
