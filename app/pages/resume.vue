@@ -51,6 +51,10 @@ const interests = computed<ResumeInterest[]>(
 // Same content as the PDF CV: the About text, core competencies, success
 // stories under each role, and only the projects not already told as a story.
 const about = computed(() => basics.value?.summaryPdf ?? basics.value?.summary);
+// "Senior Full Stack Engineer – Cloud Platform & AI Engineering" → two lines.
+const headlineParts = computed(() =>
+  (basics.value?.label || basics.value?.name || 'Resume').split(/\s+[–—-]\s+/)
+);
 const coreCompetencies = computed(() => basics.value?.coreCompetencies ?? []);
 const nationalityLine = computed(() =>
   [basics.value?.nationality, basics.value?.workPermit].filter(Boolean).join(' · ')
@@ -203,7 +207,13 @@ const publicPhone = computed(() => {
           />
           <!-- `!` overrides the global h1 scale in main.css for this compact card -->
           <h1 class="text-2xl! leading-tight! sm:text-3xl!">
-            {{ basics?.label || basics?.name || 'Resume' }}
+            <span
+              v-for="(part, index) in headlineParts"
+              :key="part"
+              class="block"
+            >
+              <span v-if="index > 0" class="sr-only">– </span>{{ part }}
+            </span>
           </h1>
         </div>
         <div v-if="loggedIn" class="shrink-0">
