@@ -4,7 +4,6 @@ import type {
   ResumeInterest,
   ResumeLanguage,
   ResumeProject,
-  ResumeSkill,
   ResumeWork
 } from '~/types/resume';
 
@@ -40,7 +39,6 @@ const work = computed<ResumeWork[]>(() => resume.value?.work ?? []);
 const education = computed<ResumeEducation[]>(
   () => resume.value?.education ?? []
 );
-const skills = computed<ResumeSkill[]>(() => resume.value?.skills ?? []);
 const languages = computed<ResumeLanguage[]>(
   () => resume.value?.languages ?? []
 );
@@ -461,36 +459,6 @@ const publicPhone = computed(() => {
               <p class="text-sm font-medium text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
-            </div>
-          </UCard>
-        </div>
-      </section>
-
-      <section v-if="skills.length" class="space-y-6">
-        <CvSectionHeading
-          title="Skills"
-          description="Core technologies and competencies."
-          kicker="Expertise"
-        />
-        <div class="grid gap-4 md:grid-cols-2">
-          <UCard v-for="skill in skills" :key="skill.name" class="space-y-3">
-            <div class="flex items-center justify-between">
-              <h3>
-                {{ skill.name }}
-              </h3>
-              <UBadge v-if="skill.level" color="neutral" variant="soft">
-                {{ skill.level }}
-              </UBadge>
-            </div>
-            <div v-if="skill.keywords?.length" class="flex flex-wrap gap-2">
-              <UBadge
-                v-for="keyword in skill.keywords"
-                :key="keyword"
-                color="neutral"
-                variant="soft"
-              >
-                {{ keyword }}
-              </UBadge>
             </div>
           </UCard>
         </div>
