@@ -77,6 +77,7 @@ export interface ResumeLanguage {
 
 export interface ResumeInterest {
   name: string
+  url?: string
   keywords?: string[]
 }
 

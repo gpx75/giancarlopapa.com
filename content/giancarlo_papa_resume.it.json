@@ -289,6 +289,7 @@
         },
         {
             "name": "Trail running",
+            "url": "/runs",
             "keywords": []
         },
         {
@@ -311,7 +312,7 @@
     "meta": {
         "translation": {
             "language": "it",
-            "sourceHash": "833172350b70aee2443f2de888a3783f4b8670c86a57944dbeb74a154c9fb964",
+            "sourceHash": "8e33ffff87e8211034d92251c9f651213163d6075c1db37f64cab076a22e2721",
             "translatedAt": "2026-10-23T16:14:51.501Z",
             "reviewed": false
         }

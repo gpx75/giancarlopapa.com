@@ -502,7 +502,15 @@ const publicPhone = computed(() => {
             :ui="{ body: 'space-y-2' }"
           >
             <h3 class="text-xl!">
-              {{ interest.name }}
+              <ULink
+                v-if="interest.url"
+                :to="interest.url"
+                class="inline-flex items-center gap-2 text-highlighted hover:text-primary"
+              >
+                {{ interest.name }}
+                <UIcon name="i-lucide-arrow-up-right" class="size-4" />
+              </ULink>
+              <template v-else>{{ interest.name }}</template>
             </h3>
             <div v-if="interest.keywords?.length" class="flex flex-wrap gap-2">
               <UBadge
