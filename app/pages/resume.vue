@@ -179,13 +179,20 @@ const publicPhone = computed(() => {
     <div
       class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
     >
-      <div class="space-y-4">
-        <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-          <span><span class="text-success-400/60">~/</span>resume</span>
-        </UBadge>
-        <h1>
-          {{ basics?.name || 'Resume' }}
-        </h1>
+      <div class="flex items-center gap-5">
+        <UAvatar
+          src="/giancarlopapa.jpeg"
+          :alt="basics?.name || 'Giancarlo Papa'"
+          class="size-20 shrink-0 ring-2 ring-default sm:size-24"
+        />
+        <div class="space-y-4">
+          <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
+            <span><span class="text-success-400/60">~/</span>resume</span>
+          </UBadge>
+          <h1>
+            {{ basics?.name || 'Resume' }}
+          </h1>
+        </div>
       </div>
       <UButton
         to="/"
