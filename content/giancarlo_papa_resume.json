@@ -8,28 +8,28 @@
     "email": "giancarlo.papa@gmail.com",
     "phone": "+41 76 337 13 75",
     "url": "https://giancarlopapa.com",
-    "summary": "Senior Full-Stack Engineer with 25 years of PHP expertise and deep command of the modern web stack — from Symfony and Laravel to Vue.js, Nuxt, and headless CMS platforms including WordPress, Joomla, Craft CMS, and Shopware. Experienced in Python across data warehouse engineering, FastAPI service development, and automation; grounded in Linux server operations, Docker containerisation, and cloud-native infrastructure on GCP. I design, build, and own business-critical internal platforms — Salesforce DevOps, enterprise integrations, and applied AI systems (Vertex AI, Azure OpenAI, Gemini) — with 13+ years of platform ownership in a demanding Swiss telecommunications environment.",
-    "summaryPdf": "I am a self-taught web artisan, coding since eleven (BASIC on a C64). I design and build robust, scalable web platforms with clean architecture, driven by curiosity and a strong commitment to open source. I have delivered high-traffic public platforms in Italy and business-critical enterprise software in the Swiss telecom sector. As Tech Lead for the OMNI Channel Platforms unit at Sunrise, I take end-to-end technical ownership: architecture and technology decisions, REST/API design and system integration, engineering standards, and reliable DevOps operations. I lead hands-on, enforce best practices, and build systems that last.",
+    "summary": "Senior Full Stack Engineer and Tech Lead with 20+ years of web development. I build and run business-critical web apps end to end — Vue.js and TypeScript SPAs, Node.js (Nuxt), Python (FastAPI) and PHP (Laravel, Symfony) services, SQL data layers on PostgreSQL, MySQL and Oracle — with enterprise integrations (Salesforce, CRM, LDAP), Docker and CI/CD, and cloud-agnostic deployments on Google Cloud and AWS. At Sunrise I evolved the AMP customer-care platform for 11 years and, since 2024, lead the OMNI Channel Platforms: AI research, cloudification, Salesforce DevOps and engineering standards.",
+    "summaryPdf": "I am a creative, self-taught Full Stack Web artisan who started writing code at the age of eleven. Web development is not just my profession, but a lifelong discipline driven by curiosity, experimentation, and a deep passion. I build and run business-critical web apps end to end: Vue.js SPAs in TypeScript, Node.js, Python and PHP services, SQL data layers (PostgreSQL, MySQL, Oracle) and enterprise integrations (Salesforce, CRM, LDAP). I am especially passionate about Linux, Docker and the cloud. I take features from prototype to production with, in my head of department's words, \"tremendous autonomy\". Father of a beautiful child.",
     "coreCompetencies": [
       {
-        "requirement": "Full-Stack Development (PHP / Laravel / Vue.js)",
-        "proof": "25 years PHP — built AMP platform (Laravel/Vue.js) running 7+ years in production at Sunrise"
+        "requirement": "Full-Stack Development",
+        "proof": "Vue.js/TypeScript SPAs on Laravel, Node.js (Nuxt/Nitro) and Python (FastAPI) backends; AMP evolved over 11 years (2014–2025)"
       },
       {
-        "requirement": "Cloud & DevOps (GCP / Docker / CI-CD)",
-        "proof": "Led LAMP → Docker/GCP migration — GitLab CI pipelines, containerised deployments on RHEL"
+        "requirement": "AI & Cloud (cloud-agnostic)",
+        "proof": "AI prototypes with Azure OpenAI and the Claude API; serverless on Cloud Run and AWS Lambda, Compute Engine VMs"
       },
       {
-        "requirement": "AI & LLM Integration",
-        "proof": "Built Jordan AI (Liberty Global) — Python/FastAPI + Azure OpenAI for real-time call assistance at scale"
+        "requirement": "DevOps & CI/CD",
+        "proof": "Docker on RHEL/GCP; GitLab CI, Jenkins, Bitbucket Pipelines, Cloud Build, GitHub Actions; Salesforce DevOps brought in-house"
+      },
+      {
+        "requirement": "SQL & Data (database-agnostic)",
+        "proof": "PostgreSQL, MySQL, Oracle in production: queries, transactions, views, indexes; data warehouse development"
       },
       {
         "requirement": "Technical Leadership",
-        "proof": "13+ years Tech Lead OMNI Channel Platform — architecture decisions, roadmaps, engineering standards"
-      },
-      {
-        "requirement": "Salesforce DevOps",
-        "proof": "CI/CD pipelines, Apex/LWC development, API integrations, enterprise data sync at Sunrise"
+        "proof": "Tech Lead OMNI Channel Platforms since 2024 — architecture, engineering standards, tech-debt reduction; \"tremendous autonomy\" (Head of OMNI Channel)"
       }
     ],
     "location": {
@@ -54,44 +54,88 @@
   },
   "work": [
     {
-      "name": "Sunrise Communications AG",
-      "location": "Zurich, Switzerland",
-      "position": "Tech Lead OMNI Channel Platforms & Senior Full Stack Engineer",
+      "name": "Sunrise GmbH",
+      "location": "Zürich, Switzerland",
+      "position": "Tech Lead OMNI Channel Platforms",
       "url": "https://www.sunrise.ch",
-      "startDate": "2012-01",
+      "startDate": "2024-02",
       "endDate": "",
-      "summary": "13+ years of progressive ownership across full-stack development, Salesforce DevOps, cloud infrastructure, data engineering, and applied AI at one of Switzerland's leading telecommunications companies.",
+      "summary": "Technical lead for the internal enterprise platforms supporting customer care and call-centre operations at one of Switzerland's leading telecommunications companies.",
       "highlights": [
-        "Technical Lead for the OMNI Channel Platform: driving architectural decisions, establishing engineering standards, defining technical roadmaps, and serving as the primary technical reference for business stakeholders and engineering teams.",
-        "Designed and built scalable full-stack applications using PHP (Laravel), Vue.js, TypeScript, and REST APIs — deployed on GCP and Linux (RHEL) with Docker and CI/CD pipelines.",
-        "Architected and owned AMP — a multilingual call-centre productivity suite (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch) — from design to production.",
-        "Salesforce DevOps Engineer: CI/CD pipelines, release management, custom Apex, LWC components, Flows, API integrations, and enterprise data sync.",
-        "Drove DevOps transformation: LAMP/LEMP to FrankenPHP on Docker/GCP/RHEL, GitLab CI/Jenkins pipelines, release automation.",
-        "Developed AMP (Laravel/Vue.js/Oracle/MySQL/Redis/Elasticsearch): call centre portal — ticket templates (4 langs), distribution, and feedback tools."
+        "AI research & cloudification: Nuxt/Node.js and Python AI prototypes on Cloud Run.",
+        "Built Laravel REST APIs on Clarify CRM (Oracle DB) and the Sunrise user directory (LDAP/Oracle), consumed by internal applications.",
+        "Salesforce frontend development with Lightning Web Components (LWC).",
+        "Tech leadership: architecture, engineering standards, tech-debt reduction."
       ],
       "successStories": [
         {
-          "title": "AMP Platform — Call Centre Backbone",
-          "shortForm": "Replaced fragile legacy script with a full-stack call-centre platform (Laravel/Vue.js) — mission-critical for 7+ years across all Sunrise Customer Care.",
-          "challenge": "Sunrise Customer Care relied on a fragile legacy PHP script that could not scale across languages or business units.",
-          "action": "Architected and delivered AMP — a full-stack Laravel/Vue.js platform with a multilingual ticket engine (4 languages), automated distribution, and feedback tools, deployed on GCP with Docker and GitLab CI.",
-          "result": "AMP became Sunrise's mission-critical call-centre platform, running reliably in production for 7+ years and supporting daily operations across the entire Customer Care organisation."
+          "title": "AMP platform",
+          "shortForm": "Legacy PHP 5.3/jQuery app → rebuilt in Laravel/Vue.js, now Laravel 12 + Vue 3/TypeScript → ~500 users a day; evolved by me for 11 years (2014–2025).",
+          "challenge": "Legacy PHP 5.3/jQuery application.",
+          "action": "Rebuilt it as Laravel/Vue.js (v2), then upgraded to Laravel 12 with a Vue 3/TypeScript SPA.",
+          "result": "~500 users a day; evolved by me for 11 years (2014–2025)."
         },
         {
-          "title": "Jordan AI — Liberty Global",
-          "shortForm": "Built AI-powered real-time call assistant (Python/FastAPI + Azure OpenAI) — deployed internationally across Liberty Global subsidiaries.",
-          "challenge": "Call centre agents across Liberty Global subsidiaries had no real-time support during customer calls, slowing resolution times and degrading service quality.",
-          "action": "Built Jordan AI — Python/FastAPI backend + Vue.js interface — integrating live call data with Azure OpenAI to generate real-time conversation pre-summaries and automated agent diagnostics.",
-          "result": "Deployed internationally across Liberty Global subsidiaries, providing agents with real-time AI assistance during live calls."
+          "title": "Jordan AI – Liberty Global",
+          "shortForm": "No help for agents during live calls → built Sunrise's real-time AI agent-assist, integrated into Clarify CRM → prototype for Sprinklr.",
+          "challenge": "Agents had no help during live calls.",
+          "action": "Built Sunrise's real-time AI agent-assist for the Liberty Global Jordan AI programme, integrated into Clarify CRM.",
+          "result": "Prototype for the Sprinklr implementation."
         },
         {
-          "title": "DevOps Transformation",
-          "shortForm": "Migrated from manual LAMP deployments to Docker/GCP/GitLab CI — release reliability improved, deployment frequency increased substantially.",
-          "challenge": "Manual LAMP deployments were slow, error-prone, and blocked rapid iteration.",
-          "action": "Led migration to Docker containers on GCP/RHEL with GitLab CI/Jenkins pipelines and automated release workflows.",
-          "result": "Release reliability improved significantly and deployment frequency increased substantially."
+          "title": "Salesforce DevOps",
+          "shortForm": "Releases run by an external vendor in India → took DevOps in-house with Bitbucket and CI/CD → full ownership of multi-environment releases.",
+          "challenge": "Salesforce releases were run by an external vendor in India.",
+          "action": "Took over Salesforce DevOps in-house with Bitbucket.",
+          "result": "In-house source control, CI/CD and multi-environment deployments."
+        },
+        {
+          "title": "Cloud migration",
+          "shortForm": "On-prem apps, manual deploys → moved the Clarify API and AI PoCs to Cloud Run (GCP) with Cloud Build CI/CD → reproducible, reliable releases.",
+          "challenge": "On-premise platforms with slow, error-prone manual deployments.",
+          "action": "Containerised the Clarify API (Laravel/FrankenPHP) and AI proofs of concept and moved them to Cloud Run on GCP with Cloud Build CI/CD.",
+          "result": "Cloud-native, reproducible and more reliable releases."
         }
       ]
+    },
+    {
+      "name": "Sunrise GmbH",
+      "location": "Zürich, Switzerland",
+      "position": "Developer Big Data",
+      "url": "https://www.sunrise.ch",
+      "startDate": "2019-03",
+      "endDate": "2024-01",
+      "highlights": [
+        "Designed, developed and maintained the AMP platform and FeedbackTool: PHP (Laravel) and Python backends, Vue.js frontends, enterprise API integrations.",
+        "Data warehouse development with SQL and Python (Oracle).",
+        "Deployment and operation on Linux (RHEL) with Docker, Git and CI/CD pipelines."
+      ],
+      "successStories": []
+    },
+    {
+      "name": "Sunrise GmbH",
+      "location": "Zürich, Switzerland",
+      "position": "Developer ERP, BI & Billing",
+      "url": "https://www.sunrise.ch",
+      "startDate": "2018-04",
+      "endDate": "2019-02",
+      "highlights": [
+        "Took the Laravel/Vue.js version of AMP FeedbackTool (v2) to production with LDAP auth — a trusted tool for Customer Care and Quality Management."
+      ],
+      "successStories": []
+    },
+    {
+      "name": "Sunrise GmbH",
+      "location": "Zürich, Switzerland",
+      "position": "Specialist Application",
+      "url": "https://www.sunrise.ch",
+      "startDate": "2012-04",
+      "endDate": "2018-03",
+      "highlights": [
+        "2nd/3rd-level support for the business-critical AMP platform (PHP 5.3/jQuery): analysed and resolved complex production issues with business units and technical teams; started its Laravel/Vue.js rebuild.",
+        "Started the AMP FeedbackTool on my own initiative for Customer Care — adopted by IT as an official internal platform and later rebuilt as enterprise-grade v2."
+      ],
+      "successStories": []
     },
     {
       "name": "Sicilia On Line Srl",
@@ -106,7 +150,7 @@
         "Developed custom Joomla/Mambo components, plugins, and templates for newsroom and editorial workflows.",
         "Led platform redesigns improving performance, SEO, and reader engagement.",
         "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops.",
-        "Integrated online payment systems via Moneynet SpA, including Stripe and PayPal gateway implementations for e-commerce and subscription flows."
+        "Integrated online payment systems via Moneynet SpA, including PayPal gateway implementations for e-commerce and subscription flows."
       ],
       "successStories": [
         {
@@ -128,19 +172,27 @@
   ],
   "education": [
     {
-      "institution": "I.I.S.S. \"G. Salerno\" — Gangi (PA), Italy",
+      "institution": "ITC \"G. Salerno\" — Gangi (PA), Italy",
       "location": "Gangi (PA), Italy",
-      "studyType": "Diploma — Istituto Tecnico Economico",
-      "area": "Sistemi Informativi Aziendali",
-      "startDate": "1991",
+      "studyType": "Diploma di Ragioniere e Perito Commerciale (upper-secondary technical diploma)",
+      "area": "",
+      "startDate": "1992",
       "endDate": "1997"
+    },
+    {
+      "institution": "Scuola 2F — Florence, Italy",
+      "location": "Florence, Italy",
+      "studyType": "Diploma di Operatore-Programmatore (programmer diploma)",
+      "area": "",
+      "startDate": "",
+      "endDate": "1989"
     }
   ],
   "skills": [
     {
       "name": "PHP & Web",
       "keywords": [
-        "PHP (25 yrs)", "Python", "FastAPI",
+        "PHP", "Python", "FastAPI", "Node.js (Nuxt / Nitro)",
         "Laravel", "Eloquent ORM", "Symfony", "Doctrine ORM",
         "Vue.js", "Nuxt", "JavaScript / TypeScript", "HTML5 / CSS",
         "Twig", "Composer", "RESTful APIs", "GraphQL"
@@ -150,18 +202,18 @@
       "name": "AI & Development",
       "keywords": [
         "AI-Assisted Development", "AI Agent Development",
-        "LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API",
+        "LLM Integration", "Azure OpenAI / GPT", "Claude API", "Vertex AI", "Gemini API",
         "Prompt Engineering", "Big Data Platforms", "Analytics Engineering"
       ]
     },
     {
       "name": "Cloud & Platform",
       "keywords": [
-        "Linux (RHEL / Debian / Ubuntu)", "Docker",
-        "Cloud Infrastructure (GCP & AWS)", "Serverless Deployments",
-        "Google Cloud Platform", "Cloud Run",
-        "AWS Lambda", "AWS (S3, SQS, SNS)", "Object Storage (S3 / GCS)",
-        "GitLab CI / Jenkins", "Kubernetes", "Terraform"
+        "Linux (RHEL / Debian / Ubuntu / Fedora)", "Docker",
+        "Google Cloud (Cloud Run, Cloud Build, Compute Engine)",
+        "AWS (S3, SQS, SNS, Lambda)", "Serverless Deployments", "Object Storage (S3 / GCS)",
+        "GitLab CI / Jenkins", "Bitbucket Pipelines", "GitHub Actions",
+        "Kubernetes (fundamentals)", "Terraform (basics)"
       ]
     },
     {
@@ -204,13 +256,18 @@
   ],
   "projects": [
     {
-      "name": "AMP — Application Management Portal",
-      "description": "Full-stack call centre productivity suite built for Sunrise agents — a multilingual ticket template engine (4 languages), automated ticket distribution system, and agent-to-agent and company-wide feedback tools. Full ownership from architecture to production.",
-      "stack": "Laravel · Vue.js · Oracle · MySQL · Redis · Elasticsearch · FrankenPHP · Docker · GCP · RHEL"
+      "name": "giancarlopapa.com – personal website & recruiting platform",
+      "description": "My personal website and the recruiting platform I built to run my own job search. Admin: job discovery from five sources with relevance scoring and de-duplication; AI fit analysis with the Claude API; a multi-stage pipeline (analyse → CV → cover letter → apply → interview prep); tailored CVs in four languages with automatic two-page PDF fitting; Gmail inbox sync, contacts and funnel analytics. TypeScript end to end on Vue.js/Nuxt, Node.js (Nitro) APIs and PostgreSQL (Supabase); CI/CD with GitHub Actions.",
+      "stack": "Nuxt · Vue.js · TypeScript · Node.js (Nitro) · PostgreSQL (Supabase) · Claude API · GitHub Actions · Vercel"
+    },
+    {
+      "name": "AMP — Application Management Portal (Sunrise)",
+      "description": "Sunrise customer-care platform I evolved for 11 years (2014–2025): from a PHP 5.3/jQuery app to Laravel/Vue.js and now Laravel 12 with a Vue 3/TypeScript SPA — multilingual ticket engine (4 languages), ticket distribution and feedback tools, ~500 users a day.",
+      "stack": "Laravel · Vue.js · TypeScript · Oracle · MySQL · Redis · Elasticsearch · FrankenPHP · Docker · GCP · RHEL"
     },
     {
       "name": "Jordan AI (Liberty Global)",
-      "description": "International AI-powered call assistant deployed across Liberty Global subsidiaries. Developed the Python/FastAPI backend and Vue.js frontend — connecting to live call data to generate real-time conversation pre-summaries and automated diagnostics for call centre agents.",
+      "description": "Liberty Global programme where each subsidiary built its own real-time agent-assist. Built Sunrise's version — Python/FastAPI backend and Vue.js frontend on live call data with Azure OpenAI — integrated into Clarify CRM as the prototype for the Sprinklr implementation.",
       "stack": "Python · FastAPI · Vue.js · LLM integration · Azure OpenAI · REST APIs"
     }
   ],
@@ -229,6 +286,7 @@
     }
   ],
   "interests": [
+    { "name": "Raspberry Pi", "keywords": [] },
     { "name": "Trail running", "keywords": [] },
     { "name": "Hiking", "keywords": [] },
     { "name": "Furniture restoration", "keywords": [] },
