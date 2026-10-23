@@ -179,7 +179,7 @@ const publicPhone = computed(() => {
     <div
       class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
     >
-      <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
+      <UBadge color="neutral" variant="soft" class="self-start tracking-wider text-xs">
         <span><span class="text-success-400/60">~/</span>resume</span>
       </UBadge>
       <UButton
@@ -201,7 +201,8 @@ const publicPhone = computed(() => {
             :alt="basics?.name || 'Giancarlo Papa'"
             class="size-32 shrink-0 ring-2 ring-default"
           />
-          <h1 class="text-2xl sm:text-3xl">
+          <!-- `!` overrides the global h1 scale in main.css for this compact card -->
+          <h1 class="text-2xl! leading-tight! sm:text-3xl!">
             {{ basics?.label || basics?.name || 'Resume' }}
           </h1>
         </div>
@@ -242,7 +243,7 @@ const publicPhone = computed(() => {
     </div>
 
     <div v-else-if="hasAnyContent" class="space-y-12">
-      <section class="grid gap-8 lg:grid-cols-[2fr,1fr]">
+      <section class="grid gap-8 lg:grid-cols-[2fr_1fr]">
         <div class="space-y-6">
           <div class="space-y-3">
             <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
