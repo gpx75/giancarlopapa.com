@@ -1,26 +1,54 @@
 {
   "hero": {
     "name": "GIANCARLO",
-    "role": "Tech Lead & Senior Full Stack Engineer – PHP · Laravel · Symfony · Vue.js · TypeScript · GCP",
+    "role": "Hi",
     "location": "Elsau ZH, Switzerland",
     "availability": "Available — Hire · Freelance · Partnership",
     "summary": [
-      "I have been programming since the age of eleven. Software development is not just my profession — it is a lifelong discipline driven by curiosity, experimentation, and a deep passion for open source.",
-      "Tech Lead and Senior Full-Stack Engineer with 25 years of PHP expertise — spanning Laravel, Symfony, Vue.js, TypeScript, and Nuxt — and deep experience architecting business-critical web platforms from concept to production. Currently leading the technical direction of the OMNI Channel Platform at Sunrise: driving architectural decisions, establishing engineering standards, owning code quality, and acting as the primary technical interface with business and engineering stakeholders.",
-      "Specialist in backend systems, scripting and automation, modern frontend interfaces, and enterprise APIs — with strong experience in Salesforce ecosystems (LWC, platform integrations, enterprise data workflows) and AI-powered agent interfaces that integrate intelligent workflows into enterprise environments.",
-      "Deeply passionate about Linux and open source. Strong hands-on experience with Docker containerisation, CI/CD pipelines, cloud-native deployment, and DevOps practices that ensure scalability, reliability, and operational excellence.",
-      "Driven by ownership, technical excellence, and the continuous pursuit of improvement. Open to senior engineering positions, freelance engagements, and technical partnerships — Zürich, remote, or wherever the problem is worth solving."
+      "I wrote my first program at eleven, on a Commodore 64 — and I never really stopped.",
+      "Today I am a Tech Lead and full stack engineer near Zürich. For eleven years I evolved AMP, the platform Sunrise's customer care relies on every day — about 500 people — and lately I have been building AI prototypes and moving apps to the cloud.",
+      "My toolbox: Vue.js and TypeScript, Node.js, Python and PHP, SQL, Linux, Docker and Google Cloud. I like owning things end to end — from the first prototype to the 2 a.m. production fix.",
+      "Father of a beautiful child, daily trail runner, Raspberry Pi tinkerer. Open to senior engineering roles, freelance work and partnerships — in Zürich, remote, or wherever the problem is worth solving."
     ],
     "actions": [
-      { "label": "View resume", "to": "/resume", "icon": "i-lucide-file-text" },
-      { "label": "Skill Matrix", "to": "/skillmatrix", "icon": "i-lucide-layout-grid" },
-      { "label": "Contact", "to": "/contact", "icon": "i-lucide-mail", "external": true },
-      { "label": "Book a call", "to": "/book", "icon": "i-lucide-calendar" }
+      {
+        "label": "View resume",
+        "to": "/resume",
+        "icon": "i-lucide-file-text"
+      },
+      {
+        "label": "Skill Matrix",
+        "to": "/skillmatrix",
+        "icon": "i-lucide-layout-grid"
+      },
+      {
+        "label": "Contact",
+        "to": "/contact",
+        "icon": "i-lucide-mail",
+        "external": true
+      },
+      {
+        "label": "Book a call",
+        "to": "/book",
+        "icon": "i-lucide-calendar"
+      }
     ],
     "contactLinks": [
-      { "label": "Contact", "to": "/contact", "icon": "i-lucide-mail" },
-      { "label": "GitHub", "to": "https://github.com/gpx75", "icon": "i-simple-icons-github" },
-      { "label": "LinkedIn", "to": "https://www.linkedin.com/in/gpapa", "icon": "i-simple-icons-linkedin" }
+      {
+        "label": "Contact",
+        "to": "/contact",
+        "icon": "i-lucide-mail"
+      },
+      {
+        "label": "GitHub",
+        "to": "https://github.com/gpx75",
+        "icon": "i-simple-icons-github"
+      },
+      {
+        "label": "LinkedIn",
+        "to": "https://www.linkedin.com/in/gpapa",
+        "icon": "i-simple-icons-linkedin"
+      }
     ]
   },
   "about": [
@@ -28,9 +56,18 @@
     "Career progression from advanced technical support into full-stack engineering, cloud infrastructure, data engineering, Salesforce DevOps, and AI systems. Originally from Italy, raised between Germany and Sicily, now based in eastern Canton Zurich, Switzerland. Proud father of a wonderful daughter."
   ],
   "stats": [
-    { "label": "Years at Sunrise", "value": "13+" },
-    { "label": "Years of experience", "value": "25+" },
-    { "label": "Domains", "value": "Full-Stack · Cloud · AI" }
+    {
+      "label": "Years at Sunrise",
+      "value": "13+"
+    },
+    {
+      "label": "Years of experience",
+      "value": "25+"
+    },
+    {
+      "label": "Domains",
+      "value": "Full-Stack · Cloud · AI"
+    }
   ],
   "experience": [
     {
@@ -47,7 +84,20 @@
         "Built Jordan AI (Liberty Global): Python/FastAPI + Vue.js — real-time call analysis and conversation pre-summaries deployed across Liberty Global subsidiaries.",
         "Salesforce DevOps: CI/CD pipelines, release management, Apex, LWC components, API integrations, and enterprise data sync."
       ],
-      "stack": ["PHP / Laravel", "Vue.js / Nuxt", "Python / FastAPI", "GCP", "Docker", "MySQL", "Oracle", "Redis", "Elasticsearch", "Salesforce / LWC", "Vertex AI", "Azure OpenAI"]
+      "stack": [
+        "PHP / Laravel",
+        "Vue.js / Nuxt",
+        "Python / FastAPI",
+        "GCP",
+        "Docker",
+        "MySQL",
+        "Oracle",
+        "Redis",
+        "Elasticsearch",
+        "Salesforce / LWC",
+        "Vertex AI",
+        "Azure OpenAI"
+      ]
     },
     {
       "company": "Sicilia On Line Srl",
@@ -61,42 +111,114 @@
         "Led platform redesigns improving performance, SEO, and reader engagement.",
         "Managed full LAMP stack: Apache, MySQL, server hardening, and high-availability ops."
       ],
-      "stack": ["PHP", "JavaScript", "MySQL", "Linux", "Apache", "Joomla", "Mambo", "CMS"]
+      "stack": [
+        "PHP",
+        "JavaScript",
+        "MySQL",
+        "Linux",
+        "Apache",
+        "Joomla",
+        "Mambo",
+        "CMS"
+      ]
     }
   ],
   "skills": [
     {
       "label": "PHP & Web",
-      "items": ["PHP (25 yrs)", "Python", "FastAPI", "Laravel", "Symfony", "Vue.js", "Nuxt", "JavaScript / TypeScript", "HTML5 / CSS", "Twig", "Composer", "RESTful APIs", "GraphQL"]
+      "items": [
+        "PHP (25 yrs)",
+        "Python",
+        "FastAPI",
+        "Laravel",
+        "Symfony",
+        "Vue.js",
+        "Nuxt",
+        "JavaScript / TypeScript",
+        "HTML5 / CSS",
+        "Twig",
+        "Composer",
+        "RESTful APIs",
+        "GraphQL"
+      ]
     },
     {
       "label": "E-Commerce & CMS",
-      "items": ["WordPress", "Joomla / Mambo", "Craft CMS", "Shopware 5 & 6", "Statamic", "Headless CMS"]
+      "items": [
+        "WordPress",
+        "Joomla / Mambo",
+        "Craft CMS",
+        "Shopware 5 & 6",
+        "Statamic",
+        "Headless CMS"
+      ]
     },
     {
       "label": "Cloud & Platform",
-      "items": ["Linux (RHEL / Debian / Ubuntu)", "Docker", "Google Cloud Platform", "Cloud Run", "GitLab CI / Jenkins", "Kubernetes", "Terraform"]
+      "items": [
+        "Linux (RHEL / Debian / Ubuntu)",
+        "Docker",
+        "Google Cloud Platform",
+        "Cloud Run",
+        "GitLab CI / Jenkins",
+        "Kubernetes",
+        "Terraform"
+      ]
     },
     {
       "label": "AI & Data",
-      "items": ["LLM Integration", "Azure OpenAI / GPT", "Vertex AI", "Gemini API", "Prompt Engineering", "Big Data Platforms", "Analytics Engineering"]
+      "items": [
+        "LLM Integration",
+        "Azure OpenAI / GPT",
+        "Vertex AI",
+        "Gemini API",
+        "Prompt Engineering",
+        "Big Data Platforms",
+        "Analytics Engineering"
+      ]
     },
     {
       "label": "Databases & Enterprise",
-      "items": ["MySQL", "Oracle DB", "PostgreSQL", "Redis", "Elasticsearch", "MongoDB", "Salesforce / Apex / LWC", "LDAP / Active Directory"]
+      "items": [
+        "MySQL",
+        "Oracle DB",
+        "PostgreSQL",
+        "Redis",
+        "Elasticsearch",
+        "MongoDB",
+        "Salesforce / Apex / LWC",
+        "LDAP / Active Directory"
+      ]
     },
     {
       "label": "Methodology",
-      "items": ["Agile / Scrum", "Code Reviews", "CI / CD", "Unit & Integration Testing", "Static Code Analysis", "Pair Programming", "Version Control (Git)"]
+      "items": [
+        "Agile / Scrum",
+        "Code Reviews",
+        "CI / CD",
+        "Unit & Integration Testing",
+        "Static Code Analysis",
+        "Pair Programming",
+        "Version Control (Git)"
+      ]
     },
     {
       "label": "DevOps & Networking",
-      "items": ["Bash / Shell scripting", "Nginx / Apache", "TCP/IP / DNS", "SSL / TLS", "System hardening"]
+      "items": [
+        "Bash / Shell scripting",
+        "Nginx / Apache",
+        "TCP/IP / DNS",
+        "SSL / TLS",
+        "System hardening"
+      ]
     }
   ],
   "contact": {
     "headline": "Let's work together",
     "subline": "Open to senior engineering roles, cloud platform projects, and applied AI engagements.",
-    "cta": { "label": "Book a call", "to": "/book" }
+    "cta": {
+      "label": "Book a call",
+      "to": "/book"
+    }
   }
 }
