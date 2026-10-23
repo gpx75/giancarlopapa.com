@@ -199,9 +199,9 @@ const publicPhone = computed(() => {
           <UAvatar
             src="/giancarlopapa_square.jpeg"
             :alt="basics?.name || 'Giancarlo Papa'"
-            class="size-20 shrink-0 ring-2 ring-default sm:size-24"
+            class="size-32 shrink-0 ring-2 ring-default"
           />
-          <h1 class="text-3xl sm:text-4xl">
+          <h1 class="text-2xl sm:text-3xl">
             {{ basics?.label || basics?.name || 'Resume' }}
           </h1>
         </div>
