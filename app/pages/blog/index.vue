@@ -52,7 +52,10 @@ const { formatDate } = useDateFormatting();
         :to="post.path"
         class="block group"
       >
-        <UCard class="space-y-3 transition group-hover:border-primary/40">
+        <UCard
+          class="transition group-hover:border-primary/40"
+          :ui="{ body: 'space-y-3' }"
+        >
           <div
             class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
           >
@@ -61,7 +64,7 @@ const { formatDate } = useDateFormatting();
                 {{ formatDate(post.date) }}
               </p>
               <h2
-                class="text-xl leading-snug transition group-hover:text-primary"
+                class="text-xl! leading-snug! transition group-hover:text-primary"
               >
                 {{ post.title }}
               </h2>
