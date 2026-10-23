@@ -79,6 +79,11 @@ function asDate(value?: string | null) {
     return 'Present';
   }
 
+  // Year-only dates (education) stay as the year, not "Jan YYYY".
+  if (/^\d{4}$/.test(value)) {
+    return value;
+  }
+
   const parsed = new Date(value);
   if (Number.isNaN(parsed.getTime())) {
     return value;
@@ -370,7 +375,7 @@ const publicPhone = computed(() => {
             >
               <div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <h3>
+                  <h3 class="text-xl!">
                     {{ item.position }}
                   </h3>
                   <UBadge v-if="item.name" color="neutral" variant="subtle">
@@ -426,7 +431,7 @@ const publicPhone = computed(() => {
         />
         <div class="space-y-4">
           <UCard v-for="project in projects" :key="project.name" class="space-y-3">
-            <h3>{{ project.name }}</h3>
+            <h3 class="text-xl!">{{ project.name }}</h3>
             <p class="max-w-prose text-muted">{{ project.description }}</p>
             <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
           </UCard>
@@ -449,7 +454,7 @@ const publicPhone = computed(() => {
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
             >
               <div>
-                <h3>
+                <h3 class="text-xl!">
                   {{ [item.studyType, item.area].filter(Boolean).join(' · ') || item.institution }}
                 </h3>
                 <p v-if="item.studyType || item.area" class="text-sm text-muted">
@@ -472,7 +477,7 @@ const publicPhone = computed(() => {
             :key="language.language"
             class="space-y-1"
           >
-            <h3>
+            <h3 class="text-xl!">
               {{ language.language }}
             </h3>
             <p v-if="language.fluency" class="text-sm text-muted">
@@ -494,7 +499,7 @@ const publicPhone = computed(() => {
             :key="interest.name"
             class="space-y-2"
           >
-            <h3>
+            <h3 class="text-xl!">
               {{ interest.name }}
             </h3>
             <div v-if="interest.keywords?.length" class="flex flex-wrap gap-2">
