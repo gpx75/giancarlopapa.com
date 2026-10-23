@@ -8,28 +8,40 @@
         "email": "giancarlo.papa@gmail.com",
         "phone": "+41 76 337 13 75",
         "url": "https://giancarlopapa.com",
-        "summary": "Senior Full Stack Engineer und Tech Lead mit über 20 Jahren Erfahrung in der Webentwicklung. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end – SPAs mit Vue.js und TypeScript, Services in Node.js (Nuxt), Python (FastAPI) und PHP (Laravel, Symfony), SQL-Datenschichten auf PostgreSQL, MySQL und Oracle – inklusive Enterprise-Integrationen (Salesforce, CRM, LDAP), Docker und CI/CD sowie cloud-agnostischer Deployments auf Google Cloud und AWS. Bei Sunrise habe ich die Customer-Care-Plattform AMP während 11 Jahren weiterentwickelt und leite seit 2024 die OMNI Channel Platforms: AI-Research, Cloudification, Salesforce DevOps und Engineering-Standards.",
-        "summaryPdf": "Ich bin ein kreativer, autodidaktischer Full Stack Web Artisan, der mit elf Jahren den ersten Code geschrieben hat. Webentwicklung ist für mich nicht nur Beruf, sondern eine lebenslange Disziplin, getragen von Neugier, Experimentierfreude und tiefer Leidenschaft. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end: Vue.js-SPAs in TypeScript, Services in Node.js, Python und PHP, SQL-Datenschichten (PostgreSQL, MySQL, Oracle) und Enterprise-Integrationen (Salesforce, CRM, LDAP). Besonders begeistern mich Linux, Docker und die Cloud. Ich bringe Features vom Prototyp in die Produktion – mit, so mein Abteilungsleiter, «enormer Eigenständigkeit». Vater eines wunderbaren Kindes.",
+        "summary": "Senior Full Stack Engineer und Tech Lead mit über 20 Jahren Erfahrung in der Webentwicklung. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end – SPAs mit Vue.js und TypeScript, Services mit Node.js (Nuxt), Python (FastAPI) und PHP (Laravel, Symfony), SQL-Datenschichten auf PostgreSQL, MySQL und Oracle – inklusive Enterprise-Integrationen (Salesforce, CRM, LDAP), Docker und CI/CD sowie cloud-agnostischen Deployments auf Google Cloud und AWS. Bei Sunrise habe ich die Customer-Care-Plattform AMP während 11 Jahren weiterentwickelt und leite seit 2024 die OMNI Channel Platforms: AI-Research, Cloudification, Salesforce DevOps und Engineering-Standards.",
+        "summaryPdf": "Ich bin ein kreativer, autodidaktischer Full Stack Web Artisan, der mit elf Jahren mit dem Programmieren begonnen hat. Webentwicklung ist für mich nicht nur Beruf, sondern eine lebenslange Disziplin, getragen von Neugier, Experimentierfreude und tiefer Leidenschaft. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end: Vue.js-SPAs in TypeScript, Services mit Node.js, Python und PHP, SQL-Datenschichten (PostgreSQL, MySQL, Oracle) und Enterprise-Integrationen (Salesforce, CRM, LDAP). Besonders begeistern mich Linux, Docker und die Cloud. Ich bringe Features vom Prototyp in die Produktion – mit, wie es mein Abteilungsleiter formuliert, «enormer Autonomie». Vater eines wunderbaren Kindes.",
         "coreCompetencies": [
             {
-                "requirement": "Full-Stack-Entwicklung",
-                "proof": "Vue.js/TypeScript-SPAs auf Backends mit Laravel, Node.js (Nuxt/Nitro) und Python (FastAPI); AMP über 11 Jahre weiterentwickelt (2014–2025)"
+                "requirement": "Node.js-Ökosystem & Tooling",
+                "proof": "Node.js-Server-APIs (Nuxt/Nitro) in AI-Prototypen und auf meiner eigenen Plattform; npm, Vite, ESLint"
+            },
+            {
+                "requirement": "TypeScript-Ökosystem & Tooling",
+                "proof": "TypeScript in den Vue.js-Applikationen von Sunrise und durchgängig auf meiner Nuxt-Plattform (vue-tsc)"
+            },
+            {
+                "requirement": "Moderne SPAs (Vue.js/Nuxt)",
+                "proof": "AMP, FeedbackTool, Jordan AI; AI-PoCs in Nuxt: my-ai (Node.js), AIBO und AITO (FastAPI)"
             },
             {
                 "requirement": "AI & Cloud (cloud-agnostisch)",
-                "proof": "AI-Prototypen mit Azure OpenAI und der Claude API; Serverless auf Cloud Run und AWS Lambda, VMs auf Compute Engine"
+                "proof": "Azure OpenAI (Chat, Speech, OCR), Claude API; serverless auf Cloud Run, AWS Lambda und Vercel; Compute-Engine-VMs"
             },
             {
-                "requirement": "DevOps & CI/CD",
-                "proof": "Docker auf RHEL/GCP; GitLab CI, Jenkins, Bitbucket Pipelines, Cloud Build, GitHub Actions; Salesforce DevOps ins Haus geholt"
+                "requirement": "SQL & ORM (datenbankunabhängig)",
+                "proof": "PostgreSQL, MySQL, Oracle im Produktivbetrieb: Queries, Transaktionen, Views, Indizes; Migrationen, Row-Level Security; Eloquent, Doctrine"
             },
             {
-                "requirement": "SQL & Daten (datenbankagnostisch)",
-                "proof": "PostgreSQL, MySQL, Oracle im produktiven Einsatz: Queries, Transaktionen, Views, Indizes; Data-Warehouse-Entwicklung"
+                "requirement": "Docker & CI/CD-Pipelines",
+                "proof": "Docker auf RHEL/GCP; GitLab CI, Jenkins, Bitbucket Pipelines, Cloud Build, GitHub Actions"
             },
             {
-                "requirement": "Technische Führung",
-                "proof": "Tech Lead OMNI Channel Platforms seit 2024 – Architektur, Engineering-Standards, Abbau technischer Schulden; «enorme Eigenständigkeit» (Head of OMNI Channel)"
+                "requirement": "Python",
+                "proof": "FastAPI-Backends (Jordan AI, AIBO, AITO); Data-Warehouse-Arbeiten bei Sunrise"
+            },
+            {
+                "requirement": "Integrationen & Lösung von Kundenanliegen",
+                "proof": "Salesforce, Clarify CRM, LDAP, OAuth/REST; 2nd-/3rd-Level-Support gemeinsam mit Customer Care"
             }
         ],
         "location": {
@@ -54,280 +66,220 @@
     },
     "work": [
         {
+            "url": "https://www.sunrise.ch",
             "name": "Sunrise GmbH",
+            "endDate": "",
+            "summary": "Technische Leitung der internen Enterprise-Plattformen für Customer Care und Callcenter-Betrieb bei einem der führenden Telekommunikationsunternehmen der Schweiz.",
             "location": "Zürich, Schweiz",
             "position": "Tech Lead OMNI Channel Platforms",
-            "url": "https://www.sunrise.ch",
             "startDate": "2024-02",
-            "endDate": "",
-            "summary": "Technische Leitung der internen Enterprise-Plattformen für Customer Care und Call-Center-Betrieb bei einem der führenden Telekommunikationsunternehmen der Schweiz.",
             "highlights": [
                 "AI-Research & Cloudification: AI-Prototypen mit Nuxt/Node.js und Python auf Cloud Run.",
-                "Aufbau von Laravel-REST-APIs auf Clarify CRM (Oracle DB) und dem Sunrise-Benutzerverzeichnis (LDAP/Oracle), genutzt von internen Applikationen.",
+                "Entwicklung von Laravel-REST-APIs auf Clarify CRM (Oracle DB) und dem Sunrise-Benutzerverzeichnis (LDAP/Oracle), genutzt von internen Applikationen.",
                 "Salesforce-Frontend-Entwicklung mit Lightning Web Components (LWC).",
-                "Technische Führung: Architektur, Engineering-Standards, Abbau technischer Schulden."
+                "Tech Leadership: Architektur, Engineering-Standards, Abbau von Tech Debt."
             ],
             "successStories": [
                 {
                     "title": "AMP-Plattform",
-                    "shortForm": "Legacy-Applikation in PHP 5.3/jQuery → Neuaufbau in Laravel/Vue.js, heute Laravel 12 + Vue 3/TypeScript → rund 500 Nutzende pro Tag; von mir während 11 Jahren weiterentwickelt (2014–2025).",
-                    "challenge": "Legacy-Applikation in PHP 5.3/jQuery.",
-                    "action": "Neuaufbau als Laravel/Vue.js (v2), anschliessend Upgrade auf Laravel 12 mit einer SPA in Vue 3/TypeScript.",
-                    "result": "Rund 500 Nutzende pro Tag; von mir während 11 Jahren weiterentwickelt (2014–2025)."
+                    "challenge": "Legacy-Applikation auf PHP 5.3/jQuery.",
+                    "result": "Rund 500 Nutzende pro Tag; während 11 Jahren von mir weiterentwickelt (2014–2025).",
+                    "action": "Neuaufbau mit Laravel/Vue.js (v2), anschliessend Upgrade auf Laravel 12 mit einer SPA in Vue 3/TypeScript.",
+                    "shortForm": "Legacy-App mit PHP 5.3/jQuery → Neuaufbau in Laravel/Vue.js, heute Laravel 12 + Vue 3/TypeScript → rund 500 Nutzende pro Tag; während 11 Jahren von mir weiterentwickelt (2014–2025)."
                 },
                 {
                     "title": "Jordan AI – Liberty Global",
-                    "shortForm": "Keine Unterstützung für Agents während laufender Gespräche → Entwicklung des Echtzeit-AI-Agent-Assist von Sunrise, integriert in Clarify CRM → Prototyp für Sprinklr.",
                     "challenge": "Agents hatten während laufender Gespräche keine Unterstützung.",
+                    "result": "Prototyp für die Sprinklr-Implementierung.",
                     "action": "Entwicklung des Echtzeit-AI-Agent-Assist von Sunrise für das Liberty-Global-Programm Jordan AI, integriert in Clarify CRM.",
-                    "result": "Prototyp für die Sprinklr-Implementierung."
+                    "shortForm": "Keine Unterstützung für Agents während laufender Gespräche → Entwicklung des Echtzeit-AI-Agent-Assist von Sunrise, integriert in Clarify CRM → Prototyp für Sprinklr."
                 },
                 {
                     "title": "Salesforce DevOps",
-                    "shortForm": "Releases durch einen externen Dienstleister in Indien → DevOps mit Bitbucket und CI/CD ins Haus geholt → vollständige Verantwortung für Multi-Environment-Releases.",
                     "challenge": "Salesforce-Releases wurden von einem externen Dienstleister in Indien durchgeführt.",
-                    "action": "Übernahme von Salesforce DevOps ins Haus mit Bitbucket.",
-                    "result": "Interne Versionskontrolle, CI/CD und Deployments über mehrere Umgebungen."
+                    "action": "Übernahme des Salesforce DevOps ins Haus mit Bitbucket.",
+                    "result": "Interne Versionskontrolle, CI/CD und Deployments über mehrere Umgebungen.",
+                    "shortForm": "Releases durch externen Dienstleister in Indien → DevOps mit Bitbucket und CI/CD ins Haus geholt → volle Verantwortung für Releases über mehrere Umgebungen."
                 },
                 {
                     "title": "Cloud-Migration",
-                    "shortForm": "On-Prem-Applikationen, manuelle Deployments → Clarify API und AI-PoCs auf Cloud Run (GCP) mit Cloud Build CI/CD → reproduzierbare, zuverlässige Releases.",
                     "challenge": "On-Premise-Plattformen mit langsamen, fehleranfälligen manuellen Deployments.",
-                    "action": "Containerisierung der Clarify API (Laravel/FrankenPHP) und der AI-Proof-of-Concepts sowie Migration auf Cloud Run in der GCP mit Cloud Build CI/CD.",
-                    "result": "Cloud-native, reproduzierbare und zuverlässigere Releases."
+                    "result": "Cloud-native, reproduzierbare und zuverlässigere Releases.",
+                    "action": "Containerisierung der Clarify API (Laravel/FrankenPHP) sowie der AI-Proofs-of-Concept und Migration auf Cloud Run in GCP mit Cloud Build CI/CD.",
+                    "shortForm": "On-Prem-Apps, manuelle Deployments → Clarify API und AI-PoCs auf Cloud Run (GCP) mit Cloud Build CI/CD migriert → reproduzierbare, zuverlässige Releases."
                 }
             ]
         },
         {
+            "url": "https://www.sunrise.ch",
             "name": "Sunrise GmbH",
             "location": "Zürich, Schweiz",
+            "successStories": [],
             "position": "Developer Big Data",
-            "url": "https://www.sunrise.ch",
             "startDate": "2019-03",
             "endDate": "2024-01",
             "highlights": [
-                "Konzeption, Entwicklung und Wartung der AMP-Plattform und des FeedbackTools: Backends in PHP (Laravel) und Python, Frontends in Vue.js, Enterprise-API-Integrationen.",
+                "Konzeption, Entwicklung und Wartung der Plattform AMP und des FeedbackTools: Backends mit PHP (Laravel) und Python, Vue.js-Frontends, Integration von Enterprise-APIs.",
                 "Data-Warehouse-Entwicklung mit SQL und Python (Oracle).",
                 "Deployment und Betrieb auf Linux (RHEL) mit Docker, Git und CI/CD-Pipelines."
-            ],
-            "successStories": []
+            ]
         },
         {
+            "url": "https://www.sunrise.ch",
             "name": "Sunrise GmbH",
             "location": "Zürich, Schweiz",
+            "successStories": [],
             "position": "Developer ERP, BI & Billing",
-            "url": "https://www.sunrise.ch",
             "startDate": "2018-04",
             "endDate": "2019-02",
             "highlights": [
-                "Produktiveinführung der Laravel/Vue.js-Version des AMP FeedbackTools (v2) mit LDAP-Authentifizierung – ein etabliertes Werkzeug für Customer Care und Quality Management."
-            ],
-            "successStories": []
+                "Produktiveinführung der Laravel/Vue.js-Version des AMP FeedbackTools (v2) inklusive LDAP-Authentifizierung – ein etabliertes Tool für Customer Care und Quality Management."
+            ]
         },
         {
+            "url": "https://www.sunrise.ch",
             "name": "Sunrise GmbH",
             "location": "Zürich, Schweiz",
+            "successStories": [],
             "position": "Specialist Application",
-            "url": "https://www.sunrise.ch",
             "startDate": "2012-04",
             "endDate": "2018-03",
             "highlights": [
-                "2nd-/3rd-Level-Support für die geschäftskritische AMP-Plattform (PHP 5.3/jQuery): Analyse und Behebung komplexer Produktionsstörungen gemeinsam mit Fachbereichen und technischen Teams; Start des Neuaufbaus in Laravel/Vue.js.",
+                "2nd-/3rd-Level-Support für die geschäftskritische Plattform AMP (PHP 5.3/jQuery): Analyse und Behebung komplexer Produktionsstörungen gemeinsam mit Fachbereichen und technischen Teams; Start des Neuaufbaus mit Laravel/Vue.js.",
                 "Auf eigene Initiative das AMP FeedbackTool für Customer Care gestartet – von der IT als offizielle interne Plattform übernommen und später als Enterprise-taugliche v2 neu aufgebaut."
-            ],
-            "successStories": []
+            ]
         },
         {
+            "url": "https://www.siciliaonline.it",
             "name": "Sicilia On Line Srl",
+            "endDate": "2011-12",
+            "summary": "",
             "location": "Palermo, Italien",
             "position": "Webmaster & Full Stack Developer",
-            "url": "https://www.siciliaonline.it",
             "startDate": "2006-05",
-            "endDate": "2011-12",
-            "summary": "Webmaster und leitender Entwickler für siciliaonline.it – ein traffic-starkes Regionalportal mit über 10'000 täglichen Besuchenden – sowie für die zugehörigen Angebote gds.it und blogsicilia. Vollumfängliche Verantwortung für die PHP-Applikationsentwicklung, die Joomla-CMS-Architektur und den LAMP-Serverbetrieb des gesamten Netzwerks.",
             "highlights": [
-                "Aufbau und Skalierung von PHP/MySQL-Plattformen mit über 10'000 täglichen Besuchenden auf siciliaonline.it, gds.it und blogsicilia.",
-                "Entwicklung massgeschneiderter Joomla-/Mambo-Komponenten, -Plugins und -Templates für Newsroom- und Redaktionsprozesse.",
-                "Leitung von Plattform-Redesigns mit Verbesserungen bei Performance, SEO und Leserbindung.",
-                "Betreuung des gesamten LAMP-Stacks: Apache, MySQL, Server-Hardening und Hochverfügbarkeitsbetrieb.",
-                "Integration von Online-Zahlungssystemen über Moneynet SpA, inklusive PayPal-Gateway-Implementierungen für E-Commerce- und Abo-Prozesse."
+                "Aufbau und Skalierung von PHP/MySQL-Plattformen mit eigenen Joomla-Erweiterungen für siciliaonline.it, gds.it und blogsicilia; Betrieb und Härtung des LAMP-Stacks."
             ],
-            "successStories": [
-                {
-                    "title": "Traffic-starkes Portal",
-                    "shortForm": "Aufbau und Skalierung von PHP/MySQL-Plattformen mit über 10'000 täglichen Besuchenden auf siciliaonline.it, gds.it und blogsicilia.",
-                    "challenge": "Das regionale Portalnetzwerk musste wachsenden Traffic bewältigen und gleichzeitig Performance und effiziente Redaktionsprozesse sicherstellen.",
-                    "action": "Entwicklung massgeschneiderter Joomla-Komponenten und Optimierung des gesamten LAMP-Stacks für den Hochverfügbarkeitsbetrieb.",
-                    "result": "Die Plattformen bedienten zuverlässig über 10'000 tägliche Besuchende bei verbesserter Performance, SEO und Leserbindung."
-                },
-                {
-                    "title": "Plattform-Modernisierung",
-                    "shortForm": "Ad-hoc-PHP-Skripte zu einer strukturierten Joomla-Architektur weiterentwickelt – mit Verbesserungen bei Performance, SEO und Redaktionsprozessen.",
-                    "challenge": "Die Plattform bestand aus Ad-hoc-PHP-Skripten ohne wartbare Struktur, was die Entwicklung langsam und fehleranfällig machte.",
-                    "action": "Aufbau einer strukturierten PHP/Joomla-Codebasis mit massgeschneiderten Komponenten, Plugins und Templates für Newsroom-Prozesse.",
-                    "result": "Eine wartbare, performante Plattform, die mehrere Redesigns trug und die redaktionelle Produktivität nachhaltig sicherte."
-                }
-            ]
+            "successStories": []
         }
     ],
     "education": [
         {
+            "studyType": "Diploma di Ragioniere e Perito Commerciale (kaufmännisch-technischer Abschluss der Sekundarstufe II)",
+            "area": "",
             "institution": "ITC \"G. Salerno\" — Gangi (PA), Italien",
             "location": "Gangi (PA), Italien",
-            "studyType": "Diploma di Ragioniere e Perito Commerciale (kaufmännischer Abschluss der Sekundarstufe II)",
-            "area": "",
             "startDate": "1992",
             "endDate": "1997"
         },
         {
+            "studyType": "Diploma di Operatore-Programmatore (Programmierer-Diplom)",
+            "area": "",
             "institution": "Scuola 2F — Florenz, Italien",
             "location": "Florenz, Italien",
-            "studyType": "Diploma di Operatore-Programmatore (Diplom als Programmierer)",
-            "area": "",
             "startDate": "",
             "endDate": "1989"
         }
     ],
     "skills": [
         {
-            "name": "PHP & Web",
+            "name": "Frontend",
             "keywords": [
-                "PHP",
-                "Python",
-                "FastAPI",
-                "Node.js (Nuxt / Nitro)",
-                "Laravel",
-                "Eloquent ORM",
-                "Symfony",
-                "Doctrine ORM",
                 "Vue.js",
                 "Nuxt",
-                "JavaScript / TypeScript",
-                "HTML5 / CSS",
-                "Twig",
-                "Composer",
-                "RESTful APIs",
-                "GraphQL"
+                "TypeScript / JavaScript",
+                "React",
+                "HTML5 / CSS"
             ]
         },
         {
-            "name": "AI & Entwicklung",
+            "name": "Backend",
             "keywords": [
-                "AI-Assisted Development",
-                "AI Agent Development",
-                "LLM-Integration",
-                "Azure OpenAI / GPT",
-                "Claude API",
-                "Vertex AI",
-                "Gemini API",
-                "Prompt Engineering",
-                "Big-Data-Plattformen",
-                "Analytics Engineering"
+                "Node.js (Nuxt / Nitro)",
+                "PHP / Laravel / Symfony",
+                "Python / FastAPI",
+                "REST APIs",
+                "GraphQL",
+                "ORMs (Eloquent / Doctrine)"
             ]
         },
         {
-            "name": "Cloud & Plattform",
+            "name": "Datenbanken",
             "keywords": [
-                "Linux (RHEL / Debian / Ubuntu / Fedora)",
+                "PostgreSQL",
+                "MySQL / MariaDB",
+                "Oracle DB",
+                "Redis",
+                "Elasticsearch"
+            ]
+        },
+        {
+            "name": "DevOps & CI/CD",
+            "keywords": [
                 "Docker",
+                "GitLab CI / Jenkins",
+                "GitHub Actions",
+                "Git",
+                "Release-Automatisierung",
+                "Kubernetes (Grundlagen)",
+                "Terraform (GCP)"
+            ]
+        },
+        {
+            "name": "Cloud & Linux",
+            "keywords": [
                 "Google Cloud (Cloud Run, Cloud Build, Compute Engine)",
                 "AWS (S3, SQS, SNS, Lambda)",
-                "Serverless Deployments",
-                "Object Storage (S3 / GCS)",
-                "GitLab CI / Jenkins",
-                "Bitbucket Pipelines",
-                "GitHub Actions",
-                "Kubernetes (Grundlagen)",
-                "Terraform (Grundkenntnisse)"
+                "Vercel",
+                "Linux (RHEL / Debian / Ubuntu / Fedora)",
+                "Nginx / Apache"
             ]
         },
         {
-            "name": "Payments & Fintech",
+            "name": "Security & Identity",
             "keywords": [
-                "Entwicklung von Payment-Plattformen",
-                "Stripe",
-                "PayPal",
-                "Payment-Gateway-Integration",
-                "PCI-DSS-Kenntnisse"
+                "OAuth",
+                "LDAP / Active Directory",
+                "SSL / TLS"
             ]
         },
         {
-            "name": "Datenbanken & Enterprise",
+            "name": "AI & Automatisierung",
             "keywords": [
-                "MySQL",
-                "Oracle DB",
-                "PostgreSQL",
-                "MariaDB",
-                "Redis",
-                "Elasticsearch",
-                "MongoDB",
-                "Salesforce / Apex / LWC",
-                "LDAP / Active Directory"
-            ]
-        },
-        {
-            "name": "E-Commerce & CMS",
-            "keywords": [
-                "WordPress",
-                "Joomla / Mambo",
-                "Craft CMS",
-                "Shopware 5 & 6",
-                "Statamic",
-                "Headless CMS"
-            ]
-        },
-        {
-            "name": "Methodik",
-            "keywords": [
-                "Agile / Scrum",
-                "Code Reviews",
-                "CI / CD",
-                "Unit- & Integrationstests",
-                "Statische Codeanalyse",
-                "Pair Programming",
-                "Versionskontrolle (Git)"
-            ]
-        },
-        {
-            "name": "DevOps & Netzwerk",
-            "keywords": [
-                "Bash / Shell-Scripting",
-                "Nginx / Apache",
-                "TCP/IP / DNS",
-                "SSL / TLS",
-                "System-Hardening"
+                "LLM-Integration (Claude, Azure OpenAI, Vertex AI)",
+                "Workflow-Automatisierung"
             ]
         }
     ],
     "projects": [
         {
-            "name": "giancarlopapa.com – persönliche Website & Recruiting-Plattform",
-            "description": "Meine persönliche Website und die Recruiting-Plattform, die ich für meine eigene Stellensuche entwickelt habe. Admin-Bereich: Job-Discovery aus fünf Quellen mit Relevanz-Scoring und Deduplizierung; AI-Fit-Analyse mit der Claude API; mehrstufige Pipeline (Analyse → CV → Motivationsschreiben → Bewerbung → Interviewvorbereitung); massgeschneiderte CVs in vier Sprachen mit automatischer Anpassung auf zwei PDF-Seiten; Gmail-Inbox-Sync, Kontakte und Funnel-Analytics. Durchgehend TypeScript auf Vue.js/Nuxt, Node.js-APIs (Nitro) und PostgreSQL (Supabase); CI/CD mit GitHub Actions.",
-            "stack": "Nuxt · Vue.js · TypeScript · Node.js (Nitro) · PostgreSQL (Supabase) · Claude API · GitHub Actions · Vercel"
+            "name": "giancarlopapa.com – persönliche Website & Recruiting-Plattform, seit 2025 (github.com/gpx75)",
+            "stack": "Nuxt · Vue.js · TypeScript · Node.js (Nitro) · PostgreSQL (Supabase) · GitHub Actions · Vercel",
+            "description": "Meine persönliche Website und die Recruiting-Plattform, die ich für meine eigene Stellensuche entwickelt habe – inklusive dieses CVs. Admin-Bereich: Job-Discovery aus fünf Quellen (jobs.ch, SwissDevJobs, ictjobs, JSearch, BambooHR) mit Relevanz-Scoring und Deduplizierung; AI-gestützte Fit-Analyse mit der Claude API; mehrstufige Pipeline (Analyse → CV → Motivationsschreiben → Bewerbung → Interview-Vorbereitung); massgeschneiderte CVs in vier Sprachen mit automatischer Anpassung auf zwei PDF-Seiten; Gmail-Inbox-Sync, Outbox, Kontakte und Funnel-Analytics. Durchgängig TypeScript: Vue.js/Nuxt, Node.js-APIs (Nitro), PostgreSQL (Supabase) mit Row-Level Security, OAuth; CI/CD mit GitHub Actions."
+        },
+        {
+            "name": "Jordan AI – Agent Assist (Liberty Global)",
+            "stack": "Python · FastAPI · Vue.js · Azure OpenAI · REST APIs",
+            "description": "Liberty-Global-Programm, in dem jede Tochtergesellschaft ihren eigenen Echtzeit-Agent-Assist entwickelte. Umsetzung der Sunrise-Version – Python/FastAPI-Backend und Vue.js-Frontend auf Live-Gesprächsdaten mit Azure OpenAI – integriert in Clarify CRM als Prototyp für die Sprinklr-Implementierung."
         },
         {
             "name": "AMP — Application Management Portal (Sunrise)",
-            "description": "Customer-Care-Plattform von Sunrise, die ich während 11 Jahren weiterentwickelt habe (2014–2025): von einer PHP-5.3-/jQuery-Applikation über Laravel/Vue.js bis heute Laravel 12 mit einer SPA in Vue 3/TypeScript – mehrsprachige Ticket-Engine (4 Sprachen), Ticket-Verteilung und Feedback-Tools, rund 500 Nutzende pro Tag.",
-            "stack": "Laravel · Vue.js · TypeScript · Oracle · MySQL · Redis · Elasticsearch · FrankenPHP · Docker · GCP · RHEL"
-        },
-        {
-            "name": "Jordan AI (Liberty Global)",
-            "description": "Liberty-Global-Programm, in dem jede Landesgesellschaft ihren eigenen Echtzeit-Agent-Assist entwickelte. Umsetzung der Sunrise-Version – Backend in Python/FastAPI und Frontend in Vue.js auf Live-Gesprächsdaten mit Azure OpenAI – integriert in Clarify CRM als Prototyp für die Sprinklr-Implementierung.",
-            "stack": "Python · FastAPI · Vue.js · LLM-Integration · Azure OpenAI · REST APIs"
+            "stack": "Laravel · Vue.js · Oracle · MySQL · Redis · Elasticsearch · Docker · GCP · RHEL",
+            "description": "Customer-Care-Plattform von Sunrise, die ich während 11 Jahren weiterentwickelt habe (2014–2025): von einer PHP-5.3/jQuery-Applikation über Laravel/Vue.js bis heute Laravel 12 mit einer SPA in Vue 3/TypeScript – mehrsprachige Ticket-Engine (4 Sprachen), Ticket-Verteilung und Feedback-Tools, rund 500 Nutzende pro Tag."
         }
     ],
     "languages": [
         {
-            "language": "Italienisch",
-            "fluency": "Muttersprache"
+            "fluency": "C2 (zweisprachig, Schulbildung in Deutschland)",
+            "language": "Deutsch"
         },
         {
-            "language": "Deutsch",
-            "fluency": "Zweisprachig C2"
+            "fluency": "C1",
+            "language": "Englisch"
         },
         {
-            "language": "Englisch",
-            "fluency": "C1"
+            "fluency": "Muttersprache",
+            "language": "Italienisch"
         }
     ],
     "interests": [
@@ -354,17 +306,13 @@
         {
             "name": "Gartenarbeit",
             "keywords": []
-        },
-        {
-            "name": "Handwerkliches Gestalten",
-            "keywords": []
         }
     ],
     "meta": {
         "translation": {
             "language": "de",
-            "sourceHash": "d5ceb34da83f3baa6991977732ad98a520e3120c02f5ff2b33ee499eb777b65b",
-            "translatedAt": "2026-10-23T16:01:17.866Z",
+            "sourceHash": "833172350b70aee2443f2de888a3783f4b8670c86a57944dbeb74a154c9fb964",
+            "translatedAt": "2026-10-23T16:12:51.571Z",
             "reviewed": false
         }
     }
