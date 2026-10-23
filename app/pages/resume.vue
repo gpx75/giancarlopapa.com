@@ -406,19 +406,6 @@ const publicPhone = computed(() => {
                 </li>
               </ul>
             </div>
-            <template v-if="item.url">
-              <USeparator />
-              <UButton
-                :to="item.url"
-                target="_blank"
-                rel="noopener"
-                label="Visit company"
-                icon="i-lucide-external-link"
-                variant="ghost"
-                color="neutral"
-                class="justify-start"
-              />
-            </template>
           </UCard>
         </div>
       </section>
