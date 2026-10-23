@@ -3,6 +3,7 @@ import type {
   ResumeEducation,
   ResumeInterest,
   ResumeLanguage,
+  ResumeProject,
   ResumeSkill,
   ResumeWork
 } from '~/types/resume';
@@ -46,6 +47,24 @@ const languages = computed<ResumeLanguage[]>(
 const interests = computed<ResumeInterest[]>(
   () => resume.value?.interests ?? []
 );
+
+// Same content as the PDF CV: the About text, core competencies, success
+// stories under each role, and only the projects not already told as a story.
+const about = computed(() => basics.value?.summaryPdf ?? basics.value?.summary);
+const coreCompetencies = computed(() => basics.value?.coreCompetencies ?? []);
+const nationalityLine = computed(() =>
+  [basics.value?.nationality, basics.value?.workPermit].filter(Boolean).join(' · ')
+);
+const words = (text: string) =>
+  text.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+const projects = computed<ResumeProject[]>(() => {
+  const storyWords = new Set(
+    work.value.flatMap((job) => (job.successStories ?? []).flatMap((story) => words(story.title)))
+  );
+  return (resume.value?.projects ?? []).filter(
+    (project) => !storyWords.has(words(project.name)[0] ?? '')
+  );
+});
 
 const hasAnyContent = computed(() => Boolean(resume.value));
 
@@ -230,11 +249,8 @@ const publicPhone = computed(() => {
             <h2>
               {{ basics?.label }}
             </h2>
-            <p
-              v-if="basics?.summary"
-              class="text-lg leading-relaxed text-muted"
-            >
-              {{ basics.summary }}
+            <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
+              {{ about }}
             </p>
           </div>
           <div class="grid gap-3 text-sm text-muted">
@@ -275,6 +291,10 @@ const publicPhone = computed(() => {
                   {{ basics.location.countryCode }}
                 </template>
               </span>
+            </div>
+            <div v-if="nationalityLine" class="flex items-center gap-3">
+              <UIcon name="i-lucide-id-card" class="text-base" />
+              <span>{{ nationalityLine }}</span>
             </div>
             <div v-if="basics?.url" class="flex items-center gap-3">
               <UIcon name="i-lucide-globe" class="text-base" />
@@ -322,6 +342,22 @@ const publicPhone = computed(() => {
         </UCard>
       </section>
 
+      <section v-if="coreCompetencies.length" class="space-y-6">
+        <CvSectionHeading
+          title="Core Competencies"
+          description="Key requirements and the proof behind them."
+          kicker="Competencies"
+        />
+        <UCard>
+          <ul class="space-y-3">
+            <li v-for="item in coreCompetencies" :key="item.requirement">
+              <span class="font-semibold text-highlighted">{{ item.requirement }}</span>
+              <span class="text-muted"> — {{ item.proof }}</span>
+            </li>
+          </ul>
+        </UCard>
+      </section>
+
       <section v-if="work.length" class="space-y-6">
         <CvSectionHeading
           title="Experience"
@@ -365,6 +401,24 @@ const publicPhone = computed(() => {
                 {{ highlight }}
               </li>
             </ul>
+            <div v-if="item.successStories?.length" class="space-y-2">
+              <p class="text-xs font-semibold uppercase tracking-wide text-primary">
+                Success Stories
+              </p>
+              <ul class="space-y-2 text-muted">
+                <li
+                  v-for="story in item.successStories"
+                  :key="story.title"
+                  class="flex gap-2"
+                >
+                  <UIcon name="i-lucide-chevron-right" class="mt-1 shrink-0 text-primary" />
+                  <span>
+                    <span class="font-semibold text-highlighted">{{ story.title }}:</span>
+                    {{ story.shortForm }}
+                  </span>
+                </li>
+              </ul>
+            </div>
             <template v-if="item.url">
               <USeparator />
               <UButton
@@ -378,6 +432,21 @@ const publicPhone = computed(() => {
                 class="justify-start"
               />
             </template>
+          </UCard>
+        </div>
+      </section>
+
+      <section v-if="projects.length" class="space-y-6">
+        <CvSectionHeading
+          title="Key Projects"
+          description="Things I built and run beyond my roles."
+          kicker="Projects"
+        />
+        <div class="space-y-4">
+          <UCard v-for="project in projects" :key="project.name" class="space-y-3">
+            <h3>{{ project.name }}</h3>
+            <p class="max-w-prose text-muted">{{ project.description }}</p>
+            <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
           </UCard>
         </div>
       </section>
@@ -399,16 +468,10 @@ const publicPhone = computed(() => {
             >
               <div>
                 <h3>
-                  {{ item.institution }}
+                  {{ [item.studyType, item.area].filter(Boolean).join(' · ') || item.institution }}
                 </h3>
-                <p
-                  v-if="item.studyType || item.area"
-                  class="text-sm text-muted"
-                >
-                  {{ [item.studyType, item.area].filter(Boolean).join(' · ') }}
-                </p>
-                <p v-if="item.location" class="text-sm text-muted">
-                  {{ item.location }}
+                <p v-if="item.studyType || item.area" class="text-sm text-muted">
+                  {{ item.institution }}
                 </p>
               </div>
               <p class="text-sm font-medium text-muted">

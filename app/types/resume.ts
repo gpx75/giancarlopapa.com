@@ -34,6 +34,8 @@ export interface ResumeBasics {
   url?: string
   summary?: string
   summaryPdf?: string
+  nationality?: string
+  workPermit?: string
   location?: ResumeLocation
   profiles?: ResumeProfileLink[]
   coreCompetencies?: CoreCompetency[]
@@ -78,9 +80,16 @@ export interface ResumeInterest {
   keywords?: string[]
 }
 
+export interface ResumeProject {
+  name: string
+  description: string
+  stack?: string
+}
+
 export interface ResumeDocument {
   basics: ResumeBasics
   work?: ResumeWork[]
+  projects?: ResumeProject[]
   education?: ResumeEducation[]
   skills?: ResumeSkill[]
   languages?: ResumeLanguage[]
