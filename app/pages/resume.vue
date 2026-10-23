@@ -207,12 +207,9 @@ const publicPhone = computed(() => {
       <div
         class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div class="space-y-1">
-          <p class="font-semibold">Download CV</p>
-          <p class="text-sm text-muted">
-            Sign in to download the PDF version of my resume.
-          </p>
-        </div>
+        <h2 v-if="basics?.label">
+          {{ basics.label }}
+        </h2>
         <div v-if="loggedIn" class="shrink-0">
           <UButton
             to="/api/resume/pdf"
@@ -253,9 +250,6 @@ const publicPhone = computed(() => {
       <section class="grid gap-8 lg:grid-cols-[2fr,1fr]">
         <div class="space-y-6">
           <div class="space-y-3">
-            <h2>
-              {{ basics?.label }}
-            </h2>
             <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
               {{ about }}
             </p>
