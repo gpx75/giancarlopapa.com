@@ -181,7 +181,7 @@ const publicPhone = computed(() => {
     >
       <div class="flex items-center gap-5">
         <UAvatar
-          src="/giancarlopapa.jpeg"
+          src="/giancarlopapa_square.jpeg"
           :alt="basics?.name || 'Giancarlo Papa'"
           class="size-20 shrink-0 ring-2 ring-default sm:size-24"
         />
