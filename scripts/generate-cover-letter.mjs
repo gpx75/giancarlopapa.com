@@ -32,7 +32,7 @@ const sender = {
   location: 'Elsau ZH, Switzerland',
   url: 'giancarlopapa.com',
   github: 'github.com/gpx75',
-  linkedin: 'linkedin.com/in/gpapa'
+  linkedin: 'linkedin.com/in/giancarlopapa'
 }
 
 const today = new Date().toLocaleDateString('en', { day: 'numeric', month: 'long', year: 'numeric' })

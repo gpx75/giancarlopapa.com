@@ -1,6 +1,13 @@
 let cachedResumeText: string | null = null;
 
-export async function getResumeForPrompt(): Promise<string> {
+/**
+ * Resume text for AI prompts. An application's tailored CV is used when it has
+ * one (it carries the verified, up-to-date facts); otherwise the master resume.
+ */
+export async function getResumeForPrompt(tailored?: unknown): Promise<string> {
+  if (tailored && typeof tailored === 'object') {
+    return formatResumeForPrompt(tailored as Record<string, unknown>);
+  }
   if (cachedResumeText) return cachedResumeText;
 
   const storage = useStorage('assets:server');
@@ -10,6 +17,11 @@ export async function getResumeForPrompt(): Promise<string> {
     throw new Error('Could not load resume data from server assets');
   }
 
+  cachedResumeText = formatResumeForPrompt(raw);
+  return cachedResumeText;
+}
+
+function formatResumeForPrompt(raw: Record<string, unknown>): string {
   const lines: string[] = [];
 
   // Basics
@@ -18,9 +30,11 @@ export async function getResumeForPrompt(): Promise<string> {
   lines.push(`${b.label}`);
   const loc = b.location as Record<string, string> | undefined;
   lines.push(`Location: ${loc?.city}, ${loc?.region}, ${loc?.countryCode}`);
+  const permit = [b.nationality, b.workPermit].filter(Boolean).join(' · ');
+  if (permit) lines.push(`Nationality / permit: ${permit}`);
   lines.push('');
   lines.push('## Summary');
-  lines.push(String(b.summary));
+  lines.push(String(b.summaryPdf ?? b.summary));
   lines.push('');
 
   // Core competencies
@@ -46,6 +60,10 @@ export async function getResumeForPrompt(): Promise<string> {
         for (const h of highlights) {
           lines.push(`- ${h}`);
         }
+      }
+      const stories = w.successStories as Array<Record<string, string>> | undefined;
+      for (const st of stories ?? []) {
+        if (st.shortForm) lines.push(`- Success story — ${st.title}: ${st.shortForm}`);
       }
       lines.push('');
     }
@@ -95,6 +113,5 @@ export async function getResumeForPrompt(): Promise<string> {
     lines.push('');
   }
 
-  cachedResumeText = lines.join('\n');
-  return cachedResumeText;
+  return lines.join('\n');
 }

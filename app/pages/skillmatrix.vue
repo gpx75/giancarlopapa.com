@@ -73,7 +73,7 @@ function dots(level: Level) {
       <h1>Skill Matrix</h1>
       <p class="text-muted max-w-2xl">
         A structured overview of technologies and proficiency levels built
-        across 19+ years of engineering, from web to cloud to AI.
+        across 25+ years of engineering, from web to cloud to AI.
       </p>
     </div>
 
@@ -111,7 +111,7 @@ function dots(level: Level) {
         <div class="flex items-center gap-2 border-b border-default pb-3">
           <UIcon :name="category.icon" class="size-4 text-dimmed" />
           <h2
-            class="text-sm font-semibold uppercase tracking-widest opacity-70"
+            class="text-sm! font-semibold uppercase tracking-widest! opacity-70"
           >
             {{ category.label }}
           </h2>
@@ -132,7 +132,7 @@ function dots(level: Level) {
                 class="size-4 shrink-0"
                 :class="levelIconClass[skill.level]"
               />
-              <span class="text-sm font-medium truncate">{{ skill.name }}</span>
+              <span class="text-sm font-medium leading-snug">{{ skill.name }}</span>
             </div>
             <div class="flex shrink-0 items-center gap-2">
               <span v-if="skill.years" class="text-xs text-dimmed"

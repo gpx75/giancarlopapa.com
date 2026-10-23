@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, company, position, job_description, match_breakdown, language')
+    .select('id, company, position, job_description, match_breakdown, language, tailored_resume')
     .eq('id', id)
     .single();
 
@@ -58,7 +58,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const anthropic = useAnthropic();
-  const resumeText = await getResumeForPrompt();
+  const resumeText = await getResumeForPrompt(app.tailored_resume);
 
   const matchContext = app.match_breakdown
     ? `\nMatch analysis summary: ${app.match_breakdown.summary || 'N/A'}\nStrong matches: ${(app.match_breakdown.strongMatches || []).join(', ') || 'N/A'}\nGaps: ${(app.match_breakdown.gaps || []).join(', ') || 'N/A'}`

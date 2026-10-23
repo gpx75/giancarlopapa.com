@@ -25,7 +25,7 @@ export default defineEventHandler(async (event) => {
   const { data: app, error: fetchError } = await db
     .from('job_applications')
     .select(
-      'id, company, position, location, work_model, job_description, match_breakdown'
+      'id, company, position, location, work_model, job_description, match_breakdown, tailored_resume'
     )
     .eq('id', id)
     .single();
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const anthropic = useAnthropic();
-  const resumeText = await getResumeForPrompt();
+  const resumeText = await getResumeForPrompt(app.tailored_resume);
 
   const breakdown = app.match_breakdown ?? {};
   const impactCtx = [

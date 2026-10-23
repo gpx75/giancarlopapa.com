@@ -213,7 +213,7 @@ export function applyTransition(
         throw new Error('Review must be completed before Apply.');
       }
       const mode =
-        meta?.mode === 'export' || meta?.mode === 'send' ? meta.mode : null;
+        meta?.mode === 'export' || meta?.mode === 'send' || meta?.mode === 'manual' ? meta.mode : null;
       const stages: WorkflowStages = {
         ...workflow.stages,
         apply: {
