@@ -80,7 +80,7 @@ const navItems = computed(() =>
           size="sm"
         />
         <UButton
-          to="https://www.linkedin.com/in/gpapa"
+          to="https://www.linkedin.com/in/giancarlopapa"
           target="_blank"
           icon="i-simple-icons-linkedin"
           aria-label="LinkedIn"

@@ -59,8 +59,8 @@
             },
             {
                 "network": "LinkedIn",
-                "username": "gpapa",
-                "url": "https://linkedin.com/in/gpapa"
+                "username": "giancarlopapa",
+                "url": "https://linkedin.com/in/giancarlopapa"
             }
         ]
     },
@@ -312,7 +312,7 @@
     "meta": {
         "translation": {
             "language": "de",
-            "sourceHash": "8e33ffff87e8211034d92251c9f651213163d6075c1db37f64cab076a22e2721",
+            "sourceHash": "83457c1ede6f8b0d6d1bcfd06776c8031751e6d976a9272b1ae5a004cc28698f",
             "translatedAt": "2026-10-23T16:12:51.571Z",
             "reviewed": false
         }
