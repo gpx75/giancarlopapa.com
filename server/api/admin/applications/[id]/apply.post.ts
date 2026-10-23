@@ -10,7 +10,8 @@ export default defineEventHandler(async (event) => {
   }
 
   const body = await readBody<{ mode?: ApplyMode; applied_at?: string }>(event);
-  const mode: ApplyMode = body.mode === 'export' ? 'export' : 'send';
+  const mode: ApplyMode =
+    body.mode === 'export' || body.mode === 'manual' ? body.mode : 'send';
 
   const db = serverSupabaseServiceRole<unknown>(
     event
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error } = await db
     .from('job_applications')
-    .select('workflow, status')
+    .select('workflow, status, applied_at')
     .eq('id', numericId)
     .is('deleted_at', null)
     .single();
@@ -45,7 +46,8 @@ export default defineEventHandler(async (event) => {
   const update: Record<string, unknown> = {
     workflow: next,
     status: 'applied',
-    applied_at: body.applied_at ?? new Date().toISOString()
+    // Keep an existing application date (e.g. CV already sent to a recruiter).
+    applied_at: body.applied_at ?? app.applied_at ?? new Date().toISOString()
   };
 
   const { data: updated, error: updateError } = await db
