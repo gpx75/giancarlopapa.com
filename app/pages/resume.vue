@@ -244,12 +244,14 @@ const publicPhone = computed(() => {
 
     <div v-else-if="hasAnyContent" class="space-y-12">
       <section class="grid gap-8 lg:grid-cols-[2fr_1fr]">
-        <div class="space-y-6">
-          <div class="space-y-3">
-            <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
-              {{ about }}
-            </p>
-          </div>
+        <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
+          {{ about }}
+        </p>
+
+        <UCard class="lg:self-start">
+          <template #header>
+            <h3 class="text-xl!">Contact &amp; Profiles</h3>
+          </template>
           <div class="grid gap-3 text-sm text-muted">
             <div v-if="basics?.email" class="flex items-center gap-3">
               <UIcon name="i-lucide-mail" class="text-base" />
@@ -277,16 +279,10 @@ const publicPhone = computed(() => {
               <UIcon name="i-lucide-map-pin" class="mt-0.5 text-base" />
               <span>
                 {{
-                  [basics.location.city, basics.location.region]
+                  [basics.location.city, basics.location.region, basics.location.countryCode]
                     .filter(Boolean)
                     .join(' · ')
                 }}
-                <template v-if="basics.location.countryCode">
-                  <span v-if="basics.location.city || basics.location.region">
-                    ·
-                  </span>
-                  {{ basics.location.countryCode }}
-                </template>
               </span>
             </div>
             <div v-if="nationalityLine" class="flex items-center gap-3">
@@ -301,19 +297,14 @@ const publicPhone = computed(() => {
                 rel="noopener"
                 class="transition hover:text-foreground"
               >
-                {{ basics.url }}
+                {{ basics.url.replace('https://', '') }}
               </a>
             </div>
             <p v-if="!loggedIn" class="text-xs text-dimmed">
-              Sign in to reveal direct email and phone links.
+              Sign in to see my email and phone.
             </p>
           </div>
-        </div>
-
-        <UCard class="space-y-4">
-          <template #header>
-            <h3>Profiles</h3>
-          </template>
+          <USeparator class="my-4" />
           <div class="flex flex-col gap-2">
             <UButton
               v-for="profileLink in basics?.profiles"
@@ -326,7 +317,6 @@ const publicPhone = computed(() => {
               class="justify-start"
               target="_blank"
             />
-            <USeparator />
             <UButton
               to="/skillmatrix"
               label="Skill Matrix"
