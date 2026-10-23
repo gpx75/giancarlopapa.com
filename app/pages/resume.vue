@@ -368,7 +368,7 @@ const publicPhone = computed(() => {
           <UCard
             v-for="item in work"
             :key="`${item.name}-${item.startDate}`"
-            class="space-y-4"
+            :ui="{ body: 'space-y-4' }"
           >
             <div
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
@@ -430,10 +430,12 @@ const publicPhone = computed(() => {
           kicker="Projects"
         />
         <div class="space-y-4">
-          <UCard v-for="project in projects" :key="project.name" class="space-y-3">
-            <h3 class="text-xl!">{{ project.name }}</h3>
-            <p class="max-w-prose text-muted">{{ project.description }}</p>
-            <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
+          <UCard v-for="project in projects" :key="project.name">
+            <div class="space-y-3">
+              <h3 class="text-xl!">{{ project.name }}</h3>
+              <p class="text-muted">{{ project.description }}</p>
+              <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
+            </div>
           </UCard>
         </div>
       </section>
@@ -448,7 +450,7 @@ const publicPhone = computed(() => {
           <UCard
             v-for="item in education"
             :key="`${item.institution}-${item.startDate}`"
-            class="space-y-2"
+            :ui="{ body: 'space-y-2' }"
           >
             <div
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
@@ -475,7 +477,7 @@ const publicPhone = computed(() => {
           <UCard
             v-for="language in languages"
             :key="language.language"
-            class="space-y-1"
+            :ui="{ body: 'space-y-1' }"
           >
             <h3 class="text-xl!">
               {{ language.language }}
@@ -497,7 +499,7 @@ const publicPhone = computed(() => {
           <UCard
             v-for="interest in interests"
             :key="interest.name"
-            class="space-y-2"
+            :ui="{ body: 'space-y-2' }"
           >
             <h3 class="text-xl!">
               {{ interest.name }}
