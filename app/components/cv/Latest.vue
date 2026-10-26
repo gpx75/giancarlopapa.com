@@ -6,12 +6,12 @@ const props = defineProps<{ latest: CvLatest }>();
 
 const RUN_TYPES = new Set(['Run', 'TrailRun', 'VirtualRun', 'Treadmill']);
 
-const { data: post } = await useAsyncData('latest-post', () =>
-  queryCollection('blog')
-    .where('draft', '<>', true)
-    .order('date', 'DESC')
-    .first()
-);
+// Filtered in JS like /blog: posts without a `draft` field are stored as NULL,
+// which an SQL `draft <> true` would silently exclude.
+const { data: post } = await useAsyncData('latest-post', async () => {
+  const posts = await queryCollection('blog').order('date', 'DESC').all();
+  return posts.find((p) => !p.draft) ?? null;
+});
 
 // Client-only and lazy: a Strava outage must never block or break the homepage.
 const { data: activities } = useFetch<RunActivity[]>('/api/strava/activities', {

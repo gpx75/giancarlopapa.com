@@ -28,9 +28,12 @@ if (!executablePath) {
 }
 
 // Single-line `key: 'value'` frontmatter fields are all the cover needs.
+// Only the frontmatter block is searched, never the post body.
 function frontmatterField(source, key) {
-  const match = source.match(new RegExp(`^${key}:\\s*['"]?(.*?)['"]?\\s*$`, 'm'))
-  return match?.[1] ?? ''
+  const frontmatter = source.match(/^---\n([\s\S]*?)\n---/)?.[1] ?? ''
+  const match = frontmatter.match(new RegExp(`^${key}:\\s*(['"]?)(.*)\\1\\s*$`, 'm'))
+  // YAML single-quoted strings escape a quote as ''.
+  return match?.[1] === "'" ? match[2].replaceAll("''", "'") : (match?.[2] ?? '')
 }
 
 const escapeHtml = (value) =>
@@ -43,7 +46,8 @@ function coverHtml({ slug, title, date }) {
   const formattedDate = new Date(date).toLocaleDateString('en-US', {
     month: 'long',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
+    timeZone: 'UTC'
   })
 
   return `<!doctype html>
