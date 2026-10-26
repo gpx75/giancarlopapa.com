@@ -37,9 +37,16 @@ export default defineContentConfig({
           availability: z.string(),
           summary: z.array(z.string()),
           highlights: z
-            .array(z.object({ emoji: z.string(), text: z.string() }))
+            .array(
+              z.object({
+                emoji: z.string(),
+                text: z.string(),
+                to: z.string().optional()
+              })
+            )
             .optional(),
           invitation: z.string().optional(),
+          summaryLink: z.string().optional(),
           actions: z.array(actionLinkSchema),
           contactLinks: z.array(
             z.object({

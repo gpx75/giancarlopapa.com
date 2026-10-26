@@ -63,7 +63,8 @@
       },
       {
         "emoji": "🏃",
-        "text": "I run, eat and sleep, then repeat — walked the Camino del Norte, about 700 km"
+        "text": "I run, eat and sleep, then repeat — walked the Camino del Norte, about 700 km",
+        "to": "/runs"
       },
       {
         "emoji": "🌱",
@@ -71,10 +72,12 @@
       },
       {
         "emoji": "🧭",
-        "text": "Curious what I am good at? My Skill Matrix has the details"
+        "text": "Curious what I am good at? My Skill Matrix has the details",
+        "to": "/skillmatrix"
       }
     ],
-    "invitation": "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call."
+    "invitation": "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call.",
+    "summaryLink": "/resume"
   },
   "about": [
     "Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerised systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.",

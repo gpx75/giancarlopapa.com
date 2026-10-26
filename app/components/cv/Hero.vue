@@ -36,7 +36,15 @@ const props = defineProps<CvHeroSectionProps>();
           :key="i"
           class="text-base text-muted max-w-2xl"
         >
-          {{ paragraph }}
+          <ULink
+            v-if="props.hero.summaryLink"
+            :to="props.hero.summaryLink"
+            class="text-muted hover:text-primary"
+          >
+            {{ paragraph }}
+            <UIcon name="i-lucide-arrow-up-right" class="size-4 align-middle" />
+          </ULink>
+          <template v-else>{{ paragraph }}</template>
         </p>
         <ul v-if="props.hero.highlights?.length" class="space-y-2 max-w-2xl text-base text-muted">
           <li
@@ -45,7 +53,15 @@ const props = defineProps<CvHeroSectionProps>();
             class="flex gap-3"
           >
             <span aria-hidden="true" class="shrink-0">{{ item.emoji }}</span>
-            <span>{{ item.text }}</span>
+            <ULink
+              v-if="item.to"
+              :to="item.to"
+              class="text-muted hover:text-primary"
+            >
+              {{ item.text }}
+              <UIcon name="i-lucide-arrow-up-right" class="size-4 align-middle" />
+            </ULink>
+            <span v-else>{{ item.text }}</span>
           </li>
         </ul>
         <p v-if="props.hero.invitation" class="text-base text-muted max-w-2xl">
