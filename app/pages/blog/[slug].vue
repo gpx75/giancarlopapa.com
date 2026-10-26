@@ -6,7 +6,7 @@ const { data: post } = await useAsyncData(`blog-${slug}`, () =>
   queryCollection('blog').path(`/blog/${slug}`).first()
 );
 
-if (!post.value) {
+if (!post.value || post.value.draft) {
   throw createError({ statusCode: 404, statusMessage: 'Post not found' });
 }
 
