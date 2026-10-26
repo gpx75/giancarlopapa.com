@@ -28,6 +28,7 @@ export interface CvHero {
   availability: string
   summary: string[]
   highlights?: Array<{ emoji: string, text: string }>
+  invitation?: string
   actions: CvActionLink[]
   contactLinks: CvContactLink[]
 }

@@ -6,7 +6,7 @@
     "availability": "Available — Hire · Freelance · Partnership",
     "summary": [
       "I am a creative, self-taught Full Stack Web artisan who started writing code at the age of eleven.",
-      "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call."
+      "Web development is not just my profession, but a lifelong discipline driven by curiosity, experimentation, and a deep passion. I build and run business-critical web apps end to end: Vue.js SPAs in TypeScript, Node.js, Python and PHP services, SQL data layers (PostgreSQL, MySQL, Oracle) and enterprise integrations (Salesforce, CRM, LDAP). I am especially passionate about Linux, Docker and the cloud. I work with great autonomy and take features from prototype to production. Father of a beautiful child."
     ],
     "actions": [
       {
@@ -62,10 +62,6 @@
         "text": "Three languages — four, actually, since I am Sicilian"
       },
       {
-        "emoji": "👧",
-        "text": "Father of a beautiful daughter — and I turned my passion for technology into my job"
-      },
-      {
         "emoji": "🏃",
         "text": "I run, eat and sleep, then repeat — walked the Camino del Norte, about 700 km"
       },
@@ -77,7 +73,8 @@
         "emoji": "🧭",
         "text": "Curious what I am good at? My Skill Matrix has the details"
       }
-    ]
+    ],
+    "invitation": "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call."
   },
   "about": [
     "Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerised systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.",

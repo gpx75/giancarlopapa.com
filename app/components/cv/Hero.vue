@@ -31,6 +31,13 @@ const props = defineProps<CvHeroSectionProps>();
           <span class="text-success-400/60 mr-2 select-none">//</span
           >{{ props.hero.summary[0] }}
         </p>
+        <p
+          v-for="(paragraph, i) in props.hero.summary.slice(1)"
+          :key="i"
+          class="text-base text-muted max-w-2xl"
+        >
+          {{ paragraph }}
+        </p>
         <ul v-if="props.hero.highlights?.length" class="space-y-2 max-w-2xl text-base text-muted">
           <li
             v-for="item in props.hero.highlights"
@@ -41,12 +48,8 @@ const props = defineProps<CvHeroSectionProps>();
             <span>{{ item.text }}</span>
           </li>
         </ul>
-        <p
-          v-for="(paragraph, i) in props.hero.summary.slice(1)"
-          :key="i"
-          class="text-base text-muted max-w-2xl"
-        >
-          {{ paragraph }}
+        <p v-if="props.hero.invitation" class="text-base text-muted max-w-2xl">
+          {{ props.hero.invitation }}
         </p>
       </div>
 
