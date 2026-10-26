@@ -38,7 +38,7 @@ const { formatDate } = useDateFormatting();
 </script>
 
 <template>
-  <UContainer class="space-y-12 py-16">
+  <UContainer v-if="post" class="space-y-12 py-16">
     <div class="space-y-6">
       <UButton
         to="/blog"
@@ -51,15 +51,15 @@ const { formatDate } = useDateFormatting();
 
       <div class="space-y-4">
         <p class="text-xs uppercase tracking-widest text-dimmed">
-          {{ formatDate(post!.date) }}
+          {{ formatDate(post.date) }}
         </p>
-        <h1>{{ post!.title }}</h1>
-        <p class="text-lg text-muted leading-relaxed">
-          {{ post!.description }}
+        <h1>{{ post.title }}</h1>
+        <p class="max-w-prose text-lg text-muted leading-relaxed">
+          {{ post.description }}
         </p>
-        <div v-if="post!.tags?.length" class="flex flex-wrap gap-2">
+        <div v-if="post.tags?.length" class="flex flex-wrap gap-2">
           <UBadge
-            v-for="tag in post!.tags"
+            v-for="tag in post.tags"
             :key="tag"
             color="neutral"
             variant="soft"
@@ -73,8 +73,8 @@ const { formatDate } = useDateFormatting();
       <USeparator />
     </div>
 
-    <div class="prose max-w-none">
-      <ContentRenderer :value="post!" />
+    <div class="prose max-w-3xl">
+      <ContentRenderer :value="post" />
     </div>
 
     <USeparator />
