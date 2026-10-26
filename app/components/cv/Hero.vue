@@ -31,6 +31,16 @@ const props = defineProps<CvHeroSectionProps>();
           <span class="text-success-400/60 mr-2 select-none">//</span
           >{{ props.hero.summary[0] }}
         </p>
+        <ul v-if="props.hero.highlights?.length" class="space-y-2 max-w-2xl text-base text-muted">
+          <li
+            v-for="item in props.hero.highlights"
+            :key="item.text"
+            class="flex gap-3"
+          >
+            <span aria-hidden="true" class="shrink-0">{{ item.emoji }}</span>
+            <span>{{ item.text }}</span>
+          </li>
+        </ul>
         <p
           v-for="(paragraph, i) in props.hero.summary.slice(1)"
           :key="i"

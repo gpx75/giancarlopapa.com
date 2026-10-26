@@ -5,10 +5,7 @@
     "location": "Elsau ZH, Switzerland",
     "availability": "Available — Hire · Freelance · Partnership",
     "summary": [
-      "I am a creative, self-taught Full Stack Web artisan who started writing code at the age of eleven. I fell in love with my MSX and Commodore 64 — and I still play Pac-Man.",
-      "I come from Sicily and live near Zürich. I speak three languages — four, actually, since I am Sicilian. I am the father of a beautiful daughter, and I turned my passion for technology into my job.",
-      "Today I am a Tech Lead and full stack engineer.",
-      "I run, eat and sleep — then repeat. I have walked the Camino del Norte to Santiago — about 700 km. Curious what I am good at? My Skill Matrix has the details.",
+      "I am a creative, self-taught Full Stack Web artisan who started writing code at the age of eleven.",
       "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call."
     ],
     "actions": [
@@ -49,6 +46,36 @@
         "label": "LinkedIn",
         "to": "https://www.linkedin.com/in/giancarlopapa",
         "icon": "i-simple-icons-linkedin"
+      }
+    ],
+    "highlights": [
+      {
+        "emoji": "👋",
+        "text": "Tech Lead & full stack engineer near Zürich"
+      },
+      {
+        "emoji": "🕹️",
+        "text": "Started coding on an MSX and a Commodore 64 — still playing Pac‑Man"
+      },
+      {
+        "emoji": "🗣️",
+        "text": "Three languages — four, actually, since I am Sicilian"
+      },
+      {
+        "emoji": "👧",
+        "text": "Father of a beautiful daughter — and I turned my passion for technology into my job"
+      },
+      {
+        "emoji": "🏃",
+        "text": "I run, eat and sleep, then repeat — walked the Camino del Norte, about 700 km"
+      },
+      {
+        "emoji": "🌱",
+        "text": "Currently learning Mandarin Chinese"
+      },
+      {
+        "emoji": "🧭",
+        "text": "Curious what I am good at? My Skill Matrix has the details"
       }
     ]
   },
