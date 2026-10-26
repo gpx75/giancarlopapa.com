@@ -28,7 +28,7 @@ if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json';
     exit 0  # Don't block the commit
   fi
 
-  git add public/giancarlo_papa_resume.pdf
+  git add server/assets/giancarlo_papa_resume.pdf
   echo "✓ Updated PDF staged."
 fi
 

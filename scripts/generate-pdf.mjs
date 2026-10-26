@@ -5,7 +5,8 @@
  * Run manually:  node --env-file=.env scripts/generate-pdf.mjs
  * Auto-runs via the husky pre-commit hook when the JSON resume is staged.
  *
- * Output: public/giancarlo_papa_resume.pdf
+ * Output: server/assets/giancarlo_papa_resume.pdf (served only to signed-in
+ * visitors by server/api/resume/pdf.get.ts — it contains phone and email)
  *
  * Uses the same template and two-page fitting as the tailored CVs in the
  * admin (server/utils/tailored-resume-*.ts), loaded with jiti so the public
@@ -40,6 +41,6 @@ if (pages > MAX_RESUME_PAGES) {
   console.warn(`⚠ Resume is ${pages} pages even at the tightest spacing (limit ${MAX_RESUME_PAGES}).`)
 }
 
-const outPath = resolve(root, 'public/giancarlo_papa_resume.pdf')
+const outPath = resolve(root, 'server/assets/giancarlo_papa_resume.pdf')
 writeFileSync(outPath, pdf)
-console.log(`✓ PDF written to public/giancarlo_papa_resume.pdf (${Math.round(pdf.length / 1024)} KB, ${pages} pages)`)
+console.log(`✓ PDF written to server/assets/giancarlo_papa_resume.pdf (${Math.round(pdf.length / 1024)} KB, ${pages} pages)`)
