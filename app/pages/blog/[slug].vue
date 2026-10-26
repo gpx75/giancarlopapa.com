@@ -35,6 +35,13 @@ useHead({
 });
 
 const { formatDate } = useDateFormatting();
+
+// "Title: Subtitle" renders on two lines, keeping the colon on the first.
+const titleLines = computed(() => {
+  const title = post.value?.title ?? '';
+  const i = title.indexOf(': ');
+  return i === -1 ? [title] : [title.slice(0, i + 1), title.slice(i + 2)];
+});
 </script>
 
 <template>
@@ -53,7 +60,9 @@ const { formatDate } = useDateFormatting();
         <p class="text-xs uppercase tracking-widest text-dimmed">
           {{ formatDate(post.date) }}
         </p>
-        <h1>{{ post.title }}</h1>
+        <h1>
+          <span v-for="line in titleLines" :key="line" class="block">{{ line }}</span>
+        </h1>
         <p class="max-w-prose text-lg text-muted leading-relaxed">
           {{ post.description }}
         </p>
