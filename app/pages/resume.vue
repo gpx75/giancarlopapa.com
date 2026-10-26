@@ -345,7 +345,7 @@ const publicPhone = computed(() => {
         <CvSectionHeading
           title="Core Competencies"
           description="Key requirements and the proof behind them."
-          kicker="Competencies"
+          kicker="What I bring"
         />
         <UCard>
           <ul class="space-y-3">
@@ -426,7 +426,7 @@ const publicPhone = computed(() => {
         <CvSectionHeading
           title="Key Projects"
           description="Things I built and run beyond my roles."
-          kicker="Projects"
+          kicker="Side projects"
         />
         <div class="space-y-4">
           <UCard v-for="project in projects" :key="project.name">
@@ -443,7 +443,7 @@ const publicPhone = computed(() => {
         <CvSectionHeading
           title="Education"
           description="Formal studies and certifications."
-          kicker="Education"
+          kicker="Studies"
         />
         <div class="space-y-4">
           <UCard
@@ -471,7 +471,11 @@ const publicPhone = computed(() => {
       </section>
 
       <section v-if="languages.length" class="space-y-6">
-        <CvSectionHeading title="Languages" kicker="Communication" />
+        <CvSectionHeading
+          title="Languages"
+          description="Languages I work in every day."
+          kicker="Communication"
+        />
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <UCard
             v-for="language in languages"
@@ -494,34 +498,23 @@ const publicPhone = computed(() => {
           description="What keeps me energized beyond the editor."
           kicker="Personal"
         />
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <UCard
-            v-for="interest in interests"
-            :key="interest.name"
-            :ui="{ body: 'space-y-2' }"
-          >
-            <h3 class="text-xl">
-              <ULink
-                v-if="interest.url"
-                :to="interest.url"
-                class="inline-flex items-center gap-2 text-highlighted hover:text-primary"
+        <div class="flex flex-wrap gap-3">
+          <template v-for="interest in interests" :key="interest.name">
+            <ULink v-if="interest.url" :to="interest.url" class="group">
+              <UBadge
+                color="neutral"
+                variant="outline"
+                size="lg"
+                trailing-icon="i-lucide-arrow-up-right"
+                class="group-hover:text-primary group-hover:ring-primary"
               >
                 {{ interest.name }}
-                <UIcon name="i-lucide-arrow-up-right" class="size-4" />
-              </ULink>
-              <template v-else>{{ interest.name }}</template>
-            </h3>
-            <div v-if="interest.keywords?.length" class="flex flex-wrap gap-2">
-              <UBadge
-                v-for="keyword in interest.keywords"
-                :key="keyword"
-                color="neutral"
-                variant="soft"
-              >
-                {{ keyword }}
               </UBadge>
-            </div>
-          </UCard>
+            </ULink>
+            <UBadge v-else color="neutral" variant="outline" size="lg">
+              {{ interest.name }}
+            </UBadge>
+          </template>
         </div>
       </section>
     </div>
