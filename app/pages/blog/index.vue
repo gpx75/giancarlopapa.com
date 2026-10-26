@@ -64,7 +64,7 @@ const { formatDate } = useDateFormatting();
                 {{ formatDate(post.date) }}
               </p>
               <h2
-                class="text-xl! leading-snug! transition group-hover:text-primary"
+                class="text-xl leading-snug transition group-hover:text-primary"
               >
                 {{ post.title }}
               </h2>

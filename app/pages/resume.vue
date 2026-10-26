@@ -202,14 +202,13 @@ const publicPhone = computed(() => {
       <div
         class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div class="flex items-center gap-5">
+        <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
           <UAvatar
             src="/giancarlopapa_square.jpeg"
             :alt="basics?.name || 'Giancarlo Papa'"
             class="size-32 shrink-0 ring-2 ring-default"
           />
-          <!-- `!` overrides the global h1 scale in main.css for this compact card -->
-          <h1 class="text-2xl! leading-tight! sm:text-3xl!">
+          <h1 class="text-2xl leading-tight sm:text-3xl">
             <span
               v-for="(part, index) in headlineParts"
               :key="part"
@@ -263,7 +262,7 @@ const publicPhone = computed(() => {
 
         <UCard class="lg:self-start">
           <template #header>
-            <h3 class="text-xl!">Contact &amp; Profiles</h3>
+            <h3 class="text-xl">Contact &amp; Profiles</h3>
           </template>
           <div class="grid gap-3 text-sm text-muted">
             <div v-if="basics?.email" class="flex items-center gap-3">
@@ -351,7 +350,7 @@ const publicPhone = computed(() => {
         <UCard>
           <ul class="space-y-3">
             <li v-for="item in coreCompetencies" :key="item.requirement">
-              <span class="font-semibold text-highlighted">{{ item.requirement }}</span>
+              <span class="font-bold text-highlighted">{{ item.requirement }}</span>
               <span class="text-muted"> — {{ item.proof }}</span>
             </li>
           </ul>
@@ -375,7 +374,7 @@ const publicPhone = computed(() => {
             >
               <div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <h3 class="text-xl!">
+                  <h3 class="text-xl">
                     {{ item.position }}
                   </h3>
                   <UBadge v-if="item.name" color="neutral" variant="subtle">
@@ -386,7 +385,7 @@ const publicPhone = computed(() => {
                   {{ item.location }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted">
+              <p class="text-sm text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -402,7 +401,7 @@ const publicPhone = computed(() => {
               </li>
             </ul>
             <div v-if="item.successStories?.length" class="space-y-2">
-              <p class="text-xs font-semibold uppercase tracking-wide text-primary">
+              <p class="text-xs font-bold uppercase text-primary">
                 Success Stories
               </p>
               <ul class="space-y-2 text-muted">
@@ -413,7 +412,7 @@ const publicPhone = computed(() => {
                 >
                   <UIcon name="i-lucide-chevron-right" class="mt-1 shrink-0 text-primary" />
                   <span>
-                    <span class="font-semibold text-highlighted">{{ story.title }}:</span>
+                    <span class="font-bold text-highlighted">{{ story.title }}:</span>
                     {{ story.shortForm }}
                   </span>
                 </li>
@@ -432,7 +431,7 @@ const publicPhone = computed(() => {
         <div class="space-y-4">
           <UCard v-for="project in projects" :key="project.name">
             <div class="space-y-3">
-              <h3 class="text-xl!">{{ project.name }}</h3>
+              <h3 class="text-xl">{{ project.name }}</h3>
               <p class="text-muted">{{ project.description }}</p>
               <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
             </div>
@@ -456,14 +455,14 @@ const publicPhone = computed(() => {
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
             >
               <div>
-                <h3 class="text-xl!">
+                <h3 class="text-xl">
                   {{ [item.studyType, item.area].filter(Boolean).join(' · ') || item.institution }}
                 </h3>
                 <p v-if="item.studyType || item.area" class="text-sm text-muted">
                   {{ item.institution }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted">
+              <p class="text-sm text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -479,7 +478,7 @@ const publicPhone = computed(() => {
             :key="language.language"
             :ui="{ body: 'space-y-1' }"
           >
-            <h3 class="text-xl!">
+            <h3 class="text-xl">
               {{ language.language }}
             </h3>
             <p v-if="language.fluency" class="text-sm text-muted">
@@ -501,7 +500,7 @@ const publicPhone = computed(() => {
             :key="interest.name"
             :ui="{ body: 'space-y-2' }"
           >
-            <h3 class="text-xl!">
+            <h3 class="text-xl">
               <ULink
                 v-if="interest.url"
                 :to="interest.url"
