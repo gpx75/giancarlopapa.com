@@ -5,8 +5,9 @@
  * Run manually:  node --env-file=.env scripts/generate-pdf.mjs
  * Auto-runs via the husky pre-commit hook when the JSON resume is staged.
  *
- * Output: server/assets/giancarlo_papa_resume.pdf (served only to signed-in
- * visitors by server/api/resume/pdf.get.ts — it contains phone and email)
+ * Output: server/assets/giancarlo_papa_resume.pdf — served only to signed-in
+ * visitors by server/api/resume/pdf.get.ts. It contains the phone number
+ * (NUXT_RESUME_PHONE), so it is gitignored and generated in CI before the build.
  *
  * Uses the same template and two-page fitting as the tailored CVs in the
  * admin (server/utils/tailored-resume-*.ts), loaded with jiti so the public
@@ -28,7 +29,7 @@ const jiti = createJiti(`${root}/`, { alias: { '~~': root, '~': `${root}/app` } 
 // The server utils rely on Nuxt auto-imports; provide them as globals.
 const utils = `${root}/server/utils/`
 Object.assign(globalThis, await jiti.import(`${root}/shared/utils/resume-language.ts`))
-for (const mod of ['resume-i18n.ts', 'pdf-render.ts', 'tailored-resume-html.ts']) {
+for (const mod of ['resume-contact.ts', 'resume-i18n.ts', 'pdf-render.ts', 'tailored-resume-html.ts']) {
   Object.assign(globalThis, await jiti.import(utils + mod))
 }
 const { renderTailoredResumePdf, MAX_RESUME_PAGES } = await jiti.import(`${utils}tailored-resume-pdf.ts`)

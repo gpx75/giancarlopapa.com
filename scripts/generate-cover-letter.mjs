@@ -28,7 +28,7 @@ const sender = {
   name: 'Giancarlo Papa',
   role: 'Senior Full Stack Engineer',
   email: 'giancarlo.papa@gmail.com',
-  phone: '+41 76 337 13 75',
+  phone: process.env.NUXT_RESUME_PHONE ?? '',
   location: 'Elsau ZH, Switzerland',
   url: 'giancarlopapa.com',
   github: 'github.com/gpx75',

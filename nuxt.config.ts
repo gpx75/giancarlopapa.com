@@ -79,6 +79,7 @@ export default defineNuxtConfig({
   //   rav.ahvNumber        → NUXT_RAV_AHV_NUMBER
   //   anthropicApiKey      → NUXT_ANTHROPIC_API_KEY
   //   rapidApiKey          → NUXT_RAPID_API_KEY
+  //   resume.phone         → NUXT_RESUME_PHONE (kept out of the public repo)
   //   public.siteUrl       → NUXT_PUBLIC_SITE_URL
   runtimeConfig: {
     contactEmail: '',
@@ -105,6 +106,9 @@ export default defineNuxtConfig({
     },
     anthropicApiKey: '',
     rapidApiKey: '',
+    resume: {
+      phone: ''
+    },
     public: {
       siteUrl: 'https://giancarlopapa.com',
       commitSha,

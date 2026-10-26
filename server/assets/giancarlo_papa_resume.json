@@ -6,7 +6,6 @@
     "workPermit": "C permit",
     "image": "",
     "email": "giancarlo.papa@gmail.com",
-    "phone": "+41 76 337 13 75",
     "url": "https://giancarlopapa.com",
     "summary": "Senior Full Stack Engineer and Tech Lead with 20+ years of web development. I build and run business-critical web apps end to end — Vue.js and TypeScript SPAs, Node.js (Nuxt), Python (FastAPI) and PHP (Laravel, Symfony) services, SQL data layers on PostgreSQL, MySQL and Oracle — with enterprise integrations (Salesforce, CRM, LDAP), Docker and CI/CD, and cloud-agnostic deployments on Google Cloud and AWS. At Sunrise I evolved the AMP customer-care platform for 11 years and, since 2024, lead the OMNI Channel Platforms: AI research, cloudification, Salesforce DevOps and engineering standards.",
     "summaryPdf": "I am a creative, self-taught Full Stack Web artisan who started writing code at the age of eleven. Web development is not just my profession, but a lifelong discipline driven by curiosity, experimentation, and a deep passion. I build and run business-critical web apps end to end: Vue.js SPAs in TypeScript, Node.js, Python and PHP services, SQL data layers (PostgreSQL, MySQL, Oracle) and enterprise integrations (Salesforce, CRM, LDAP). I am especially passionate about Linux, Docker and the cloud. I work with great autonomy and take features from prototype to production. Father of a beautiful child.",
@@ -45,7 +44,6 @@
       }
     ],
     "location": {
-      "address": "Im Halbiacker 1a",
       "postalCode": "8352",
       "city": "Elsau",
       "countryCode": "CH",

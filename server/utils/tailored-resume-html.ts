@@ -121,7 +121,7 @@ export function buildTailoredResumeHtml(
   const compact = fit >= 3
   const density = compact ? fit - 2 : fit
   const labels = getResumeLabels(language)
-  const { basics, work, skills, education, languages, projects } = resume
+  const { basics, work, skills, education, languages, projects } = withResumePhone(resume)
   // Interests aren't tailored per job: tailored copies made before they were
   // added fall back to the current master in the CV's language.
   const interests: ResumeData['interests'] = resume.interests?.length

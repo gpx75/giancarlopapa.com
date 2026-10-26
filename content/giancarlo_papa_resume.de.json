@@ -6,7 +6,6 @@
         "workPermit": "Niederlassungsbewilligung C",
         "image": "",
         "email": "giancarlo.papa@gmail.com",
-        "phone": "+41 76 337 13 75",
         "url": "https://giancarlopapa.com",
         "summary": "Senior Full Stack Engineer und Tech Lead mit über 20 Jahren Erfahrung in der Webentwicklung. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end – SPAs mit Vue.js und TypeScript, Services mit Node.js (Nuxt), Python (FastAPI) und PHP (Laravel, Symfony), SQL-Datenschichten auf PostgreSQL, MySQL und Oracle – inklusive Enterprise-Integrationen (Salesforce, CRM, LDAP), Docker und CI/CD sowie cloud-agnostischen Deployments auf Google Cloud und AWS. Bei Sunrise habe ich die Customer-Care-Plattform AMP während 11 Jahren weiterentwickelt und leite seit 2024 die OMNI Channel Platforms: AI-Research, Cloudification, Salesforce DevOps und Engineering-Standards.",
         "summaryPdf": "Ich bin ein kreativer, autodidaktischer Full Stack Web Artisan, der mit elf Jahren mit dem Programmieren begonnen hat. Webentwicklung ist für mich nicht nur Beruf, sondern eine lebenslange Disziplin, getragen von Neugier, Experimentierfreude und tiefer Leidenschaft. Ich entwickle und betreibe geschäftskritische Webapplikationen end-to-end: Vue.js-SPAs in TypeScript, Services mit Node.js, Python und PHP, SQL-Datenschichten (PostgreSQL, MySQL, Oracle) und Enterprise-Integrationen (Salesforce, CRM, LDAP). Besonders begeistern mich Linux, Docker und die Cloud. Ich arbeite sehr selbstständig und bringe Features vom Prototyp in die Produktion. Vater eines wunderbaren Kindes.",
@@ -45,7 +44,6 @@
             }
         ],
         "location": {
-            "address": "Im Halbiacker 1a",
             "postalCode": "8352",
             "city": "Elsau",
             "countryCode": "CH",
@@ -312,7 +310,7 @@
     "meta": {
         "translation": {
             "language": "de",
-            "sourceHash": "15e23971b124078c658acab3731b1a38449e6cbe5e06cfd6b1e4dc8a9fca83b6",
+            "sourceHash": "5d4a60de806484b23649ef25afef7d11619a3ba3d2144d3d51eb2f826f2b854d",
             "translatedAt": "2026-10-23T16:12:51.571Z",
             "reviewed": false
         }

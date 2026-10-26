@@ -21,6 +21,14 @@ jobs:
       - name: Runtime config public guard
         run: npm run check:runtime-public
 
+      # The resume PDF contains the private phone number, so it is not in the
+      # public repo: generate it here and let the build bundle it as a server asset.
+      - name: Generate resume PDF
+        run: node scripts/generate-pdf.mjs
+        env:
+          CHROMIUM_EXECUTABLE_PATH: /usr/bin/google-chrome
+          NUXT_RESUME_PHONE: ${{ secrets.NUXT_RESUME_PHONE }}
+
       - name: Build
         run: npm run build
         env:
@@ -48,6 +56,7 @@ jobs:
           NUXT_ANTHROPIC_API_KEY: ${{ secrets.NUXT_ANTHROPIC_API_KEY }}
           NUXT_RAPID_API_KEY: ${{ secrets.NUXT_RAPID_API_KEY }}
           NUXT_RAV_AHV_NUMBER: ${{ secrets.NUXT_RAV_AHV_NUMBER }}
+          NUXT_RESUME_PHONE: ${{ secrets.NUXT_RESUME_PHONE }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
