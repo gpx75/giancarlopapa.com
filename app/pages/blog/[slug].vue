@@ -14,6 +14,7 @@ const {
   public: { siteUrl }
 } = useRuntimeConfig();
 const canonicalUrl = `${siteUrl}/blog/${slug}`;
+const ogImage = `${siteUrl}${post.value.image ?? '/giancarlopapa_avatar.jpeg'}`;
 
 useSeoMeta({
   title: `${post.value.title} — Giancarlo Papa`,
@@ -22,12 +23,12 @@ useSeoMeta({
   ogDescription: post.value.description,
   ogUrl: canonicalUrl,
   ogType: 'article',
-  ogImage: `${siteUrl}/giancarlopapa_avatar.jpeg`,
+  ogImage,
   articlePublishedTime: post.value.date,
   twitterCard: 'summary_large_image',
   twitterTitle: `${post.value.title} — Giancarlo Papa`,
   twitterDescription: post.value.description,
-  twitterImage: `${siteUrl}/giancarlopapa_avatar.jpeg`
+  twitterImage: ogImage
 });
 
 useHead({
@@ -78,6 +79,15 @@ const titleLines = computed(() => {
           </UBadge>
         </div>
       </div>
+
+      <NuxtImg
+        v-if="post.image"
+        :src="post.image"
+        alt=""
+        width="1200"
+        height="630"
+        class="w-full max-w-3xl h-auto rounded-lg ring ring-default"
+      />
 
       <USeparator />
     </div>

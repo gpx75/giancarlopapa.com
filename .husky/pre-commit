@@ -32,6 +32,22 @@ if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json';
   echo "✓ Updated PDF staged."
 fi
 
+# Regenerate the blog cover images whenever a blog post is staged.
+if git diff --cached --name-only | grep -q '^content/blog/'; then
+  echo "→ Blog post changed — regenerating cover images…"
+  if [ -f .env ]; then
+    node --env-file=.env scripts/generate-blog-covers.mjs
+  else
+    node scripts/generate-blog-covers.mjs
+  fi
+  if [ $? -eq 0 ]; then
+    git add public/images/blog
+    echo "✓ Blog covers staged."
+  else
+    echo "⚠ Cover generation failed — committing without updated covers."
+  fi
+fi
+
 # Warn (never block) when translated CVs no longer match the English master.
 if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume'; then
   node scripts/translate-resume.mjs --check

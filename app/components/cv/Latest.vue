@@ -41,6 +41,15 @@ const { formatDate } = useDateFormatting();
             class="transition group-hover:border-primary/40"
             :ui="{ body: 'space-y-2' }"
           >
+            <NuxtImg
+              v-if="post.image"
+              :src="post.image"
+              alt=""
+              width="1200"
+              height="630"
+              sizes="100vw lg:600px"
+              class="w-full h-auto rounded-md ring ring-default"
+            />
             <p class="text-xs uppercase tracking-widest text-dimmed">
               {{ formatDate(post.date) }}
             </p>

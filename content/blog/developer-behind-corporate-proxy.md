@@ -2,6 +2,7 @@
 title: 'Developer Behind a Corporate Proxy: A Survival Guide'
 description: 'NTLM authentication, certificate inspection, DNS switching, and a Fish shell function that keeps every tool — npm, git, gcloud, Python — working inside and outside the corporate network.'
 date: '2026-03-04'
+image: '/images/blog/developer-behind-corporate-proxy.png'
 tags: ['proxy', 'devex', 'cntlm', 'fish', 'security', 'linux', 'networking']
 draft: false
 ---
