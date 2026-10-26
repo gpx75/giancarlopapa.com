@@ -79,6 +79,14 @@
     "invitation": "If you landed here for my resume, have a look around. And if you would like to hike, run with me or hire me — get in touch or book a call.",
     "summaryLink": "/resume"
   },
+  "latest": {
+    "kicker": "Lately",
+    "title": "Writing and running",
+    "postLabel": "latest post",
+    "runLabel": "latest run",
+    "allPostsLabel": "All posts",
+    "allRunsLabel": "All runs"
+  },
   "about": [
     "Passionate software engineer since the early home-computer era (Commodore 64, MSX), with a strong focus on cloud-native architectures, containerised systems, and applied AI. Particularly enthusiastic about Docker-based development and operations.",
     "Career progression from advanced technical support into full-stack engineering, cloud infrastructure, data engineering, Salesforce DevOps, and AI systems. Originally from Italy, raised between Germany and Sicily, now based in eastern Canton Zurich, Switzerland. Proud father of a wonderful daughter."

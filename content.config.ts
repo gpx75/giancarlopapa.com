@@ -56,6 +56,16 @@ export default defineContentConfig({
             })
           )
         }),
+        latest: z
+          .object({
+            kicker: z.string(),
+            title: z.string(),
+            postLabel: z.string(),
+            runLabel: z.string(),
+            allPostsLabel: z.string(),
+            allRunsLabel: z.string()
+          })
+          .optional(),
         about: z.array(z.string()),
         stats: z.array(
           z.object({
