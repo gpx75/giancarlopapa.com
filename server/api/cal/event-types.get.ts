@@ -5,19 +5,21 @@ export default defineEventHandler(async () => {
   try {
     const response = await fetchCalEventTypes()
 
-    const eventTypes = (response.event_types ?? [])
+    const eventTypes = (response.data ?? [])
       .filter(eventType => !eventType.hidden)
-      .map(eventType => ({
-        id: eventType.id,
-        slug: eventType.slug,
-        title: eventType.title,
-        description: eventType.description ?? undefined,
-        length: eventType.length,
-        timezone: eventType.timeZone ?? undefined,
-        profileSlug: eventType.owner?.username,
-        profileName: eventType.owner?.name ?? eventType.owner?.username,
-        userId: eventType.userId
-      }))
+      .map((eventType) => {
+        const owner = eventType.users?.[0]
+        return {
+          id: eventType.id,
+          slug: eventType.slug,
+          title: eventType.title,
+          description: eventType.description || undefined,
+          length: eventType.lengthInMinutes,
+          profileSlug: owner?.username,
+          profileName: owner?.name ?? owner?.username,
+          userId: eventType.ownerId
+        }
+      })
 
     return { eventTypes }
   } catch (error) {
