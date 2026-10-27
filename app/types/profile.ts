@@ -27,6 +27,9 @@ export interface CvHero {
   location: string
   availability: string
   summary: string[]
+  highlights?: Array<{ emoji: string, text: string, to?: string }>
+  invitation?: string
+  summaryLink?: string
   actions: CvActionLink[]
   contactLinks: CvContactLink[]
 }
@@ -61,8 +64,18 @@ export interface CvSkillGroup {
   items: string[]
 }
 
+export interface CvLatest {
+  kicker: string
+  title: string
+  postLabel: string
+  runLabel: string
+  allPostsLabel: string
+  allRunsLabel: string
+}
+
 export interface CvProfile {
   hero: CvHero
+  latest?: CvLatest
   about: string[]
   stats: CvStat[]
   experience: CvExperienceItem[]

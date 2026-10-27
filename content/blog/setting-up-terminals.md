@@ -2,6 +2,7 @@
 title: 'The Perfect Terminal: Fish, Starship & Snazzy on macOS, Linux, and WSL'
 description: 'How I set up Fish shell, Starship prompt, and the Snazzy colour scheme in Ghostty on macOS and Linux, Windows Terminal on WSL, so every machine feels like home.'
 date: '2026-02-22'
+image: '/images/blog/setting-up-terminals.png'
 tags:
   [
     'terminal',

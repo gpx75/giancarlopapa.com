@@ -1,343 +1,47 @@
 #!/usr/bin/env node
 /**
- * Generate a static PDF resume from content/giancarlo_papa_resume.json.
+ * Generate the static PDF resume from content/giancarlo_papa_resume.json.
  *
  * Run manually:  node --env-file=.env scripts/generate-pdf.mjs
  * Auto-runs via the husky pre-commit hook when the JSON resume is staged.
  *
- * Output: public/giancarlo_papa_resume.pdf
+ * Output: server/assets/giancarlo_papa_resume.pdf — served only to signed-in
+ * visitors by server/api/resume/pdf.get.ts. It contains the phone number
+ * (NUXT_RESUME_PHONE), so it is gitignored and generated in CI before the build.
+ *
+ * Uses the same template and two-page fitting as the tailored CVs in the
+ * admin (server/utils/tailored-resume-*.ts), loaded with jiti so the public
+ * PDF and the application CVs always look the same.
  *
  * Requires CHROMIUM_EXECUTABLE_PATH in .env (or environment) pointing to
  * a local Chrome/Chromium binary.
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { resolve, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { PDFDocument, rgb } from 'pdf-lib'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const root = resolve(__dirname, '..')
-const _require = createRequire(import.meta.url)
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
+const { createJiti } = createRequire(import.meta.url)('jiti')
+const jiti = createJiti(`${root}/`, { alias: { '~~': root, '~': `${root}/app` } })
 
-// ── Resume data ───────────────────────────────────────────────────────────────
-
-const resume = JSON.parse(
-  readFileSync(resolve(root, 'content/giancarlo_papa_resume.json'), 'utf-8')
-)
-
-let avatarBase64
-try {
-  const buf = readFileSync(resolve(root, 'public/giancarlopapa.jpeg'))
-  avatarBase64 = `data:image/jpeg;base64,${buf.toString('base64')}`
+// The server utils rely on Nuxt auto-imports; provide them as globals.
+const utils = `${root}/server/utils/`
+Object.assign(globalThis, await jiti.import(`${root}/shared/utils/resume-language.ts`))
+for (const mod of ['resume-contact.ts', 'resume-i18n.ts', 'pdf-render.ts', 'tailored-resume-html.ts']) {
+  Object.assign(globalThis, await jiti.import(utils + mod))
 }
-catch { /* avatar optional */ }
+const { renderTailoredResumePdf, MAX_RESUME_PAGES } = await jiti.import(`${utils}tailored-resume-pdf.ts`)
 
-// ── HTML builder ──────────────────────────────────────────────────────────────
+const resume = JSON.parse(readFileSync(resolve(root, 'content/giancarlo_papa_resume.json'), 'utf-8'))
 
-function fmtDate(d) {
-  if (!d || d.toLowerCase() === 'present') return 'Present'
-  const parts = d.split('-')
-  const y = parts[0] ?? d
-  const m = parts[1]
-  if (!m) return y
-  return new Date(Number(y), Number(m) - 1)
-    .toLocaleDateString('en', { month: 'short', year: 'numeric' })
+console.log('→ Rendering resume PDF…')
+const { pdf, pages } = await renderTailoredResumePdf(resume, [], '', resume.basics.label, 'en')
+if (pages > MAX_RESUME_PAGES) {
+  console.warn(`⚠ Resume is ${pages} pages even at the tightest spacing (limit ${MAX_RESUME_PAGES}).`)
 }
 
-// The headline stays on one line next to the photo: about 48 characters
-// fit at 16pt, so longer titles step down (never below 11pt).
-function titleFontSize(title) {
-  return Math.max(11, Math.min(16, Math.floor((16 * 48) / Math.max(title.length, 1))))
-}
-
-function esc(s) {
-  return String(s)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-}
-
-function buildResumeHtml(avatar) {
-  const { basics, work, skills, languages, education, interests, projects } = resume
-  const coreCompetencies = basics.coreCompetencies ?? []
-  const summaryPdf = basics.summaryPdf ?? basics.summary
-  const roleTitle = basics.label ?? 'Senior Full Stack Engineer'
-
-  // All work entries on page 1
-  const allWork = work ?? []
-
-  const contactItem = (label, text) =>
-    `<span class="contact-item"><strong>${label}:</strong> ${esc(text)}</span>`
-
-  const sectionHeader = (title) => `
-    <div class="section-hdr">
-      <div class="section-title">${esc(title)}</div>
-      <div class="section-rule"></div>
-    </div>`
-
-  // Page-break control: a heading is wrapped in one unbreakable block with
-  // the first item of its section, so it can never be stranded at the bottom
-  // of a page (Chrome ignores break-after: avoid). Items after the first
-  // flow freely. `list` wraps items in a <ul> of that class.
-  const section = (title, items, list) => {
-    if (!items.length) return ''
-    const wrap = html => (list ? `<ul class="${list}">${html}</ul>` : html)
-    const [first, ...rest] = items
-    return `
-      <div class="keep">${sectionHeader(title)}${wrap(first)}</div>
-      ${rest.length ? wrap(rest.join('')) : ''}`
-  }
-
-  // A job is never split across pages: title, company line and all bullets
-  // (plus the section heading for the first job) move to the next page together.
-  const workEntry = (job, heading = '') => {
-    const highlights = (job.highlights ?? []).slice(0, 6).map(h => `<li>${esc(h)}</li>`).join('')
-    const dateRange = `${fmtDate(job.startDate)} – ${fmtDate(job.endDate)}`
-    const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
-    return `
-      <div class="work-row keep">
-        ${heading}
-        <div class="jobtitle">${esc(job.position)}</div>
-        <div class="company-line">${esc(meta)}</div>
-        ${highlights ? `<ul class="highlights">${highlights}</ul>` : ''}
-      </div>`
-  }
-
-  // Compact work entry (previous roles — summary + first 3 highlights)
-  const workEntryCompact = (job, heading = '') => {
-    const dateRange = `${fmtDate(job.startDate)} – ${fmtDate(job.endDate)}`
-    const meta = [job.name, job.location, dateRange].filter(Boolean).join(' · ')
-    return `
-      <div class="work-row keep">
-        ${heading}
-        <div class="jobtitle">${esc(job.position)}</div>
-        <div class="company-line">${esc(meta)}</div>
-        ${job.summary ? `<div class="jsummary">${esc(job.summary)}</div>` : ''}
-        ${job.highlights?.length ? `<ul class="highlights">${job.highlights.slice(0, 3).map(h => `<li>${esc(h)}</li>`).join('')}</ul>` : ''}
-      </div>`
-  }
-
-  const workSection = (title, jobs, entry) =>
-    jobs.map((j, i) => entry(j, i === 0 ? sectionHeader(title) : '')).join('')
-
-  // Success stories are one global section under the summary (challenge →
-  // result, 1–2 lines each), not buried inside each job entry.
-  const stories = (work ?? []).flatMap(j => j.successStories ?? [])
-    .filter(s => s.shortForm)
-    .map(s => `<li><strong>${esc(s.title)}:</strong> ${esc(s.shortForm)}</li>`)
-
-  // Skip projects already told as a success story ("AMP-Plattform" vs "AMP — …").
-  const words = t => t.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean)
-  const storyWords = new Set((work ?? []).flatMap(j => (j.successStories ?? []).flatMap(s => words(s.title))))
-  const extraProjects = (projects ?? []).filter(p => !storyWords.has(words(p.name)[0] ?? ''))
-
-  const githubProfile = basics.profiles.find(p => p.network === 'GitHub')
-  const linkedinProfile = basics.profiles.find(p => p.network === 'LinkedIn')
-
-  // Split work into current and previous
-  const currentWork = allWork.filter(j => !j.endDate || j.endDate === '')
-  const previousWork = allWork.filter(j => j.endDate && j.endDate !== '')
-
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,700;1,400&display=swap');
-  @page { size: A4; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { height: auto; }
-  body { font-family: 'JetBrains Mono','Courier New',Courier,monospace; font-size: 10pt; color: #1a1a2e; line-height: 1.35; background: white; }
-
-  /* ── Header ── */
-  .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
-  .hdr-left { flex: 1; min-width: 0; }
-  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .role-title.fs-15 { font-size: 15pt; } .role-title.fs-14 { font-size: 14pt; } .role-title.fs-13 { font-size: 13pt; }
-  .role-title.fs-12 { font-size: 12pt; } .role-title.fs-11 { font-size: 11pt; }
-  .name { font-family: 'Space Grotesk', sans-serif; font-size: 20pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
-  .name strong { font-weight: 800; margin-right: 0.15em; }
-  .education-header { font-size: 10pt; color: #64748b; margin-bottom: 3px; }
-  .contact-line { font-size: 10pt; color: #64748b; line-height: 1.5; margin-bottom: 1px; }
-  .contact-item { white-space: nowrap; }
-  .contact-item + .contact-item::before { content: '  ·  '; color: #94a3b8; }
-  .lang-header { font-size: 10pt; color: #64748b; line-height: 1.5; }
-  .avatar { width: 100px; height: 100px; min-width: 100px; border-radius: 50%; overflow: hidden; margin-left: 14px; flex-shrink: 0; border: 2px solid #e2e8f0; }
-  .avatar img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-
-  /* ── Summary ── */
-  .summary { font-size: 10pt; color: #334155; line-height: 1.25; margin-bottom: 0; }
-
-  /* ── Section headers ── */
-  .keep { break-inside: avoid; page-break-inside: avoid; }
-  /* Never split a single item across pages: bullets, skill rows, projects
-     and paragraphs move whole to the next page. */
-  li, p, .jsummary, .skill-row, .project-row { break-inside: avoid; page-break-inside: avoid; }
-  .section-hdr { margin-top: 12px; margin-bottom: 4px; }
-  .section-title { font-family: 'Space Grotesk', sans-serif; font-size: 11pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; margin-top: 16px; }
-  .section-rule { width: 100%; height: 1px; background: #cbd5e1; margin-top: 1px; }
-
-  /* ── Core Competencies ── */
-  .competencies { list-style: none; margin-top: 2px; }
-  .competencies li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 0; }
-  .competencies li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
-
-  /* ── Work entries ── */
-  .work-row { margin-bottom: 4px; }
-  .work-row li { break-inside: avoid; page-break-inside: avoid; }
-  .work-row-compact { margin-bottom: 4px; }
-  .jobtitle { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; }
-  .company-line { font-size: 10pt; color: #64748b; margin-bottom: 1px; }
-  .jsummary { font-size: 10pt; color: #334155; line-height: 1.25; margin-top: 1px; }
-  .highlights { list-style: none; margin-top: 1px; }
-  .highlights li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 0; }
-  .highlights li::before { content: '•'; position: absolute; left: 0; }
-
-  /* ── Success Stories ── */
-  .stories { list-style: none; margin-top: 2px; }
-  .stories li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
-  .stories li::before { content: '▸'; position: absolute; left: 0; color: #3a9eae; }
-
-  /* ── Skills ── */
-  .skill-row { margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
-  .skill-label { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; display: inline; }
-  .skill-kw-inline { font-size: 10pt; color: #334155; line-height: 1.3; }
-
-  /* ── Projects ── */
-  .project-row { margin-bottom: 3px; page-break-inside: avoid; }
-  .project-name { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; }
-  .project-desc { font-size: 10pt; color: #334155; line-height: 1.25; margin-top: 1px; }
-
-  /* ── Languages & Education ── */
-  .lang-line { font-size: 10pt; color: #334155; line-height: 1.3; }
-  .interest-kw li::before { content: '•'; position: absolute; left: 0; color: #3a9eae; }
-
-  /* ── Accent bar ── */
-  .accent-bar { height: 3px; background: linear-gradient(90deg, #2a7a8a 0%, #3a9eae 100%); margin-bottom: 10px; border-radius: 1px; }
-</style>
-</head>
-<body>
-  <div class="accent-bar"></div>
-
-  <!-- PAGE 1 ─────────────────────────────────────────────── -->
-
-  <div class="header">
-    <div class="hdr-left">
-      <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
-      <div class="name"><strong>${esc(basics.name.split(' ')[0])}</strong>${esc(basics.name.split(' ').slice(1).join(''))}</div>
-      ${education?.[0] ? `<div class="education-header">${esc([education[0].studyType, education[0].area].filter(Boolean).join(' — '))}</div>` : ''}
-      <div class="contact-line">
-        ${contactItem('Email', basics.email)}
-        ${contactItem('Phone', basics.phone)}
-      </div>
-      <div class="contact-line">
-        ${contactItem('Location', `${basics.location.postalCode} ${basics.location.city}, ${basics.location.region} — ${basics.location.countryCode}`)}
-        ${contactItem('Web', basics.url.replace('https://', ''))}
-      </div>
-      <div class="contact-line">
-        ${githubProfile ? contactItem('GitHub', githubProfile.url.replace('https://', '')) : ''}
-        ${linkedinProfile ? contactItem('LinkedIn', linkedinProfile.url.replace('https://', '')) : ''}
-      </div>
-      <div class="lang-header">
-        <strong>Language:</strong> ${languages.filter(l => l.fluency !== 'Basic knowledge').map(l => `${esc(l.language)} ${esc(l.fluency)}`).join(' · ')}
-      </div>
-      ${interests?.length ? `<div class="lang-header">
-        <strong>Interests:</strong> ${interests.map(g => esc(g.name)).join(' · ')}
-      </div>` : ''}
-    </div>
-    ${avatar ? `<div class="avatar"><img src="${avatar}" alt=""></div>` : ''}
-  </div>
-
-  ${section('SUMMARY', [`<p class="summary">${esc(summaryPdf)}</p>`])}
-
-  ${section('SUCCESS STORIES', stories, 'stories')}
-
-  ${section('CORE COMPETENCIES', coreCompetencies.map(c =>
-    `<li><strong>${esc(c.requirement)}</strong> — ${esc(c.proof)}</li>`
-  ), 'competencies')}
-
-  ${workSection('WORK EXPERIENCE', currentWork, workEntry)}
-
-  ${workSection('PREVIOUS WORK EXPERIENCE', previousWork, workEntryCompact)}
-
-  ${section('KEY PROJECTS', extraProjects.map(p => `
-    <div class="project-row">
-      <div class="project-name">${esc(p.name)}</div>
-      <div class="project-desc">${esc(p.description)}</div>
-    </div>`))}
-
-  ${section('TECHNICAL SKILLS', skills.map(g => `
-    <div class="skill-row">
-      <span class="skill-label">${esc(g.name)}:</span>
-      <span class="skill-kw-inline">${g.keywords.map(k => esc(k)).join(', ')}</span>
-    </div>`))}
-
-  <!-- Education and interests are shown in the header. -->
-</body>
-</html>`
-}
-
-// ── Puppeteer ─────────────────────────────────────────────────────────────────
-
-const executablePath = process.env.CHROMIUM_EXECUTABLE_PATH
-  || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-
-if (!existsSync(executablePath)) {
-  console.error(`✗ Chrome not found at: ${executablePath}`)
-  console.error('  Set CHROMIUM_EXECUTABLE_PATH in .env to your Chrome binary.')
-  process.exit(1)
-}
-
-const puppeteer = _require('puppeteer-core')
-
-console.log('→ Launching Chrome…')
-const browser = await puppeteer.launch({
-  args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage'],
-  executablePath,
-  headless: true
-})
-
-try {
-  const page = await browser.newPage()
-  await page.emulateMediaType('print')
-  const html = buildResumeHtml(avatarBase64)
-
-  console.log('→ Rendering resume HTML…')
-  await page.setContent(html, { waitUntil: 'load' })
-  await page.evaluate(() => document.fonts.ready)
-
-  const rawPdf = await page.pdf({
-    format: 'A4',
-    printBackground: true,
-    margin: { top: '15mm', right: '15mm', bottom: '15mm', left: '15mm' }
-  })
-
-  // ── Draw passepartout border on every page via pdf-lib ─────────────────────
-  const pdfDoc = await PDFDocument.load(rawPdf)
-  const borderWidth = 4 * 72 / 25.4  // 4mm in pt ≈ 11.34pt
-  const borderInset = borderWidth / 2  // center stroke on page edge → outer edge flush with page
-  const borderColor = rgb(58 / 255, 158 / 255, 174 / 255)  // #3a9eae
-  for (const page of pdfDoc.getPages()) {
-    const { width, height } = page.getSize()
-    page.drawRectangle({
-      x: borderInset,
-      y: borderInset,
-      width: width - borderInset * 2,
-      height: height - borderInset * 2,
-      borderColor,
-      borderWidth,
-      color: undefined
-    })
-  }
-  const pdf = await pdfDoc.save()
-
-  const outPath = resolve(root, 'public/giancarlo_papa_resume.pdf')
-  writeFileSync(outPath, Buffer.from(pdf))
-  console.log(`✓ PDF written to public/giancarlo_papa_resume.pdf (${(pdf.length / 1024).toFixed(0)} KB)`)
-}
-finally {
-  await browser.close()
-}
+const outPath = resolve(root, 'server/assets/giancarlo_papa_resume.pdf')
+writeFileSync(outPath, pdf)
+console.log(`✓ PDF written to server/assets/giancarlo_papa_resume.pdf (${Math.round(pdf.length / 1024)} KB, ${pages} pages)`)

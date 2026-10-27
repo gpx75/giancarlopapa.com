@@ -57,7 +57,7 @@ async function save() {
             label="Preview PDF"
             variant="ghost"
             size="sm"
-            to="/giancarlo_papa_resume.pdf"
+            to="/api/resume/pdf"
             target="_blank"
           />
           <UButton

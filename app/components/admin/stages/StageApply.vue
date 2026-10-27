@@ -44,7 +44,7 @@ async function markApplied(mode: ApplyMode) {
     );
     emit('applied', updated);
     toast.add({
-      title: mode === 'send' ? 'Marked as sent' : 'Marked as exported',
+      title: mode === 'export' ? 'Exported & marked applied' : 'Marked applied',
       color: 'success',
       icon: 'i-lucide-check'
     });
@@ -62,12 +62,19 @@ async function markApplied(mode: ApplyMode) {
 }
 
 async function unlock() {
+  // Only a closed workflow (sent/closed) is locked server-side; right after
+  // Apply it sits in interview_prep, so reopening just resets the Apply stage.
+  const current = props.application.workflow.current_stage;
+  const terminal = current === 'sent' || current === 'closed';
   try {
-    await $fetch(`/api/admin/applications/${props.application.id}/workflow`, {
-      method: 'POST',
-      body: { stage: 'apply', action: 'unlock' }
-    });
-    emit('applied', props.application);
+    const updated = await $fetch<JobApplication>(
+      `/api/admin/applications/${props.application.id}/workflow`,
+      {
+        method: 'POST',
+        body: { stage: 'apply', action: terminal ? 'unlock' : 'reset' }
+      }
+    );
+    emit('applied', updated);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Unlock failed.';
     toast.add({
@@ -88,8 +95,7 @@ async function unlock() {
           <div>
             <h2 class="text-lg font-semibold">Apply</h2>
             <p class="text-xs text-neutral-500 dark:text-neutral-400 mt-1">
-              Send via the email panel, or export the assembled package and
-              submit elsewhere.
+              Mark applied once you have applied (portal, LinkedIn, recruiter).
             </p>
           </div>
           <UBadge
@@ -119,49 +125,29 @@ async function unlock() {
         :title="
           stage.mode === 'export'
             ? 'Exported & marked applied'
-            : 'Sent & marked applied'
+            : stage.mode === 'send'
+              ? 'Sent & marked applied'
+              : 'Marked applied'
         "
         :description="
-          stage.sent_at
-            ? `Sent at ${new Date(stage.sent_at).toLocaleString()}`
-            : stage.exported_at
-              ? `Exported at ${new Date(stage.exported_at).toLocaleString()}`
-              : ''
+          application.applied_at
+            ? `Applied on ${new Date(application.applied_at).toLocaleDateString()}`
+            : ''
         "
         class="mb-4"
       />
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-        <UButton
-          color="primary"
-          icon="i-lucide-send"
-          size="lg"
-          block
-          :disabled="!reviewDone || locked"
-          :loading="submitting === 'send'"
-          @click="markApplied('send')"
-        >
-          Send & mark applied
-        </UButton>
-        <UButton
-          color="neutral"
-          variant="soft"
-          icon="i-lucide-download"
-          size="lg"
-          block
-          :disabled="!reviewDone || locked"
-          :loading="submitting === 'export'"
-          @click="markApplied('export')"
-        >
-          Export package & mark applied
-        </UButton>
-      </div>
-
-      <USeparator class="my-4" label="Send via email" />
-      <AdminApplicationSendPanel
-        :application="application"
-        @sent="emit('applied', application)"
-      />
+      <UButton
+        color="primary"
+        icon="i-lucide-check"
+        size="lg"
+        block
+        :disabled="!reviewDone || locked"
+        :loading="submitting === 'manual'"
+        @click="markApplied('manual')"
+      >
+        Mark applied
+      </UButton>
     </UCard>
 
     <div v-if="locked" class="flex justify-end">

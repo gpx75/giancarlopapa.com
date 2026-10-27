@@ -52,11 +52,23 @@ const { formatDate } = useDateFormatting();
         :to="post.path"
         class="block group"
       >
-        <UCard class="space-y-3 transition group-hover:border-primary/40">
+        <UCard
+          class="transition group-hover:border-primary/40"
+          :ui="{ body: 'space-y-3' }"
+        >
           <div
-            class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"
+            class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between"
           >
-            <div class="space-y-2">
+            <NuxtImg
+              v-if="post.image"
+              :src="post.image"
+              alt=""
+              width="1200"
+              height="630"
+              sizes="100vw sm:256px"
+              class="w-full sm:w-64 h-auto shrink-0 rounded-md ring ring-default"
+            />
+            <div class="flex-1 space-y-2">
               <p class="text-xs uppercase tracking-widest text-dimmed">
                 {{ formatDate(post.date) }}
               </p>

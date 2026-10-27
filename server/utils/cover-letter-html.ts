@@ -14,7 +14,7 @@ interface CoverLetterHtmlOptions {
   basics: {
     name: string;
     email: string;
-    phone: string;
+    phone?: string;
     url: string;
     location: {
       city: string;
@@ -29,7 +29,8 @@ interface CoverLetterHtmlOptions {
 }
 
 export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
-  const { content, company, position, basics } = opts;
+  const { content, company, position } = opts;
+  const { basics } = withResumePhone({ basics: opts.basics });
   const language = opts.language ?? 'en';
   const labels = getResumeLabels(language);
   const title = cleanJobTitle(position) || basics.label || 'Senior Full Stack Engineer';
@@ -191,7 +192,7 @@ export function buildCoverLetterHtml(opts: CoverLetterHtmlOptions): string {
     <div class="title">${esc(title)}</div>
     <div class="contact-line">
       <span class="contact-item"><strong>${esc(labels.contact.email)}:</strong> ${esc(basics.email)}</span>
-      <span class="contact-item"><strong>${esc(labels.contact.phone)}:</strong> ${esc(basics.phone)}</span>
+      <span class="contact-item"><strong>${esc(labels.contact.phone)}:</strong> ${esc(basics.phone ?? '')}</span>
       <span class="contact-item"><strong>${esc(labels.contact.web)}:</strong> ${esc(basics.url.replace('https://', ''))}</span>
     </div>
     <div class="contact-line">

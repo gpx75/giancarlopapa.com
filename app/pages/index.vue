@@ -30,7 +30,8 @@ const { profile } = useProfileData();
 </script>
 
 <template>
-  <UContainer class="py-16">
+  <UContainer class="py-16 space-y-20">
     <CvHero v-if="profile" :hero="profile.hero" :stats="profile.stats" />
+    <CvLatest v-if="profile?.latest" :latest="profile.latest" />
   </UContainer>
 </template>

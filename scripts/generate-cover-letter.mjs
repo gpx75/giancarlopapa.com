@@ -28,11 +28,11 @@ const sender = {
   name: 'Giancarlo Papa',
   role: 'Senior Full Stack Engineer',
   email: 'giancarlo.papa@gmail.com',
-  phone: '+41 76 337 13 75',
+  phone: process.env.NUXT_RESUME_PHONE ?? '',
   location: 'Elsau ZH, Switzerland',
   url: 'giancarlopapa.com',
   github: 'github.com/gpx75',
-  linkedin: 'linkedin.com/in/gpapa'
+  linkedin: 'linkedin.com/in/giancarlopapa'
 }
 
 const today = new Date().toLocaleDateString('en', { day: 'numeric', month: 'long', year: 'numeric' })

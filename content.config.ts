@@ -7,13 +7,12 @@ const actionLinkSchema = z.object({
   external: z.boolean().optional()
 });
 
+// Only content the public site renders is a collection: every collection is
+// shipped to the browser as a downloadable SQL dump (/__nuxt_content/*). The
+// resume (phone, email), its translations, reference letters and other private
+// files in content/ are imported server-side only — never add them here.
 export default defineContentConfig({
   collections: {
-    content: defineCollection({
-      type: 'page',
-      source: '**/*.{md,json}'
-    }),
-
     blog: defineCollection({
       type: 'page',
       source: 'blog/**/*.md',
@@ -21,6 +20,7 @@ export default defineContentConfig({
         title: z.string(),
         description: z.string(),
         date: z.string(),
+        image: z.string().optional(),
         tags: z.array(z.string()).optional(),
         draft: z.boolean().optional()
       })
@@ -36,6 +36,17 @@ export default defineContentConfig({
           location: z.string(),
           availability: z.string(),
           summary: z.array(z.string()),
+          highlights: z
+            .array(
+              z.object({
+                emoji: z.string(),
+                text: z.string(),
+                to: z.string().optional()
+              })
+            )
+            .optional(),
+          invitation: z.string().optional(),
+          summaryLink: z.string().optional(),
           actions: z.array(actionLinkSchema),
           contactLinks: z.array(
             z.object({
@@ -45,6 +56,16 @@ export default defineContentConfig({
             })
           )
         }),
+        latest: z
+          .object({
+            kicker: z.string(),
+            title: z.string(),
+            postLabel: z.string(),
+            runLabel: z.string(),
+            allPostsLabel: z.string(),
+            allRunsLabel: z.string()
+          })
+          .optional(),
         about: z.array(z.string()),
         stats: z.array(
           z.object({
@@ -77,94 +98,6 @@ export default defineContentConfig({
             to: z.string()
           })
         })
-      })
-    }),
-
-    resume: defineCollection({
-      type: 'data',
-      source: 'giancarlo_papa_resume.json',
-      schema: z.object({
-        basics: z.object({
-          name: z.string(),
-          label: z.string().optional(),
-          image: z.string().optional(),
-          email: z.string().optional(),
-          phone: z.string().optional(),
-          url: z.string().optional(),
-          summary: z.string().optional(),
-          nationality: z.string().optional(),
-          workPermit: z.string().optional(),
-          location: z
-            .object({
-              address: z.string().optional(),
-              postalCode: z.string().optional(),
-              city: z.string().optional(),
-              countryCode: z.string().optional(),
-              region: z.string().optional()
-            })
-            .optional(),
-          profiles: z
-            .array(
-              z.object({
-                network: z.string(),
-                username: z.string().optional(),
-                url: z.string().optional()
-              })
-            )
-            .optional()
-        }),
-        work: z
-          .array(
-            z.object({
-              name: z.string(),
-              location: z.string().optional(),
-              position: z.string().optional(),
-              url: z.string().optional(),
-              startDate: z.string().optional(),
-              endDate: z.string().optional(),
-              summary: z.string().optional(),
-              highlights: z.array(z.string()).optional()
-            })
-          )
-          .optional(),
-        education: z
-          .array(
-            z.object({
-              institution: z.string(),
-              location: z.string().optional(),
-              studyType: z.string().optional(),
-              area: z.string().optional(),
-              startDate: z.string().optional(),
-              endDate: z.string().optional(),
-              gpa: z.string().optional()
-            })
-          )
-          .optional(),
-        skills: z
-          .array(
-            z.object({
-              name: z.string(),
-              level: z.string().optional(),
-              keywords: z.array(z.string()).optional()
-            })
-          )
-          .optional(),
-        languages: z
-          .array(
-            z.object({
-              language: z.string(),
-              fluency: z.string().optional()
-            })
-          )
-          .optional(),
-        interests: z
-          .array(
-            z.object({
-              name: z.string(),
-              keywords: z.array(z.string()).optional()
-            })
-          )
-          .optional()
       })
     }),
 

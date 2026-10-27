@@ -31,3 +31,7 @@ content/ref-letters/
 .wrangler
 .vercel
 .env*.local
+
+# PDFs with the private phone number — generated locally / in CI, never committed
+server/assets/giancarlo_papa_resume.pdf
+docs/giancarlo_papa_vitae.pdf

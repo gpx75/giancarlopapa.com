@@ -1,4 +1,14 @@
 #!/bin/sh
+# Keep the server-asset copies (AI prompts, job search keywords) in sync with
+# the content files they mirror.
+for f in giancarlo_papa_resume.json skills.json; do
+  if git diff --cached --name-only | grep -qx "content/$f"; then
+    cp "content/$f" "server/assets/$f"
+    git add "server/assets/$f"
+    echo "✓ server/assets/$f synced."
+  fi
+done
+
 # Regenerate the static PDF resume whenever the JSON resume is staged.
 
 if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json'; then
@@ -18,8 +28,25 @@ if git diff --cached --name-only | grep -q 'content/giancarlo_papa_resume.json';
     exit 0  # Don't block the commit
   fi
 
-  git add public/giancarlo_papa_resume.pdf
-  echo "✓ Updated PDF staged."
+  # Not staged: the PDF contains the private phone number and is gitignored;
+  # CI generates it before the build.
+  echo "✓ Local PDF updated."
+fi
+
+# Regenerate the blog cover images whenever a blog post is staged.
+if git diff --cached --name-only | grep -q '^content/blog/'; then
+  echo "→ Blog post changed — regenerating cover images…"
+  if [ -f .env ]; then
+    node --env-file=.env scripts/generate-blog-covers.mjs
+  else
+    node scripts/generate-blog-covers.mjs
+  fi
+  if [ $? -eq 0 ]; then
+    git add public/images/blog
+    echo "✓ Blog covers staged."
+  else
+    echo "⚠ Cover generation failed — committing without updated covers."
+  fi
 fi
 
 # Warn (never block) when translated CVs no longer match the English master.

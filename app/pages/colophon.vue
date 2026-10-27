@@ -43,7 +43,7 @@ const stack = computed(() => colophonData.value?.items ?? []);
       <UCard
         v-for="item in stack"
         :key="item.label"
-        class="grid gap-4 sm:grid-cols-[160px,1fr] sm:items-start sm:gap-6"
+        class="grid gap-4 sm:grid-cols-[160px_1fr] sm:items-start sm:gap-6"
       >
         <p class="text-xs uppercase tracking-widest text-dimmed pt-1">
           {{ item.label }}

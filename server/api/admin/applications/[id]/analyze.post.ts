@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
   const { data: app, error: fetchError } = await db
     .from('job_applications')
-    .select('id, job_description, location, work_model, priority, workflow')
+    .select('id, job_description, location, work_model, priority, workflow, tailored_resume')
     .eq('id', numericId)
     .is('deleted_at', null)
     .single();
@@ -31,7 +31,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const anthropic = useAnthropic();
-  const resumeText = await getResumeForPrompt();
+  const resumeText = await getResumeForPrompt(app.tailored_resume);
 
   // Derive location score deterministically: prefer work_model context, fall back to location field
   const locationSource =

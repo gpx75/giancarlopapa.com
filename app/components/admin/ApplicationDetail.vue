@@ -758,13 +758,5 @@ defineExpose({ saveChanges });
         class="w-full"
       />
     </div>
-
-    <USeparator />
-
-    <!-- Send Application -->
-    <AdminApplicationSendPanel
-      :application="application"
-      @sent="emit('update', { ...application, status: 'applied' })"
-    />
   </div>
 </template>

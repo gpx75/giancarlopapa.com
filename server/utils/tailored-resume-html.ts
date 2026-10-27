@@ -121,7 +121,7 @@ export function buildTailoredResumeHtml(
   const compact = fit >= 3
   const density = compact ? fit - 2 : fit
   const labels = getResumeLabels(language)
-  const { basics, work, skills, education, languages, projects } = resume
+  const { basics, work, skills, education, languages, projects } = withResumePhone(resume)
   // Interests aren't tailored per job: tailored copies made before they were
   // added fall back to the current master in the CV's language.
   const interests: ResumeData['interests'] = resume.interests?.length
@@ -259,7 +259,7 @@ export function buildTailoredResumeHtml(
   /* ── Header ── */
   .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
   .hdr-left { flex: 1; min-width: 0; }
-  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #0f172a; line-height: 1.2; margin-bottom: 0.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .role-title { font-family: 'Space Grotesk', sans-serif; font-size: 16pt; font-weight: 700; color: #475569; line-height: 1.2; margin-bottom: 0.4em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .role-title.fs-15 { font-size: 15pt; } .role-title.fs-14 { font-size: 14pt; } .role-title.fs-13 { font-size: 13pt; }
   .role-title.fs-12 { font-size: 12pt; } .role-title.fs-11 { font-size: 11pt; }
   .name { font-family: 'Space Grotesk', sans-serif; font-size: 20pt; font-weight: 400; color: #3a9eae; margin-bottom: 3px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -304,7 +304,7 @@ export function buildTailoredResumeHtml(
   .highlights li::before { content: '•'; position: absolute; left: 0; }
 
   /* ── Success Stories ── */
-  .stories-title { font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700; color: #0f172a; margin-top: 3px; }
+  .stories-title { font-family: 'Space Grotesk', sans-serif; font-size: 11pt; font-weight: 700; color: #3a9eae; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 6px; }
   .stories { list-style: none; margin-top: 1px; }
   .stories li { font-size: 10pt; color: #334155; line-height: 1.25; padding-left: 12px; position: relative; margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
   .stories li::before { content: '▸'; position: absolute; left: 0; color: #3a9eae; }
@@ -343,8 +343,8 @@ export function buildTailoredResumeHtml(
 
   <div class="header">
     <div class="hdr-left">
-      <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
       <div class="name"><strong>${esc(basics.name.split(' ')[0]!)}</strong>${esc(basics.name.split(' ').slice(1).join(' '))}</div>
+      <div class="role-title fs-${titleFontSize(roleTitle)}">${esc(roleTitle)}</div>
       <div class="contact-line">
         ${contactItem(labels.contact.email, basics.email)}
         ${contactItem(labels.contact.phone, basics.phone)}

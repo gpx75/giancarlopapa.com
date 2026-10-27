@@ -12,9 +12,11 @@ async function getStravaToken(): Promise<string> {
   }
 
   const { strava } = useRuntimeConfig()
-  const clientId = strava.clientId?.trim()
-  const clientSecret = strava.clientSecret?.trim()
-  const refreshToken = strava.refreshToken?.trim()
+  // Runtime config parses numeric env values (NUXT_STRAVA_CLIENT_ID=205131 →
+  // number), so coerce to string before trimming.
+  const clientId = String(strava.clientId ?? '').trim()
+  const clientSecret = String(strava.clientSecret ?? '').trim()
+  const refreshToken = String(strava.refreshToken ?? '').trim()
 
   const res = await $fetch<{
     access_token: string

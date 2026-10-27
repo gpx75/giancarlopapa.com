@@ -236,6 +236,12 @@ async function confirmDelete() {
           @saved="onJdSaved"
         />
 
+        <!-- Private notes (recruiter, channel, call dates, open questions) -->
+        <AdminApplicationNotes
+          :application="application"
+          @saved="onJdSaved"
+        />
+
         <!-- Active stage panel -->
         <div class="min-w-0">
           <KeepAlive>

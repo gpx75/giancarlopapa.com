@@ -37,7 +37,8 @@ export type WorkflowStage =
 
 export type StageStatus = 'pending' | 'in_progress' | 'done';
 
-export type ApplyMode = 'send' | 'export';
+// 'manual' = applied outside the app (LinkedIn, recruiter, company portal).
+export type ApplyMode = 'send' | 'export' | 'manual';
 
 export interface ReviewChecklist {
   jd_read?: boolean;

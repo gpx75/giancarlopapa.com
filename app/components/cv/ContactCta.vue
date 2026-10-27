@@ -68,9 +68,9 @@ async function handleSubmit() {
       <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
         <span><span class="text-success-400/60">~/</span>contact</span>
       </UBadge>
-      <h2>
+      <h1>
         {{ props.headline }}
-      </h2>
+      </h1>
       <p class="text-muted">
         {{ props.subline }}
       </p>

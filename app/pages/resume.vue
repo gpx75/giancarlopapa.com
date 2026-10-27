@@ -3,7 +3,7 @@ import type {
   ResumeEducation,
   ResumeInterest,
   ResumeLanguage,
-  ResumeSkill,
+  ResumeProject,
   ResumeWork
 } from '~/types/resume';
 
@@ -39,13 +39,34 @@ const work = computed<ResumeWork[]>(() => resume.value?.work ?? []);
 const education = computed<ResumeEducation[]>(
   () => resume.value?.education ?? []
 );
-const skills = computed<ResumeSkill[]>(() => resume.value?.skills ?? []);
 const languages = computed<ResumeLanguage[]>(
   () => resume.value?.languages ?? []
 );
 const interests = computed<ResumeInterest[]>(
   () => resume.value?.interests ?? []
 );
+
+// Same content as the PDF CV: the About text, core competencies, success
+// stories under each role, and only the projects not already told as a story.
+const about = computed(() => basics.value?.summaryPdf ?? basics.value?.summary);
+// "Senior Full Stack Engineer – Cloud Platform & AI Engineering" → two lines.
+const headlineParts = computed(() =>
+  (basics.value?.label || basics.value?.name || 'Resume').split(/\s+[–—-]\s+/)
+);
+const coreCompetencies = computed(() => basics.value?.coreCompetencies ?? []);
+const nationalityLine = computed(() =>
+  [basics.value?.nationality, basics.value?.workPermit].filter(Boolean).join(' · ')
+);
+const words = (text: string) =>
+  text.toLowerCase().split(/[^\p{L}\p{N}]+/u).filter(Boolean);
+const projects = computed<ResumeProject[]>(() => {
+  const storyWords = new Set(
+    work.value.flatMap((job) => (job.successStories ?? []).flatMap((story) => words(story.title)))
+  );
+  return (resume.value?.projects ?? []).filter(
+    (project) => !storyWords.has(words(project.name)[0] ?? '')
+  );
+});
 
 const hasAnyContent = computed(() => Boolean(resume.value));
 
@@ -56,6 +77,11 @@ function asDate(value?: string | null) {
 
   if (value.toLowerCase() === 'present') {
     return 'Present';
+  }
+
+  // Year-only dates (education) stay as the year, not "Jan YYYY".
+  if (/^\d{4}$/.test(value)) {
+    return value;
   }
 
   const parsed = new Date(value);
@@ -160,14 +186,9 @@ const publicPhone = computed(() => {
     <div
       class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
     >
-      <div class="space-y-4">
-        <UBadge color="neutral" variant="soft" class="tracking-wider text-xs">
-          <span><span class="text-success-400/60">~/</span>resume</span>
-        </UBadge>
-        <h1>
-          {{ basics?.name || 'Resume' }}
-        </h1>
-      </div>
+      <UBadge color="neutral" variant="soft" class="self-start tracking-wider text-xs">
+        <span><span class="text-success-400/60">~/</span>resume</span>
+      </UBadge>
       <UButton
         to="/"
         icon="i-lucide-arrow-left"
@@ -181,11 +202,21 @@ const publicPhone = computed(() => {
       <div
         class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
       >
-        <div class="space-y-1">
-          <p class="font-semibold">Download CV</p>
-          <p class="text-sm text-muted">
-            Sign in to download the PDF version of my resume.
-          </p>
+        <div class="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:gap-5">
+          <UAvatar
+            src="/giancarlopapa_square.jpeg"
+            :alt="basics?.name || 'Giancarlo Papa'"
+            class="size-32 shrink-0 ring-2 ring-default"
+          />
+          <h1 class="text-2xl leading-tight sm:text-3xl">
+            <span
+              v-for="(part, index) in headlineParts"
+              :key="part"
+              class="block"
+            >
+              <span v-if="index > 0" class="sr-only">– </span>{{ part }}
+            </span>
+          </h1>
         </div>
         <div v-if="loggedIn" class="shrink-0">
           <UButton
@@ -224,19 +255,15 @@ const publicPhone = computed(() => {
     </div>
 
     <div v-else-if="hasAnyContent" class="space-y-12">
-      <section class="grid gap-8 lg:grid-cols-[2fr,1fr]">
-        <div class="space-y-6">
-          <div class="space-y-3">
-            <h2>
-              {{ basics?.label }}
-            </h2>
-            <p
-              v-if="basics?.summary"
-              class="text-lg leading-relaxed text-muted"
-            >
-              {{ basics.summary }}
-            </p>
-          </div>
+      <section class="grid gap-8 lg:grid-cols-[2fr_1fr]">
+        <p v-if="about" class="max-w-prose text-lg leading-relaxed text-muted">
+          {{ about }}
+        </p>
+
+        <UCard class="lg:self-start">
+          <template #header>
+            <h3 class="text-xl">Contact &amp; Profiles</h3>
+          </template>
           <div class="grid gap-3 text-sm text-muted">
             <div v-if="basics?.email" class="flex items-center gap-3">
               <UIcon name="i-lucide-mail" class="text-base" />
@@ -264,17 +291,15 @@ const publicPhone = computed(() => {
               <UIcon name="i-lucide-map-pin" class="mt-0.5 text-base" />
               <span>
                 {{
-                  [basics.location.city, basics.location.region]
+                  [basics.location.city, basics.location.region, basics.location.countryCode]
                     .filter(Boolean)
                     .join(' · ')
                 }}
-                <template v-if="basics.location.countryCode">
-                  <span v-if="basics.location.city || basics.location.region">
-                    ·
-                  </span>
-                  {{ basics.location.countryCode }}
-                </template>
               </span>
+            </div>
+            <div v-if="nationalityLine" class="flex items-center gap-3">
+              <UIcon name="i-lucide-id-card" class="text-base" />
+              <span>{{ nationalityLine }}</span>
             </div>
             <div v-if="basics?.url" class="flex items-center gap-3">
               <UIcon name="i-lucide-globe" class="text-base" />
@@ -284,19 +309,14 @@ const publicPhone = computed(() => {
                 rel="noopener"
                 class="transition hover:text-foreground"
               >
-                {{ basics.url }}
+                {{ basics.url.replace('https://', '') }}
               </a>
             </div>
             <p v-if="!loggedIn" class="text-xs text-dimmed">
-              Sign in to reveal direct email and phone links.
+              Sign in to see my email and phone.
             </p>
           </div>
-        </div>
-
-        <UCard class="space-y-4">
-          <template #header>
-            <h3>Profiles</h3>
-          </template>
+          <USeparator class="my-4" />
           <div class="flex flex-col gap-2">
             <UButton
               v-for="profileLink in basics?.profiles"
@@ -309,7 +329,6 @@ const publicPhone = computed(() => {
               class="justify-start"
               target="_blank"
             />
-            <USeparator />
             <UButton
               to="/skillmatrix"
               label="Skill Matrix"
@@ -319,6 +338,22 @@ const publicPhone = computed(() => {
               class="justify-start"
             />
           </div>
+        </UCard>
+      </section>
+
+      <section v-if="coreCompetencies.length" class="space-y-6">
+        <CvSectionHeading
+          title="Core Competencies"
+          description="Key requirements and the proof behind them."
+          kicker="What I bring"
+        />
+        <UCard>
+          <ul class="space-y-3">
+            <li v-for="item in coreCompetencies" :key="item.requirement">
+              <span class="font-bold text-highlighted">{{ item.requirement }}</span>
+              <span class="text-muted"> — {{ item.proof }}</span>
+            </li>
+          </ul>
         </UCard>
       </section>
 
@@ -332,14 +367,14 @@ const publicPhone = computed(() => {
           <UCard
             v-for="item in work"
             :key="`${item.name}-${item.startDate}`"
-            class="space-y-4"
+            :ui="{ body: 'space-y-4' }"
           >
             <div
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
             >
               <div>
                 <div class="flex flex-wrap items-center gap-2">
-                  <h3>
+                  <h3 class="text-xl">
                     {{ item.position }}
                   </h3>
                   <UBadge v-if="item.name" color="neutral" variant="subtle">
@@ -350,7 +385,7 @@ const publicPhone = computed(() => {
                   {{ item.location }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted">
+              <p class="text-sm text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -365,19 +400,41 @@ const publicPhone = computed(() => {
                 {{ highlight }}
               </li>
             </ul>
-            <template v-if="item.url">
-              <USeparator />
-              <UButton
-                :to="item.url"
-                target="_blank"
-                rel="noopener"
-                label="Visit company"
-                icon="i-lucide-external-link"
-                variant="ghost"
-                color="neutral"
-                class="justify-start"
-              />
-            </template>
+            <div v-if="item.successStories?.length" class="space-y-2">
+              <p class="text-xs font-bold uppercase text-primary">
+                Success Stories
+              </p>
+              <ul class="space-y-2 text-muted">
+                <li
+                  v-for="story in item.successStories"
+                  :key="story.title"
+                  class="flex gap-2"
+                >
+                  <UIcon name="i-lucide-chevron-right" class="mt-1 shrink-0 text-primary" />
+                  <span>
+                    <span class="font-bold text-highlighted">{{ story.title }}:</span>
+                    {{ story.shortForm }}
+                  </span>
+                </li>
+              </ul>
+            </div>
+          </UCard>
+        </div>
+      </section>
+
+      <section v-if="projects.length" class="space-y-6">
+        <CvSectionHeading
+          title="Key Projects"
+          description="Things I built and run beyond my roles."
+          kicker="Side projects"
+        />
+        <div class="space-y-4">
+          <UCard v-for="project in projects" :key="project.name">
+            <div class="space-y-3">
+              <h3 class="text-xl">{{ project.name }}</h3>
+              <p class="text-muted">{{ project.description }}</p>
+              <p v-if="project.stack" class="text-sm text-dimmed">{{ project.stack }}</p>
+            </div>
           </UCard>
         </div>
       </section>
@@ -386,32 +443,26 @@ const publicPhone = computed(() => {
         <CvSectionHeading
           title="Education"
           description="Formal studies and certifications."
-          kicker="Education"
+          kicker="Studies"
         />
         <div class="space-y-4">
           <UCard
             v-for="item in education"
             :key="`${item.institution}-${item.startDate}`"
-            class="space-y-2"
+            :ui="{ body: 'space-y-2' }"
           >
             <div
               class="flex flex-col gap-2 lg:flex-row lg:items-start lg:justify-between"
             >
               <div>
-                <h3>
-                  {{ item.institution }}
+                <h3 class="text-xl">
+                  {{ [item.studyType, item.area].filter(Boolean).join(' · ') || item.institution }}
                 </h3>
-                <p
-                  v-if="item.studyType || item.area"
-                  class="text-sm text-muted"
-                >
-                  {{ [item.studyType, item.area].filter(Boolean).join(' · ') }}
-                </p>
-                <p v-if="item.location" class="text-sm text-muted">
-                  {{ item.location }}
+                <p v-if="item.studyType || item.area" class="text-sm text-muted">
+                  {{ item.institution }}
                 </p>
               </div>
-              <p class="text-sm font-medium text-muted">
+              <p class="text-sm text-muted">
                 {{ formatDateRange(item.startDate, item.endDate) }}
               </p>
             </div>
@@ -419,45 +470,19 @@ const publicPhone = computed(() => {
         </div>
       </section>
 
-      <section v-if="skills.length" class="space-y-6">
-        <CvSectionHeading
-          title="Skills"
-          description="Core technologies and competencies."
-          kicker="Expertise"
-        />
-        <div class="grid gap-4 md:grid-cols-2">
-          <UCard v-for="skill in skills" :key="skill.name" class="space-y-3">
-            <div class="flex items-center justify-between">
-              <h3>
-                {{ skill.name }}
-              </h3>
-              <UBadge v-if="skill.level" color="neutral" variant="soft">
-                {{ skill.level }}
-              </UBadge>
-            </div>
-            <div v-if="skill.keywords?.length" class="flex flex-wrap gap-2">
-              <UBadge
-                v-for="keyword in skill.keywords"
-                :key="keyword"
-                color="neutral"
-                variant="soft"
-              >
-                {{ keyword }}
-              </UBadge>
-            </div>
-          </UCard>
-        </div>
-      </section>
-
       <section v-if="languages.length" class="space-y-6">
-        <CvSectionHeading title="Languages" kicker="Communication" />
+        <CvSectionHeading
+          title="Languages"
+          description="Languages I work in every day."
+          kicker="Communication"
+        />
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <UCard
             v-for="language in languages"
             :key="language.language"
-            class="space-y-1"
+            :ui="{ body: 'space-y-1' }"
           >
-            <h3>
+            <h3 class="text-xl">
               {{ language.language }}
             </h3>
             <p v-if="language.fluency" class="text-sm text-muted">
@@ -473,26 +498,23 @@ const publicPhone = computed(() => {
           description="What keeps me energized beyond the editor."
           kicker="Personal"
         />
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <UCard
-            v-for="interest in interests"
-            :key="interest.name"
-            class="space-y-2"
-          >
-            <h3>
-              {{ interest.name }}
-            </h3>
-            <div v-if="interest.keywords?.length" class="flex flex-wrap gap-2">
+        <div class="flex flex-wrap gap-3">
+          <template v-for="interest in interests" :key="interest.name">
+            <ULink v-if="interest.url" :to="interest.url" class="group">
               <UBadge
-                v-for="keyword in interest.keywords"
-                :key="keyword"
                 color="neutral"
-                variant="soft"
+                variant="outline"
+                size="lg"
+                trailing-icon="i-lucide-arrow-up-right"
+                class="group-hover:text-primary group-hover:ring-primary"
               >
-                {{ keyword }}
+                {{ interest.name }}
               </UBadge>
-            </div>
-          </UCard>
+            </ULink>
+            <UBadge v-else color="neutral" variant="outline" size="lg">
+              {{ interest.name }}
+            </UBadge>
+          </template>
         </div>
       </section>
     </div>
