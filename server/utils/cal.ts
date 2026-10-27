@@ -13,23 +13,23 @@ interface CalRequestOptions {
   headers?: Record<string, string>;
 }
 
-interface EventTypeV1 {
+interface EventTypeV2 {
   id: number;
   title: string;
   slug: string;
-  length: number;
+  lengthInMinutes: number;
   hidden?: boolean;
   description?: string | null;
-  userId: number;
-  timeZone?: string | null;
-  owner?: {
+  ownerId: number;
+  users?: Array<{
     username?: string;
     name?: string;
-  };
+  }>;
 }
 
-interface EventTypesV1Response {
-  event_types: EventTypeV1[];
+interface EventTypesV2Response {
+  status: string;
+  data: EventTypeV2[];
 }
 
 interface SlotsV2Response {
@@ -104,11 +104,11 @@ async function calRequest<T>({
   }
 }
 
+// API v1 was decommissioned (410 Gone); v2 lists the API key owner's event types.
 export async function fetchCalEventTypes() {
-  const { apiKey } = useCalConfig();
-  return calRequest<EventTypesV1Response>({
-    path: '/v1/event-types',
-    query: { apiKey }
+  return calRequest<EventTypesV2Response>({
+    path: '/v2/event-types',
+    headers: { 'cal-api-version': '2024-06-14' }
   });
 }
 
