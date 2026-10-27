@@ -1,3 +1,7 @@
+<!--
+  Sotto la protezione di Nostra Signora di Fátima:
+  questo sito, il suo codice e la ricerca di lavoro di chi lo ha scritto.
+-->
 <script setup lang="ts">
 import { Analytics } from '@vercel/analytics/vue';
 
