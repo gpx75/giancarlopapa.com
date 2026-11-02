@@ -1,0 +1,82 @@
+{
+  "trip": "santiago",
+  "stage": 3,
+  "date": "2026-07-30",
+  "route": "Getaria → Mutriku",
+  "distance": 23.9,
+  "ascent": 1077,
+  "descent": 890,
+  "heartRate": 112,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-3/01.jpg",
+      "alt": "Sunrise over a country road",
+      "time": "2026-07-30T07:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/02.jpg",
+      "alt": "Green hills running down to a harbour",
+      "time": "2026-07-30T07:41"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/03.jpg",
+      "alt": "A beach and breakwater below the hills",
+      "time": "2026-07-30T08:00"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/04.jpg",
+      "alt": "Blue chicory flowers by the path",
+      "time": "2026-07-30T08:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/05.jpg",
+      "alt": "A stone painted with a yellow arrow and a shell",
+      "time": "2026-07-30T09:05"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/06.jpg",
+      "alt": "Water jars left for pilgrims by a waymark",
+      "time": "2026-07-30T09:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/07.jpg",
+      "alt": "Yellow wildflowers beside the trail",
+      "time": "2026-07-30T09:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/08.jpg",
+      "alt": "A donkey grazing by a fence",
+      "time": "2026-07-30T10:01"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/09.jpg",
+      "alt": "Ferns and green hills",
+      "time": "2026-07-30T10:19"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/10.jpg",
+      "alt": "Layered flysch rock along the shore",
+      "time": "2026-07-30T10:49"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/11.jpg",
+      "alt": "A white flysch cliff above the shore",
+      "time": "2026-07-30T11:00"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/12.jpg",
+      "alt": "The coastal path above the cliffs",
+      "time": "2026-07-30T11:11"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/13.jpg",
+      "alt": "Cliffs and sea on the Basque coast",
+      "time": "2026-07-30T11:14"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-3/14.jpg",
+      "alt": "Green hills inland under a grey sky",
+      "time": "2026-07-30T15:49"
+    }
+  ]
+}

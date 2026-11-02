@@ -1,0 +1,17 @@
+{
+  "slug": "santiago",
+  "title": "To Santiago: photos by stage",
+  "description": "Photos from every stage of my Camino, from Switzerland along the Camino del Norte and the Camino Primitivo to Santiago de Compostela.",
+  "post": {
+    "label": "Read the story",
+    "to": "/blog/camino-irun-to-santiago"
+  },
+  "labels": {
+    "stage": "Stage",
+    "photos": "photos",
+    "allStages": "All stages",
+    "previous": "Previous stage",
+    "next": "Next stage",
+    "enlarge": "Enlarge photo"
+  }
+}

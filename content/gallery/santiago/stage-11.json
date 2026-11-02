@@ -1,0 +1,77 @@
+{
+  "trip": "santiago",
+  "stage": 11,
+  "date": "2026-08-07",
+  "route": "Güemes → Santander",
+  "distance": 16,
+  "ascent": 218,
+  "descent": 229,
+  "heartRate": 93,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-11/01.jpg",
+      "alt": "A concrete balustrade above the sea",
+      "time": "2026-08-07T09:27"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/02.jpg",
+      "alt": "A gravel path towards the cliffs",
+      "time": "2026-08-07T09:38"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/03.jpg",
+      "alt": "A beach and breaking waves below the cliffs",
+      "time": "2026-08-07T09:43"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/04.jpg",
+      "alt": "An empty beach",
+      "time": "2026-08-07T09:48"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/05.jpg",
+      "alt": "Surf curling into a bay",
+      "time": "2026-08-07T09:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/06.jpg",
+      "alt": "Selfie on the cliffs",
+      "time": "2026-08-07T09:58"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/07.jpg",
+      "alt": "White cliffs and a turquoise cove",
+      "time": "2026-08-07T09:59"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/08.jpg",
+      "alt": "A sunlit bay",
+      "time": "2026-08-07T10:03"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/09.jpg",
+      "alt": "Clear water over the rocks",
+      "time": "2026-08-07T10:21"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/10.jpg",
+      "alt": "A beach with seaweed at low tide",
+      "time": "2026-08-07T11:33"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/11.jpg",
+      "alt": "Santander seen from the ferry",
+      "time": "2026-08-07T13:45"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/12.jpg",
+      "alt": "The Centro Botín in Santander",
+      "time": "2026-08-07T14:05"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-11/13.jpg",
+      "alt": "A lit statue in a chapel",
+      "time": "2026-08-07T14:30"
+    }
+  ]
+}

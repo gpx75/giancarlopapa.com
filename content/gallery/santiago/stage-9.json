@@ -1,0 +1,77 @@
+{
+  "trip": "santiago",
+  "stage": 9,
+  "date": "2026-08-05",
+  "route": "Castro Urdiales → Laredo",
+  "distance": 30.4,
+  "ascent": 684,
+  "descent": 737,
+  "heartRate": 101,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-9/01.jpg",
+      "alt": "A Camino signpost among trees",
+      "time": "2026-08-05T07:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/02.jpg",
+      "alt": "A windswept tree on a headland",
+      "time": "2026-08-05T08:17"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/03.jpg",
+      "alt": "A rocky headland above the sea",
+      "time": "2026-08-05T08:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/04.jpg",
+      "alt": "Green sea below the cliffs",
+      "time": "2026-08-05T09:03"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/05.jpg",
+      "alt": "Picnic: bananas and ham",
+      "time": "2026-08-05T10:16"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/06.jpg",
+      "alt": "Selfie with my cap on",
+      "time": "2026-08-05T11:59"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/07.jpg",
+      "alt": "Cliffs and green slopes above the sea",
+      "time": "2026-08-05T14:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/08.jpg",
+      "alt": "A path towards a mountain by the sea",
+      "time": "2026-08-05T14:15"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/09.jpg",
+      "alt": "A grassy valley running down to the coast",
+      "time": "2026-08-05T14:22"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/10.jpg",
+      "alt": "Selfie with a mountain behind",
+      "time": "2026-08-05T14:33"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/11.jpg",
+      "alt": "A cross decorated with pilgrims' mementos",
+      "time": "2026-08-05T14:35"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/12.jpg",
+      "alt": "A Camino del Norte sign at a town entrance",
+      "time": "2026-08-05T15:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-9/13.jpg",
+      "alt": "Spaghetti at dinner",
+      "time": "2026-08-05T20:40"
+    }
+  ]
+}

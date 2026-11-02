@@ -1,0 +1,17 @@
+{
+  "trip": "santiago",
+  "stage": 23,
+  "date": "2026-08-19",
+  "route": "As Seixas → Ferreiros (O Pino)",
+  "distance": 38.4,
+  "ascent": 763,
+  "descent": 1016,
+  "heartRate": 101,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-23/01.jpg",
+      "alt": "A cup of tea at the end of the day",
+      "time": "2026-08-19T20:43"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "trip": "santiago",
+  "stage": 7,
+  "date": "2026-08-03",
+  "route": "Bilbao → Portugalete",
+  "distance": 25.2,
+  "ascent": 556,
+  "descent": 638,
+  "heartRate": 97,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-7/01.jpg",
+      "alt": "Rooftops under a wide sky",
+      "time": "2026-08-03T11:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-7/02.jpg",
+      "alt": "The estuary at Portugalete",
+      "time": "2026-08-03T16:14"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-7/03.jpg",
+      "alt": "The Vizcaya Bridge across the estuary",
+      "time": "2026-08-03T16:19"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "trip": "santiago",
+  "stage": 17,
+  "date": "2026-08-13",
+  "route": "Salas → Tineo",
+  "distance": 19.5,
+  "ascent": 753,
+  "descent": 350,
+  "heartRate": 112,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-17/01.jpg",
+      "alt": "My backpack against the wall on a tiled floor",
+      "time": "2026-08-13T07:16"
+    }
+  ]
+}

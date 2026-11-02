@@ -26,6 +26,49 @@ export default defineContentConfig({
       })
     }),
 
+    // Photo galleries: one trip file (gallery/<trip>.json) and one file per
+    // stage (gallery/<trip>/stage-<n>.json), served at /gallery/<trip>/stage-<n>.
+    galleryTrips: defineCollection({
+      type: 'data',
+      source: 'gallery/*.json',
+      schema: z.object({
+        slug: z.string(),
+        title: z.string(),
+        description: z.string(),
+        post: z.object({ label: z.string(), to: z.string() }),
+        labels: z.object({
+          stage: z.string(),
+          photos: z.string(),
+          allStages: z.string(),
+          previous: z.string(),
+          next: z.string(),
+          enlarge: z.string()
+        })
+      })
+    }),
+
+    galleryStages: defineCollection({
+      type: 'data',
+      source: 'gallery/*/*.json',
+      schema: z.object({
+        trip: z.string(),
+        stage: z.number(),
+        date: z.string(),
+        route: z.string(),
+        distance: z.number(),
+        ascent: z.number(),
+        descent: z.number(),
+        heartRate: z.number(),
+        images: z.array(
+          z.object({
+            src: z.string(),
+            alt: z.string(),
+            time: z.string()
+          })
+        )
+      })
+    }),
+
     profile: defineCollection({
       type: 'data',
       source: 'profile.json',

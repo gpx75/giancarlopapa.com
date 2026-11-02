@@ -1,0 +1,47 @@
+{
+  "trip": "santiago",
+  "stage": 8,
+  "date": "2026-08-04",
+  "route": "Portugalete → Castro Urdiales",
+  "distance": 32.2,
+  "ascent": 563,
+  "descent": 498,
+  "heartRate": 106,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-8/01.jpg",
+      "alt": "A street corner in Portugalete",
+      "time": "2026-08-04T07:42"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/02.jpg",
+      "alt": "A bronze sculpture on a seaside promenade",
+      "time": "2026-08-04T10:23"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/03.jpg",
+      "alt": "A beach and green mountains",
+      "time": "2026-08-04T10:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/04.jpg",
+      "alt": "Selfie with the sea behind",
+      "time": "2026-08-04T11:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/05.jpg",
+      "alt": "A turquoise cove below green hills",
+      "time": "2026-08-04T13:06"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/06.jpg",
+      "alt": "A pintxo and a beer by the sea",
+      "time": "2026-08-04T14:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-8/07.jpg",
+      "alt": "Selfie in the evening sun",
+      "time": "2026-08-04T20:20"
+    }
+  ]
+}

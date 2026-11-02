@@ -1,0 +1,32 @@
+{
+  "trip": "santiago",
+  "stage": 13,
+  "date": "2026-08-09",
+  "route": "Santillana del Mar → Comillas",
+  "distance": 26.8,
+  "ascent": 648,
+  "descent": 651,
+  "heartRate": 111,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-13/01.jpg",
+      "alt": "A church above an empty car park",
+      "time": "2026-08-09T08:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-13/02.jpg",
+      "alt": "Cliffs and sea under a grey sky",
+      "time": "2026-08-09T10:54"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-13/03.jpg",
+      "alt": "The Comillas town sign with the cross of St James",
+      "time": "2026-08-09T12:42"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-13/04.jpg",
+      "alt": "The Pontifical University of Comillas",
+      "time": "2026-08-09T12:51"
+    }
+  ]
+}

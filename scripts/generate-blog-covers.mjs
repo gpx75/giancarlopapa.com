@@ -6,7 +6,8 @@
  * Auto-runs via the husky pre-commit hook when a blog post is staged.
  *
  * Output: public/images/blog/<slug>.png (1200×630, also used as og:image).
- * Each post references its cover with `image: /images/blog/<slug>.png`.
+ * Each post references its cover with `image: /images/blog/<slug>.png`;
+ * posts whose `image` points elsewhere keep that cover and are skipped.
  *
  * Requires CHROMIUM_EXECUTABLE_PATH in .env (or environment) pointing to
  * a local Chrome/Chromium binary.
@@ -88,6 +89,12 @@ await page.setViewport({ width: 1200, height: 630 })
 for (const file of readdirSync(blogDir).filter((f) => f.endsWith('.md'))) {
   const source = readFileSync(`${blogDir}/${file}`, 'utf8')
   const slug = basename(file, '.md')
+  // A post may use its own photo as cover instead of the generated card.
+  const image = frontmatterField(source, 'image')
+  if (image && image !== `/images/blog/${slug}.png`) {
+    console.log(`– ${slug}: custom cover ${image}, skipped`)
+    continue
+  }
   const html = coverHtml({
     slug,
     title: frontmatterField(source, 'title'),
