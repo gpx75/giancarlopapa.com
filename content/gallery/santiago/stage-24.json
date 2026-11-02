@@ -1,0 +1,82 @@
+{
+  "trip": "santiago",
+  "stage": 24,
+  "date": "2026-08-20",
+  "route": "Ferreiros → Santiago de Compostela",
+  "distance": 34.3,
+  "ascent": 594,
+  "descent": 679,
+  "heartRate": 108,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-24/01.jpg",
+      "alt": "A Galician milestone with a shell",
+      "time": "2026-08-20T09:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/02.jpg",
+      "alt": "The monument at Monte do Gozo",
+      "time": "2026-08-20T14:07"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/03.jpg",
+      "alt": "The Santiago sign at the city limits",
+      "time": "2026-08-20T14:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/04.jpg",
+      "alt": "Street sign for Porta do Camiño",
+      "time": "2026-08-20T14:48"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/05.jpg",
+      "alt": "The cathedral of Santiago from the Obradoiro square",
+      "time": "2026-08-20T14:59"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/06.jpg",
+      "alt": "Pilgrims in the Obradoiro square",
+      "time": "2026-08-20T15:00"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/07.jpg",
+      "alt": "Selfie in front of the cathedral",
+      "time": "2026-08-20T15:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/08.jpg",
+      "alt": "My Compostela",
+      "time": "2026-08-20T18:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/09.jpg",
+      "alt": "My certificate of distance: 828 km from Irun along the Camino del Norte",
+      "time": "2026-08-20T18:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/10.jpg",
+      "alt": "The cathedral facade in the evening light",
+      "time": "2026-08-20T19:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/11.jpg",
+      "alt": "The high altar of the cathedral",
+      "time": "2026-08-20T19:17"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/12.jpg",
+      "alt": "The gilded altar of St James",
+      "time": "2026-08-20T20:16"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/13.jpg",
+      "alt": "The cathedral organ",
+      "time": "2026-08-20T20:17"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-24/14.jpg",
+      "alt": "Dinner in Santiago",
+      "time": "2026-08-20T20:55"
+    }
+  ]
+}

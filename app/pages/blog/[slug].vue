@@ -37,8 +37,12 @@ useHead({
 
 const { formatDate } = useDateFormatting();
 
-// "Title: Subtitle" renders on two lines, keeping the colon on the first.
+// "Title: Subtitle" renders on two lines, keeping the colon on the first,
+// unless the post sets its own titleLines.
 const titleLines = computed(() => {
+  if (post.value?.titleLines?.length) {
+    return post.value.titleLines;
+  }
   const title = post.value?.title ?? '';
   const i = title.indexOf(': ');
   return i === -1 ? [title] : [title.slice(0, i + 1), title.slice(i + 2)];

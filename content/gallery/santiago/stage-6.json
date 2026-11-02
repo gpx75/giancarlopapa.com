@@ -1,0 +1,62 @@
+{
+  "trip": "santiago",
+  "stage": 6,
+  "date": "2026-08-02",
+  "route": "Morga → Bilbao",
+  "distance": 23.2,
+  "ascent": 605,
+  "descent": 736,
+  "heartRate": 104,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-6/01.jpg",
+      "alt": "A narrow old-town street",
+      "time": "2026-08-02T09:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/02.jpg",
+      "alt": "Bilbao glimpsed through the trees",
+      "time": "2026-08-02T12:58"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/03.jpg",
+      "alt": "A green valley under a blue sky",
+      "time": "2026-08-02T13:11"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/04.jpg",
+      "alt": "A black cat sitting on a lane",
+      "time": "2026-08-02T13:16"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/05.jpg",
+      "alt": "Bilbao and the mountains from above",
+      "time": "2026-08-02T13:19"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/06.jpg",
+      "alt": "The Bilbao skyline",
+      "time": "2026-08-02T13:32"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/07.jpg",
+      "alt": "A modern building with wooden slats",
+      "time": "2026-08-02T13:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/08.jpg",
+      "alt": "Lunch: eggs in tomato stew with a beer",
+      "time": "2026-08-02T14:45"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/09.jpg",
+      "alt": "Grilled sardines and peppers",
+      "time": "2026-08-02T14:54"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-6/10.jpg",
+      "alt": "A shop window full of souvenirs",
+      "time": "2026-08-02T16:03"
+    }
+  ]
+}

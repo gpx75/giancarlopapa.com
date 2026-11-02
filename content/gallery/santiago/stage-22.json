@@ -1,0 +1,27 @@
+{
+  "trip": "santiago",
+  "stage": 22,
+  "date": "2026-08-18",
+  "route": "Lugo → As Seixas",
+  "distance": 34.2,
+  "ascent": 794,
+  "descent": 643,
+  "heartRate": 102,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-22/01.jpg",
+      "alt": "Camino signs on a street corner in Lugo",
+      "time": "2026-08-18T07:40"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-22/02.jpg",
+      "alt": "Lugo cathedral",
+      "time": "2026-08-18T07:40"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-22/03.jpg",
+      "alt": "A drink at an outdoor table",
+      "time": "2026-08-18T18:44"
+    }
+  ]
+}

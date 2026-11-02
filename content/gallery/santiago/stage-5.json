@@ -1,0 +1,67 @@
+{
+  "trip": "santiago",
+  "stage": 5,
+  "date": "2026-08-01",
+  "route": "Markina-Xemein → Morga",
+  "distance": 35.2,
+  "ascent": 1029,
+  "descent": 936,
+  "heartRate": 114,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-5/01.jpg",
+      "alt": "A gravel track between fences in the mist",
+      "time": "2026-08-01T08:15"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/02.jpg",
+      "alt": "Mist rising from the valleys",
+      "time": "2026-08-01T08:21"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/03.jpg",
+      "alt": "The cloister of Zenarruza",
+      "time": "2026-08-01T09:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/04.jpg",
+      "alt": "A farmhouse painted with a deer and a hiker",
+      "time": "2026-08-01T09:51"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/05.jpg",
+      "alt": "A horse grazing in a misty meadow",
+      "time": "2026-08-01T09:55"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/06.jpg",
+      "alt": "A goat on a tree stump in the forest",
+      "time": "2026-08-01T10:45"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/07.jpg",
+      "alt": "A church interior with a gilded altarpiece",
+      "time": "2026-08-01T12:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/08.jpg",
+      "alt": "Selfie in front of a village house",
+      "time": "2026-08-01T14:53"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/09.jpg",
+      "alt": "A gravel track through eucalyptus",
+      "time": "2026-08-01T15:46"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/10.jpg",
+      "alt": "Lentil stew at dinner",
+      "time": "2026-08-01T19:33"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-5/11.jpg",
+      "alt": "Baked pasta at dinner",
+      "time": "2026-08-01T19:33"
+    }
+  ]
+}

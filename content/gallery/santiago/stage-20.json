@@ -1,0 +1,42 @@
+{
+  "trip": "santiago",
+  "stage": 20,
+  "date": "2026-08-16",
+  "route": "San Julián → O Padrón (A Fonsagrada)",
+  "distance": 25.8,
+  "ascent": 841,
+  "descent": 612,
+  "heartRate": 117,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-20/01.jpg",
+      "alt": "A painted stone waymark",
+      "time": "2026-08-16T10:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-20/02.jpg",
+      "alt": "The sign marking the border of Asturias and Galicia",
+      "time": "2026-08-16T10:30"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-20/03.jpg",
+      "alt": "A sandwich and a beer",
+      "time": "2026-08-16T10:48"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-20/04.jpg",
+      "alt": "Cows grazing on a hillside",
+      "time": "2026-08-16T11:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-20/05.jpg",
+      "alt": "A Galician milestone with a yellow arrow",
+      "time": "2026-08-16T11:35"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-20/06.jpg",
+      "alt": "Seafood stew at dinner",
+      "time": "2026-08-16T20:40"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "trip": "santiago",
+  "stage": 16,
+  "date": "2026-08-12",
+  "route": "Valsera → Salas",
+  "distance": 38.6,
+  "ascent": 929,
+  "descent": 921,
+  "heartRate": 113,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-16/01.jpg",
+      "alt": "A river through the trees in the morning",
+      "time": "2026-08-12T08:51"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/02.jpg",
+      "alt": "Banana plants by the road",
+      "time": "2026-08-12T09:08"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/03.jpg",
+      "alt": "An hórreo granary on a stone house",
+      "time": "2026-08-12T09:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/04.jpg",
+      "alt": "A gilded altarpiece",
+      "time": "2026-08-12T13:22"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/05.jpg",
+      "alt": "The monastery of Cornellana",
+      "time": "2026-08-12T13:26"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/06.jpg",
+      "alt": "An old stone bridge on the path",
+      "time": "2026-08-12T15:37"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/07.jpg",
+      "alt": "A stream in the woods",
+      "time": "2026-08-12T15:37"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-16/08.jpg",
+      "alt": "The tower of Salas at dusk",
+      "time": "2026-08-12T20:27"
+    }
+  ]
+}

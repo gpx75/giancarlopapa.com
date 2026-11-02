@@ -1,0 +1,157 @@
+{
+  "trip": "santiago",
+  "stage": 18,
+  "date": "2026-08-14",
+  "route": "Tineo → Berducedo",
+  "distance": 42.5,
+  "ascent": 1498,
+  "descent": 1280,
+  "heartRate": 114,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-18/01.jpg",
+      "alt": "Tineo on its hillside in the morning",
+      "time": "2026-08-14T07:35"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/02.jpg",
+      "alt": "A painted bench with prayer flags",
+      "time": "2026-08-14T11:46"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/03.jpg",
+      "alt": "A message painted on a bench",
+      "time": "2026-08-14T11:46"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/04.jpg",
+      "alt": "A wooden hórreo house",
+      "time": "2026-08-14T12:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/05.jpg",
+      "alt": "A tile with a scallop shell and a flower pattern",
+      "time": "2026-08-14T12:05"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/06.jpg",
+      "alt": "A plaque for the Route of Human Rights",
+      "time": "2026-08-14T12:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/07.jpg",
+      "alt": "A pair of wooden clogs",
+      "time": "2026-08-14T12:33"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/08.jpg",
+      "alt": "The wooden clogs from another angle",
+      "time": "2026-08-14T12:33"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/09.jpg",
+      "alt": "A foggy meadow on the high ground",
+      "time": "2026-08-14T13:22"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/10.jpg",
+      "alt": "A waymark with a cow skull in the fog",
+      "time": "2026-08-14T13:30"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/11.jpg",
+      "alt": "Me crouching next to a waymark in the fog",
+      "time": "2026-08-14T13:30"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/12.jpg",
+      "alt": "A grey horse in the fog",
+      "time": "2026-08-14T13:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/13.jpg",
+      "alt": "A statue of Our Lady on a rock",
+      "time": "2026-08-14T13:47"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/14.jpg",
+      "alt": "The statue of Our Lady on the rock, close up",
+      "time": "2026-08-14T13:47"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/15.jpg",
+      "alt": "An autumn crocus in the grass",
+      "time": "2026-08-14T13:58"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/16.jpg",
+      "alt": "A cairn on the mountain",
+      "time": "2026-08-14T14:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/17.jpg",
+      "alt": "A ruined stone shelter",
+      "time": "2026-08-14T14:13"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/18.jpg",
+      "alt": "Lunch from a tin",
+      "time": "2026-08-14T14:18"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/19.jpg",
+      "alt": "Lichen on the rocks",
+      "time": "2026-08-14T14:51"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/20.jpg",
+      "alt": "Gorse in the fog",
+      "time": "2026-08-14T15:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/21.jpg",
+      "alt": "Crocuses on the hillside",
+      "time": "2026-08-14T15:15"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/22.jpg",
+      "alt": "Selfie in the fog",
+      "time": "2026-08-14T15:15"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/23.jpg",
+      "alt": "A stony path through the heather",
+      "time": "2026-08-14T15:21"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/24.jpg",
+      "alt": "Rocks and fog on the ridge",
+      "time": "2026-08-14T16:39"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/25.jpg",
+      "alt": "The rocky ridge",
+      "time": "2026-08-14T16:40"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/26.jpg",
+      "alt": "A rocky path downhill",
+      "time": "2026-08-14T16:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/27.jpg",
+      "alt": "A stone hut with a slate roof",
+      "time": "2026-08-14T16:55"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/28.jpg",
+      "alt": "The valley opening up below the clouds",
+      "time": "2026-08-14T17:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-18/29.jpg",
+      "alt": "Stew and potatoes at dinner",
+      "time": "2026-08-14T20:16"
+    }
+  ]
+}

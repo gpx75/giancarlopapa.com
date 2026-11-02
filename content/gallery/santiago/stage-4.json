@@ -1,0 +1,22 @@
+{
+  "trip": "santiago",
+  "stage": 4,
+  "date": "2026-07-31",
+  "route": "Mutriku → Markina-Xemein",
+  "distance": 19.1,
+  "ascent": 587,
+  "descent": 829,
+  "heartRate": 115,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-4/01.jpg",
+      "alt": "Selfie in a red shirt and cap",
+      "time": "2026-07-31T13:52"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-4/02.jpg",
+      "alt": "A scallop shell inlaid in the pavement between my shoes",
+      "time": "2026-07-31T19:24"
+    }
+  ]
+}

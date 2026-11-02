@@ -1,0 +1,77 @@
+{
+  "trip": "santiago",
+  "stage": 2,
+  "date": "2026-07-29",
+  "route": "San Sebastián → Getaria",
+  "distance": 30.8,
+  "ascent": 725,
+  "descent": 678,
+  "heartRate": 120,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-2/01.jpg",
+      "alt": "A building among trees in the early morning",
+      "time": "2026-07-29T07:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/02.jpg",
+      "alt": "Selfie on the promenade of La Concha",
+      "time": "2026-07-29T08:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/03.jpg",
+      "alt": "Me on the promenade of La Concha with my backpack",
+      "time": "2026-07-29T08:13"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/04.jpg",
+      "alt": "Sunrise over the bay of La Concha",
+      "time": "2026-07-29T08:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/05.jpg",
+      "alt": "Green cliffs dropping into the sea",
+      "time": "2026-07-29T09:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/06.jpg",
+      "alt": "A tree and the open sea",
+      "time": "2026-07-29T10:18"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/07.jpg",
+      "alt": "Me next to the signpost reading Santiago 787",
+      "time": "2026-07-29T12:08"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/08.jpg",
+      "alt": "Signpost reading Santiago 787",
+      "time": "2026-07-29T12:09"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/09.jpg",
+      "alt": "A road along a grassy coastal ridge",
+      "time": "2026-07-29T13:58"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/10.jpg",
+      "alt": "A wide sandy beach under clouds",
+      "time": "2026-07-29T14:55"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/11.jpg",
+      "alt": "A walkway along the harbour wall",
+      "time": "2026-07-29T16:10"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/12.jpg",
+      "alt": "Grey sea and distant headlands",
+      "time": "2026-07-29T16:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-2/13.jpg",
+      "alt": "The beach and harbour of Getaria from above",
+      "time": "2026-07-29T17:16"
+    }
+  ]
+}

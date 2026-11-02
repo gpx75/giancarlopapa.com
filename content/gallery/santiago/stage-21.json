@@ -1,0 +1,22 @@
+{
+  "trip": "santiago",
+  "stage": 21,
+  "date": "2026-08-17",
+  "route": "O Padrón → Vilariño (Castroverde)",
+  "distance": 33.7,
+  "ascent": 926,
+  "descent": 1224,
+  "heartRate": 106,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-21/01.jpg",
+      "alt": "Breakfast: coffee and tortilla",
+      "time": "2026-08-17T08:43"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-21/02.jpg",
+      "alt": "A slate reading Buen Camino by the path",
+      "time": "2026-08-17T09:08"
+    }
+  ]
+}

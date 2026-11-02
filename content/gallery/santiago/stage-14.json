@@ -1,0 +1,57 @@
+{
+  "trip": "santiago",
+  "stage": 14,
+  "date": "2026-08-10",
+  "route": "Comillas → San Vicente de la Barquera",
+  "distance": 14.9,
+  "ascent": 239,
+  "descent": 311,
+  "heartRate": 106,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-14/01.jpg",
+      "alt": "A salt marsh behind a wooden fence",
+      "time": "2026-08-10T11:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/02.jpg",
+      "alt": "The estuary at low tide",
+      "time": "2026-08-10T11:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/03.jpg",
+      "alt": "A long beach seen from above",
+      "time": "2026-08-10T11:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/04.jpg",
+      "alt": "A wide beach at low tide",
+      "time": "2026-08-10T12:28"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/05.jpg",
+      "alt": "A pilgrim silhouette sculpture by the sea",
+      "time": "2026-08-10T13:35"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/06.jpg",
+      "alt": "Rooftops and drying laundry",
+      "time": "2026-08-10T18:26"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/07.jpg",
+      "alt": "Rooftops of San Vicente de la Barquera and the bridge",
+      "time": "2026-08-10T18:27"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/08.jpg",
+      "alt": "Octopus with potatoes",
+      "time": "2026-08-10T20:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-14/09.jpg",
+      "alt": "Fried squid",
+      "time": "2026-08-10T20:14"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "trip": "santiago",
+  "stage": 15,
+  "date": "2026-08-11",
+  "route": "Oviedo → Valsera (Las Regueras)",
+  "distance": 13.6,
+  "ascent": 376,
+  "descent": 364,
+  "heartRate": 112,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-15/01.jpg",
+      "alt": "Oviedo cathedral at midday",
+      "time": "2026-08-11T11:03"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/02.jpg",
+      "alt": "The carved portal of the cathedral",
+      "time": "2026-08-11T11:06"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/03.jpg",
+      "alt": "The nave of Oviedo cathedral",
+      "time": "2026-08-11T11:22"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/04.jpg",
+      "alt": "The main altarpiece",
+      "time": "2026-08-11T11:23"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/05.jpg",
+      "alt": "A gilded side altar",
+      "time": "2026-08-11T11:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/06.jpg",
+      "alt": "The Holy Chamber behind iron bars",
+      "time": "2026-08-11T11:38"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/07.jpg",
+      "alt": "A gold cross behind glass",
+      "time": "2026-08-11T11:42"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/08.jpg",
+      "alt": "The chapter house",
+      "time": "2026-08-11T11:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/09.jpg",
+      "alt": "A gilded chapel altarpiece",
+      "time": "2026-08-11T12:01"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/10.jpg",
+      "alt": "A cloister corridor",
+      "time": "2026-08-11T12:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/11.jpg",
+      "alt": "The cathedral tower",
+      "time": "2026-08-11T12:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/12.jpg",
+      "alt": "A Camino milestone in a garden",
+      "time": "2026-08-11T12:16"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/13.jpg",
+      "alt": "A Camino Primitivo street sign",
+      "time": "2026-08-11T13:17"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/14.jpg",
+      "alt": "A hand-painted albergue sign",
+      "time": "2026-08-11T14:28"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/15.jpg",
+      "alt": "A stone bridge with a statue",
+      "time": "2026-08-11T15:12"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-15/16.jpg",
+      "alt": "A road sign to Oviedo",
+      "time": "2026-08-11T16:01"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "trip": "santiago",
+  "stage": 12,
+  "date": "2026-08-08",
+  "route": "Santander → Boo de Piélagos · Barreda → Santillana del Mar",
+  "distance": 16.4,
+  "ascent": 237,
+  "descent": 182,
+  "heartRate": 110,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-12/01.jpg",
+      "alt": "Bread with anchovies and a beer",
+      "time": "2026-08-08T17:20"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/02.jpg",
+      "alt": "A glass of Estrella Galicia",
+      "time": "2026-08-08T17:31"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/03.jpg",
+      "alt": "A Celtic knot plaque on a wall",
+      "time": "2026-08-08T19:01"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/04.jpg",
+      "alt": "The collegiate church of Santillana del Mar",
+      "time": "2026-08-08T19:04"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/05.jpg",
+      "alt": "A brass scallop shell in the pavement",
+      "time": "2026-08-08T19:19"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/06.jpg",
+      "alt": "A stone sculpture in a garden",
+      "time": "2026-08-08T19:23"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/07.jpg",
+      "alt": "The Santillana del Mar town sign",
+      "time": "2026-08-08T19:23"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-12/08.jpg",
+      "alt": "An evening drink at an outdoor table",
+      "time": "2026-08-08T20:40"
+    }
+  ]
+}

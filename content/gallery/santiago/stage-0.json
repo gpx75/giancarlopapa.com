@@ -1,0 +1,67 @@
+{
+  "trip": "santiago",
+  "stage": 0,
+  "date": "2026-07-25",
+  "route": "Münchwilen → Winterthur",
+  "distance": 26.5,
+  "ascent": 361,
+  "descent": 403,
+  "heartRate": 115,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-0/01.jpg",
+      "alt": "Golden fields and a lone tree under a blue sky",
+      "time": "2026-07-25T10:25"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/02.jpg",
+      "alt": "Selfie among green leaves on the first day",
+      "time": "2026-07-25T10:26"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/03.jpg",
+      "alt": "A small white chapel beside a quiet road",
+      "time": "2026-07-26T10:07"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/04.jpg",
+      "alt": "Station platform under an orange steel roof",
+      "time": "2026-07-26T18:17"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/05.jpg",
+      "alt": "Selfie with my backpack on the station platform",
+      "time": "2026-07-26T18:28"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/06.jpg",
+      "alt": "Selfie in the plane",
+      "time": "2026-07-26T20:19"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/07.jpg",
+      "alt": "Fields and villages seen from the plane window",
+      "time": "2026-07-27T16:12"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/08.jpg",
+      "alt": "A Camino information board in a park",
+      "time": "2026-07-27T18:12"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/09.jpg",
+      "alt": "A brick building on a sunny street corner",
+      "time": "2026-07-27T18:47"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/10.jpg",
+      "alt": "My backpack stowed beside a bunk bed",
+      "time": "2026-07-27T19:11"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-0/11.jpg",
+      "alt": "Blue Camino signposts under the trees",
+      "time": "2026-07-27T19:59"
+    }
+  ]
+}

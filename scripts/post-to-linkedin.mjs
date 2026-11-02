@@ -43,18 +43,31 @@ function getNewBlogPosts() {
   }
 }
 
+// Minimal frontmatter reader (the workflow runs without npm install): one-line
+// `key: value` fields, inline arrays, and `key: |` literal blocks.
 function parseFrontmatter(content) {
   const match = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
   if (!match) return {}
   const fm = {}
-  for (const line of match[1].split('\n')) {
+  const lines = match[1].split(/\r?\n/)
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i]
+    if (/^\s/.test(line)) continue
     const colonIdx = line.indexOf(':')
     if (colonIdx === -1) continue
     const key = line.slice(0, colonIdx).trim()
     const raw = line.slice(colonIdx + 1).trim()
     if (!key || !raw) continue
+    if (raw === '|') {
+      const block = []
+      while (i + 1 < lines.length && (/^\s/.test(lines[i + 1]) || lines[i + 1] === '')) {
+        block.push(lines[++i].replace(/^ {2}/, ''))
+      }
+      fm[key] = block.join('\n').trim()
+      continue
+    }
     if (raw.startsWith('[')) {
-      try { fm[key] = JSON.parse(raw); continue } catch { /* ignore parse errors */ }
+      try { fm[key] = JSON.parse(raw.replace(/'/g, '"')); continue } catch { /* ignore parse errors */ }
     }
     fm[key] = raw.replace(/^["']|["']$/g, '')
   }
@@ -65,27 +78,27 @@ function getSlug(filepath) {
   return filepath.replace('content/blog/', '').replace(/\.md$/, '')
 }
 
-function buildCommentary({ title, description, url, tags }) {
+// A post's `linkedin` frontmatter text replaces the default "New post" intro.
+function buildCommentary({ title, description, url, tags, linkedin }) {
   const hashtags = (tags ?? [])
     .map(t => `#${t.replace(/-/g, '')}`)
     .join(' ')
+  const intro = linkedin ? [linkedin] : [`New post: ${title}`, '', description]
   return [
-    `New post: ${title}`,
-    '',
-    description,
+    ...intro,
     '',
     url,
     ...(hashtags ? ['', hashtags] : [])
   ].join('\n')
 }
 
-async function postToLinkedIn({ title, description, url, tags }) {
+async function postToLinkedIn({ title, description, url, tags, linkedin }) {
   const body = {
     author: PERSON_URN,
     lifecycleState: 'PUBLISHED',
     specificContent: {
       'com.linkedin.ugc.ShareContent': {
-        shareCommentary: { text: buildCommentary({ title, description, url, tags }) },
+        shareCommentary: { text: buildCommentary({ title, description, url, tags, linkedin }) },
         shareMediaCategory: 'ARTICLE',
         media: [{
           status: 'READY',
@@ -150,7 +163,8 @@ async function main() {
       title: fm.title || slug,
       description: fm.description || '',
       url: `${SITE_URL}/blog/${slug}`,
-      tags: Array.isArray(fm.tags) ? fm.tags : []
+      tags: Array.isArray(fm.tags) ? fm.tags : [],
+      linkedin: fm.linkedin
     })
   }
 }

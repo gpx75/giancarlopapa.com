@@ -1,0 +1,27 @@
+{
+  "trip": "santiago",
+  "stage": 19,
+  "date": "2026-08-15",
+  "route": "Berducedo → San Julián (Grandas de Salime)",
+  "distance": 27.1,
+  "ascent": 858,
+  "descent": 1099,
+  "heartRate": 106,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-19/01.jpg",
+      "alt": "The Salime reservoir in the mist",
+      "time": "2026-08-15T10:16"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-19/02.jpg",
+      "alt": "Tomato soup at dinner",
+      "time": "2026-08-15T19:41"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-19/03.jpg",
+      "alt": "Salad and pastries at dinner",
+      "time": "2026-08-15T19:53"
+    }
+  ]
+}

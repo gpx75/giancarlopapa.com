@@ -1,0 +1,92 @@
+{
+  "trip": "santiago",
+  "stage": 1,
+  "date": "2026-07-28",
+  "route": "Irun → San Sebastián",
+  "distance": 24.5,
+  "ascent": 724,
+  "descent": 715,
+  "heartRate": 123,
+  "images": [
+    {
+      "src": "/images/gallery/santiago/stage-1/01.jpg",
+      "alt": "Blue Camino signpost at dawn",
+      "time": "2026-07-28T06:39"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/02.jpg",
+      "alt": "Wooden trail sign with walking distances",
+      "time": "2026-07-28T06:53"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/03.jpg",
+      "alt": "A yellow arrow painted on a tree trunk",
+      "time": "2026-07-28T06:54"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/04.jpg",
+      "alt": "A gilded altarpiece in a hillside chapel",
+      "time": "2026-07-28T07:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/05.jpg",
+      "alt": "Morning sun over the hills and the coast",
+      "time": "2026-07-28T07:50"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/06.jpg",
+      "alt": "A path through ferns with the sea beyond",
+      "time": "2026-07-28T10:06"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/07.jpg",
+      "alt": "A weathered rock formation among trees",
+      "time": "2026-07-28T10:13"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/08.jpg",
+      "alt": "The green bay of Pasaia from above",
+      "time": "2026-07-28T10:21"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/09.jpg",
+      "alt": "The calm water of Pasaia bay",
+      "time": "2026-07-28T10:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/10.jpg",
+      "alt": "Boats moored in Pasaia harbour",
+      "time": "2026-07-28T10:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/11.jpg",
+      "alt": "A bench looking out to sea through the pines",
+      "time": "2026-07-28T11:02"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/12.jpg",
+      "alt": "Cliffs and surf along the coast",
+      "time": "2026-07-28T11:23"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/13.jpg",
+      "alt": "A headland and bay seen through the bushes",
+      "time": "2026-07-28T11:24"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/14.jpg",
+      "alt": "Open sea beyond green slopes",
+      "time": "2026-07-28T11:45"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/15.jpg",
+      "alt": "San Sebastián seen from the hill",
+      "time": "2026-07-28T12:56"
+    },
+    {
+      "src": "/images/gallery/santiago/stage-1/16.jpg",
+      "alt": "A church facade against the afternoon sun",
+      "time": "2026-07-28T15:23"
+    }
+  ]
+}
