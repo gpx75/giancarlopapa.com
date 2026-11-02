@@ -1,0 +1,3 @@
+# Blog posts use MDC blocks (::component / --- YAML --- / ::) that Prettier
+# reformats into Markdown headings and lists, breaking the components.
+content/**/*.md

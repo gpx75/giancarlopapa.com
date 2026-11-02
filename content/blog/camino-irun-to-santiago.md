@@ -1,11 +1,22 @@
 ---
-title: 'To Santiago on foot: 677 km on the Camino del Norte and Primitivo'
+title: 'To Santiago on foot: 677 km and 918,000 steps on the Camino del Norte and Primitivo'
+titleLines: ['To Santiago on foot:', '677 km and 918,000 steps', 'on the Camino del Norte and Primitivo']
 description: 'Twenty-five stages, from a prologue in Switzerland on St James’ Day to the cathedral in Santiago de Compostela and on to Fátima — the coast on the Camino del Norte, the mountains on the Camino Primitivo, then Portugal. Every stage, start to finish.'
 date: '2026-10-27'
 image: '/images/blog/camino-irun-to-santiago-cover.jpg'
 tags: ['camino', 'walking', 'travel', 'strava']
+linkedin: |
+  677 km. 918,000 steps. 16,822 m of climbing. 25 stages.
+
+  But the numbers are the least important part. "Nel mezzo del cammin di nostra vita" — at the close of a long chapter in my career, the Camino to Santiago became a time of introspection, meditation and rediscovered faith, and a clear mind for what comes next.
+
+  Every stage, with heart-rate data, maps and photos:
 draft: false
 ---
+
+677 km. 918,000 steps. 16,822 m of climbing. 25 stages.
+
+But the numbers are the least important part. *Nel mezzo del cammin di nostra vita* — at the close of a long chapter in my career, the Camino to Santiago became a time of introspection, meditation and rediscovered faith, and a clear mind for what comes next.
 
 This summer I walked to Santiago de Compostela. I started at home in Switzerland on St James’ Day, then took the Camino del Norte from Irun along the coast, and halfway through switched to the Camino Primitivo, the oldest of the routes, which crosses the mountains of Asturias and Galicia. From Santiago the journey continued through Portugal to Fátima.
 
@@ -30,6 +41,7 @@ Every stage was recorded on a Garmin Forerunner 965 and synced to Strava. These 
 | Average per day    | 26.5 km         | 24.5 km                           | 30.8 km           | **27.1 km**      |
 | Average heart rate | 115 bpm         | 108 bpm                           | 109 bpm           | **109 bpm**      |
 | Energy (estimated) | 2,044 kcal      | 30,376 kcal                       | 27,010 kcal       | **59,430 kcal**  |
+| Steps (estimated)  |                 |                                   |                   | **~918,000**     |
 
 The Primitivo was shorter on paper and harder in practice: more climbing in 35 fewer kilometres, and a high point more than twice as high.
 
@@ -58,15 +70,6 @@ The next morning, at St. Marien in Oberwinterthur, I had my shoes, my feet and m
 ::blog-gallery
 ---
 images:
-  - src: /images/blog/camino/shell-and-credential.jpg
-    alt: The pilgrim credential of the Cathedral of Santiago next to a scallop shell with the red cross of St James
-    caption: The credential and the shell
-  - src: /images/blog/camino/packing.jpg
-    alt: Hiking gear laid out on a table, with a scallop shell and the pilgrim credential
-    caption: Everything that went into the backpack
-  - src: /images/blog/camino/la-sportiva-ultra-raptor.jpg
-    alt: A pair of black La Sportiva Ultra Raptor 3 hiking shoes on their box
-    caption: The shoes — La Sportiva Ultra Raptor 3
   - src: /images/blog/camino/stage-0-st-james-day.jpg
     alt: Fields and a single tree in the countryside between Münchwilen and Winterthur
     caption: 25 July, St James’ Day — stage 0
@@ -76,6 +79,12 @@ images:
   - src: /images/blog/camino/oberwinterthur-church.jpg
     alt: The church of St. Marien in Oberwinterthur
     caption: St. Marien, Oberwinterthur — where the shell, my shoes and my feet were blessed
+  - src: /images/blog/camino/packing.jpg
+    alt: Hiking gear laid out on a table, with a scallop shell and the pilgrim credential
+    caption: Everything that went into the backpack
+  - src: /images/blog/camino/la-sportiva-ultra-raptor.jpg
+    alt: A pair of black La Sportiva Ultra Raptor 3 hiking shoes on their box
+    caption: The shoes — La Sportiva Ultra Raptor 3
   - src: /images/blog/camino/winterthur-station.jpg
     alt: Platform at Winterthur station with the departure board
     caption: Winterthur station — on the way to the airport
@@ -186,14 +195,14 @@ landscape: true
 
 ### The evening talk in Güemes
 
-At the albergue in Güemes, after a dinner paid for by the donations of the pilgrims who had stayed the night before, its 89-year-old founder stood up to speak. The room we were eating in, he said, was once his family's cow stable — and it is not a dining room but a museum, built from a journey through Africa and Latin America in the Land Rover parked outside. We arrive tired and hungry, he said, so we see only tables and food: we care a lot for the body and little for the spirit. Then he invited everyone to the small hermitage behind the albergue, where the paintings show the way of life, from manipulation to liberation — for him, the most important place on the whole Camino del Norte.
+At the albergue in Güemes, after a dinner paid for by the donations of the pilgrims who had stayed the night before, its founder, the legendary Ernesto Bustio, 89 years old, stood up to speak. The room we were eating in, he said, was once his family's cow stable — and it is not a dining room but a museum, built from a journey through Africa and Latin America in the Land Rover parked outside. We arrive tired and hungry, he said, so we see only tables and food: we care a lot for the body and little for the spirit. Then he invited everyone to the small hermitage behind the albergue, where the paintings show the way of life, from manipulation to liberation — for him, the most important place on the whole Camino del Norte.
 
 ::blog-video
 ---
 src: /videos/blog/guemes-evening-talk.mp4
 poster: /images/blog/camino/guemes-evening-talk.jpg
-label: The founder of the Güemes albergue speaking to pilgrims after dinner
-caption: Güemes, 6 August — the evening talk, in Spanish with English translation (subtitles available)
+label: Ernesto Bustio, founder of the Güemes albergue, speaking to pilgrims after dinner
+caption: Güemes, 6 August — Ernesto Bustio’s evening talk, in Spanish with English translation (subtitles available)
 captions: /videos/blog/guemes-evening-talk.en.vtt
 ---
 ::

@@ -18,10 +18,14 @@ export default defineContentConfig({
       source: 'blog/**/*.md',
       schema: z.object({
         title: z.string(),
+        // Optional manual line breaks for the page heading; defaults to splitting at ": ".
+        titleLines: z.array(z.string()).optional(),
         description: z.string(),
         date: z.string(),
         image: z.string().optional(),
         tags: z.array(z.string()).optional(),
+        // Text for the LinkedIn auto-post (scripts/post-to-linkedin.mjs); not rendered on the site.
+        linkedin: z.string().optional(),
         draft: z.boolean().optional()
       })
     }),
