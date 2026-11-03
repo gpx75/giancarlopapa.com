@@ -206,10 +206,7 @@ function withYear(text: string) {
 
         <UCard>
           <h3>{{ legal.disclaimer.openSource.title }}</h3>
-          <p>
-            The <strong>source code</strong> of this website is released as open
-            source under the MIT licence.
-          </p>
+          <p>{{ legal.disclaimer.openSource.intro }}</p>
           <pre
             class="text-xs leading-relaxed bg-elevated/50 rounded-lg p-4 overflow-x-auto whitespace-pre-wrap"
             >{{ withYear(legal.disclaimer.openSource.licenseText) }}</pre

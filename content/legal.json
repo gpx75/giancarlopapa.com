@@ -86,11 +86,11 @@
       }
     ],
     "openSource": {
-      "title": "Open source — MIT licence",
-      "intro": "The source code of this website is released as open source under the MIT licence.",
-      "licenseText": "MIT License\n\nCopyright (c) {year} Giancarlo Papa\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+      "title": "Open source — GNU AGPL-3.0",
+      "intro": "The source code of this website is released as open source under the GNU Affero General Public License, version 3 or later (AGPL-3.0-or-later).",
+      "licenseText": "Copyright (C) {year} Giancarlo Papa\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published\nby the Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <https://www.gnu.org/licenses/>.",
       "githubUrl": "https://github.com/gpx75/giancarlopapa.com",
-      "note": "The MIT licence applies to code only — content, writing, and design remain under the copyright notice above."
+      "note": "The full licence text is in the LICENSE file of the repository. If you run a modified version of this code as a network service, the AGPL requires you to offer its source code to the users of that service. The licence applies to code only — content, writing, and design remain under the copyright notice above."
     }
   }
 }
